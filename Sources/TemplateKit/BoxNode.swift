@@ -41,6 +41,6 @@ extension Node {
       children = boxNode.childNodes.map { $0.flexNode }
     }
 
-    return FlexNode(size: flexSize, children: children, margin: Edges(), padding: Edges(), wrap: false, justification: .FlexStart, selfAlignment: .Auto, childAlignment: .Stretch, flex: flex ?? 0, measure: nil)
+    return FlexNode(size: flexSize, children: children, flexDirection: flexDirection ?? .Row, margin: Edges(), padding: Edges(), wrap: false, justification: .FlexStart, selfAlignment: .Auto, childAlignment: .Stretch, flex: flex ?? 0, measure: nil)
   }
 }

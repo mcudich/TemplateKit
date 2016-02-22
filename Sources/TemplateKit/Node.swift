@@ -9,20 +9,21 @@ public class Node {
   public var width: CGFloat?
   public var height: CGFloat?
   public var flex: CGFloat?
+  public var flexDirection: FlexDirection?
 
   public var frame: CGRect {
     get {
       return CGRect(x: x ?? 0, y: y ?? 0, width: width ?? 0, height: height ?? 0)
     }
-    set {
-      x = frame.minX
-      y = frame.minY
-      width = frame.width
-      height = frame.height
+    set (newValue) {
+      x = newValue.minX
+      y = newValue.minY
+      width = newValue.width
+      height = newValue.height
     }
   }
 
-  public init() {}
+  public required init() {}
 
   public func render() -> UIView {
     return view

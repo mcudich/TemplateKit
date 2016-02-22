@@ -25,5 +25,9 @@ class BoxNodeTests: XCTestCase {
     XCTAssertEqual(0, child1.frame.minY)
     XCTAssertEqual(25, child1.frame.maxX)
     XCTAssertEqual(20, child1.frame.maxY)
+    XCTAssertEqual(25, child2.frame.minX)
+    XCTAssertEqual(0, child2.frame.minY)
+    XCTAssertEqual(100, child2.frame.maxX)
+    XCTAssertEqual(20, child2.frame.maxY)
   }
 }
