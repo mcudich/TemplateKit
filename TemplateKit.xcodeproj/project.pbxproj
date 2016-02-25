@@ -31,6 +31,7 @@
 		D8D292D21C7EB1A10071B272 /* TemplateClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292D11C7EB1A10071B272 /* TemplateClientTests.swift */; };
 		D8D292D41C7EBFDE0071B272 /* ContainerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292D31C7EBFDE0071B272 /* ContainerNode.swift */; };
 		D8D292D81C7EDBEA0071B272 /* TextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292D71C7EDBEA0071B272 /* TextNode.swift */; };
+		D8D292DE1C7EEFD10071B272 /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D8D292DD1C7EEFD10071B272 /* TemplateWithModel.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		D8D292D11C7EB1A10071B272 /* TemplateClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TemplateClientTests.swift; path = ../../../TK/TemplateClientTests.swift; sourceTree = "<group>"; };
 		D8D292D31C7EBFDE0071B272 /* ContainerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNode.swift; sourceTree = "<group>"; };
 		D8D292D71C7EDBEA0071B272 /* TextNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextNode.swift; sourceTree = "<group>"; };
+		D8D292DD1C7EEFD10071B272 /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
 		E037447AF6DC70E3E3906462 /* Pods-TemplateKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TemplateKit/Pods-TemplateKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -259,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				D8D292CF1C7EB11D0071B272 /* SimpleTemplate.xml */,
+				D8D292DD1C7EEFD10071B272 /* TemplateWithModel.xml */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8D292D01C7EB11D0071B272 /* SimpleTemplate.xml in Resources */,
+				D8D292DE1C7EEFD10071B272 /* TemplateWithModel.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@ struct NodeDefinition {
     let type = NodeRegistry.sharedInstance.typeWithIdentifier(identifier)!
     let node = type.init(properties: properties)
 
-    if let containerNode = node as? BoxNode {
+    if let containerNode = node as? ContainerNode {
       children.forEach {
         containerNode.add($0.provideNode())
       }

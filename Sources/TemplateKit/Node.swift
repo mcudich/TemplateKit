@@ -18,7 +18,13 @@ public class Node {
 
   public var frame: CGRect {
     get {
-      return CGRect(x: x ?? 0, y: y ?? 0, width: width ?? 0, height: height ?? 0)
+      let resolve: (CGFloat? -> CGFloat) = { value in
+        if let value = value where !isnan(value) {
+          return value
+        }
+        return 0
+      }
+      return CGRect(x: resolve(x), y: resolve(y), width: resolve(width), height: resolve(height))
     }
     set (newValue) {
       x = newValue.minX
@@ -33,11 +39,16 @@ public class Node {
   }
 
   public func render() -> UIView {
+    applyPropertiesToView()
     return view
   }
 
   public func measure(size: CGSize) -> CGSize {
     return CGSizeZero
+  }
+
+  private func applyPropertiesToView() {
+    view.frame = frame
   }
 
   private func applyProperties(properties: [String: String]) {

@@ -14,6 +14,15 @@ public class BoxNode: Node {
     return layout.frame.size
   }
 
+  public override func render() -> UIView {
+    let renderedView = super.render()
+    for child in childNodes {
+      let childView = child.render()
+      renderedView.addSubview(childView)
+    }
+    return renderedView
+  }
+
   private func applyLayout(layout: Layout) {
     let children = childNodes
     for (index, layout) in layout.children.enumerate() {

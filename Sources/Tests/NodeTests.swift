@@ -32,4 +32,26 @@ class NodeTests: XCTestCase {
       }
     }
   }
+
+  func testRendersViewHierarchy() {
+    let parent = BoxNode()
+    let child1 = TextNode()
+    let child2 = BoxNode()
+    let child3 = TextNode()
+
+    parent.add(child1)
+    parent.add(child2)
+    child2.add(child3)
+
+    parent.width = 100
+    child1.width = 50
+    child1.text = "This is a test"
+    child2.flex = 1
+    child3.text = "of rendering"
+
+    parent.measure()
+    let view = parent.render()
+    XCTAssertEqual(2, view.subviews.count)
+    XCTAssertNotNil(view.subviews.first as? UILabel)
+  }
 }
