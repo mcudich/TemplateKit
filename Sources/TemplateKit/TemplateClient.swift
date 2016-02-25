@@ -1,15 +1,12 @@
 import UIKit
 
 public protocol NodeProvider {
-  func nodeWithId(id: String) -> Node?
+  func nodeWithName(name: String) -> Node?
 }
 
 public enum TemplateFetchStrategy {
-  // The bundle and directory path in which to search for matching component definitions.
   case Local(NSBundle, String?);
-  // TODO(mcudich): Consider what sort of parameters may be needed for remotely fetching
-  // a component definition. Is a base URL enough here, and we figure out the rest?
-  case Remote;
+  case Remote(NSURL);
 }
 
 public class TemplateClient {
@@ -22,5 +19,11 @@ public class TemplateClient {
     case .Remote:
       fatalError("Not implemented yet.");
     }
+  }
+}
+
+extension TemplateClient: NodeProvider {
+  public func nodeWithName(name: String) -> Node? {
+    return provider.nodeWithName(name)
   }
 }

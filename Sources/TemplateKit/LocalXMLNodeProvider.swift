@@ -23,14 +23,15 @@ class LocalXMLNodeProvider {
   }
 
   private func loadTemplate(url: NSURL) {
+    let name = url.lastPathComponent!.componentsSeparatedByString(".").first!
     if let xml = NSData(contentsOfURL: url), definition = Template.process(xml) {
-      definitions[definition.identifier] = definition
+      definitions[name] = definition
     }
   }
 }
 
 extension LocalXMLNodeProvider: NodeProvider {
-  func nodeWithId(id: String) -> Node? {
-    return definitions[id]?.provideNode()
+  func nodeWithName(name: String) -> Node? {
+    return definitions[name]?.provideNode()
   }
 }

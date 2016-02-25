@@ -16,7 +16,8 @@ class Template {
 extension AEXMLElement {
   var definition: NodeDefinition {
     let identifier = name
-    let children = [NodeDefinition]()
-    return NodeDefinition(identifier: identifier, children: children)
+    let childNodes = children.map { $0.definition }
+
+    return NodeDefinition(identifier: identifier, children: childNodes, properties: attributes)
   }
 }

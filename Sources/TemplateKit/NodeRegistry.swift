@@ -17,5 +17,6 @@ public class NodeRegistry {
 
   private func registerDefaultTypes() {
     registerDefinition("Box", type: BoxNode.self)
+    registerDefinition("Text", type: TextNode.self)
   }
 }

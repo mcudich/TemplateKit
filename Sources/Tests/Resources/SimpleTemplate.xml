@@ -1,0 +1,4 @@
+<Box id="container">
+  <Box id="child1" width="50" height="30" />
+  <Box id="child2" />
+</Box>
