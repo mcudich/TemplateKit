@@ -42,16 +42,30 @@ public class TextNode: Node {
   }
 
   public override func render() -> UIView {
+    let view = super.render()
+
     textView.setNeedsDisplay()
 
+    return view
+  }
+
+  override func applyProperties() {
+    super.applyProperties()
+
+    if let textValue = properties["text"] {
+      text = resolve(textValue)
+    }
+  }
+
+  override func createView() -> UIView {
     return textView
   }
 }
 
 class TextView: UILabel {
-  let layoutManager: NSLayoutManager;
-  let textContainer: NSTextContainer;
-  let textStorage: NSTextStorage;
+  private let layoutManager: NSLayoutManager;
+  private let textContainer: NSTextContainer;
+  private let textStorage: NSTextStorage;
 
   init(layoutManager: NSLayoutManager, textContainer: NSTextContainer, textStorage: NSTextStorage) {
     self.layoutManager = layoutManager;

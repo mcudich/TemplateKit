@@ -54,4 +54,20 @@ class NodeTests: XCTestCase {
     XCTAssertEqual(2, view.subviews.count)
     XCTAssertNotNil(view.subviews.first as? UILabel)
   }
+
+  func testProperties() {
+    let node = Node(properties: ["width": "100", "height": "50"])
+    XCTAssertEqual(100, node.width)
+    XCTAssertEqual(50, node.height)
+  }
+
+  func testPropertiesWithModel() {
+    let node = Node(properties: ["width": "$foo"])
+    node.model = FakeModel()
+    XCTAssertEqual(50, node.width)
+  }
+}
+
+struct FakeModel: Model {
+  let foo: CGFloat = 50
 }

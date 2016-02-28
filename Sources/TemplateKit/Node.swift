@@ -6,8 +6,6 @@ public enum FlexDirection {
 }
 
 public class Node {
-  private lazy var view = UIView()
-
   public var id: String?
   public var x: CGFloat?
   public var y: CGFloat?
@@ -15,6 +13,12 @@ public class Node {
   public var height: CGFloat?
   public var flex: CGFloat?
   public var flexDirection: FlexDirection?
+
+  public var model: Model? {
+    didSet {
+      applyProperties()
+    }
+  }
 
   public var frame: CGRect {
     get {
@@ -34,8 +38,15 @@ public class Node {
     }
   }
 
+  lazy var view: UIView = { [unowned self] in
+    return self.createView()
+  }()
+
+  let properties: [String: String]
+
   public required init(properties: [String: String] = [:]) {
-    applyProperties(properties)
+    self.properties = properties
+    applyProperties()
   }
 
   public func render() -> UIView {
@@ -47,41 +58,43 @@ public class Node {
     return CGSizeZero
   }
 
-  private func applyPropertiesToView() {
+  func applyPropertiesToView() {
     view.frame = frame
   }
 
-  private func applyProperties(properties: [String: String]) {
+  func applyProperties() {
     for (key, value) in properties {
       switch key {
       case "x":
-        if let value = value.floatValue {
-          x = CGFloat(value)
-        }
+        x = resolve(value)
       case "y":
-        if let value = value.floatValue {
-          y = CGFloat(value)
-        }
+        y = resolve(value)
       case "width":
-        if let value = value.floatValue {
-          width = CGFloat(value)
-        }
+        width = resolve(value)
       case "height":
-        if let value = value.floatValue {
-          height = CGFloat(value)
-        }
+        height = resolve(value)
+      case "flex":
+        flex = resolve(value)
+      case "flexDirection":
+        flexDirection = resolve(value)
       default:
-        break
+      break
       }
     }
   }
-}
 
-extension String {
-  var floatValue: Float? {
-    if let number = NSNumberFormatter().numberFromString(self) {
-      return number.floatValue
+  func resolve<T: StringRepresentable>(value: String) -> T? {
+    if value.hasPrefix("$") {
+      let startIndex = value.startIndex.advancedBy(1);
+      let key = value.substringFromIndex(startIndex);
+
+      return model?.valueForKey(key) as? T
     }
-    return nil
+
+    return T.resolve(value)
+  }
+
+  func createView() -> UIView {
+    return UIView()
   }
 }
