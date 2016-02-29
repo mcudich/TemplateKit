@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		532FE76F37ECC3A8C0278778 /* Pods_TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9829F2ACCAA095362BEB79 /* Pods_TemplateKit.framework */; };
+		D82681B21C84C08A005659A9 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82681B11C84C08A005659A9 /* TableView.swift */; };
 		D84F00281C7B7DC20054CDF7 /* TemplateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84F00271C7B7DC20054CDF7 /* TemplateClient.swift */; };
 		D84F002A1C7B7E790054CDF7 /* LocalXMLNodeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84F00291C7B7E790054CDF7 /* LocalXMLNodeProvider.swift */; };
 		D84F002C1C7B814E0054CDF7 /* NodeDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84F002B1C7B814E0054CDF7 /* NodeDefinition.swift */; };
@@ -98,6 +99,7 @@
 /* Begin PBXFileReference section */
 		317804D5B01D024E9C24CBE4 /* Pods-TemplateKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-TemplateKit/Pods-TemplateKit.release.xcconfig"; sourceTree = "<group>"; };
 		8A9829F2ACCAA095362BEB79 /* Pods_TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D82681B11C84C08A005659A9 /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		D84F00271C7B7DC20054CDF7 /* TemplateClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateClient.swift; sourceTree = "<group>"; };
 		D84F00291C7B7E790054CDF7 /* LocalXMLNodeProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalXMLNodeProvider.swift; sourceTree = "<group>"; };
 		D84F002B1C7B814E0054CDF7 /* NodeDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeDefinition.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				D84F002F1C7B88D80054CDF7 /* Template.swift */,
 				D8D292DF1C8272180071B272 /* StringRepresentable.swift */,
 				D8D292E11C827B1F0071B272 /* Model.swift */,
+				D82681B11C84C08A005659A9 /* TableView.swift */,
 				D8D292931C78B23B0071B272 /* Info.plist */,
 				D8D292961C78B2880071B272 /* TemplateKit.h */,
 			);
@@ -499,6 +502,7 @@
 				D8D292C31C78C2FD0071B272 /* BoxNode.swift in Sources */,
 				D84F00281C7B7DC20054CDF7 /* TemplateClient.swift in Sources */,
 				D84F002C1C7B814E0054CDF7 /* NodeDefinition.swift in Sources */,
+				D82681B21C84C08A005659A9 /* TableView.swift in Sources */,
 				D84F00301C7B88D80054CDF7 /* Template.swift in Sources */,
 				D8D292AF1C78BD8E0071B272 /* Node.swift in Sources */,
 				D8D292D81C7EDBEA0071B272 /* TextNode.swift in Sources */,
