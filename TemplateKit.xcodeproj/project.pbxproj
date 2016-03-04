@@ -29,7 +29,6 @@
 		D8D292C31C78C2FD0071B272 /* BoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292C11C78C2F90071B272 /* BoxNode.swift */; };
 		D8D292C81C7A68690071B272 /* BoxNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292C71C7A68690071B272 /* BoxNodeTests.swift */; };
 		D8D292D01C7EB11D0071B272 /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D8D292CF1C7EB11D0071B272 /* SimpleTemplate.xml */; };
-		D8D292D21C7EB1A10071B272 /* TemplateClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292D11C7EB1A10071B272 /* TemplateClientTests.swift */; };
 		D8D292D41C7EBFDE0071B272 /* ContainerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292D31C7EBFDE0071B272 /* ContainerNode.swift */; };
 		D8D292D81C7EDBEA0071B272 /* TextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D292D71C7EDBEA0071B272 /* TextNode.swift */; };
 		D8D292DE1C7EEFD10071B272 /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D8D292DD1C7EEFD10071B272 /* TemplateWithModel.xml */; };
@@ -124,7 +123,6 @@
 		D8D292C71C7A68690071B272 /* BoxNodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxNodeTests.swift; sourceTree = "<group>"; };
 		D8D292C91C7A6B770071B272 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8D292CF1C7EB11D0071B272 /* SimpleTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SimpleTemplate.xml; sourceTree = "<group>"; };
-		D8D292D11C7EB1A10071B272 /* TemplateClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TemplateClientTests.swift; path = ../../../TK/TemplateClientTests.swift; sourceTree = "<group>"; };
 		D8D292D31C7EBFDE0071B272 /* ContainerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNode.swift; sourceTree = "<group>"; };
 		D8D292D71C7EDBEA0071B272 /* TextNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextNode.swift; sourceTree = "<group>"; };
 		D8D292DD1C7EEFD10071B272 /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
@@ -251,7 +249,6 @@
 				D8D292C91C7A6B770071B272 /* Info.plist */,
 				D8D292B11C78C0180071B272 /* NodeTests.swift */,
 				D8D292C71C7A68690071B272 /* BoxNodeTests.swift */,
-				D8D292D11C7EB1A10071B272 /* TemplateClientTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -514,7 +511,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8D292D21C7EB1A10071B272 /* TemplateClientTests.swift in Sources */,
 				D8D292C81C7A68690071B272 /* BoxNodeTests.swift in Sources */,
 				D8D292B21C78C0180071B272 /* NodeTests.swift in Sources */,
 			);
