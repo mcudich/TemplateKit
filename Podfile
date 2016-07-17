@@ -1,9 +1,9 @@
 use_frameworks!
 
-target 'Example' do
-
+target 'TemplateKit' do
+  pod 'AEXML'
 end
 
-target 'TemplateKit' do
+target 'TemplateKitTests' do
   pod 'AEXML'
 end
