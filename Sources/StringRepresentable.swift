@@ -6,7 +6,7 @@ protocol StringRepresentable {
 
 extension String: StringRepresentable {
   static func resolve(value: String) -> String? {
-    return String(self)
+    return value
   }
 }
 
