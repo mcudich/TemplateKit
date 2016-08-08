@@ -28,6 +28,10 @@
 		D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194441D57F24F0049991F /* TemplateWithModel.xml */; };
 		D891944A1D57F6910049991F /* SwiftBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194491D57F6910049991F /* SwiftBox.framework */; };
 		D891944C1D57F7280049991F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891944B1D57F7280049991F /* AEXML.framework */; };
+		D89194F11D58078C0049991F /* Proxy.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194F01D58078C0049991F /* Proxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89194F71D5807C90049991F /* Proxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194EE1D58078C0049991F /* Proxy.framework */; };
+		D89194FD1D580A0E0049991F /* Interceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194FB1D580A0E0049991F /* Interceptor.h */; };
+		D89194FE1D580A0E0049991F /* Interceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = D89194FC1D580A0E0049991F /* Interceptor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,13 +41,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D891940D1D57F1FB0049991F;
 			remoteInfo = TemplateKit;
-		};
-		D89194B31D57FD370049991F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D89194AF1D57FD370049991F /* Example.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D891949A1D57FCF10049991F;
-			remoteInfo = Example;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -72,7 +69,11 @@
 		D89194441D57F24F0049991F /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
 		D89194491D57F6910049991F /* SwiftBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftBox.framework; path = Carthage/Build/iOS/SwiftBox.framework; sourceTree = "<group>"; };
 		D891944B1D57F7280049991F /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
-		D89194AF1D57FD370049991F /* Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Example.xcodeproj; path = Example/Example.xcodeproj; sourceTree = "<group>"; };
+		D89194EE1D58078C0049991F /* Proxy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Proxy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D89194F01D58078C0049991F /* Proxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Proxy.h; sourceTree = "<group>"; };
+		D89194F21D58078C0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D89194FB1D580A0E0049991F /* Interceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interceptor.h; sourceTree = "<group>"; };
+		D89194FC1D580A0E0049991F /* Interceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Interceptor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D89194F71D5807C90049991F /* Proxy.framework in Frameworks */,
 				D891944A1D57F6910049991F /* SwiftBox.framework in Frameworks */,
 				D891944C1D57F7280049991F /* AEXML.framework in Frameworks */,
 			);
@@ -93,17 +95,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D89194EA1D58078C0049991F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		D89194041D57F1FB0049991F = {
 			isa = PBXGroup;
 			children = (
-				D89194AF1D57FD370049991F /* Example.xcodeproj */,
 				D891944B1D57F7280049991F /* AEXML.framework */,
 				D89194491D57F6910049991F /* SwiftBox.framework */,
 				D89194101D57F1FB0049991F /* TemplateKit */,
 				D891941C1D57F1FB0049991F /* TemplateKitTests */,
+				D89194EF1D58078C0049991F /* Proxy */,
 				D891940F1D57F1FB0049991F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,6 +122,7 @@
 			children = (
 				D891940E1D57F1FB0049991F /* TemplateKit.framework */,
 				D89194181D57F1FB0049991F /* TemplateKitTests.xctest */,
+				D89194EE1D58078C0049991F /* Proxy.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,12 +169,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		D89194B01D57FD370049991F /* Products */ = {
+		D89194EF1D58078C0049991F /* Proxy */ = {
 			isa = PBXGroup;
 			children = (
-				D89194B41D57FD370049991F /* Example.app */,
+				D89194F01D58078C0049991F /* Proxy.h */,
+				D89194FB1D580A0E0049991F /* Interceptor.h */,
+				D89194FC1D580A0E0049991F /* Interceptor.m */,
+				D89194F21D58078C0049991F /* Info.plist */,
 			);
-			name = Products;
+			path = Proxy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +188,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89194121D57F1FB0049991F /* TemplateKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D89194EB1D58078C0049991F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D89194F11D58078C0049991F /* Proxy.h in Headers */,
+				D89194FD1D580A0E0049991F /* Interceptor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +240,24 @@
 			productReference = D89194181D57F1FB0049991F /* TemplateKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D89194ED1D58078C0049991F /* Proxy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D89194F31D58078C0049991F /* Build configuration list for PBXNativeTarget "Proxy" */;
+			buildPhases = (
+				D89194E91D58078C0049991F /* Sources */,
+				D89194EA1D58078C0049991F /* Frameworks */,
+				D89194EB1D58078C0049991F /* Headers */,
+				D89194EC1D58078C0049991F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Proxy;
+			productName = Proxy;
+			productReference = D89194EE1D58078C0049991F /* Proxy.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -234,6 +274,9 @@
 					D89194171D57F1FB0049991F = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					D89194ED1D58078C0049991F = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 				};
 			};
 			buildConfigurationList = D89194081D57F1FB0049991F /* Build configuration list for PBXProject "TemplateKit" */;
@@ -246,29 +289,14 @@
 			mainGroup = D89194041D57F1FB0049991F;
 			productRefGroup = D891940F1D57F1FB0049991F /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = D89194B01D57FD370049991F /* Products */;
-					ProjectRef = D89194AF1D57FD370049991F /* Example.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				D891940D1D57F1FB0049991F /* TemplateKit */,
 				D89194171D57F1FB0049991F /* TemplateKitTests */,
+				D89194ED1D58078C0049991F /* Proxy */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		D89194B41D57FD370049991F /* Example.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Example.app;
-			remoteRef = D89194B31D57FD370049991F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D891940C1D57F1FB0049991F /* Resources */ = {
@@ -284,6 +312,13 @@
 			files = (
 				D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */,
 				D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D89194EC1D58078C0049991F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +369,14 @@
 				D891941E1D57F1FB0049991F /* TemplateKitTests.swift in Sources */,
 				D89194461D57F24F0049991F /* NodeTests.swift in Sources */,
 				D89194451D57F24F0049991F /* BoxNodeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D89194E91D58078C0049991F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D89194FE1D580A0E0049991F /* Interceptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +501,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -481,6 +525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
@@ -501,6 +546,38 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D89194F41D58078C0049991F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Proxy/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.Proxy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D89194F51D58078C0049991F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Proxy/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.Proxy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -533,6 +610,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D89194F31D58078C0049991F /* Build configuration list for PBXNativeTarget "Proxy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D89194F41D58078C0049991F /* Debug */,
+				D89194F51D58078C0049991F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
