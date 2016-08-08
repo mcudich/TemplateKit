@@ -1,0 +1,3 @@
+<Box width="100" flexDirection="column">
+  <Text text="test" />
+</Box>
