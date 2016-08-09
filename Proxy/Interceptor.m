@@ -9,19 +9,67 @@
 #import "Interceptor.h"
 
 @implementation Interceptor
-  id __weak _interceptor;
-  id <NSObject> __weak _target;
+  id<NSObject> __weak _interceptor;
+  id<NSObject> __weak _target;
+  Protocol *_protocol;
 
-- (instancetype)initWithTarget:(id <NSObject>)target interceptor:(id)interceptor
-{
-  // -[NSProxy init] is undefined
+  NSMutableSet *_selectors;
+
+- (instancetype)initWithTarget:(id<NSObject>)target interceptor:(id<NSObject>)interceptor protocol:(nonnull Protocol *)aProtocol {
   if (!self) {
     return nil;
   }
 
   _target = target ? : [NSNull null];
   _interceptor = interceptor;
+  _protocol = aProtocol;
+
+  _selectors = [[NSMutableSet alloc] init];
 
   return self;
 }
+
+- (void)registerInterceptableSelector:(SEL)selector {
+  [_selectors addObject:NSStringFromSelector(selector)];
+}
+
+- (BOOL)conformsToProtocol:(Protocol *)aProtocol {
+  return aProtocol == _protocol;
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+  if ([self interceptsSelector:aSelector]) {
+    return [_interceptor respondsToSelector:aSelector];
+  } else {
+    return [_target respondsToSelector:aSelector];
+  }
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+  if ([self interceptsSelector:aSelector]) {
+    return _interceptor;
+  } else {
+    return [_target respondsToSelector:aSelector] ? _target : nil;
+  }
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+  NSMethodSignature *methodSignature = nil;
+  if ([self interceptsSelector:aSelector]) {
+    methodSignature = [[_interceptor class] instanceMethodSignatureForSelector:aSelector];
+  } else {
+    methodSignature = [[_target class] instanceMethodSignatureForSelector:aSelector];
+  }
+
+  return methodSignature ?: [NSMethodSignature signatureWithObjCTypes:"@^v^c"];
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+  // If we are down here this means _interceptor and _target where nil. Just don't do anything to prevent a crash
+}
+
+- (BOOL)interceptsSelector:(SEL)selector {
+  return [_selectors containsObject:NSStringFromSelector(selector)];
+}
+
 @end

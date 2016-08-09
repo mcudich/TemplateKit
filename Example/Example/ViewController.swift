@@ -14,12 +14,39 @@ class ViewController: UIViewController {
     return TemplateClient(fetchStrategy: .Local(NSBundle.mainBundle(), nil))
   }()
 
-  override func viewDidLoad() {
-    let node = client.nodeWithName("Test")
-    if let node = node {
-      node.frame.size = node.measure(view.bounds.size)
-      let nodeView = node.render()
-      view.addSubview(nodeView)
-    }
+  private lazy var tableView: TableView = {
+    let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .Plain)
+
+    tableView.templateDataSource = self
+    tableView.tableDataSource = self
+    tableView.tableDelegate = self
+
+    return tableView
+  }()
+
+  override func loadView() {
+    view = tableView
   }
+}
+
+extension ViewController: NodeProvider {
+  func nodeWithName(name: String) -> Node? {
+    return client.nodeWithName(name)
+  }
+}
+
+extension ViewController: TableViewTemplateDataSource {
+  func tableView(tableView: UITableView, nodeNameForRowAtIndexPath indexPath: NSIndexPath) -> String {
+    return "Test"
+  }
+}
+
+extension ViewController: TableViewDataSource {
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 1
+  }
+}
+
+extension ViewController: TableViewDelegate {
+
 }
