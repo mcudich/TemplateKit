@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Interceptor : NSProxy
-- (instancetype)initWithTarget:(id<NSObject>)target interceptor:(id)interceptor;
+@interface Interceptor : NSObject
+
+- (nonnull instancetype)initWithTarget:(nullable id<NSObject>)target interceptor:(nullable id<NSObject>)interceptor protocol:(nonnull Protocol *)aProtocol;
+
+- (void)registerInterceptableSelector:(nonnull SEL)selector;
+
 @end

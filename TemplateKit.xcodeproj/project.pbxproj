@@ -30,8 +30,9 @@
 		D891944C1D57F7280049991F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891944B1D57F7280049991F /* AEXML.framework */; };
 		D89194F11D58078C0049991F /* Proxy.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194F01D58078C0049991F /* Proxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194F71D5807C90049991F /* Proxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194EE1D58078C0049991F /* Proxy.framework */; };
-		D89194FD1D580A0E0049991F /* Interceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194FB1D580A0E0049991F /* Interceptor.h */; };
+		D89194FD1D580A0E0049991F /* Interceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194FB1D580A0E0049991F /* Interceptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194FE1D580A0E0049991F /* Interceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = D89194FC1D580A0E0049991F /* Interceptor.m */; };
+		D89195021D580B2B0049991F /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89195011D580B2B0049991F /* TableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		D89194F21D58078C0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D89194FB1D580A0E0049991F /* Interceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interceptor.h; sourceTree = "<group>"; };
 		D89194FC1D580A0E0049991F /* Interceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Interceptor.m; sourceTree = "<group>"; };
+		D89195011D580B2B0049991F /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 		D89194101D57F1FB0049991F /* TemplateKit */ = {
 			isa = PBXGroup;
 			children = (
+				D89194131D57F1FB0049991F /* Info.plist */,
 				D89194281D57F2450049991F /* BoxNode.swift */,
 				D89194291D57F2450049991F /* ContainerNode.swift */,
 				D891942A1D57F2450049991F /* LocalXMLNodeProvider.swift */,
@@ -139,11 +142,11 @@
 				D891942E1D57F2450049991F /* NodeRegistry.swift */,
 				D891942F1D57F2450049991F /* OrderedSet.swift */,
 				D89194301D57F2450049991F /* StringRepresentable.swift */,
+				D89195011D580B2B0049991F /* TableView.swift */,
 				D89194311D57F2450049991F /* Template.swift */,
 				D89194321D57F2450049991F /* TemplateClient.swift */,
-				D89194331D57F2450049991F /* TextNode.swift */,
 				D89194111D57F1FB0049991F /* TemplateKit.h */,
-				D89194131D57F1FB0049991F /* Info.plist */,
+				D89194331D57F2450049991F /* TextNode.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */,
 				D89194351D57F2450049991F /* ContainerNode.swift in Sources */,
 				D891943D1D57F2450049991F /* Template.swift in Sources */,
+				D89195021D580B2B0049991F /* TableView.swift in Sources */,
 				D891943B1D57F2450049991F /* OrderedSet.swift in Sources */,
 				D89194391D57F2450049991F /* NodeDefinition.swift in Sources */,
 				D89194371D57F2450049991F /* Model.swift in Sources */,
@@ -618,6 +622,7 @@
 				D89194F51D58078C0049991F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
