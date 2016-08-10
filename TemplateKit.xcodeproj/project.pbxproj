@@ -28,11 +28,8 @@
 		D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194441D57F24F0049991F /* TemplateWithModel.xml */; };
 		D891944A1D57F6910049991F /* SwiftBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194491D57F6910049991F /* SwiftBox.framework */; };
 		D891944C1D57F7280049991F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891944B1D57F7280049991F /* AEXML.framework */; };
-		D89194F11D58078C0049991F /* Proxy.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194F01D58078C0049991F /* Proxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D89194F71D5807C90049991F /* Proxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194EE1D58078C0049991F /* Proxy.framework */; };
-		D89194FD1D580A0E0049991F /* Interceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194FB1D580A0E0049991F /* Interceptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D89194FE1D580A0E0049991F /* Interceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = D89194FC1D580A0E0049991F /* Interceptor.m */; };
 		D89195021D580B2B0049991F /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89195011D580B2B0049991F /* TableView.swift */; };
+		D89195051D5A6E350049991F /* DelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89195041D5A6E350049991F /* DelegateProxy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,12 +67,8 @@
 		D89194441D57F24F0049991F /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
 		D89194491D57F6910049991F /* SwiftBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftBox.framework; path = Carthage/Build/iOS/SwiftBox.framework; sourceTree = "<group>"; };
 		D891944B1D57F7280049991F /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
-		D89194EE1D58078C0049991F /* Proxy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Proxy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D89194F01D58078C0049991F /* Proxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Proxy.h; sourceTree = "<group>"; };
-		D89194F21D58078C0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D89194FB1D580A0E0049991F /* Interceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interceptor.h; sourceTree = "<group>"; };
-		D89194FC1D580A0E0049991F /* Interceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Interceptor.m; sourceTree = "<group>"; };
 		D89195011D580B2B0049991F /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		D89195041D5A6E350049991F /* DelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateProxy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +76,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D89194F71D5807C90049991F /* Proxy.framework in Frameworks */,
 				D891944A1D57F6910049991F /* SwiftBox.framework in Frameworks */,
 				D891944C1D57F7280049991F /* AEXML.framework in Frameworks */,
 			);
@@ -97,13 +89,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D89194EA1D58078C0049991F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -114,7 +99,6 @@
 				D89194491D57F6910049991F /* SwiftBox.framework */,
 				D89194101D57F1FB0049991F /* TemplateKit */,
 				D891941C1D57F1FB0049991F /* TemplateKitTests */,
-				D89194EF1D58078C0049991F /* Proxy */,
 				D891940F1D57F1FB0049991F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -124,7 +108,6 @@
 			children = (
 				D891940E1D57F1FB0049991F /* TemplateKit.framework */,
 				D89194181D57F1FB0049991F /* TemplateKitTests.xctest */,
-				D89194EE1D58078C0049991F /* Proxy.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,6 +130,7 @@
 				D89194321D57F2450049991F /* TemplateClient.swift */,
 				D89194111D57F1FB0049991F /* TemplateKit.h */,
 				D89194331D57F2450049991F /* TextNode.swift */,
+				D89195041D5A6E350049991F /* DelegateProxy.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -172,17 +156,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		D89194EF1D58078C0049991F /* Proxy */ = {
-			isa = PBXGroup;
-			children = (
-				D89194F01D58078C0049991F /* Proxy.h */,
-				D89194FB1D580A0E0049991F /* Interceptor.h */,
-				D89194FC1D580A0E0049991F /* Interceptor.m */,
-				D89194F21D58078C0049991F /* Info.plist */,
-			);
-			path = Proxy;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -191,15 +164,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89194121D57F1FB0049991F /* TemplateKit.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D89194EB1D58078C0049991F /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D89194F11D58078C0049991F /* Proxy.h in Headers */,
-				D89194FD1D580A0E0049991F /* Interceptor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,24 +207,6 @@
 			productReference = D89194181D57F1FB0049991F /* TemplateKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D89194ED1D58078C0049991F /* Proxy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D89194F31D58078C0049991F /* Build configuration list for PBXNativeTarget "Proxy" */;
-			buildPhases = (
-				D89194E91D58078C0049991F /* Sources */,
-				D89194EA1D58078C0049991F /* Frameworks */,
-				D89194EB1D58078C0049991F /* Headers */,
-				D89194EC1D58078C0049991F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Proxy;
-			productName = Proxy;
-			productReference = D89194EE1D58078C0049991F /* Proxy.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -275,9 +221,6 @@
 						CreatedOnToolsVersion = 7.3.1;
 					};
 					D89194171D57F1FB0049991F = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					D89194ED1D58078C0049991F = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -296,7 +239,6 @@
 			targets = (
 				D891940D1D57F1FB0049991F /* TemplateKit */,
 				D89194171D57F1FB0049991F /* TemplateKitTests */,
-				D89194ED1D58078C0049991F /* Proxy */,
 			);
 		};
 /* End PBXProject section */
@@ -315,13 +257,6 @@
 			files = (
 				D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */,
 				D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D89194EC1D58078C0049991F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +292,7 @@
 				D89194361D57F2450049991F /* LocalXMLNodeProvider.swift in Sources */,
 				D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */,
 				D89194351D57F2450049991F /* ContainerNode.swift in Sources */,
+				D89195051D5A6E350049991F /* DelegateProxy.swift in Sources */,
 				D891943D1D57F2450049991F /* Template.swift in Sources */,
 				D89195021D580B2B0049991F /* TableView.swift in Sources */,
 				D891943B1D57F2450049991F /* OrderedSet.swift in Sources */,
@@ -373,14 +309,6 @@
 				D891941E1D57F1FB0049991F /* TemplateKitTests.swift in Sources */,
 				D89194461D57F24F0049991F /* NodeTests.swift in Sources */,
 				D89194451D57F24F0049991F /* BoxNodeTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D89194E91D58078C0049991F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D89194FE1D580A0E0049991F /* Interceptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,38 +481,6 @@
 			};
 			name = Release;
 		};
-		D89194F41D58078C0049991F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Proxy/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.Proxy;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		D89194F51D58078C0049991F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Proxy/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.Proxy;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -611,15 +507,6 @@
 			buildConfigurations = (
 				D89194261D57F1FB0049991F /* Debug */,
 				D89194271D57F1FB0049991F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D89194F31D58078C0049991F /* Build configuration list for PBXNativeTarget "Proxy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D89194F41D58078C0049991F /* Debug */,
-				D89194F51D58078C0049991F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
