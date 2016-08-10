@@ -116,8 +116,6 @@ public class TableView: UITableView {
     }
   }
 
-
-
   override weak public var delegate: UITableViewDelegate? {
     set {
       fatalError("TableView requires a tableViewDelegate instead.")
