@@ -1,18 +1,6 @@
 import UIKit
 
-public class TextNode: Node {
-  public var text: String? {
-    didSet {
-      if let text = text {
-        textStorage.setAttributedString(NSAttributedString(string: text))
-      }
-    }
-  }
-
-  private lazy var textView: TextView = {
-    return TextView(layoutManager: self.layoutManager, textContainer: self.textContainer, textStorage: self.textStorage);
-  }()
-
+class TextView: UILabel {
   private lazy var layoutManager: NSLayoutManager = {
     let layoutManager = NSLayoutManager();
     layoutManager.addTextContainer(self.textContainer);
@@ -32,48 +20,7 @@ public class TextNode: Node {
     return textContainer;
   }();
 
-  override public func measure(size: CGSize) -> CGSize {
-    textContainer.size = size;
-    layoutManager.ensureLayoutForTextContainer(textContainer)
-
-    let measuredSize = layoutManager.usedRectForTextContainer(textContainer).size
-
-    return CGSize(width: ceil(measuredSize.width), height: ceil(measuredSize.height))
-  }
-
-  public override func render() -> UIView {
-    let view = super.render()
-
-    textView.setNeedsDisplay()
-
-    return view
-  }
-
-  override func applyProperties() {
-    super.applyProperties()
-
-    if let textValue = properties["text"] {
-      text = resolve(textValue)
-    }
-  }
-
-  override func createView() -> UIView {
-    return textView
-  }
-}
-
-class TextView: UILabel {
-  private let layoutManager: NSLayoutManager;
-  private let textContainer: NSTextContainer;
-  private let textStorage: NSTextStorage;
-
-  init(layoutManager: NSLayoutManager, textContainer: NSTextContainer, textStorage: NSTextStorage) {
-    self.layoutManager = layoutManager;
-    self.textContainer = textContainer;
-    self.textStorage = textStorage;
-
-    super.init(frame: CGRectZero);
-  }
+  required init() {}
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -85,4 +32,15 @@ class TextView: UILabel {
     layoutManager.drawBackgroundForGlyphRange(glyphRange, atPoint: CGPointZero);
     layoutManager.drawGlyphsForGlyphRange(glyphRange, atPoint: CGPointZero);
   }
+
+  override func sizeThatFits(size: CGSize) -> CGSize {
+    textContainer.size = size;
+    layoutManager.ensureLayoutForTextContainer(textContainer)
+
+    let measuredSize = layoutManager.usedRectForTextContainer(textContainer).size
+
+    return CGSize(width: ceil(measuredSize.width), height: ceil(measuredSize.height))
+  }
 }
+
+extension TextView: NodeView {}

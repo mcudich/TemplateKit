@@ -5,21 +5,32 @@ public enum FlexDirection {
   case Column
 }
 
-public class Node {
-  public var id: String?
-  public var x: CGFloat?
-  public var y: CGFloat?
-  public var width: CGFloat?
-  public var height: CGFloat?
-  public var flex: CGFloat?
-  public var flexDirection: FlexDirection?
+public protocol NodeView {
+  var frame: CGRect { set get }
 
-  public var model: Model? {
-    didSet {
-      applyProperties()
-    }
-  }
+  init()
+}
 
+//extension UIView: NodeView {
+//}
+
+public protocol Node: class {
+  var id: String? { set get }
+  var x: CGFloat? { set get }
+  var y: CGFloat? { set get }
+  var width: CGFloat? { set get }
+  var height: CGFloat? { set get }
+  var model: Model? { set get }
+  var frame: CGRect { set get }
+  var view: NodeView { set get }
+  var properties: [String: Any] { set get }
+
+  func render() -> NodeView
+  func sizeThatFits(size: CGSize) -> CGSize
+  func sizeToFit(size: CGSize)
+}
+
+extension Node {
   public var frame: CGRect {
     get {
       let resolve: (CGFloat? -> CGFloat) = { value in
@@ -38,63 +49,81 @@ public class Node {
     }
   }
 
-  lazy var view: UIView = { [unowned self] in
-    return self.createView()
-  }()
-
-  let properties: [String: String]
-
-  public required init(properties: [String: String] = [:]) {
-    self.properties = properties
-    applyProperties()
+  public var x: CGFloat? {
+    set {
+      properties["x"] = x
+    }
+    get {
+      return properties["x"] as? CGFloat
+    }
   }
 
-  public func render() -> UIView {
-    applyPropertiesToView()
+  public var y: CGFloat? {
+    set {
+      properties["y"] = x
+    }
+    get {
+      return properties["y"] as? CGFloat
+    }
+  }
+
+  public var width: CGFloat? {
+    set {
+      properties["width"] = x
+    }
+    get {
+      return properties["width"] as? CGFloat
+    }
+  }
+
+  public var height: CGFloat? {
+    set {
+      properties["height"] = x
+    }
+    get {
+      return properties["height"] as? CGFloat
+    }
+  }
+
+  public func render() -> NodeView {
+    view.frame = frame
+
     return view
   }
 
-  public func measure(size: CGSize) -> CGSize {
-    return CGSizeZero
+  public func sizeThatFits(size: CGSize) -> CGSize {
+    return size
   }
 
-  func applyPropertiesToView() {
-    view.frame = frame
+  public func sizeToFit(size: CGSize) {
+    frame.size = size
   }
 
-  func applyProperties() {
+  public func invalidate() {
     for (key, value) in properties {
-      switch key {
-      case "x":
-        x = resolve(value)
-      case "y":
-        y = resolve(value)
-      case "width":
-        width = resolve(value)
-      case "height":
-        height = resolve(value)
-      case "flex":
-        flex = resolve(value)
-      case "flexDirection":
-        flexDirection = resolve(value)
-      default:
-      break
-      }
+      properties[key] = resolve(value)
     }
   }
 
-  func resolve<T: StringRepresentable>(value: String) -> T? {
-    if value.hasPrefix("$") {
-      let startIndex = value.startIndex.advancedBy(1);
-      let key = value.substringFromIndex(startIndex);
-
-      return model?.valueForKey(key) as? T
+  func resolve(value: Any) -> Any? {
+    guard let expression = value as? String where expression.hasPrefix("$") else {
+      return value
     }
 
-    return T.resolve(value)
+    let startIndex = expression.startIndex.advancedBy(1);
+    let key = expression.substringFromIndex(startIndex);
+    return model?.valueForKey(key)
   }
+}
 
-  func createView() -> UIView {
-    return UIView()
+public class ViewNode<V: NodeView>: Node {
+  public var id: String?
+  public var properties: [String: Any]
+  public var model: Model?
+
+  public lazy var view: NodeView = V()
+
+  public required init(properties: [String: String] = [:]) {
+    self.properties = properties
   }
 }

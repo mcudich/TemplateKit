@@ -1,23 +1,23 @@
 import UIKit
 
-protocol StringRepresentable {
+public protocol StringRepresentable {
   static func resolve(value: String) -> Self?
 }
 
 extension String: StringRepresentable {
-  static func resolve(value: String) -> String? {
+  public static func resolve(value: String) -> String? {
     return value
   }
 }
 
 extension CGFloat: StringRepresentable {
-  static func resolve(value: String) -> CGFloat? {
+  public static func resolve(value: String) -> CGFloat? {
     return value.floatValue
   }
 }
 
 extension FlexDirection: StringRepresentable {
-  static func resolve(value: String) -> FlexDirection? {
+  public static func resolve(value: String) -> FlexDirection? {
     switch value {
     case "row":
       return .Row

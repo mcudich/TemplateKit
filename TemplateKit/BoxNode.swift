@@ -3,10 +3,37 @@ import SwiftBox
 
 typealias FlexNode = SwiftBox.Node
 
-public class BoxNode: Node {
-  private lazy var children = OrderedSet<Node>()
+public class BoxNode: ContainerNode {
+  public var id: String?
+  public var properties: [String: Any]
+  public var model: Model?
 
-  public override func measure(size: CGSize? = nil) -> CGSize {
+  public var flexDirection: FlexDirection? {
+    set {
+      properties["flexDirection"] = x
+    }
+    get {
+      return properties["flexDirection"] as? FlexDirection
+    }
+  }
+
+  public var flex: CGFloat? {
+    set {
+      properties["flex"] = x
+    }
+    get {
+      return properties["flex"] as? CGFloat
+    }
+  }
+
+  public lazy var childNodes = [Node]()
+  public lazy var view: UIView = UIView()
+
+  public required init(properties: [String: String] = [:]) {
+    self.properties = properties
+  }
+
+  public func measure(size: CGSize? = nil) -> CGSize {
     let layout = flexNode.layout(maxWidth: size?.width)
 
     applyLayout(layout)
@@ -14,13 +41,13 @@ public class BoxNode: Node {
     return layout.frame.size
   }
 
-  public override func render() -> UIView {
-    let renderedView = super.render()
+  public func render() -> UIView {
+    view.frame = frame
     for child in childNodes {
       let childView = child.render()
-      renderedView.addSubview(childView)
+      view.addSubview(childView)
     }
-    return renderedView
+    return view
   }
 
   private func applyLayout(layout: Layout) {
@@ -32,20 +59,6 @@ public class BoxNode: Node {
         child.applyLayout(layout)
       }
     }
-  }
-}
-
-extension BoxNode: ContainerNode {
-  public var childNodes: [Node] {
-    return children.array
-  }
-
-  public func add(child: Node) {
-    children.add(child)
-  }
-
-  public func contains(child: Node) -> Bool {
-    return children.contains(child)
   }
 }
 
@@ -66,18 +79,23 @@ extension Node {
   }
 
   var flexNode: FlexNode {
+    return FlexNode()
+  }
+}
+
+extension BoxNode {
+  var flexNode: FlexNode {
     var children = [FlexNode]()
-    if let boxNode = self as? BoxNode {
-      children = boxNode.childNodes.map { $0.flexNode }
-    }
+    children = childNodes.map { $0.flexNode }
+    return FlexNode(size: flexSize, children: children, direction: flexDirection?.value ?? .Row, margin: Edges(), padding: Edges(), wrap: false, justification: .FlexStart, selfAlignment: .Auto, childAlignment: .Stretch, flex: flex ?? 0)
+  }
+}
 
-    var measureText: (CGFloat -> CGSize)?
-    if let textNode = self as? TextNode {
-      measureText = { width in
-        return textNode.measure(CGSize(width: width, height: CGFloat.max))
-      }
+extension ViewNode where ViewNode.V == TextView {
+  var flexNode: FlexNode {
+    let measure = { [weak self] width in
+      return self?.sizeThatFits(CGSize(width: width, height: CGFloat.max)) ?? CGSizeZero
     }
-
-    return FlexNode(size: flexSize, children: children, direction: flexDirection?.value ?? .Row, margin: Edges(), padding: Edges(), wrap: false, justification: .FlexStart, selfAlignment: .Auto, childAlignment: .Stretch, flex: flex ?? 0, measure: measureText)
+    return FlexNode(measure: measure)
   }
 }

@@ -169,7 +169,7 @@ public class TableView: UITableView {
     let header = headerNode()
     let footer = footerNode()
 
-    header?.measure(CGSize(width: bounds.width, height: CGFloat.max))
+    header?.sizeToFit(CGSize(width: bounds.width, height: CGFloat.max))
     tableHeaderView = header?.render()
     tableFooterView = footer?.render()
   }
@@ -321,7 +321,7 @@ extension TableView {
   }
 
   func heightForNode(node: Node?) -> CGFloat {
-    return node?.measure(CGSize(width: bounds.width, height: CGFloat.max)).height ?? 0
+    return node?.sizeThatFits(CGSize(width: bounds.width, height: CGFloat.max)).height ?? 0
   }
 }
 
