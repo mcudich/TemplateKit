@@ -18,8 +18,8 @@ class ViewController: UIViewController {
     let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .Plain)
 
     tableView.templateDataSource = self
-    tableView.tableDataSource = self
-    tableView.tableDelegate = self
+    tableView.tableViewDataSource = self
+    tableView.tableViewDelegate = self
 
     return tableView
   }()
@@ -48,5 +48,4 @@ extension ViewController: TableViewDataSource {
 }
 
 extension ViewController: TableViewDelegate {
-
 }

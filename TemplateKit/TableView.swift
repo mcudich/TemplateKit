@@ -1,5 +1,4 @@
 import UIKit
-import Proxy
 
 public protocol TableViewItemController {
   var node: Node? { set get }
@@ -106,19 +105,16 @@ public class TableView: UITableView {
   public weak var templateDelegate: TableViewTemplateDelegate?
   public weak var templateDataSource: TableViewTemplateDataSource?
 
-  public weak var tableDelegate: TableViewDelegate? {
+  public weak var tableViewDelegate: TableViewDelegate? {
     didSet {
       configureTableDelegate()
     }
   }
-  public weak var tableDataSource: TableViewDataSource? {
+  public weak var tableViewDataSource: TableViewDataSource? {
     didSet {
       configureTableDataSource()
     }
   }
-
-  private var delegateInterceptor: Interceptor?
-  private var dataSourceInterceptor: Interceptor?
 
   override weak public var delegate: UITableViewDelegate? {
     set {
@@ -142,6 +138,8 @@ public class TableView: UITableView {
   private let nodeProvider: NodeProvider
   private var cachedHeaderNode: Node?
   private var cachedFooterNode: Node?
+  private var delegateProxy: DelegateProxy?
+  private var dataSourceProxy: DelegateProxy?
   private lazy var rowNodeCache = [Int: Node]()
   private lazy var rowControllerCache = [Int: TableViewItemController]()
   private lazy var headerNodeCache = [Int: Node]()
@@ -278,26 +276,26 @@ public class TableView: UITableView {
   }
 
   private func configureTableDelegate() {
-    delegateInterceptor = configureInterceptor(tableDelegate, protocolType: UITableViewDelegate.self)
-    super.delegate = delegateInterceptor as! UITableViewDelegate
+    delegateProxy = configureProxy(tableViewDelegate)
+    super.delegate = delegateProxy as! UITableViewDelegate
   }
 
   private func configureTableDataSource() {
-    dataSourceInterceptor = configureInterceptor(tableDataSource, protocolType: UITableViewDataSource.self)
-    super.dataSource = dataSourceInterceptor as! UITableViewDataSource
+    dataSourceProxy = configureProxy(tableViewDataSource)
+    super.dataSource = dataSourceProxy as! UITableViewDataSource
   }
 
-  private func configureInterceptor(target: NSObjectProtocol?, protocolType: Protocol) -> Interceptor {
-    let interceptor = Interceptor(target: target, interceptor: self, protocol: protocolType)
+  private func configureProxy(target: NSObjectProtocol?) -> DelegateProxy {
+    let delegateProxy = DelegateProxy(target: target, interceptor: self)
 
-    interceptor.registerInterceptableSelector(#selector(UITableViewDelegate.tableView(_:heightForRowAtIndexPath:)))
-    interceptor.registerInterceptableSelector(#selector(UITableViewDelegate.tableView(_:heightForHeaderInSection:)))
-    interceptor.registerInterceptableSelector(#selector(UITableViewDelegate.tableView(_:heightForFooterInSection:)))
-    interceptor.registerInterceptableSelector(#selector(UITableViewDelegate.tableView(_:viewForHeaderInSection:)))
-    interceptor.registerInterceptableSelector(#selector(UITableViewDelegate.tableView(_:viewForFooterInSection:)))
-    interceptor.registerInterceptableSelector(#selector(UITableViewDataSource.tableView(_:cellForRowAtIndexPath:)))
+    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:heightForRowAtIndexPath:)))
+    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:heightForHeaderInSection:)))
+    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:heightForFooterInSection:)))
+    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:viewForHeaderInSection:)))
+    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:viewForFooterInSection:)))
+    delegateProxy.registerInterceptable(#selector(UITableViewDataSource.tableView(_:cellForRowAtIndexPath:)))
 
-    return interceptor
+    return delegateProxy
   }
 }
 
