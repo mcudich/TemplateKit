@@ -95,6 +95,7 @@ class TableViewCell: UITableViewCell {
         view.removeFromSuperview()
       }
       if let node = node {
+        node.sizeToFit(bounds.size)
         contentView.addSubview(node.render())
       }
     }
@@ -277,12 +278,12 @@ public class TableView: UITableView {
 
   private func configureTableDelegate() {
     delegateProxy = configureProxy(tableViewDelegate)
-    super.delegate = delegateProxy as! UITableViewDelegate
+    super.delegate = delegateProxy as? UITableViewDelegate
   }
 
   private func configureTableDataSource() {
     dataSourceProxy = configureProxy(tableViewDataSource)
-    super.dataSource = dataSourceProxy as! UITableViewDataSource
+    super.dataSource = dataSourceProxy as? UITableViewDataSource
   }
 
   private func configureProxy(target: NSObjectProtocol?) -> DelegateProxy {

@@ -1,6 +1,9 @@
 import UIKit
 
 class TextView: UILabel {
+  var calculatedFrame: CGRect?
+  weak var propertyProvider: PropertyProvider?
+
   private lazy var layoutManager: NSLayoutManager = {
     let layoutManager = NSLayoutManager();
     layoutManager.addTextContainer(self.textContainer);
@@ -20,7 +23,9 @@ class TextView: UILabel {
     return textContainer;
   }();
 
-  required init() {}
+  required init() {
+    super.init(frame: CGRectZero)
+  }
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -34,6 +39,7 @@ class TextView: UILabel {
   }
 
   override func sizeThatFits(size: CGSize) -> CGSize {
+    textStorage.setAttributedString(NSAttributedString(string: propertyProvider?.get("text") ?? "asdf"))
     textContainer.size = size;
     layoutManager.ensureLayoutForTextContainer(textContainer)
 
@@ -43,4 +49,15 @@ class TextView: UILabel {
   }
 }
 
-extension TextView: NodeView {}
+extension TextView: View {
+  static var propertyTypes: [String : Validator] {
+    return [
+      "text": Validation.string()
+    ]
+  }
+
+  func render() -> UIView {
+    setNeedsDisplay()
+    return self
+  }
+}
