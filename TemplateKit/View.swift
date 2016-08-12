@@ -10,12 +10,12 @@ import Foundation
 
 public protocol Renderable: class {
   func render() -> UIView
-  func sizeThatFits(size: CGSize) -> CGSize
-  func sizeToFit(size: CGSize)
+  func sizeThatFits(_ size: CGSize) -> CGSize
+  func sizeToFit(_ size: CGSize)
 }
 
 public protocol PropertyProvider: class {
-  func get<T>(key: String) -> T?
+  func get<T>(_ key: String) -> T?
 }
 
 public protocol View: Renderable {
@@ -36,7 +36,7 @@ let defaultPropertyTypes = [
 ]
 
 extension View {
-  public func sizeToFit(size: CGSize) {
+  public func sizeToFit(_ size: CGSize) {
     calculatedFrame?.size = sizeThatFits(size)
   }
 }

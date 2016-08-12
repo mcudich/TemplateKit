@@ -2,7 +2,7 @@ import Foundation
 import AEXML
 
 enum Template {
-  static func process(xml: NSData) -> NodeDefinition? {
+  static func process(xml: Data) -> NodeDefinition? {
     do {
       let document = try AEXMLDocument(xmlData: xml)
       return document.root.definition

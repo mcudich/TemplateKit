@@ -8,11 +8,11 @@ public class NodeRegistry {
     registerDefaultTypes()
   }
 
-  public func registerDefinition(identifier: String, nodeInstanceProvider: NodeInstanceProvider) {
+  public func registerDefinition(withIdentifier identifier: String, nodeInstanceProvider: NodeInstanceProvider) {
     definitions[identifier] = nodeInstanceProvider
   }
 
-  public func nodeWithIdentifier(identifier: String) -> Node {
+  public func node(withIdentifier identifier: String) -> Node {
     guard let nodeInstanceProvider = definitions[identifier] else {
       // TODO(mcudich): Throw an error instead.
       fatalError()
@@ -21,15 +21,15 @@ public class NodeRegistry {
   }
 
   private func registerDefaultTypes() {
-    registerDefinition("Box") {
+    registerDefinition(withIdentifier: "Box") {
       return BoxNode()
     }
 
-    registerDefinition("Text") {
+    registerDefinition(withIdentifier: "Text") {
       return ViewNode<TextView>()
     }
 
-    registerDefinition("Image") {
+    registerDefinition(withIdentifier: "Image") {
       return ViewNode<ImageView>()
     }
   }

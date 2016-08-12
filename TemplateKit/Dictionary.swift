@@ -9,7 +9,7 @@
 import Foundation
 
 extension Dictionary {
-  mutating func merge(dictionary: Dictionary) {
+  mutating func merge(with dictionary: Dictionary) {
     for (key, value) in dictionary {
       self[key] = value
     }

@@ -1,29 +1,29 @@
 import UIKit
 
 public protocol NodeProvider {
-  func nodeWithName(name: String) -> Node?
+  func node(withName name: String) -> Node?
 }
 
 public enum TemplateFetchStrategy {
-  case Local(NSBundle, String?)
-  case Remote(NSURL)
+  case local(Bundle, String?)
+  case remote(URL)
 }
 
 public class TemplateClient {
   let provider: NodeProvider
 
-  public init(fetchStrategy: TemplateFetchStrategy = .Local(NSBundle.mainBundle(), nil)) {
+  public init(fetchStrategy: TemplateFetchStrategy = .local(Bundle.main, nil)) {
     switch fetchStrategy {
-    case .Local(let bundle, let directory):
+    case .local(let bundle, let directory):
       provider = LocalXMLNodeProvider(bundle: bundle, directory: directory)
-    case .Remote:
+    case .remote:
       fatalError("Not implemented yet.")
     }
   }
 }
 
 extension TemplateClient: NodeProvider {
-  public func nodeWithName(name: String) -> Node? {
-    return provider.nodeWithName(name)
+  public func node(withName name: String) -> Node? {
+    return provider.node(withName: name)
   }
 }
