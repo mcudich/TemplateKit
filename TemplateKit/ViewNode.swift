@@ -13,7 +13,6 @@ public class ViewNode<V: View>: Node {
     return V.propertyTypes
   }
 
-  public var id: String?
   public var properties: [String: Any]? {
     didSet {
       invalidate()

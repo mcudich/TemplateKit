@@ -1,7 +1,6 @@
 import UIKit
 
 public protocol Node: Renderable {
-  var id: String? { set get }
   var model: Model? { set get }
   var view: View { set get }
   var properties: [String: Any]? { set get }

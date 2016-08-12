@@ -9,7 +9,6 @@
 import Foundation
 
 public typealias Validator = ([String: String], String) -> Any?
-typealias RequireableValidator = (Bool, [String: String], String) -> Any
 
 enum Validation {
   static func validate(propertyTypes: [String: Validator], properties: [String: String]) -> [String: Any] {
