@@ -15,11 +15,7 @@ class LocalXMLNodeProvider {
   }
 
   private func loadTemplates() {
-    if let urls = bundle.URLsForResourcesWithExtension("xml", subdirectory: directory) {
-      for url in urls {
-        loadTemplate(url)
-      }
-    }
+    bundle.URLsForResourcesWithExtension("xml", subdirectory: directory)?.forEach(loadTemplate)
   }
 
   private func loadTemplate(url: NSURL) {

@@ -31,6 +31,12 @@ enum Validation {
     }
   }
 
+  static func url() -> Validator {
+    return { properties, key in
+      return properties[key]?.url
+    }
+  }
+
   static func flexDirection() -> Validator {
     return { properties, key in
       return properties[key]?.flexDirection
