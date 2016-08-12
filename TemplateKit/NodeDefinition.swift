@@ -4,8 +4,10 @@ struct NodeDefinition {
   let properties: [String: String]
 
   func provideNode() -> Node {
-    let type = NodeRegistry.sharedInstance.typeWithIdentifier(identifier)!
-    let node = type.init(properties: properties)
+    let node = NodeRegistry.sharedInstance.nodeWithIdentifier(identifier)
+    var propertyTypes = defaultPropertyTypes
+    propertyTypes.merge(node.dynamicType.propertyTypes)
+    node.properties = Validation.validate(propertyTypes, properties: properties)
 
     if let containerNode = node as? ContainerNode {
       children.forEach {

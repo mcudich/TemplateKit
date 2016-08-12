@@ -1,7 +1,3 @@
-public protocol ContainerNode {
-  var childNodes: [Node] { get }
-
+public protocol ContainerNode: Node {
   func add(child: Node)
-
-  func contains(child: Node) -> Bool
 }

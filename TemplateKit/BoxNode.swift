@@ -1,55 +1,102 @@
 import UIKit
 import SwiftBox
 
-typealias FlexNode = SwiftBox.Node
+public class BoxNode: ViewNode<BoxView> {
+  private lazy var children = [Node]()
 
-public class BoxNode: Node {
-  private lazy var children = OrderedSet<Node>()
+  override init() {
+    super.init()
+  }
+}
 
-  public override func measure(size: CGSize? = nil) -> CGSize {
-    let layout = flexNode.layout(maxWidth: size?.width)
+extension BoxNode: ContainerNode {
+  public func add(child: Node) {
+    children.append(child)
+
+    guard let boxView = view as? BoxView else { return }
+
+    boxView.add(child.view)
+  }
+}
+
+public class BoxView: View {
+  public static var propertyTypes: [String : Validator] {
+    return [
+      "flexDirection": Validation.flexDirection()
+    ]
+  }
+
+  public weak var propertyProvider: PropertyProvider?
+
+  public var frame: CGRect {
+    let resolve: (CGFloat? -> CGFloat) = { value in
+      if let value = value where !isnan(value) {
+        return value
+      }
+      return FlexNode.Undefined
+    }
+
+    let x: CGFloat? = propertyProvider?.get("x")
+    let y: CGFloat? = propertyProvider?.get("y")
+    let width: CGFloat? = propertyProvider?.get("width")
+    let height: CGFloat? = propertyProvider?.get("height")
+
+    return CGRect(x: resolve(x), y: resolve(y), width: resolve(width), height: resolve(height))
+  }
+
+  public var calculatedFrame: CGRect?
+
+  public var flexDirection: FlexDirection? {
+    return propertyProvider?.get("flexDirection")
+  }
+
+  public var flex: CGFloat? {
+    return propertyProvider?.get("flex")
+  }
+
+  private lazy var renderedView = UIView()
+  private lazy var children = [View]()
+
+  public required init() {}
+
+  func add(view: View) {
+    children.append(view)
+  }
+
+  public func render() -> UIView {
+    // TODO(mcudich): Diff and be smarter about touching the UI tree here.
+    for child in children {
+      let childView = child.render()
+      childView.frame = child.calculatedFrame ?? CGRectZero
+      renderedView.addSubview(childView)
+    }
+
+    return renderedView
+  }
+
+  public func sizeThatFits(size: CGSize) -> CGSize {
+    let layout = flexNode.layout(maxWidth: size.width)
 
     applyLayout(layout)
 
     return layout.frame.size
   }
 
-  public override func render() -> UIView {
-    let renderedView = super.render()
-    for child in childNodes {
-      let childView = child.render()
-      renderedView.addSubview(childView)
-    }
-    return renderedView
-  }
-
   private func applyLayout(layout: Layout) {
-    let children = childNodes
     for (index, layout) in layout.children.enumerate() {
       let child = children[index]
-      child.frame = layout.frame
-      if let child = child as? BoxNode {
+      child.calculatedFrame = layout.frame
+      if let child = child as? BoxView {
         child.applyLayout(layout)
       }
     }
   }
 }
 
-extension BoxNode: ContainerNode {
-  public var childNodes: [Node] {
-    return children.array
-  }
+public enum FlexDirection {
+  case Row
+  case Column
 
-  public func add(child: Node) {
-    children.add(child)
-  }
-
-  public func contains(child: Node) -> Bool {
-    return children.contains(child)
-  }
-}
-
-extension FlexDirection {
   var value: SwiftBox.Direction {
     switch self {
     case .Column:
@@ -60,24 +107,30 @@ extension FlexDirection {
   }
 }
 
-extension Node {
+typealias FlexNode = SwiftBox.Node
+
+extension View {
   var flexSize: CGSize {
-    return CGSize(width: width ?? FlexNode.Undefined, height: height ?? FlexNode.Undefined)
+    return CGSize(width: frame.width ?? FlexNode.Undefined, height: frame.height ?? FlexNode.Undefined)
   }
+}
 
+protocol FlexNodeProvider {
+  var flexNode: FlexNode { get }
+}
+
+extension BoxView: FlexNodeProvider {
   var flexNode: FlexNode {
-    var children = [FlexNode]()
-    if let boxNode = self as? BoxNode {
-      children = boxNode.childNodes.map { $0.flexNode }
-    }
+    let flexNodes = children.map { ($0 as! FlexNodeProvider).flexNode }
+    return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection?.value ?? .Row, margin: Edges(), padding: Edges(), wrap: false, justification: .FlexStart, selfAlignment: .Auto, childAlignment: .Stretch, flex: flex ?? 0)
+  }
+}
 
-    var measureText: (CGFloat -> CGSize)?
-    if let textNode = self as? TextNode {
-      measureText = { width in
-        return textNode.measure(CGSize(width: width, height: CGFloat.max))
-      }
+extension TextView: FlexNodeProvider {
+  var flexNode: FlexNode {
+    let measure = { [weak self] width in
+      return self?.sizeThatFits(CGSize(width: width, height: CGFloat.max)) ?? CGSizeZero
     }
-
-    return FlexNode(size: flexSize, children: children, direction: flexDirection?.value ?? .Row, margin: Edges(), padding: Edges(), wrap: false, justification: .FlexStart, selfAlignment: .Auto, childAlignment: .Stretch, flex: flex ?? 0, measure: measureText)
+    return FlexNode(measure: measure)
   }
 }
