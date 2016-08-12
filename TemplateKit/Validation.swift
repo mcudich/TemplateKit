@@ -27,13 +27,13 @@ enum Validation {
 
   static func float() -> Validator {
     return { properties, key in
-      return properties[key]?.floatValue
+      return properties[key]?.float
     }
   }
 
   static func flexDirection() -> Validator {
     return { properties, key in
-      return FlexDirection.resolve(properties[key]!)
+      return properties[key]?.flexDirection
     }
   }
 }
