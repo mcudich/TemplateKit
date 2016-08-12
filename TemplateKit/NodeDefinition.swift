@@ -4,7 +4,7 @@ struct NodeDefinition {
   let properties: [String: String]
 
   func provideNode() -> Node {
-    let node = NodeRegistry.sharedInstance.nodeWithIdentifier(identifier)
+    let node = NodeRegistry.shared.nodeWithIdentifier(identifier)
     var propertyTypes = defaultPropertyTypes
     propertyTypes.merge(node.dynamicType.propertyTypes)
     node.properties = Validation.validate(propertyTypes, properties: properties)

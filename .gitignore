@@ -17,6 +17,5 @@ DerivedData
 *.ipa
 *.xcuserstate
 *.xcworkspace
-
-# Pods
-Pods/
+Carthage/Checkouts
+Carthage/Build

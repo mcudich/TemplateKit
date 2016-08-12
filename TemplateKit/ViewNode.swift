@@ -30,9 +30,6 @@ public class ViewNode<V: View>: Node {
     return view
   }()
 
-  public init() {
-  }
-
   public func render() -> UIView {
     let frame = view.calculatedFrame ?? CGRectZero
     let renderedView = view.render()
