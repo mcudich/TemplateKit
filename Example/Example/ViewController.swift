@@ -11,11 +11,11 @@ import TemplateKit
 
 class ViewController: UIViewController {
   private lazy var client: TemplateClient = {
-    return TemplateClient(fetchStrategy: .Local(NSBundle.mainBundle(), nil))
+    return TemplateClient(fetchStrategy: .local(Bundle.main, nil))
   }()
 
   private lazy var tableView: TableView = {
-    let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .Plain)
+    let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .plain)
 
     tableView.templateDataSource = self
     tableView.tableViewDataSource = self
@@ -30,19 +30,19 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: NodeProvider {
-  func nodeWithName(name: String) -> Node? {
-    return client.nodeWithName(name)
+  func node(withName name: String) -> Node? {
+    return client.node(withName: name)
   }
 }
 
 extension ViewController: TableViewTemplateDataSource {
-  func tableView(tableView: UITableView, nodeNameForRowAtIndexPath indexPath: NSIndexPath) -> String {
+  func tableView(_ tableView: UITableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String {
     return "Test"
   }
 }
 
 extension ViewController: TableViewDataSource {
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 1
   }
 }

@@ -4,10 +4,10 @@ import AEXML
 class LocalXMLNodeProvider {
   private lazy var definitions = [String: NodeDefinition]()
 
-  private let bundle: NSBundle
+  private let bundle: Bundle
   private let directory: String?
 
-  init(bundle: NSBundle, directory: String?) {
+  init(bundle: Bundle, directory: String?) {
     self.bundle = bundle
     self.directory = directory
 
@@ -15,19 +15,19 @@ class LocalXMLNodeProvider {
   }
 
   private func loadTemplates() {
-    bundle.URLsForResourcesWithExtension("xml", subdirectory: directory)?.forEach(loadTemplate)
+    bundle.urls(forResourcesWithExtension: "xml", subdirectory: directory)?.forEach(loadTemplate)
   }
 
-  private func loadTemplate(url: NSURL) {
-    let name = url.lastPathComponent!.componentsSeparatedByString(".").first!
-    if let xml = NSData(contentsOfURL: url), definition = Template.process(xml) {
+  private func loadTemplate(withURL url: URL) {
+    let name = url.lastPathComponent.components(separatedBy: ".").first!
+    if let xml = try? Data(contentsOf: url), let definition = Template.process(xml: xml) {
       definitions[name] = definition
     }
   }
 }
 
 extension LocalXMLNodeProvider: NodeProvider {
-  func nodeWithName(name: String) -> Node? {
+  func node(withName name: String) -> Node? {
     return definitions[name]?.provideNode()
   }
 }

@@ -31,23 +31,23 @@ public class ViewNode<V: View>: Node {
   }()
 
   public func render() -> UIView {
-    let frame = view.calculatedFrame ?? CGRectZero
+    let frame = view.calculatedFrame ?? CGRect.zero
     let renderedView = view.render()
     renderedView.frame = frame
     return renderedView
   }
 
-  public func sizeThatFits(size: CGSize) -> CGSize {
+  public func sizeThatFits(_ size: CGSize) -> CGSize {
     return view.sizeThatFits(size)
   }
 
-  public func sizeToFit(size: CGSize) {
+  public func sizeToFit(_ size: CGSize) {
     view.sizeToFit(size)
   }
 }
 
 extension ViewNode: PropertyProvider {
-  public func get<T>(key: String) -> T? {
+  public func get<T>(_ key: String) -> T? {
     return properties?[key] as? T
   }
 }

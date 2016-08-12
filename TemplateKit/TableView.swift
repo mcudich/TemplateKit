@@ -6,86 +6,86 @@ public protocol TableViewItemController {
 }
 
 public protocol TableViewTemplateDelegate: class {
-  func tableView(tableView: UITableView, nodeNameForHeaderInSection section: Int) -> String?
-  func tableView(tableView: UITableView, nodeNameForFooterInSection section: Int) -> String?
-  func tableView(tableView: UITableView, modelForHeaderInSection section: Int) -> Model?
-  func tableView(tableView: UITableView, modelForFooterInSection section: Int) -> Model?
-  func tableView(tableView: UITableView, controllerForHeaderInSection section: Int) -> TableViewItemController?
-  func tableView(tableView: UITableView, controllerForFooterInSection section: Int) -> TableViewItemController?
-  func tableView(tableView: UITableView, cacheKeyForHeaderInSection section: Int) -> Int?
-  func tableView(tableView: UITableView, cacheKeyForFooterInSection section: Int) -> Int?
+  func tableView(_ tableView: UITableView, nodeNameForHeaderInSection section: Int) -> String?
+  func tableView(_ tableView: UITableView, nodeNameForFooterInSection section: Int) -> String?
+  func tableView(_ tableView: UITableView, modelForHeaderInSection section: Int) -> Model?
+  func tableView(_ tableView: UITableView, modelForFooterInSection section: Int) -> Model?
+  func tableView(_ tableView: UITableView, controllerForHeaderInSection section: Int) -> TableViewItemController?
+  func tableView(_ tableView: UITableView, controllerForFooterInSection section: Int) -> TableViewItemController?
+  func tableView(_ tableView: UITableView, cacheKeyForHeaderInSection section: Int) -> Int?
+  func tableView(_ tableView: UITableView, cacheKeyForFooterInSection section: Int) -> Int?
 
-  func nodeNameForHeaderInTableView(tableView: UITableView) -> String?
-  func nodeNameForFooterInTableView(tableView: UITableView) -> String?
-  func modelForHeaderInTableView(tableView: UITableView) -> Model?
-  func modelForFooterInTableView(tableView: UITableView) -> Model?
-  func controllerForHeaderInTableView(tableView: UITableView) -> TableViewItemController?
-  func controllerForFooterInTableView(tableView: UITableView) -> TableViewItemController?
+  func nodeNameForHeaderInTableView(_ tableView: UITableView) -> String?
+  func nodeNameForFooterInTableView(_ tableView: UITableView) -> String?
+  func modelForHeaderInTableView(_ tableView: UITableView) -> Model?
+  func modelForFooterInTableView(_ tableView: UITableView) -> Model?
+  func controllerForHeaderInTableView(_ tableView: UITableView) -> TableViewItemController?
+  func controllerForFooterInTableView(_ tableView: UITableView) -> TableViewItemController?
 }
 
 public protocol TableViewTemplateDataSource: class {
-  func tableView(tableView: UITableView, nodeNameForRowAtIndexPath indexPath: NSIndexPath) -> String
-  func tableView(tableView: UITableView, modelForRowAtIndexPath indexPath: NSIndexPath) -> Model?
-  func tableView(tableView: UITableView, controllerForRowAtIndexPath indexPath: NSIndexPath) -> TableViewItemController?
+  func tableView(_ tableView: UITableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String
+  func tableView(_ tableView: UITableView, modelForRowAtIndexPath indexPath: IndexPath) -> Model?
+  func tableView(_ tableView: UITableView, controllerForRowAtIndexPath indexPath: IndexPath) -> TableViewItemController?
   // Provide a hash value for the given row to enable component and controller caching.
-  func tableView(tableView: UITableView, cacheKeyForRowAtIndexPath indexPath: NSIndexPath) -> Int?
+  func tableView(_ tableView: UITableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int?
 }
 
 extension TableViewTemplateDataSource {
-  public func tableView(tableView: UITableView, modelForRowAtIndexPath indexPath: NSIndexPath) -> Model? {
+  public func tableView(_ tableView: UITableView, modelForRowAtIndexPath indexPath: IndexPath) -> Model? {
     return nil
   }
 
-  public func tableView(tableView: UITableView, controllerForRowAtIndexPath indexPath: NSIndexPath) -> TableViewItemController? {
+  public func tableView(_ tableView: UITableView, controllerForRowAtIndexPath indexPath: IndexPath) -> TableViewItemController? {
     return nil
   }
 
-  public func tableView(tableView: UITableView, cacheKeyForRowAtIndexPath indexPath: NSIndexPath) -> Int? {
-    return NSIndexPath(forRow: indexPath.row, inSection: indexPath.section).hashValue
+  public func tableView(_ tableView: UITableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int? {
+    return IndexPath(row: (indexPath as NSIndexPath).row, section: (indexPath as NSIndexPath).section).hashValue
   }
 }
 
 // This is a sub-set of UITableViewDelegate.
 @objc public protocol TableViewDelegate: UIScrollViewDelegate {
-  optional func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
-  optional func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int)
-  optional func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int)
-  optional func tableView(tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int)
-  optional func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool
-  optional func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
-  optional func tableView(tableView: UITableView, willDeselectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
-  optional func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle
-  optional func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String?
-  optional func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?
-  optional func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool
-  optional func tableView(tableView: UITableView, willBeginEditingRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, didEndEditingRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath
-  optional func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int
-  optional func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool
-  optional func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool
-  optional func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?)
+  @objc optional func tableView(_ tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+  @objc optional func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int)
+  @objc optional func tableView(_ tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int)
+  @objc optional func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int)
+  @objc optional func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: IndexPath) -> Bool
+  @objc optional func tableView(_ tableView: UITableView, didHighlightRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, willSelectRowAtIndexPath indexPath: IndexPath) -> IndexPath?
+  @objc optional func tableView(_ tableView: UITableView, willDeselectRowAtIndexPath indexPath: IndexPath) -> IndexPath?
+  @objc optional func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, didDeselectRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, editingStyleForRowAtIndexPath indexPath: IndexPath) -> UITableViewCellEditingStyle
+  @objc optional func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: IndexPath) -> String?
+  @objc optional func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [UITableViewRowAction]?
+  @objc optional func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: IndexPath) -> Bool
+  @objc optional func tableView(_ tableView: UITableView, willBeginEditingRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, didEndEditingRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath
+  @objc optional func tableView(_ tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: IndexPath) -> Int
+  @objc optional func tableView(_ tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: IndexPath) -> Bool
+  @objc optional func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: IndexPath, withSender sender: AnyObject?) -> Bool
+  @objc optional func tableView(_ tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: IndexPath, withSender sender: AnyObject?)
 }
 
 // This is a sub-set of UITableViewDataSource.
 @objc public protocol TableViewDataSource: NSObjectProtocol {
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-  optional func numberOfSectionsInTableView(tableView: UITableView) -> Int
-  optional func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
-  optional func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String?
-  optional func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
-  optional func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
-  optional func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]?
-  optional func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int
-  optional func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
-  optional func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+  @objc optional func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
+  @objc optional func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+  @objc optional func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String?
+  @objc optional func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool
+  @objc optional func tableView(_ tableView: UITableView, canMoveRowAtIndexPath indexPath: IndexPath) -> Bool
+  @objc optional func sectionIndexTitlesForTableView(_ tableView: UITableView) -> [String]?
+  @objc optional func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int
+  @objc optional func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath)
+  @objc optional func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath)
 }
 
 class TableViewCell: UITableViewCell {
@@ -117,18 +117,24 @@ public class TableView: UITableView {
     }
   }
 
-  override weak public var delegate: UITableViewDelegate? {
+  public override weak var delegate: UITableViewDelegate? {
     set {
-      fatalError("TableView requires a tableViewDelegate instead.")
+      if newValue != nil && newValue !== delegateProxy {
+        fatalError("delegate is not available. Use tableViewDelegate instead.")
+      }
+      super.delegate = newValue
     }
     get {
       return super.delegate
     }
   }
 
-  override weak public var dataSource: UITableViewDataSource? {
+  public override weak var dataSource: UITableViewDataSource? {
     set {
-      fatalError("TableView requires a tableViewDataSource instead.")
+      if newValue != nil && newValue !== dataSourceProxy {
+        fatalError("dataSource is not available. Use tableViewDatasource instead.")
+      }
+      super.dataSource = newValue
     }
     get {
       return super.dataSource
@@ -139,8 +145,8 @@ public class TableView: UITableView {
   private let nodeProvider: NodeProvider
   private var cachedHeaderNode: Node?
   private var cachedFooterNode: Node?
-  private var delegateProxy: DelegateProxy?
-  private var dataSourceProxy: DelegateProxy?
+  private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
+  private var dataSourceProxy: (DelegateProxyProtocol & UITableViewDataSource)?
   private lazy var rowNodeCache = [Int: Node]()
   private lazy var rowControllerCache = [Int: TableViewItemController]()
   private lazy var headerNodeCache = [Int: Node]()
@@ -156,7 +162,7 @@ public class TableView: UITableView {
     configureTableDelegate()
     configureTableDataSource()
 
-    registerClass(TableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+    register(TableViewCell.self, forCellReuseIdentifier: cellIdentifier)
   }
 
   public required init?(coder aDecoder: NSCoder) {
@@ -170,7 +176,7 @@ public class TableView: UITableView {
     let header = headerNode()
     let footer = footerNode()
 
-    header?.sizeToFit(CGSize(width: bounds.width, height: CGFloat.max))
+    header?.sizeToFit(CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude))
     tableHeaderView = header?.render()
     tableFooterView = footer?.render()
   }
@@ -180,7 +186,7 @@ public class TableView: UITableView {
       return nil
     }
 
-    let node = cachedHeaderNode ?? nodeProvider.nodeWithName(nodeName)
+    let node = cachedHeaderNode ?? nodeProvider.node(withName: nodeName)
     var controller = templateDelegate?.controllerForHeaderInTableView(self)
     controller?.node = node
     node?.model = templateDelegate?.modelForHeaderInTableView(self)
@@ -194,7 +200,7 @@ public class TableView: UITableView {
       return nil
     }
 
-    let node = cachedFooterNode ?? nodeProvider.nodeWithName(nodeName)
+    let node = cachedFooterNode ?? nodeProvider.node(withName: nodeName)
     var controller = templateDelegate?.controllerForFooterInTableView(self)
     controller?.node = node
     node?.model = templateDelegate?.modelForFooterInTableView(self)
@@ -203,18 +209,18 @@ public class TableView: UITableView {
     return node
   }
 
-  private func nodeWithIndexPath(indexPath: NSIndexPath) -> Node? {
+  private func node(withIndexPath indexPath: IndexPath) -> Node? {
     guard let templateDataSource = templateDataSource else {
       return nil
     }
 
     let cacheKey = templateDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-    if let cacheKey = cacheKey, component = rowNodeCache[cacheKey] {
+    if let cacheKey = cacheKey, let component = rowNodeCache[cacheKey] {
       return component
     }
 
     let nodeName = templateDataSource.tableView(self, nodeNameForRowAtIndexPath: indexPath)
-    let node = nodeProvider.nodeWithName(nodeName)
+    let node = nodeProvider.node(withName: nodeName)
     var controller = templateDataSource.tableView(self, controllerForRowAtIndexPath: indexPath)
     controller?.node = node
     node?.model = templateDataSource.tableView(self, modelForRowAtIndexPath: indexPath)
@@ -226,20 +232,20 @@ public class TableView: UITableView {
     return node
   }
 
-  private func headerNodeWithSection(section: Int) -> Node? {
+  private func headerNode(withSection section: Int) -> Node? {
     guard let templateDelegate = templateDelegate else {
       return nil
     }
 
     let cacheKey = templateDelegate.tableView(self, cacheKeyForHeaderInSection: section)
-    if let cacheKey = cacheKey, node = headerNodeCache[cacheKey] {
+    if let cacheKey = cacheKey, let node = headerNodeCache[cacheKey] {
       return node
     }
 
     guard let nodeName = templateDelegate.tableView(self, nodeNameForHeaderInSection: section) else {
       return nil
     }
-    let node = nodeProvider.nodeWithName(nodeName)
+    let node = nodeProvider.node(withName: nodeName)
     var controller = templateDelegate.tableView(self, controllerForHeaderInSection: section)
     controller?.node = node
     node?.model = templateDelegate.tableView(self, modelForHeaderInSection: section)
@@ -251,20 +257,20 @@ public class TableView: UITableView {
     return node
   }
 
-  private func footerNodeWithSection(section: Int) -> Node? {
+  private func footerNodeWithSection(_ section: Int) -> Node? {
     guard let templateDelegate = templateDelegate else {
       return nil
     }
 
     let cacheKey = templateDelegate.tableView(self, cacheKeyForFooterInSection: section)
-    if let cacheKey = cacheKey, node = footerNodeCache[cacheKey] {
+    if let cacheKey = cacheKey, let node = footerNodeCache[cacheKey] {
       return node
     }
 
     guard let nodeName = templateDelegate.tableView(self, nodeNameForFooterInSection: section) else {
       return nil
     }
-    let node = nodeProvider.nodeWithName(nodeName)
+    let node = nodeProvider.node(withName: nodeName)
     var controller = templateDelegate.tableView(self, controllerForFooterInSection: section)
     controller?.node = node
     node?.model = templateDelegate.tableView(self, modelForFooterInSection: section)
@@ -277,59 +283,59 @@ public class TableView: UITableView {
   }
 
   private func configureTableDelegate() {
-    delegateProxy = configureProxy(tableViewDelegate)
-    super.delegate = delegateProxy as? UITableViewDelegate
+    delegateProxy = configureProxy(withTarget: tableViewDelegate) as? DelegateProxyProtocol & UITableViewDelegate
+    delegate = delegateProxy
   }
 
   private func configureTableDataSource() {
-    dataSourceProxy = configureProxy(tableViewDataSource)
-    super.dataSource = dataSourceProxy as? UITableViewDataSource
+    dataSourceProxy = configureProxy(withTarget: tableViewDataSource) as? DelegateProxyProtocol & UITableViewDataSource
+    dataSource = dataSourceProxy
   }
 
-  private func configureProxy(target: NSObjectProtocol?) -> DelegateProxy {
+  private func configureProxy(withTarget target: NSObjectProtocol?) -> DelegateProxyProtocol {
     let delegateProxy = DelegateProxy(target: target, interceptor: self)
 
-    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:heightForRowAtIndexPath:)))
-    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:heightForHeaderInSection:)))
-    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:heightForFooterInSection:)))
-    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:viewForHeaderInSection:)))
-    delegateProxy.registerInterceptable(#selector(UITableViewDelegate.tableView(_:viewForFooterInSection:)))
-    delegateProxy.registerInterceptable(#selector(UITableViewDataSource.tableView(_:cellForRowAtIndexPath:)))
+    delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:heightForRowAt:)))
+    delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:heightForHeaderInSection:)))
+    delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:heightForFooterInSection:)))
+    delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:viewForHeaderInSection:)))
+    delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:viewForFooterInSection:)))
+    delegateProxy.registerInterceptable(selector: #selector(UITableViewDataSource.tableView(_:cellForRowAt:)))
 
     return delegateProxy
   }
 }
 
 extension TableView {
-  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return heightForNode(nodeWithIndexPath(indexPath))
+  func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+    return heightForNode(node(withIndexPath: indexPath))
   }
 
-  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return heightForNode(headerNodeWithSection(section))
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return heightForNode(headerNode(withSection: section))
   }
 
-  func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
     return heightForNode(footerNodeWithSection(section))
   }
 
-  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    return headerNodeWithSection(section)?.render()
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    return headerNode(withSection: section)?.render()
   }
 
-  func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     return footerNodeWithSection(section)?.render()
   }
 
-  func heightForNode(node: Node?) -> CGFloat {
-    return node?.sizeThatFits(CGSize(width: bounds.width, height: CGFloat.max)).height ?? 0
+  func heightForNode(_ node: Node?) -> CGFloat {
+    return node?.sizeThatFits(CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)).height ?? 0
   }
 }
 
 extension TableView {
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TableViewCell
-    if let node = nodeWithIndexPath(indexPath) {
+  func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+    let cell = dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! TableViewCell
+    if let node = node(withIndexPath: indexPath) {
       cell.node = node
     }
     return cell

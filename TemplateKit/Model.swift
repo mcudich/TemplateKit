@@ -1,15 +1,15 @@
 import UIKit
 
 public protocol Model {
-  func valueForKey(key: String) -> Any?
+  func value(forKey key: String) -> Any?
 }
 
 public extension Model {
-  func valueForKey(key: String) -> Any? {
+  func value(forKey key: String) -> Any? {
     let mirror = Mirror(reflecting: self);
     for child in mirror.children {
       if child.label == key {
-        let value = unwrapAny(child.value);
+        let value = unwrapAny(val: child.value);
         // CGFloats will be treated as either Float or Double by the reflection API.
         if let floatValue = value as? Float {
           return CGFloat(floatValue);
@@ -25,7 +25,7 @@ public extension Model {
 
   private func unwrapAny(val: Any) -> Any {
     let mirror = Mirror(reflecting: val);
-    if mirror.displayStyle == .Optional {
+    if mirror.displayStyle == .optional {
       for child in mirror.children {
         if child.label == "Some" {
           return child.value;

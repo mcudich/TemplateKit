@@ -16,13 +16,13 @@ extension Node {
     }
   }
 
-  func resolve(value: Any) -> Any? {
-    guard let expression = value as? String where expression.hasPrefix("$") else {
+  func resolve(_ value: Any) -> Any? {
+    guard let expression = value as? String, expression.hasPrefix("$") else {
       return value
     }
 
-    let startIndex = expression.startIndex.advancedBy(1);
-    let key = expression.substringFromIndex(startIndex);
-    return model?.valueForKey(key)
+    let startIndex = expression.characters.index(expression.startIndex, offsetBy: 1);
+    let key = expression.substring(from: startIndex);
+    return model?.value(forKey: key)
   }
 }

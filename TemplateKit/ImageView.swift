@@ -12,12 +12,12 @@ class ImageView: UIImageView {
   var calculatedFrame: CGRect?
   weak var propertyProvider: PropertyProvider?
 
-  var url: NSURL? {
+  var url: URL? {
     return propertyProvider?.get("url")
   }
 
   required init() {
-    super.init(frame: CGRectZero)
+    super.init(frame: CGRect.zero)
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -27,7 +27,7 @@ class ImageView: UIImageView {
   private func load() {
     guard let url = url else { return }
 
-    ImageService.shared.loadImageWithURL(url) { [weak self] image in
+    ImageService.shared.loadImage(withURL: url) { [weak self] image in
       self?.image = image
     }
   }

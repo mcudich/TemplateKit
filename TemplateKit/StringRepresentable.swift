@@ -2,28 +2,28 @@ import UIKit
 
 extension String {
   var int: Int? {
-    let formatter = NSNumberFormatter()
-    return formatter.numberFromString(self)?.integerValue
+    let formatter = NumberFormatter()
+    return formatter.number(from: self)?.intValue
   }
 
   var float: CGFloat? {
-    let formatter = NSNumberFormatter()
-    if let float = formatter.numberFromString(self)?.floatValue {
+    let formatter = NumberFormatter()
+    if let float = formatter.number(from: self)?.floatValue {
       return CGFloat(float)
     }
     return nil
   }
 
-  var url: NSURL? {
-    return NSURL(string: self)
+  var url: URL? {
+    return URL(string: self)
   }
 
   var flexDirection: FlexDirection? {
     switch self {
     case "row":
-      return .Row
+      return .row
     case "column":
-      return .Column
+      return .column
     default:
       return nil
     }

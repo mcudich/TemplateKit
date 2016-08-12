@@ -15,7 +15,7 @@ extension BoxNode: ContainerNode {
 
     guard let boxView = view as? BoxView else { return }
 
-    boxView.add(child.view)
+    boxView.add(view: child.view)
   }
 }
 
@@ -51,42 +51,42 @@ public class BoxView: View {
     // TODO(mcudich): Diff and be smarter about touching the UI tree here.
     for child in children {
       let childView = child.render()
-      childView.frame = child.calculatedFrame ?? CGRectZero
+      childView.frame = child.calculatedFrame ?? CGRect.zero
       renderedView.addSubview(childView)
     }
 
     return renderedView
   }
 
-  public func sizeThatFits(size: CGSize) -> CGSize {
-    let layout = flexNode.layout(maxWidth: size.width)
+  public func sizeThatFits(_ size: CGSize) -> CGSize {
+    let layout = flexNode.layout(withMaxWidth: size.width)
 
-    applyLayout(layout)
+    apply(layout: layout)
 
     return layout.frame.size
   }
 
-  private func applyLayout(layout: Layout) {
-    for (index, layout) in layout.children.enumerate() {
+  private func apply(layout: Layout) {
+    for (index, layout) in layout.children.enumerated() {
       let child = children[index]
       child.calculatedFrame = layout.frame
       if let child = child as? BoxView {
-        child.applyLayout(layout)
+        child.apply(layout: layout)
       }
     }
   }
 }
 
 public enum FlexDirection {
-  case Row
-  case Column
+  case row
+  case column
 
   var value: SwiftBox.Direction {
     switch self {
-    case .Column:
-      return SwiftBox.Direction.Column
-    case .Row:
-      return SwiftBox.Direction.Row
+    case .column:
+      return SwiftBox.Direction.column
+    case .row:
+      return SwiftBox.Direction.row
     }
   }
 }
@@ -95,15 +95,15 @@ typealias FlexNode = SwiftBox.Node
 
 extension View {
   var flexSize: CGSize {
-    let resolve: (CGFloat? -> CGFloat) = { value in
-      if let value = value where !isnan(value) {
+    let resolve: ((CGFloat?) -> CGFloat) = { value in
+      if let value = value, !value.isNaN {
         return value
       }
       return FlexNode.Undefined
     }
 
-    let width: CGFloat? = propertyProvider?.get("width")
-    let height: CGFloat? = propertyProvider?.get("height")
+    let width: CGFloat? = resolve(propertyProvider?.get("width"))
+    let height: CGFloat? = resolve(propertyProvider?.get("height"))
 
     return CGSize(width: width ?? FlexNode.Undefined, height: height ?? FlexNode.Undefined)
   }
@@ -122,15 +122,15 @@ extension BoxView: FlexNodeProvider {
 
       return flexNodeProvider.flexNode
     }
-    return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection?.value ?? .Row, margin: Edges(), padding: Edges(), wrap: false, justification: .FlexStart, selfAlignment: .Auto, childAlignment: .Stretch, flex: flex ?? 0)
+    return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection?.value ?? .row, margin: Edges(), padding: Edges(), wrap: false, justification: .flexStart, selfAlignment: .auto, childAlignment: .stretch, flex: flex ?? 0)
   }
 }
 
 extension TextView: FlexNodeProvider {
   var flexNode: FlexNode {
-    let measure: (CGFloat -> CGSize) = { [weak self] width in
-      let effectiveWidth = isnan(width) ? CGFloat.max : width
-      return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.max)) ?? CGSizeZero
+    let measure: ((CGFloat) -> CGSize) = { [weak self] width in
+      let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
+      return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
     }
     return FlexNode(measure: measure)
   }

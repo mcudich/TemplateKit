@@ -24,26 +24,26 @@ class TextView: UILabel {
   }();
 
   required init() {
-    super.init(frame: CGRectZero)
+    super.init(frame: CGRect.zero)
   }
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override func drawTextInRect(rect: CGRect) {
-    let glyphRange = layoutManager.glyphRangeForTextContainer(textContainer);
+  override func drawText(in rect: CGRect) {
+    let glyphRange = layoutManager.glyphRange(for: textContainer);
 
-    layoutManager.drawBackgroundForGlyphRange(glyphRange, atPoint: CGPointZero);
-    layoutManager.drawGlyphsForGlyphRange(glyphRange, atPoint: CGPointZero);
+    layoutManager.drawBackground(forGlyphRange: glyphRange, at: CGPoint.zero);
+    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: CGPoint.zero);
   }
 
-  override func sizeThatFits(size: CGSize) -> CGSize {
+  override func sizeThatFits(_ size: CGSize) -> CGSize {
     textStorage.setAttributedString(NSAttributedString(string: propertyProvider?.get("text") ?? "asdf"))
     textContainer.size = size;
-    layoutManager.ensureLayoutForTextContainer(textContainer)
+    layoutManager.ensureLayout(for: textContainer)
 
-    let measuredSize = layoutManager.usedRectForTextContainer(textContainer).size
+    let measuredSize = layoutManager.usedRect(for: textContainer).size
 
     return CGSize(width: ceil(measuredSize.width), height: ceil(measuredSize.height))
   }
