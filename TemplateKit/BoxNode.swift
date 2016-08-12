@@ -2,6 +2,8 @@ import UIKit
 import SwiftBox
 
 public class BoxNode: ViewNode<BoxView> {
+  private lazy var children = [Node]()
+
   override init() {
     super.init()
   }
@@ -9,6 +11,8 @@ public class BoxNode: ViewNode<BoxView> {
 
 extension BoxNode: ContainerNode {
   public func add(child: Node) {
+    children.append(child)
+
     guard let boxView = view as? BoxView else { return }
 
     boxView.add(child.view)
