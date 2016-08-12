@@ -11,6 +11,9 @@
 		D8811CC91D5BE91E0098624B /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CC81D5BE91E0098624B /* View.swift */; };
 		D8811CCD1D5C118D0098624B /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CCC1D5C118D0098624B /* Validation.swift */; };
 		D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CCE1D5C2A8D0098624B /* Dictionary.swift */; };
+		D8811CD11D5D815C0098624B /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CD01D5D815C0098624B /* ImageView.swift */; };
+		D8811CD31D5D84260098624B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CD21D5D84260098624B /* ImageService.swift */; };
+		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
 		D891941E1D57F1FB0049991F /* TemplateKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891941D1D57F1FB0049991F /* TemplateKitTests.swift */; };
@@ -50,6 +53,9 @@
 		D8811CC81D5BE91E0098624B /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		D8811CCC1D5C118D0098624B /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		D8811CCE1D5C2A8D0098624B /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		D8811CD01D5D815C0098624B /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		D8811CD21D5D84260098624B /* ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		D8811CD41D5D85540098624B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194111D57F1FB0049991F /* TemplateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemplateKit.h; sourceTree = "<group>"; };
 		D89194131D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */,
 				D891944A1D57F6910049991F /* SwiftBox.framework in Frameworks */,
 				D891944C1D57F7280049991F /* AEXML.framework in Frameworks */,
 			);
@@ -101,6 +108,7 @@
 		D89194041D57F1FB0049991F = {
 			isa = PBXGroup;
 			children = (
+				D8811CD41D5D85540098624B /* Alamofire.framework */,
 				D891944B1D57F7280049991F /* AEXML.framework */,
 				D89194491D57F6910049991F /* SwiftBox.framework */,
 				D89194101D57F1FB0049991F /* TemplateKit */,
@@ -140,6 +148,8 @@
 				D8811CC81D5BE91E0098624B /* View.swift */,
 				D8811CCC1D5C118D0098624B /* Validation.swift */,
 				D8811CCE1D5C2A8D0098624B /* Dictionary.swift */,
+				D8811CD01D5D815C0098624B /* ImageView.swift */,
+				D8811CD21D5D84260098624B /* ImageService.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -280,6 +290,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/AEXML.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftBox.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 			);
 			outputPaths = (
 			);
@@ -299,7 +310,9 @@
 				D8811CC71D5BE8FF0098624B /* ViewNode.swift in Sources */,
 				D891943E1D57F2450049991F /* TemplateClient.swift in Sources */,
 				D89194341D57F2450049991F /* BoxNode.swift in Sources */,
+				D8811CD31D5D84260098624B /* ImageService.swift in Sources */,
 				D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */,
+				D8811CD11D5D815C0098624B /* ImageView.swift in Sources */,
 				D89194381D57F2450049991F /* Node.swift in Sources */,
 				D89194361D57F2450049991F /* LocalXMLNodeProvider.swift in Sources */,
 				D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */,

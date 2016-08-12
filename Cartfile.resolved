@@ -1,2 +1,3 @@
 github "tadija/AEXML" "3.0.0"
+github "Alamofire/Alamofire" "3.4.1"
 github "joshaber/SwiftBox" "6221b0eebca6f476121c24ead3664715fce7d840"
