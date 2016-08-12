@@ -117,31 +117,36 @@ public class TableView: UITableView {
     }
   }
 
-//  TODO(mcudich): Remove this when working in iOS 10.
-//  override weak public var delegate: UITableViewDelegate? {
-//    set {
-//      fatalError("TableView requires a tableViewDelegate instead.")
-//    }
-//    get {
-//      return super.delegate
-//    }
-//  }
-//
-//  override weak public var dataSource: UITableViewDataSource? {
-//    set {
-//      fatalError("TableView requires a tableViewDataSource instead.")
-//    }
-//    get {
-//      return super.dataSource
-//    }
-//  }
+  public override weak var delegate: UITableViewDelegate? {
+    set {
+      if newValue != nil && newValue !== delegateProxy {
+        fatalError("delegate is not available. Use tableViewDelegate instead.")
+      }
+      super.delegate = newValue
+    }
+    get {
+      return super.delegate
+    }
+  }
+
+  public override weak var dataSource: UITableViewDataSource? {
+    set {
+      if newValue != nil && newValue !== dataSourceProxy {
+        fatalError("dataSource is not available. Use tableViewDatasource instead.")
+      }
+      super.dataSource = newValue
+    }
+    get {
+      return super.dataSource
+    }
+  }
 
   private let cellIdentifier = "TableViewCell"
   private let nodeProvider: NodeProvider
   private var cachedHeaderNode: Node?
   private var cachedFooterNode: Node?
-  private var delegateProxy: DelegateProxy?
-  private var dataSourceProxy: DelegateProxy?
+  private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
+  private var dataSourceProxy: (DelegateProxyProtocol & UITableViewDataSource)?
   private lazy var rowNodeCache = [Int: Node]()
   private lazy var rowControllerCache = [Int: TableViewItemController]()
   private lazy var headerNodeCache = [Int: Node]()
@@ -278,16 +283,16 @@ public class TableView: UITableView {
   }
 
   private func configureTableDelegate() {
-    delegateProxy = configureProxy(withTarget: tableViewDelegate)
-    super.delegate = delegateProxy as? UITableViewDelegate
+    delegateProxy = configureProxy(withTarget: tableViewDelegate) as? DelegateProxyProtocol & UITableViewDelegate
+    delegate = delegateProxy
   }
 
   private func configureTableDataSource() {
-    dataSourceProxy = configureProxy(withTarget: tableViewDataSource)
-    super.dataSource = dataSourceProxy as? UITableViewDataSource
+    dataSourceProxy = configureProxy(withTarget: tableViewDataSource) as? DelegateProxyProtocol & UITableViewDataSource
+    dataSource = dataSourceProxy
   }
 
-  private func configureProxy(withTarget target: NSObjectProtocol?) -> DelegateProxy {
+  private func configureProxy(withTarget target: NSObjectProtocol?) -> DelegateProxyProtocol {
     let delegateProxy = DelegateProxy(target: target, interceptor: self)
 
     delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:heightForRowAt:)))

@@ -96,7 +96,7 @@ typealias FlexNode = SwiftBox.Node
 extension View {
   var flexSize: CGSize {
     let resolve: ((CGFloat?) -> CGFloat) = { value in
-      if let value = value where !value.isNaN {
+      if let value = value, !value.isNaN {
         return value
       }
       return FlexNode.Undefined

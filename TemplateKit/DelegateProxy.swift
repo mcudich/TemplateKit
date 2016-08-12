@@ -8,12 +8,17 @@
 
 import Foundation
 
-class DelegateProxy: NSObject {
+protocol DelegateProxyProtocol {
+  init(target: NSObjectProtocol?, interceptor: NSObjectProtocol?)
+  func registerInterceptable(selector: Selector)
+}
+
+class DelegateProxy: NSObject, DelegateProxyProtocol {
   private let target: NSObjectProtocol?
   private let interceptor: NSObjectProtocol?
   private lazy var selectors = Set<Selector>()
 
-  init(target: NSObjectProtocol?, interceptor: NSObjectProtocol?) {
+  required init(target: NSObjectProtocol?, interceptor: NSObjectProtocol?) {
     self.target = target
     self.interceptor = interceptor
   }

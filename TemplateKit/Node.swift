@@ -17,7 +17,7 @@ extension Node {
   }
 
   func resolve(_ value: Any) -> Any? {
-    guard let expression = value as? String where expression.hasPrefix("$") else {
+    guard let expression = value as? String, expression.hasPrefix("$") else {
       return value
     }
 
