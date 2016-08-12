@@ -14,6 +14,10 @@ extension String {
     return nil
   }
 
+  var url: NSURL? {
+    return NSURL(string: self)
+  }
+
   var flexDirection: FlexDirection? {
     switch self {
     case "row":
