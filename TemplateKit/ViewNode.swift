@@ -9,20 +9,12 @@
 import Foundation
 
 public class ViewNode<V: View>: Node {
-  public static var propertyTypes: [String : Validator] {
+  public static var propertyTypes: [String : ValidationType] {
     return V.propertyTypes
   }
 
-  public var properties: [String: Any]? {
-    didSet {
-      invalidate()
-    }
-  }
-  public var model: Model? {
-    didSet {
-      invalidate()
-    }
-  }
+  public var properties: [String: Any]?
+  public var model: Model?
 
   public lazy var view: View = {
     var view = V()
@@ -43,11 +35,5 @@ public class ViewNode<V: View>: Node {
 
   public func sizeToFit(_ size: CGSize) {
     view.sizeToFit(size)
-  }
-}
-
-extension ViewNode: PropertyProvider {
-  public func get<T>(_ key: String) -> T? {
-    return properties?[key] as? T
   }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8409BF01D626BA600874201 /* SwiftBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194491D57F6910049991F /* SwiftBox.framework */; };
 		D8811CC71D5BE8FF0098624B /* ViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CC61D5BE8FF0098624B /* ViewNode.swift */; };
 		D8811CC91D5BE91E0098624B /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CC81D5BE91E0098624B /* View.swift */; };
 		D8811CCD1D5C118D0098624B /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CCC1D5C118D0098624B /* Validation.swift */; };
@@ -16,7 +17,6 @@
 		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
-		D891941E1D57F1FB0049991F /* TemplateKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891941D1D57F1FB0049991F /* TemplateKitTests.swift */; };
 		D89194341D57F2450049991F /* BoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194281D57F2450049991F /* BoxNode.swift */; };
 		D89194351D57F2450049991F /* ContainerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194291D57F2450049991F /* ContainerNode.swift */; };
 		D89194361D57F2450049991F /* LocalXMLNodeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891942A1D57F2450049991F /* LocalXMLNodeProvider.swift */; };
@@ -60,7 +60,6 @@
 		D89194111D57F1FB0049991F /* TemplateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemplateKit.h; sourceTree = "<group>"; };
 		D89194131D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D89194181D57F1FB0049991F /* TemplateKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TemplateKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D891941D1D57F1FB0049991F /* TemplateKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateKitTests.swift; sourceTree = "<group>"; };
 		D891941F1D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D89194281D57F2450049991F /* BoxNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxNode.swift; sourceTree = "<group>"; };
 		D89194291D57F2450049991F /* ContainerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNode.swift; sourceTree = "<group>"; };
@@ -98,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8409BF01D626BA600874201 /* SwiftBox.framework in Frameworks */,
 				D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,7 +160,6 @@
 				D89194401D57F24F0049991F /* BoxNodeTests.swift */,
 				D89194411D57F24F0049991F /* NodeTests.swift */,
 				D89194421D57F24F0049991F /* Resources */,
-				D891941D1D57F1FB0049991F /* TemplateKitTests.swift */,
 				D891941F1D57F1FB0049991F /* Info.plist */,
 			);
 			path = TemplateKitTests;
@@ -215,6 +214,7 @@
 				D89194141D57F1FB0049991F /* Sources */,
 				D89194151D57F1FB0049991F /* Frameworks */,
 				D89194161D57F1FB0049991F /* Resources */,
+				D8409BF11D626BC500874201 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -242,6 +242,7 @@
 					};
 					D89194171D57F1FB0049991F = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -283,6 +284,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		D8409BF11D626BC500874201 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftBox.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		D891944D1D57F89E0049991F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -332,7 +347,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D891941E1D57F1FB0049991F /* TemplateKitTests.swift in Sources */,
 				D89194461D57F24F0049991F /* NodeTests.swift in Sources */,
 				D89194451D57F24F0049991F /* BoxNodeTests.swift in Sources */,
 			);
@@ -499,21 +513,31 @@
 		D89194261D57F1FB0049991F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TemplateKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		D89194271D57F1FB0049991F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TemplateKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

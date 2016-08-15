@@ -50,9 +50,9 @@ class TextView: UILabel {
 }
 
 extension TextView: View {
-  static var propertyTypes: [String : Validator] {
+  static var propertyTypes: [String: ValidationType] {
     return [
-      "text": Validation.string()
+      "text": Validation.string
     ]
   }
 
