@@ -34,9 +34,9 @@ class ImageView: UIImageView {
 }
 
 extension ImageView: View {
-  static var propertyTypes: [String : Validator] {
+  static var propertyTypes: [String : ValidationType] {
     return [
-      "url": Validation.url()
+      "url": Validation.url
     ]
   }
 

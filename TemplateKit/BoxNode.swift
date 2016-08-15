@@ -2,7 +2,7 @@ import UIKit
 import SwiftBox
 
 public class BoxNode: ViewNode<BoxView> {
-  private lazy var children = [Node]()
+  public lazy var children = [Node]()
 
   override init() {
     super.init()
@@ -17,12 +17,16 @@ extension BoxNode: ContainerNode {
 
     boxView.add(view: child.view)
   }
+
+  public func contains(child: Node) -> Bool {
+    return children.contains { $0 === child }
+  }
 }
 
 public class BoxView: View {
-  public static var propertyTypes: [String : Validator] {
+  public static var propertyTypes: [String: ValidationType] {
     return [
-      "flexDirection": Validation.flexDirection()
+      "flexDirection": Validation.flexDirection
     ]
   }
 
@@ -32,10 +36,6 @@ public class BoxView: View {
 
   public var flexDirection: FlexDirection? {
     return propertyProvider?.get("flexDirection")
-  }
-
-  public var flex: CGFloat? {
-    return propertyProvider?.get("flex")
   }
 
   private lazy var renderedView = UIView()
@@ -95,22 +95,25 @@ typealias FlexNode = SwiftBox.Node
 
 extension View {
   var flexSize: CGSize {
-    let resolve: ((CGFloat?) -> CGFloat) = { value in
-      if let value = value, !value.isNaN {
-        return value
-      }
-      return FlexNode.Undefined
-    }
+    let width: CGFloat = propertyProvider?.get("width") ?? FlexNode.Undefined
+    let height: CGFloat = propertyProvider?.get("height") ?? FlexNode.Undefined
 
-    let width: CGFloat? = resolve(propertyProvider?.get("width"))
-    let height: CGFloat? = resolve(propertyProvider?.get("height"))
+    return CGSize(width: width, height: height)
+  }
 
-    return CGSize(width: width ?? FlexNode.Undefined, height: height ?? FlexNode.Undefined)
+  public var flex: CGFloat? {
+    return propertyProvider?.get("flex")
   }
 }
 
 protocol FlexNodeProvider {
   var flexNode: FlexNode { get }
+}
+
+extension FlexNodeProvider where Self: View {
+  var flexNode: FlexNode {
+    return FlexNode(size: flexSize, flex: flex ?? 0)
+  }
 }
 
 extension BoxView: FlexNodeProvider {
@@ -132,12 +135,12 @@ extension TextView: FlexNodeProvider {
       let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
       return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
     }
-    return FlexNode(measure: measure)
+    return FlexNode(size: flexSize, flex: flex ?? 0, measure: measure)
   }
 }
 
 extension ImageView: FlexNodeProvider {
   var flexNode: FlexNode {
-    return FlexNode(size: flexSize)
+    return FlexNode(size: flexSize, flex: flex ?? 0)
   }
 }

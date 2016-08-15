@@ -14,13 +14,7 @@ public protocol Renderable: class {
   func sizeToFit(_ size: CGSize)
 }
 
-public protocol PropertyProvider: class {
-  func get<T>(_ key: String) -> T?
-}
-
-public protocol View: Renderable {
-  static var propertyTypes: [String: Validator] { get }
-
+public protocol View: Renderable, PropertyTypeProvider {
   var calculatedFrame: CGRect? { set get }
   var propertyProvider: PropertyProvider? { set get }
 
@@ -28,15 +22,18 @@ public protocol View: Renderable {
   func render() -> UIView
 }
 
-let defaultPropertyTypes = [
-    "x": Validation.float(),
-    "y": Validation.float(),
-    "width": Validation.float(),
-    "height": Validation.float(),
+let defaultPropertyTypes: [String: ValidationType] = [
+    "x": Validation.float,
+    "y": Validation.float,
+    "width": Validation.float,
+    "height": Validation.float,
 ]
 
 extension View {
   public func sizeToFit(_ size: CGSize) {
+    if calculatedFrame == nil {
+      calculatedFrame = CGRect.zero
+    }
     calculatedFrame?.size = sizeThatFits(size)
   }
 }
