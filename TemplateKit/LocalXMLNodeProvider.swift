@@ -27,7 +27,7 @@ class LocalXMLNodeProvider {
 }
 
 extension LocalXMLNodeProvider: NodeProvider {
-  func node(withName name: String) -> Node? {
-    return definitions[name]?.provideNode()
+  func node(withName name: String, model: Model?) -> Node? {
+    return definitions[name]?.makeNode(withModel: model)
   }
 }

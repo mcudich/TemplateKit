@@ -1,4 +1,4 @@
 <Box>
   <Image url="http://i1.kym-cdn.com/photos/images/original/000/006/933/Massimo.jpg" width="50" height="50" />
-  <Text text="test" />
+  <Text text="$title" />
 </Box>
