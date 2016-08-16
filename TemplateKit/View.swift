@@ -22,13 +22,6 @@ public protocol View: Renderable, PropertyTypeProvider {
   func render() -> UIView
 }
 
-let defaultPropertyTypes: [String: ValidationType] = [
-    "x": Validation.float,
-    "y": Validation.float,
-    "width": Validation.float,
-    "height": Validation.float,
-]
-
 extension View {
   public func sizeToFit(_ size: CGSize) {
     if calculatedFrame == nil {

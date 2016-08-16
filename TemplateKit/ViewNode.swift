@@ -14,7 +14,6 @@ public class ViewNode<V: View>: Node {
   }
 
   public var properties: [String: Any]?
-  public var model: Model?
 
   public lazy var view: View = {
     var view = V()
