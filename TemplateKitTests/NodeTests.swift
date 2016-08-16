@@ -71,9 +71,11 @@ class NodeTests: XCTestCase {
 
 
   func testPropertiesWithModel() {
-    let node = ViewNode<TestView>()
-    node.properties = ["width": "$foo"]
-    node.model = FakeModel()
+    NodeRegistry.shared.registerDefinition(withIdentifier: "foo") {
+      return ViewNode<TestView>()
+    }
+    let definition = NodeDefinition(identifier: "foo", children: [], properties: ["width": "$foo"])
+    let node = definition.makeNode(withModel: FakeModel())
     XCTAssertEqual(CGFloat(50), node.get("width"))
   }
 }

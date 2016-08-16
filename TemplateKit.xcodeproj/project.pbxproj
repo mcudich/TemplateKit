@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D8409BF01D626BA600874201 /* SwiftBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194491D57F6910049991F /* SwiftBox.framework */; };
 		D8811CC71D5BE8FF0098624B /* ViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CC61D5BE8FF0098624B /* ViewNode.swift */; };
 		D8811CC91D5BE91E0098624B /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CC81D5BE91E0098624B /* View.swift */; };
 		D8811CCD1D5C118D0098624B /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CCC1D5C118D0098624B /* Validation.swift */; };
@@ -97,7 +96,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8409BF01D626BA600874201 /* SwiftBox.framework in Frameworks */,
 				D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
