@@ -16,7 +16,6 @@ public enum Validation: ValidationType {
   case string
   case float
   case url
-  case flexDirection
 
   public func validate(value: Any?) -> Any? {
     switch self {
@@ -37,13 +36,6 @@ public enum Validation: ValidationType {
       }
       if let stringValue = value as? String {
         return stringValue.url
-      }
-    case .flexDirection:
-      if value is FlexDirection {
-        return value
-      }
-      if let stringValue = value as? String {
-        return stringValue.flexDirection
       }
     }
 
