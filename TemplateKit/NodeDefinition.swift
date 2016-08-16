@@ -3,6 +3,11 @@ let defaultPropertyTypes: [String: ValidationType] = [
   "y": Validation.float,
   "width": Validation.float,
   "height": Validation.float,
+  "marginTop": Validation.float,
+  "marginBottom": Validation.float,
+  "marginLeft": Validation.float,
+  "marginRight": Validation.float,
+  "selfAlignment": FlexboxValidation.selfAlignment,
 ]
 
 struct NodeDefinition {

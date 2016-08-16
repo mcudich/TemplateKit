@@ -2,7 +2,6 @@ import UIKit
 
 public protocol TableViewItemController {
   var node: Node? { set get }
-  var model: Model? { set get }
 }
 
 public protocol TableViewTemplateDelegate: class {

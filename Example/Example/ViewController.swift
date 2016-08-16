@@ -39,11 +39,11 @@ extension ViewController: NodeProvider {
 }
 
 extension ViewController: TableViewTemplateDataSource {
-  func tableView(_ tableView: UITableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String {
+  func tableView(_ tableView: TableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String {
     return "Test"
   }
 
-  func tableView(_ tableView: UITableView, modelForRowAtIndexPath indexPath: IndexPath) -> Model? {
+  func tableView(_ tableView: TableView, modelForRowAtIndexPath indexPath: IndexPath) -> Model? {
     return TestModel(title: "my title")
   }
 }

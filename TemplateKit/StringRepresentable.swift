@@ -17,15 +17,4 @@ extension String {
   var url: URL? {
     return URL(string: self)
   }
-
-  var flexDirection: FlexDirection? {
-    switch self {
-    case "row":
-      return .row
-    case "column":
-      return .column
-    default:
-      return nil
-    }
-  }
 }
