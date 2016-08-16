@@ -25,7 +25,7 @@ public enum Validation: ValidationType {
         return value
       }
     case .float:
-      if value is Float {
+      if value is CGFloat || value is Float {
         return value
       }
       if let stringValue = value as? String {
