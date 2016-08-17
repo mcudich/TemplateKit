@@ -1,0 +1,8 @@
+<Definition>
+  <PropertyTypes>
+    <PropertyType key="title" type="string" />
+  </PropertyTypes>
+  <Box>
+    <Text text="foo" />
+  </Box>
+</Definition>

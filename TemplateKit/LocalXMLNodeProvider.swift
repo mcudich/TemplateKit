@@ -22,6 +22,7 @@ class LocalXMLNodeProvider {
     let name = url.lastPathComponent.components(separatedBy: ".").first!
     if let xml = try? Data(contentsOf: url), let definition = Template.process(xml: xml) {
       definitions[name] = definition
+      NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: name)
     }
   }
 }

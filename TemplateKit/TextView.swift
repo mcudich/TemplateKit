@@ -50,12 +50,6 @@ class TextView: UILabel {
 }
 
 extension TextView: View {
-  static var propertyTypes: [String: ValidationType] {
-    return [
-      "text": Validation.string
-    ]
-  }
-
   func render() -> UIView {
     setNeedsDisplay()
     return self

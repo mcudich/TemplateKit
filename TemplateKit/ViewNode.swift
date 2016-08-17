@@ -9,17 +9,17 @@
 import Foundation
 
 public class ViewNode<V: View>: Node {
-  public static var propertyTypes: [String : ValidationType] {
-    return V.propertyTypes
-  }
-
-  public var properties: [String: Any]?
+  public let properties: [String: Any]?
 
   public lazy var view: View = {
     var view = V()
     view.propertyProvider = self
     return view
   }()
+
+  public required init(properties: [String : Any]) {
+    self.properties = properties
+  }
 
   public func render() -> UIView {
     let frame = view.calculatedFrame ?? CGRect.zero

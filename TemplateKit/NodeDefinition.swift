@@ -1,27 +1,14 @@
-let defaultPropertyTypes: [String: ValidationType] = [
-  "x": Validation.float,
-  "y": Validation.float,
-  "width": Validation.float,
-  "height": Validation.float,
-  "marginTop": Validation.float,
-  "marginBottom": Validation.float,
-  "marginLeft": Validation.float,
-  "marginRight": Validation.float,
-  "selfAlignment": FlexboxValidation.selfAlignment,
-]
-
 struct NodeDefinition {
   let identifier: String
   let children: [NodeDefinition]
   let properties: [String: String]
 
   func makeNode(withModel model: Model?) -> Node {
-    let node = NodeRegistry.shared.node(withIdentifier: identifier)
-    var propertyTypes = defaultPropertyTypes
-    propertyTypes.merge(with: node.dynamicType.propertyTypes)
-
+    let propertyTypes = NodeRegistry.shared.propertyTypes(forIdentifier: identifier)
     let resolvedProperties = resolveProperties(withModel: model)
-    node.properties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
+    let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
+
+    let node = NodeRegistry.shared.node(withIdentifier: identifier, properties: validatedProperties)
 
     if let containerNode = node as? ContainerNode {
       children.forEach {

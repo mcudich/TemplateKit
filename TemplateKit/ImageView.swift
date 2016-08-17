@@ -34,12 +34,6 @@ class ImageView: UIImageView {
 }
 
 extension ImageView: View {
-  static var propertyTypes: [String : ValidationType] {
-    return [
-      "url": Validation.url
-    ]
-  }
-
   func render() -> UIView {
     load()
     return self
