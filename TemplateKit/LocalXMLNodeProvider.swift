@@ -2,7 +2,7 @@ import UIKit
 import AEXML
 
 class LocalXMLNodeProvider {
-  private lazy var definitions = [String: NodeDefinition]()
+  fileprivate lazy var definitions = [String: NodeDefinition]()
 
   private let bundle: Bundle
   private let directory: String?

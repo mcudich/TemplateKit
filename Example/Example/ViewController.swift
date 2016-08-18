@@ -14,7 +14,7 @@ struct TestModel: Model {
 }
 
 class ViewController: UIViewController {
-  private lazy var client: TemplateClient = {
+  fileprivate lazy var client: TemplateClient = {
     return TemplateClient(fetchStrategy: .local(Bundle.main, nil))
   }()
 

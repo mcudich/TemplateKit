@@ -129,7 +129,7 @@ public class BoxView: View {
   public var calculatedFrame: CGRect?
 
   private lazy var renderedView = UIView()
-  private lazy var children = [View]()
+  fileprivate lazy var children = [View]()
 
   public required init() {}
 

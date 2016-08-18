@@ -140,7 +140,7 @@ public class TableView: UITableView {
     }
   }
 
-  private let cellIdentifier = "TableViewCell"
+  fileprivate let cellIdentifier = "TableViewCell"
   private let nodeProvider: NodeProvider
   private var cachedHeaderNode: Node?
   private var cachedFooterNode: Node?
@@ -180,7 +180,7 @@ public class TableView: UITableView {
     tableFooterView = footer?.render()
   }
 
-  private func headerNode() -> Node? {
+  fileprivate func headerNode() -> Node? {
     guard let nodeName = templateDelegate?.nodeNameForHeaderInTableView(self) else {
       return nil
     }
@@ -193,7 +193,7 @@ public class TableView: UITableView {
     return node
   }
 
-  private func footerNode() -> Node? {
+  fileprivate func footerNode() -> Node? {
     guard let nodeName = templateDelegate?.nodeNameForFooterInTableView(self) else {
       return nil
     }
@@ -206,7 +206,7 @@ public class TableView: UITableView {
     return node
   }
 
-  private func node(withIndexPath indexPath: IndexPath) -> Node? {
+  fileprivate func node(withIndexPath indexPath: IndexPath) -> Node? {
     guard let templateDataSource = templateDataSource else {
       return nil
     }
@@ -228,7 +228,7 @@ public class TableView: UITableView {
     return node
   }
 
-  private func headerNode(withSection section: Int) -> Node? {
+  fileprivate func headerNode(withSection section: Int) -> Node? {
     guard let templateDelegate = templateDelegate else {
       return nil
     }
@@ -252,7 +252,7 @@ public class TableView: UITableView {
     return node
   }
 
-  private func footerNodeWithSection(_ section: Int) -> Node? {
+  fileprivate func footerNodeWithSection(_ section: Int) -> Node? {
     guard let templateDelegate = templateDelegate else {
       return nil
     }
