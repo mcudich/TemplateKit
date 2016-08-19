@@ -1,8 +1,9 @@
-<Definition>
+<Definition id="details">
   <PropertyTypes>
-    <PropertyType key="title" type="string" />
+    <PropertyType key="description" type="string" />
   </PropertyTypes>
+
   <Box>
-    <Text text="foo" />
+    <Text text="$description" />
   </Box>
 </Definition>

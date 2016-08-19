@@ -63,7 +63,7 @@ extension String {
   }
 }
 
-enum FlexboxValidation: ValidationType {
+enum FlexboxValidation: String, ValidationType {
   case flexDirection
   case justification
   case selfAlignment

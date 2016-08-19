@@ -35,5 +35,3 @@ public extension Model {
     return val;
   }
 }
-
-extension Dictionary: Model {}
