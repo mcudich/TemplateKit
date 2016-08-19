@@ -1,4 +1,4 @@
-<Definition id="test">
+<Definition id="Test">
   <PropertyTypes>
     <PropertyType key="model" type="any" />
   </PropertyTypes>

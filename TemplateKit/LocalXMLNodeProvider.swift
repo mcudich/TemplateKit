@@ -19,11 +19,10 @@ class LocalXMLNodeProvider {
   }
 
   private func loadTemplate(withURL url: URL) {
-    let name = url.lastPathComponent.components(separatedBy: ".").first!
     if let xml = try? Data(contentsOf: url), let definition = Template.process(xml: xml) {
       definitions[definition.identifier] = definition
-      NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: name)
-      NodeRegistry.shared.register(propertyTypes: definition.propertyTypes, forIdentifier: name)
+      NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: definition.identifier)
+      NodeRegistry.shared.register(propertyTypes: definition.propertyTypes, forIdentifier: definition.identifier)
     }
   }
 }

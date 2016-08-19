@@ -41,7 +41,7 @@ extension ViewController: NodeProvider {
 
 extension ViewController: TableViewTemplateDataSource {
   func tableView(_ tableView: TableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String {
-    return "test"
+    return "Test"
   }
 
   func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]? {
