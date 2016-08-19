@@ -13,8 +13,8 @@ typealias ImageHandler = (UIImage) -> ()
 
 final class ImageRequestOperation: Operation {
   private let url: URL
-  private lazy var pendingCallbacks = [ImageHandler]()
-  private var imageCompletionBlock: ((URL, UIImage) -> ())?
+  fileprivate lazy var pendingCallbacks = [ImageHandler]()
+  fileprivate var imageCompletionBlock: ((URL, UIImage) -> ())?
 
   override var isAsynchronous: Bool {
     return false

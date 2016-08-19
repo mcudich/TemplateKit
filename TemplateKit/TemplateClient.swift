@@ -1,7 +1,7 @@
 import UIKit
 
 public protocol NodeProvider {
-  func node(withName name: String, model: Model?) -> Node?
+  func node(withName name: String, properties: [String: Any]?) -> Node?
 }
 
 public enum TemplateFetchStrategy {
@@ -23,7 +23,7 @@ public class TemplateClient {
 }
 
 extension TemplateClient: NodeProvider {
-  public func node(withName name: String, model: Model?) -> Node? {
-    return provider.node(withName: name, model: model)
+  public func node(withName name: String, properties: [String: Any]?) -> Node? {
+    return provider.node(withName: name, properties: properties)
   }
 }

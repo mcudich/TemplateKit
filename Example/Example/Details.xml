@@ -1,0 +1,9 @@
+<Definition id="Details">
+  <PropertyTypes>
+    <PropertyType key="description" type="string" />
+  </PropertyTypes>
+
+  <Box>
+    <Text text="$description" />
+  </Box>
+</Definition>

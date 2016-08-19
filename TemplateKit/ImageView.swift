@@ -24,7 +24,7 @@ class ImageView: UIImageView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  private func load() {
+  fileprivate func load() {
     guard let url = url else { return }
 
     ImageService.shared.loadImage(withURL: url) { [weak self] image in
@@ -34,12 +34,6 @@ class ImageView: UIImageView {
 }
 
 extension ImageView: View {
-  static var propertyTypes: [String : ValidationType] {
-    return [
-      "url": Validation.url
-    ]
-  }
-
   func render() -> UIView {
     load()
     return self

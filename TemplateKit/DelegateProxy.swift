@@ -39,7 +39,7 @@ class DelegateProxy: NSObject, DelegateProxyProtocol {
     }
   }
 
-  override func forwardingTarget(for aSelector: Selector) -> AnyObject? {
+  override func forwardingTarget(for aSelector: Selector) -> Any? {
     if intercepts(selector: aSelector) {
       return interceptor
     } else if let target = target {

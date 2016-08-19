@@ -12,10 +12,11 @@ public protocol ValidationType {
   func validate(value: Any?) -> Any?
 }
 
-public enum Validation: ValidationType {
+public enum Validation: String, ValidationType {
   case string
   case float
   case url
+  case any
 
   public func validate(value: Any?) -> Any? {
     switch self {
@@ -37,6 +38,8 @@ public enum Validation: ValidationType {
       if let stringValue = value as? String {
         return stringValue.url
       }
+    case .any:
+      return value
     }
 
     if value != nil {

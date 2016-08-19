@@ -63,7 +63,7 @@ extension String {
   }
 }
 
-enum FlexboxValidation: ValidationType {
+enum FlexboxValidation: String, ValidationType {
   case flexDirection
   case justification
   case selfAlignment
@@ -111,10 +111,6 @@ enum FlexboxValidation: ValidationType {
 
 public class BoxNode: ViewNode<BoxView> {
   public lazy var children = [Node]()
-
-  override init() {
-    super.init()
-  }
 }
 
 extension BoxNode: ContainerNode {
@@ -125,31 +121,15 @@ extension BoxNode: ContainerNode {
 
     boxView.add(view: child.view)
   }
-
-  public func contains(child: Node) -> Bool {
-    return children.contains { $0 === child }
-  }
 }
 
 public class BoxView: View {
-  public static var propertyTypes: [String: ValidationType] {
-    return [
-      "flexDirection": FlexboxValidation.flexDirection,
-      "paddingTop": Validation.float,
-      "paddingBottom": Validation.float,
-      "paddingLeft": Validation.float,
-      "paddingRight": Validation.float,
-      "justification": FlexboxValidation.justification,
-      "childAlignment": FlexboxValidation.childAlignment
-    ]
-  }
-
   public weak var propertyProvider: PropertyProvider?
 
   public var calculatedFrame: CGRect?
 
   private lazy var renderedView = UIView()
-  private lazy var children = [View]()
+  fileprivate lazy var children = [View]()
 
   public required init() {}
 

@@ -1,4 +1,13 @@
-<Box paddingTop="10" paddingBottom="10" paddingLeft="10" flexDirection="row">
-  <Image url="http://i1.kym-cdn.com/photos/images/original/000/006/933/Massimo.jpg" width="50" height="50" marginRight="10" />
-  <Text text="$title" />
-</Box>
+<Definition id="Test">
+  <PropertyTypes>
+    <PropertyType key="model" type="any" />
+  </PropertyTypes>
+
+  <Box paddingTop="10" paddingBottom="10" paddingLeft="10" flexDirection="row">
+    <Image url="http://i1.kym-cdn.com/photos/images/original/000/006/933/Massimo.jpg" width="50" height="50" marginRight="10" />
+    <Box>
+      <Text text="$model.title" />
+      <Details description="$model.description" />
+    </Box>
+  </Box>
+</Definition>

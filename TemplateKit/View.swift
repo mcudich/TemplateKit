@@ -14,7 +14,7 @@ public protocol Renderable: class {
   func sizeToFit(_ size: CGSize)
 }
 
-public protocol View: Renderable, PropertyTypeProvider {
+public protocol View: Renderable {
   var calculatedFrame: CGRect? { set get }
   var propertyProvider: PropertyProvider? { set get }
 

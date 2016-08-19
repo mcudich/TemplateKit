@@ -1,16 +1,14 @@
 import UIKit
 
-public protocol PropertyTypeProvider {
-  static var propertyTypes: [String: ValidationType] { get }
-}
-
 public protocol PropertyProvider: class {
   func get<T>(_ key: String) -> T?
 }
 
-public protocol Node: Renderable, PropertyProvider, PropertyTypeProvider {
+public protocol Node: Renderable, PropertyProvider {
   var view: View { get }
-  var properties: [String: Any]? { set get }
+  var properties: [String: Any]? { get }
+
+  init(properties: [String: Any])
 }
 
 extension Node {

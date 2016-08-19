@@ -7,8 +7,8 @@ public protocol TableViewItemController {
 public protocol TableViewTemplateDelegate: class {
   func tableView(_ tableView: TableView, nodeNameForHeaderInSection section: Int) -> String?
   func tableView(_ tableView: TableView, nodeNameForFooterInSection section: Int) -> String?
-  func tableView(_ tableView: TableView, modelForHeaderInSection section: Int) -> Model?
-  func tableView(_ tableView: TableView, modelForFooterInSection section: Int) -> Model?
+  func tableView(_ tableView: TableView, propertiesForHeaderInSection section: Int) -> [String: Any]?
+  func tableView(_ tableView: TableView, propertiesForFooterInSection section: Int) -> [String: Any]?
   func tableView(_ tableView: TableView, controllerForHeaderInSection section: Int) -> TableViewItemController?
   func tableView(_ tableView: TableView, controllerForFooterInSection section: Int) -> TableViewItemController?
   func tableView(_ tableView: TableView, cacheKeyForHeaderInSection section: Int) -> Int?
@@ -16,15 +16,15 @@ public protocol TableViewTemplateDelegate: class {
 
   func nodeNameForHeaderInTableView(_ tableView: TableView) -> String?
   func nodeNameForFooterInTableView(_ tableView: TableView) -> String?
-  func modelForHeaderInTableView(_ tableView: TableView) -> Model?
-  func modelForFooterInTableView(_ tableView: TableView) -> Model?
+  func propertiesForHeaderInTableView(_ tableView: TableView) -> [String: Any]?
+  func propertiesForFooterInTableView(_ tableView: TableView) -> [String: Any]?
   func controllerForHeaderInTableView(_ tableView: TableView) -> TableViewItemController?
   func controllerForFooterInTableView(_ tableView: TableView) -> TableViewItemController?
 }
 
 public protocol TableViewTemplateDataSource: class {
   func tableView(_ tableView: TableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String
-  func tableView(_ tableView: TableView, modelForRowAtIndexPath indexPath: IndexPath) -> Model?
+  func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]?
   func tableView(_ tableView: TableView, controllerForRowAtIndexPath indexPath: IndexPath) -> TableViewItemController?
   // Provide a hash value for the given row to enable component and controller caching.
   func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int?
@@ -140,7 +140,7 @@ public class TableView: UITableView {
     }
   }
 
-  private let cellIdentifier = "TableViewCell"
+  fileprivate let cellIdentifier = "TableViewCell"
   private let nodeProvider: NodeProvider
   private var cachedHeaderNode: Node?
   private var cachedFooterNode: Node?
@@ -180,12 +180,12 @@ public class TableView: UITableView {
     tableFooterView = footer?.render()
   }
 
-  private func headerNode() -> Node? {
+  fileprivate func headerNode() -> Node? {
     guard let nodeName = templateDelegate?.nodeNameForHeaderInTableView(self) else {
       return nil
     }
 
-    let node = cachedHeaderNode ?? nodeProvider.node(withName: nodeName, model: templateDelegate?.modelForHeaderInTableView(self))
+    let node = cachedHeaderNode ?? nodeProvider.node(withName: nodeName, properties: templateDelegate?.propertiesForHeaderInTableView(self))
     var controller = templateDelegate?.controllerForHeaderInTableView(self)
     controller?.node = node
     cachedHeaderNode = node
@@ -193,12 +193,12 @@ public class TableView: UITableView {
     return node
   }
 
-  private func footerNode() -> Node? {
+  fileprivate func footerNode() -> Node? {
     guard let nodeName = templateDelegate?.nodeNameForFooterInTableView(self) else {
       return nil
     }
 
-    let node = cachedFooterNode ?? nodeProvider.node(withName: nodeName, model: templateDelegate?.modelForFooterInTableView(self))
+    let node = cachedFooterNode ?? nodeProvider.node(withName: nodeName, properties: templateDelegate?.propertiesForFooterInTableView(self))
     var controller = templateDelegate?.controllerForFooterInTableView(self)
     controller?.node = node
     cachedFooterNode = node
@@ -206,7 +206,7 @@ public class TableView: UITableView {
     return node
   }
 
-  private func node(withIndexPath indexPath: IndexPath) -> Node? {
+  fileprivate func node(withIndexPath indexPath: IndexPath) -> Node? {
     guard let templateDataSource = templateDataSource else {
       return nil
     }
@@ -217,7 +217,7 @@ public class TableView: UITableView {
     }
 
     let nodeName = templateDataSource.tableView(self, nodeNameForRowAtIndexPath: indexPath)
-    let node = nodeProvider.node(withName: nodeName, model: templateDataSource.tableView(self, modelForRowAtIndexPath: indexPath))
+    let node = nodeProvider.node(withName: nodeName, properties: templateDataSource.tableView(self, propertiesForRowAtIndexPath: indexPath))
     var controller = templateDataSource.tableView(self, controllerForRowAtIndexPath: indexPath)
     controller?.node = node
     if let cacheKey = cacheKey {
@@ -228,7 +228,7 @@ public class TableView: UITableView {
     return node
   }
 
-  private func headerNode(withSection section: Int) -> Node? {
+  fileprivate func headerNode(withSection section: Int) -> Node? {
     guard let templateDelegate = templateDelegate else {
       return nil
     }
@@ -241,7 +241,7 @@ public class TableView: UITableView {
     guard let nodeName = templateDelegate.tableView(self, nodeNameForHeaderInSection: section) else {
       return nil
     }
-    let node = nodeProvider.node(withName: nodeName, model: templateDelegate.tableView(self, modelForHeaderInSection: section))
+    let node = nodeProvider.node(withName: nodeName, properties: templateDelegate.tableView(self, propertiesForHeaderInSection: section))
     var controller = templateDelegate.tableView(self, controllerForHeaderInSection: section)
     controller?.node = node
     if let cacheKey = cacheKey {
@@ -252,7 +252,7 @@ public class TableView: UITableView {
     return node
   }
 
-  private func footerNodeWithSection(_ section: Int) -> Node? {
+  fileprivate func footerNodeWithSection(_ section: Int) -> Node? {
     guard let templateDelegate = templateDelegate else {
       return nil
     }
@@ -265,7 +265,7 @@ public class TableView: UITableView {
     guard let nodeName = templateDelegate.tableView(self, nodeNameForFooterInSection: section) else {
       return nil
     }
-    let node = nodeProvider.node(withName: nodeName, model: templateDelegate.tableView(self, modelForFooterInSection: section))
+    let node = nodeProvider.node(withName: nodeName, properties: templateDelegate.tableView(self, propertiesForFooterInSection: section))
     var controller = templateDelegate.tableView(self, controllerForFooterInSection: section)
     controller?.node = node
     if let cacheKey = cacheKey {

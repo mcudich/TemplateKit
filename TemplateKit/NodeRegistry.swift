@@ -1,36 +1,75 @@
 public class NodeRegistry {
   static let shared = NodeRegistry()
 
-  public typealias NodeInstanceProvider = () -> Node
-  private lazy var definitions = [String: NodeInstanceProvider]()
+  public typealias NodeInstanceProvider = ([String: Any]) -> Node
+  private lazy var providers = [String: NodeInstanceProvider]()
+  private lazy var propertyTypes = [String: [String: ValidationType]]()
 
   init() {
-    registerDefaultTypes()
+    registerDefaultProviders()
   }
 
-  public func registerDefinition(withIdentifier identifier: String, nodeInstanceProvider: NodeInstanceProvider) {
-    definitions[identifier] = nodeInstanceProvider
+  public func register(nodeInstanceProvider: NodeInstanceProvider, forIdentifier identifier: String) {
+    providers[identifier] = nodeInstanceProvider
   }
 
-  public func node(withIdentifier identifier: String) -> Node {
-    guard let nodeInstanceProvider = definitions[identifier] else {
+  public func register(propertyTypes: [String: ValidationType], forIdentifier identifier: String) {
+    self.propertyTypes[identifier] = propertyTypes
+  }
+
+  func node(withIdentifier identifier: String, properties: [String: Any]) -> Node {
+    guard let nodeInstanceProvider = providers[identifier] else {
       // TODO(mcudich): Throw an error instead.
       fatalError()
     }
-    return nodeInstanceProvider()
+    return nodeInstanceProvider(properties)
   }
 
-  private func registerDefaultTypes() {
-    registerDefinition(withIdentifier: "Box") {
-      return BoxNode()
+  func propertyTypes(forIdentifier identifier: String) -> [String: ValidationType] {
+    guard let propertyTypes = propertyTypes[identifier] else {
+      // TODO(mcudich): Throw an error instead.
+      fatalError()
     }
+    return propertyTypes
+  }
 
-    registerDefinition(withIdentifier: "Text") {
-      return ViewNode<TextView>()
-    }
+  private func registerDefaultProviders() {
+    register(nodeInstanceProvider: { BoxNode(properties: $0) }, forIdentifier: "Box")
+    register(nodeInstanceProvider: { ViewNode<TextView>(properties: $0) }, forIdentifier: "Text")
+    register(nodeInstanceProvider: { ViewNode<ImageView>(properties: $0) }, forIdentifier: "Image")
 
-    registerDefinition(withIdentifier: "Image") {
-      return ViewNode<ImageView>()
-    }
+    let defaultPropertyTypes: [String: ValidationType] = [
+      "x": Validation.float,
+      "y": Validation.float,
+      "width": Validation.float,
+      "height": Validation.float,
+      "marginTop": Validation.float,
+      "marginBottom": Validation.float,
+      "marginLeft": Validation.float,
+      "marginRight": Validation.float,
+      "selfAlignment": FlexboxValidation.selfAlignment,
+    ]
+
+    let boxTypes = defaultPropertyTypes.merged(with: [
+      "flexDirection": FlexboxValidation.flexDirection,
+      "paddingTop": Validation.float,
+      "paddingBottom": Validation.float,
+      "paddingLeft": Validation.float,
+      "paddingRight": Validation.float,
+      "justification": FlexboxValidation.justification,
+      "childAlignment": FlexboxValidation.childAlignment
+    ])
+
+    let textTypes = defaultPropertyTypes.merged(with: [
+      "text": Validation.string
+    ])
+
+    let imageTypes = defaultPropertyTypes.merged(with: [
+      "url": Validation.url
+    ])
+
+    register(propertyTypes: boxTypes, forIdentifier: "Box")
+    register(propertyTypes: textTypes, forIdentifier: "Text")
+    register(propertyTypes: imageTypes, forIdentifier: "Image")
   }
 }

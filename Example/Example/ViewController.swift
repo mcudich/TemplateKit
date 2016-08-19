@@ -11,10 +11,11 @@ import TemplateKit
 
 struct TestModel: Model {
   let title: String
+  let description: String
 }
 
 class ViewController: UIViewController {
-  private lazy var client: TemplateClient = {
+  fileprivate lazy var client: TemplateClient = {
     return TemplateClient(fetchStrategy: .local(Bundle.main, nil))
   }()
 
@@ -33,8 +34,8 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: NodeProvider {
-  func node(withName name: String, model: Model?) -> Node? {
-    return client.node(withName: name, model: model)
+  func node(withName name: String, properties: [String: Any]?) -> Node? {
+    return client.node(withName: name, properties: properties)
   }
 }
 
@@ -43,8 +44,8 @@ extension ViewController: TableViewTemplateDataSource {
     return "Test"
   }
 
-  func tableView(_ tableView: TableView, modelForRowAtIndexPath indexPath: IndexPath) -> Model? {
-    return TestModel(title: "my title")
+  func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]? {
+    return ["model": TestModel(title: "my title", description: "something")]
   }
 }
 
@@ -53,4 +54,3 @@ extension ViewController: TableViewDataSource {
     return 1
   }
 }
-
