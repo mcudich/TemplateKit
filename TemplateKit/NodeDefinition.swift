@@ -57,6 +57,6 @@ struct NodeDefinition {
 
   func makeNode(withProperties properties: [String: Any]?) -> Node {
     let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: properties ?? [:])
-    return root.makeInstance(withContextProperties: properties)
+    return root.makeInstance(withContextProperties: validatedProperties)
   }
 }
