@@ -26,7 +26,7 @@ enum Template {
     for child in propertyTypesElement.children {
       let key = child.attributes["key"]!
       let type = child.attributes["type"]!
-      var validationType: ValidationType? = Validation(rawValue: type) ?? FlexboxValidation(rawValue: type)
+      let validationType: ValidationType? = Validation(rawValue: type) ?? FlexboxValidation(rawValue: type)
       types[key] = validationType
     }
     return types
