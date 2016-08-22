@@ -8,6 +8,40 @@
 
 import Foundation
 
+enum ImageValidation: String, ValidationType {
+  case contentMode
+
+  func validate(value: Any?) -> Any? {
+    switch self {
+    case .contentMode:
+      if let stringValue = value as? String {
+        return stringValue.contentMode
+      }
+    }
+
+    if value != nil {
+      fatalError("Unhandled type!")
+    }
+
+    return nil
+  }
+}
+
+extension String {
+  var contentMode: UIViewContentMode? {
+    switch self {
+      case "scaleToFill":
+        return .scaleToFill
+      case "scaleAspectFit":
+        return .scaleAspectFit
+      case "scaleAspectFill":
+        return .scaleAspectFill
+      default:
+        fatalError("Unhandled value")
+    }
+  }
+}
+
 class ImageView: UIImageView {
   var calculatedFrame: CGRect?
   weak var propertyProvider: PropertyProvider?
@@ -36,6 +70,7 @@ class ImageView: UIImageView {
 extension ImageView: View {
   func render() -> UIView {
     load()
+    self.contentMode = propertyProvider?.get("contentMode") ?? .scaleToFill
     return self
   }
 }

@@ -65,7 +65,8 @@ public class NodeRegistry {
     ])
 
     let imageTypes = defaultPropertyTypes.merged(with: [
-      "url": Validation.url
+      "url": Validation.url,
+      "contentMode": ImageValidation.contentMode
     ])
 
     register(propertyTypes: boxTypes, forIdentifier: "Box")
