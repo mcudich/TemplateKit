@@ -4,7 +4,7 @@
   </PropertyTypes>
 
   <Box paddingTop="10" paddingBottom="10" paddingLeft="10" flexDirection="row">
-    <Image url="http://i1.kym-cdn.com/photos/images/original/000/006/933/Massimo.jpg" width="50" height="50" marginRight="10" />
+    <Image url="http://i1.kym-cdn.com/photos/images/original/000/006/933/Massimo.jpg" width="50" height="50" marginRight="10" contentMode="scaleAspectFit" />
     <Box>
       <Text text="$model.title" />
       <Details description="$model.description" />
