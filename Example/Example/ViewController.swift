@@ -45,7 +45,7 @@ extension ViewController: TableViewTemplateDataSource {
   }
 
   func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]? {
-    return ["model": TestModel(title: "my title", description: "something")]
+    return ["model": TestModel(title: "my title", description: "something"), "foo": "bar"]
   }
 }
 
