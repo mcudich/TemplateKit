@@ -50,7 +50,8 @@ public class NodeRegistry {
       "selfAlignment": FlexboxValidation.selfAlignment,
     ]
 
-    let boxTypes = defaultPropertyTypes.merged(with: [
+    var boxTypes = defaultPropertyTypes
+    boxTypes.merge(with: [
       "flexDirection": FlexboxValidation.flexDirection,
       "paddingTop": Validation.float,
       "paddingBottom": Validation.float,
@@ -60,12 +61,15 @@ public class NodeRegistry {
       "childAlignment": FlexboxValidation.childAlignment
     ])
 
-    let textTypes = defaultPropertyTypes.merged(with: [
+    var textTypes = defaultPropertyTypes
+    textTypes.merge(with: [
       "text": Validation.string
     ])
 
-    let imageTypes = defaultPropertyTypes.merged(with: [
+    var imageTypes = defaultPropertyTypes
+    imageTypes.merge(with: [
       "url": Validation.url,
+      "name": Validation.string,
       "contentMode": ImageValidation.contentMode
     ])
 

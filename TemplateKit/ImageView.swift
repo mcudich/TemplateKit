@@ -50,6 +50,10 @@ class ImageView: UIImageView {
     return propertyProvider?.get("url")
   }
 
+  var name: String? {
+    return propertyProvider?.get("name")
+  }
+
   required init() {
     super.init(frame: CGRect.zero)
   }
@@ -59,10 +63,12 @@ class ImageView: UIImageView {
   }
 
   fileprivate func load() {
-    guard let url = url else { return }
-
-    ImageService.shared.loadImage(withURL: url) { [weak self] image in
-      self?.image = image
+    if let url = url {
+      ImageService.shared.loadImage(withURL: url) { [weak self] image in
+        self?.image = image
+      }
+    } else if let name = name {
+      image = UIImage(named: name)
     }
   }
 }
