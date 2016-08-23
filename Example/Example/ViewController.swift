@@ -22,7 +22,6 @@ class ViewController: UIViewController {
   private lazy var tableView: TableView = {
     let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .plain)
 
-    tableView.templateDataSource = self
     tableView.tableViewDataSource = self
 
     return tableView
@@ -39,7 +38,7 @@ extension ViewController: NodeProvider {
   }
 }
 
-extension ViewController: TableViewTemplateDataSource {
+extension ViewController: TableViewDataSource {
   func tableView(_ tableView: TableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String {
     return "Test"
   }
@@ -47,9 +46,7 @@ extension ViewController: TableViewTemplateDataSource {
   func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]? {
     return ["model": TestModel(title: "my title", description: "something")]
   }
-}
 
-extension ViewController: TableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 1
   }

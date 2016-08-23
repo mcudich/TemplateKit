@@ -1,51 +1,19 @@
 import UIKit
 
-public protocol TableViewItemController {
-  var node: Node? { set get }
-}
-
-public protocol TableViewTemplateDelegate: class {
-  func tableView(_ tableView: TableView, nodeNameForHeaderInSection section: Int) -> String?
-  func tableView(_ tableView: TableView, nodeNameForFooterInSection section: Int) -> String?
-  func tableView(_ tableView: TableView, propertiesForHeaderInSection section: Int) -> [String: Any]?
-  func tableView(_ tableView: TableView, propertiesForFooterInSection section: Int) -> [String: Any]?
-  func tableView(_ tableView: TableView, controllerForHeaderInSection section: Int) -> TableViewItemController?
-  func tableView(_ tableView: TableView, controllerForFooterInSection section: Int) -> TableViewItemController?
-  func tableView(_ tableView: TableView, cacheKeyForHeaderInSection section: Int) -> Int?
-  func tableView(_ tableView: TableView, cacheKeyForFooterInSection section: Int) -> Int?
-
-  func nodeNameForHeaderInTableView(_ tableView: TableView) -> String?
-  func nodeNameForFooterInTableView(_ tableView: TableView) -> String?
-  func propertiesForHeaderInTableView(_ tableView: TableView) -> [String: Any]?
-  func propertiesForFooterInTableView(_ tableView: TableView) -> [String: Any]?
-  func controllerForHeaderInTableView(_ tableView: TableView) -> TableViewItemController?
-  func controllerForFooterInTableView(_ tableView: TableView) -> TableViewItemController?
-}
-
-public protocol TableViewTemplateDataSource: class {
-  func tableView(_ tableView: TableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String
-  func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]?
-  func tableView(_ tableView: TableView, controllerForRowAtIndexPath indexPath: IndexPath) -> TableViewItemController?
-  // Provide a hash value for the given row to enable component and controller caching.
-  func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int?
-}
-
-extension TableViewTemplateDataSource {
-  public func tableView(_ tableView: TableView, modelForRowAtIndexPath indexPath: IndexPath) -> Model? {
-    return nil
-  }
-
-  public func tableView(_ tableView: TableView, controllerForRowAtIndexPath indexPath: IndexPath) -> TableViewItemController? {
-    return nil
-  }
-
-  public func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int? {
-    return IndexPath(row: (indexPath as NSIndexPath).row, section: (indexPath as NSIndexPath).section).hashValue
-  }
-}
-
 // This is a sub-set of UITableViewDelegate.
 @objc public protocol TableViewDelegate: UIScrollViewDelegate {
+  @objc optional func tableView(_ tableView: TableView, nodeNameForHeaderInSection section: Int) -> String?
+  @objc optional func tableView(_ tableView: TableView, nodeNameForFooterInSection section: Int) -> String?
+  @objc optional func tableView(_ tableView: TableView, propertiesForHeaderInSection section: Int) -> [String: Any]?
+  @objc optional func tableView(_ tableView: TableView, propertiesForFooterInSection section: Int) -> [String: Any]?
+  @objc optional func tableView(_ tableView: TableView, cacheKeyForHeaderInSection section: Int) -> Int
+  @objc optional func tableView(_ tableView: TableView, cacheKeyForFooterInSection section: Int) -> Int
+
+  @objc optional func nodeNameForHeaderInTableView(_ tableView: TableView) -> String?
+  @objc optional func nodeNameForFooterInTableView(_ tableView: TableView) -> String?
+  @objc optional func propertiesForHeaderInTableView(_ tableView: TableView) -> [String: Any]?
+  @objc optional func propertiesForFooterInTableView(_ tableView: TableView) -> [String: Any]?
+
   @objc optional func tableView(_ tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath)
   @objc optional func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
   @objc optional func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int)
@@ -75,7 +43,12 @@ extension TableViewTemplateDataSource {
 
 // This is a sub-set of UITableViewDataSource.
 @objc public protocol TableViewDataSource: NSObjectProtocol {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+  func tableView(_ tableView: TableView, nodeNameForRowAtIndexPath indexPath: IndexPath) -> String
+  @objc optional func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]?
+  // Provide a hash value for the given row to enable component and controller caching.
+  @objc optional func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int
+
+  @objc optional func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   @objc optional func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
   @objc optional func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
   @objc optional func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String?
@@ -85,6 +58,12 @@ extension TableViewTemplateDataSource {
   @objc optional func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int
   @objc optional func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath)
   @objc optional func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath)
+}
+
+extension TableViewDataSource {
+  func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int {
+    return 0
+  }
 }
 
 class TableViewCell: UITableViewCell {
@@ -102,9 +81,6 @@ class TableViewCell: UITableViewCell {
 }
 
 public class TableView: UITableView {
-  public weak var templateDelegate: TableViewTemplateDelegate?
-  public weak var templateDataSource: TableViewTemplateDataSource?
-
   public weak var tableViewDelegate: TableViewDelegate? {
     didSet {
       configureTableDelegate()
@@ -147,11 +123,8 @@ public class TableView: UITableView {
   private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
   private var dataSourceProxy: (DelegateProxyProtocol & UITableViewDataSource)?
   private lazy var rowNodeCache = [Int: Node]()
-  private lazy var rowControllerCache = [Int: TableViewItemController]()
   private lazy var headerNodeCache = [Int: Node]()
-  private lazy var headerControllerCache = [Int: TableViewItemController]()
   private lazy var footerNodeCache = [Int: Node]()
-  private lazy var footerControllerCache = [Int: TableViewItemController]()
 
   public init(nodeProvider: NodeProvider, frame: CGRect, style: UITableViewStyle) {
     self.nodeProvider = nodeProvider
@@ -181,71 +154,61 @@ public class TableView: UITableView {
   }
 
   fileprivate func headerNode() -> Node? {
-    guard let nodeName = templateDelegate?.nodeNameForHeaderInTableView(self) else {
+    guard let nodeName = tableViewDelegate?.nodeNameForHeaderInTableView?(self) else {
       return nil
     }
 
-    let node = cachedHeaderNode ?? nodeProvider.node(withName: nodeName, properties: templateDelegate?.propertiesForHeaderInTableView(self))
-    var controller = templateDelegate?.controllerForHeaderInTableView(self)
-    controller?.node = node
+    let node = cachedHeaderNode ?? nodeProvider.node(withName: nodeName, properties: tableViewDelegate?.propertiesForHeaderInTableView?(self))
     cachedHeaderNode = node
 
     return node
   }
 
   fileprivate func footerNode() -> Node? {
-    guard let nodeName = templateDelegate?.nodeNameForFooterInTableView(self) else {
+    guard let nodeName = tableViewDelegate?.nodeNameForFooterInTableView?(self) else {
       return nil
     }
 
-    let node = cachedFooterNode ?? nodeProvider.node(withName: nodeName, properties: templateDelegate?.propertiesForFooterInTableView(self))
-    var controller = templateDelegate?.controllerForFooterInTableView(self)
-    controller?.node = node
+    let node = cachedFooterNode ?? nodeProvider.node(withName: nodeName, properties: tableViewDelegate?.propertiesForFooterInTableView?(self))
     cachedFooterNode = node
 
     return node
   }
 
   fileprivate func node(withIndexPath indexPath: IndexPath) -> Node? {
-    guard let templateDataSource = templateDataSource else {
+    guard let tableViewDataSource = tableViewDataSource else {
       return nil
     }
 
-    let cacheKey = templateDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-    if let cacheKey = cacheKey, let component = rowNodeCache[cacheKey] {
+    let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
+    if let component = rowNodeCache[cacheKey] {
       return component
     }
 
-    let nodeName = templateDataSource.tableView(self, nodeNameForRowAtIndexPath: indexPath)
-    let node = nodeProvider.node(withName: nodeName, properties: templateDataSource.tableView(self, propertiesForRowAtIndexPath: indexPath))
-    var controller = templateDataSource.tableView(self, controllerForRowAtIndexPath: indexPath)
-    controller?.node = node
-    if let cacheKey = cacheKey {
-      rowControllerCache[cacheKey] = controller
-      rowNodeCache[cacheKey] = node
-    }
+    let nodeName = tableViewDataSource.tableView(self, nodeNameForRowAtIndexPath: indexPath)
+    let node = nodeProvider.node(withName: nodeName, properties: tableViewDataSource.tableView?(self, propertiesForRowAtIndexPath: indexPath) ?? [:])
+
+    rowNodeCache[cacheKey] = node
+
 
     return node
   }
 
   fileprivate func headerNode(withSection section: Int) -> Node? {
-    guard let templateDelegate = templateDelegate else {
+    guard let tableViewDelegate = tableViewDelegate else {
       return nil
     }
 
-    let cacheKey = templateDelegate.tableView(self, cacheKeyForHeaderInSection: section)
+    let cacheKey = tableViewDelegate.tableView?(self, cacheKeyForHeaderInSection: section)
     if let cacheKey = cacheKey, let node = headerNodeCache[cacheKey] {
       return node
     }
 
-    guard let nodeName = templateDelegate.tableView(self, nodeNameForHeaderInSection: section) else {
+    guard let nodeName = tableViewDelegate.tableView?(self, nodeNameForHeaderInSection: section) else {
       return nil
     }
-    let node = nodeProvider.node(withName: nodeName, properties: templateDelegate.tableView(self, propertiesForHeaderInSection: section))
-    var controller = templateDelegate.tableView(self, controllerForHeaderInSection: section)
-    controller?.node = node
+    let node = nodeProvider.node(withName: nodeName, properties: tableViewDelegate.tableView?(self, propertiesForHeaderInSection: section))
     if let cacheKey = cacheKey {
-      headerControllerCache[cacheKey] = controller
       headerNodeCache[cacheKey] = node
     }
 
@@ -253,23 +216,20 @@ public class TableView: UITableView {
   }
 
   fileprivate func footerNodeWithSection(_ section: Int) -> Node? {
-    guard let templateDelegate = templateDelegate else {
+    guard let tableViewDelegate = tableViewDelegate else {
       return nil
     }
 
-    let cacheKey = templateDelegate.tableView(self, cacheKeyForFooterInSection: section)
+    let cacheKey = tableViewDelegate.tableView?(self, cacheKeyForFooterInSection: section)
     if let cacheKey = cacheKey, let node = footerNodeCache[cacheKey] {
       return node
     }
 
-    guard let nodeName = templateDelegate.tableView(self, nodeNameForFooterInSection: section) else {
+    guard let nodeName = tableViewDelegate.tableView?(self, nodeNameForFooterInSection: section) else {
       return nil
     }
-    let node = nodeProvider.node(withName: nodeName, properties: templateDelegate.tableView(self, propertiesForFooterInSection: section))
-    var controller = templateDelegate.tableView(self, controllerForFooterInSection: section)
-    controller?.node = node
+    let node = nodeProvider.node(withName: nodeName, properties: tableViewDelegate.tableView?(self, propertiesForFooterInSection: section))
     if let cacheKey = cacheKey {
-      footerControllerCache[cacheKey] = controller
       footerNodeCache[cacheKey] = node
     }
 
