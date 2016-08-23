@@ -14,12 +14,51 @@ struct TestModel: Model {
   let description: String
 }
 
-class ViewController: UIViewController {
-  fileprivate lazy var client: TemplateClient = {
-    return TemplateClient(fetchStrategy: .local(Bundle.main, nil))
+class ContainerView: UIView {
+  private lazy var spinner: UIActivityIndicatorView = {
+    let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    spinner.startAnimating()
+    return spinner
   }()
 
-  private lazy var tableView: TableView = {
+  fileprivate var tableView: TableView? {
+    didSet {
+      guard let tableView = tableView else { return }
+      spinner.removeFromSuperview()
+      addSubview(tableView)
+      setNeedsLayout()
+    }
+  }
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+
+    addSubview(spinner)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+
+    spinner.sizeToFit()
+    spinner.frame = CGRect(x: (bounds.width - spinner.bounds.width) / 2, y: (bounds.height - spinner.bounds.height) / 2, width: spinner.bounds.width, height: spinner.bounds.height)
+    tableView?.frame = bounds
+  }
+}
+
+class ViewController: UIViewController {
+  fileprivate lazy var client: TemplateClient = {
+    let client = TemplateClient(fetchStrategy: .local(Bundle.main, nil))
+    client.delegate = self
+    return client
+  }()
+
+  fileprivate lazy var containerView: ContainerView = ContainerView()
+
+  fileprivate lazy var tableView: TableView = {
     let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .plain)
 
     tableView.tableViewDataSource = self
@@ -28,7 +67,22 @@ class ViewController: UIViewController {
   }()
 
   override func loadView() {
-    view = tableView
+    view = containerView
+  }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    client.fetchTemplates()
+  }
+}
+
+extension ViewController: TemplateClientDelegate {
+  func templatesDidLoad() {
+    containerView.tableView = tableView
+  }
+
+  func templatesDidFailToLoad(withError error: Error) {
+    // TODO(mcudich): Show error.
   }
 }
 

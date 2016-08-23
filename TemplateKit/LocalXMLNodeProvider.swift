@@ -10,16 +10,15 @@ class LocalXMLNodeProvider {
   init(bundle: Bundle, directory: String?) {
     self.bundle = bundle
     self.directory = directory
-
-    loadTemplates()
   }
 
-  private func loadTemplates() {
-    bundle.urls(forResourcesWithExtension: "xml", subdirectory: directory)?.forEach(loadTemplate)
+  fileprivate func loadTemplates() throws {
+    try bundle.urls(forResourcesWithExtension: "xml", subdirectory: directory)?.forEach(loadTemplate)
   }
 
-  private func loadTemplate(withURL url: URL) {
-    if let xml = try? Data(contentsOf: url), let definition = Template.process(xml: xml) {
+  private func loadTemplate(withURL url: URL) throws {
+    let xml = try Data(contentsOf: url)
+    if let definition = Template.process(xml: xml) {
       definitions[definition.identifier] = definition
       NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: definition.identifier)
       NodeRegistry.shared.register(propertyTypes: definition.propertyTypes, forIdentifier: definition.identifier)
@@ -27,7 +26,19 @@ class LocalXMLNodeProvider {
   }
 }
 
-extension LocalXMLNodeProvider: NodeProvider {
+extension LocalXMLNodeProvider: TemplateProvider {
+  func fetchTemplates(completion: @escaping (Result<Void>) -> Void) {
+    DispatchQueue.global(qos: .background).async { [weak self] in
+      do {
+        try self?.loadTemplates()
+      } catch {
+        completion(.error(error))
+        return
+      }
+      completion(.success())
+    }
+  }
+
   func node(withName name: String, properties: [String: Any]?) -> Node? {
     return definitions[name]?.makeNode(withProperties: properties)
   }

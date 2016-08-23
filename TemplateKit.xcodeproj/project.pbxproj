@@ -35,6 +35,7 @@
 		D891944C1D57F7280049991F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891944B1D57F7280049991F /* AEXML.framework */; };
 		D89195021D580B2B0049991F /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89195011D580B2B0049991F /* TableView.swift */; };
 		D89195051D5A6E350049991F /* DelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89195041D5A6E350049991F /* DelegateProxy.swift */; };
+		D8CB3E161D6BF9DA003274AD /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E151D6BF9DA003274AD /* Result.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		D891944B1D57F7280049991F /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
 		D89195011D580B2B0049991F /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		D89195041D5A6E350049991F /* DelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateProxy.swift; sourceTree = "<group>"; };
+		D8CB3E151D6BF9DA003274AD /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				D8811CCE1D5C2A8D0098624B /* Dictionary.swift */,
 				D8811CD01D5D815C0098624B /* ImageView.swift */,
 				D8811CD21D5D84260098624B /* ImageService.swift */,
+				D8CB3E151D6BF9DA003274AD /* Result.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				D891943E1D57F2450049991F /* TemplateClient.swift in Sources */,
 				D89194341D57F2450049991F /* BoxNode.swift in Sources */,
 				D8811CD31D5D84260098624B /* ImageService.swift in Sources */,
+				D8CB3E161D6BF9DA003274AD /* Result.swift in Sources */,
 				D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */,
 				D8811CD11D5D815C0098624B /* ImageView.swift in Sources */,
 				D89194381D57F2450049991F /* Node.swift in Sources */,
