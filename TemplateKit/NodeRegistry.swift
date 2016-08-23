@@ -1,5 +1,5 @@
 public class NodeRegistry {
-  static let shared = NodeRegistry()
+  public static let shared = NodeRegistry()
 
   public typealias NodeInstanceProvider = ([String: Any]) -> Node
   private lazy var providers = [String: NodeInstanceProvider]()
@@ -63,7 +63,12 @@ public class NodeRegistry {
 
     var textTypes = defaultPropertyTypes
     textTypes.merge(with: [
-      "text": Validation.string
+      "text": Validation.string,
+      "fontName": Validation.string,
+      "fontSize": Validation.float,
+      "textColor": Validation.color,
+      "textAlignment": TextValidation.textAlignment,
+      "lineBreakMode": TextValidation.lineBreakMode
     ])
 
     var imageTypes = defaultPropertyTypes
