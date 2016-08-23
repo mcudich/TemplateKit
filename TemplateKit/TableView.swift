@@ -62,7 +62,7 @@ import UIKit
 
 extension TableViewDataSource {
   func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int {
-    return 0
+    return NSIndexPath(item: indexPath.item, section: indexPath.section).hashValue
   }
 }
 
@@ -189,7 +189,6 @@ public class TableView: UITableView {
     let node = nodeProvider.node(withName: nodeName, properties: tableViewDataSource.tableView?(self, propertiesForRowAtIndexPath: indexPath) ?? [:])
 
     rowNodeCache[cacheKey] = node
-
 
     return node
   }
