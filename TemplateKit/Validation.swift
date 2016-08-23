@@ -15,7 +15,9 @@ public protocol ValidationType {
 public enum Validation: String, ValidationType {
   case string
   case float
+  case integer
   case url
+  case color
   case any
 
   public func validate(value: Any?) -> Any? {
@@ -31,12 +33,26 @@ public enum Validation: String, ValidationType {
       if let stringValue = value as? String {
         return stringValue.float
       }
+    case .integer:
+      if value is Integer {
+        return value
+      }
+      if let stringValue = value as? String {
+        return stringValue.integer
+      }
     case .url:
       if value is URL {
         return value
       }
       if let stringValue = value as? String {
         return stringValue.url
+      }
+    case .color:
+      if value is UIColor {
+        return value
+      }
+      if let stringValue = value as? String {
+        return stringValue.color
       }
     case .any:
       return value

@@ -14,6 +14,9 @@ enum ImageValidation: String, ValidationType {
   func validate(value: Any?) -> Any? {
     switch self {
     case .contentMode:
+      if value is UIViewContentMode {
+        return value
+      }
       if let stringValue = value as? String {
         return stringValue.contentMode
       }
