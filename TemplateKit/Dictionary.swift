@@ -14,17 +14,4 @@ extension Dictionary {
       self[key] = value
     }
   }
-
-  func merged(with dictionary: Dictionary) -> Dictionary<Key, Value> {
-    var newDictionary = Dictionary<Key, Value>()
-
-    for (key, value) in self {
-      newDictionary[key] = value
-    }
-    for (key, value) in dictionary {
-      newDictionary[key] = value
-    }
-
-    return newDictionary
-  }
 }
