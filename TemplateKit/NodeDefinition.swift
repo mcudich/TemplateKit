@@ -35,18 +35,9 @@ indirect enum NodeReference {
     }
 
     let startIndex = expression.characters.index(expression.startIndex, offsetBy: 1)
-    let separator = "."
-    let keyPath = expression.substring(from: startIndex).components(separatedBy: separator)
+    let keyPath = expression.substring(from: startIndex)
 
-    guard let rootPath = keyPath.first, let propertyValue = properties?[rootPath] else {
-      return nil
-    }
-
-    if keyPath.count > 1, let resolvedModel = propertyValue as? Model {
-      return resolvedModel.value(forKey: keyPath.dropFirst().joined(separator: separator))
-    } else {
-      return propertyValue
-    }
+    return properties?.value(forKey: keyPath)
   }
 }
 
