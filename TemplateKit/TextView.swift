@@ -132,7 +132,7 @@ class TextView: UILabel {
     guard let font = UIFont(name: fontName, size: fontSize) else {
       fatalError("Attempting to use unknown font")
     }
-    var attributes = [
+    let attributes = [
       NSFontAttributeName: font,
       NSForegroundColorAttributeName: color
     ]

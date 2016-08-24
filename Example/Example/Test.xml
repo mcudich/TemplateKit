@@ -1,4 +1,6 @@
 <Definition id="Test">
+  <Import src="./Details.xml" />
+
   <PropertyTypes>
     <PropertyType key="model" type="any" />
   </PropertyTypes>

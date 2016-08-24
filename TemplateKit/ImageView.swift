@@ -67,8 +67,14 @@ class ImageView: UIImageView {
 
   fileprivate func load() {
     if let url = url {
-      ImageService.shared.loadImage(withURL: url) { [weak self] image in
-        self?.image = image
+      ImageService.shared.load(url) { [weak self] result in
+        switch result {
+        case .success(let image):
+          self?.image = image
+        case .error(_):
+          // TODO(mcudich): Show placeholder error image.
+          break
+        }
       }
     } else if let name = name {
       image = UIImage(named: name)
