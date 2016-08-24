@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Result<ResultType> {
+public enum Result<ResultType> {
   case success(ResultType)
   case error(Error)
 
