@@ -22,11 +22,13 @@ class TemplateParser: Parser {
 
 public class TemplateClient {
   let templateService = NetworkService<TemplateParser, NodeDefinition>()
+
+  public init() {}
 }
 
 extension TemplateClient: NodeProvider {
   public func node(withLocation location: URL, properties: [String : Any]?, completion: NodeResultHandler) {
-    templateService.load(location, completion: processDefinition { result in
+    loadTemplate(location, completion: processDefinition(withLocation: location) { result in
       switch result {
       case .success(let definition):
         completion(.success(definition.makeNode(withProperties: properties)))
@@ -36,7 +38,23 @@ extension TemplateClient: NodeProvider {
     })
   }
 
-  private func processDefinition(completion: NodeDefinitionResultHandler) -> NodeDefinitionResultHandler {
+  private func loadTemplate(_ location: URL, completion: NodeDefinitionResultHandler) {
+    if (location as NSURL).isFileReferenceURL() || location.isFileURL {
+      DispatchQueue.global(qos: .background).async {
+        do {
+          let data = try Data(contentsOf: location)
+          let definition = try TemplateParser().parse(data: data)
+          completion(.success(definition))
+        } catch {
+          completion(.error(error))
+        }
+      }
+    } else {
+      templateService.load(location, completion: completion)
+    }
+  }
+
+  private func processDefinition(withLocation location: URL, completion: NodeDefinitionResultHandler) -> NodeDefinitionResultHandler {
     return { [weak self] result in
       guard let weakSelf = self else { return }
 
@@ -51,7 +69,9 @@ extension TemplateClient: NodeProvider {
 
         var pendingDependencies = Set(definition.dependencies)
         for dependency in definition.dependencies {
-          weakSelf.templateService.load(dependency, completion: weakSelf.processDefinition { result in
+          let resolvedURL = URL(string: dependency.absoluteString, relativeTo: location)!
+          let absoluteURL = URL(string: resolvedURL.absoluteString)!
+          weakSelf.loadTemplate(resolvedURL, completion: weakSelf.processDefinition(withLocation: resolvedURL) { dependencyResult in
             pendingDependencies.remove(dependency)
             if pendingDependencies.count == 0 {
               completion(result)

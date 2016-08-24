@@ -2,8 +2,8 @@ import Foundation
 import AEXML
 
 enum ReservedElementName: String {
-  case PropertyTypes
-  case Imports
+  case PropertyType
+  case Import
 }
 
 enum Template {
@@ -24,21 +24,21 @@ enum Template {
   }
 
   private static func collectDependencies(rootElement: AEXMLElement) -> [URL] {
-    let importsElement = rootElement.children.first { element in
-      return element.name == ReservedElementName.Imports.rawValue
+    let importElements = rootElement.children.filter { element in
+      return element.name == ReservedElementName.Import.rawValue
     }
-    return importsElement?.children.map { tag in
+    return importElements.map { tag in
       return URL(string: tag.attributes["url"]!)!
-    } ?? []
+    }
   }
 
   private static func collectPropertyTypes(rootElement: AEXMLElement) -> [String: ValidationType] {
-    let propertyTypesElement = rootElement.children.first { element in
-      return element.name == ReservedElementName.PropertyTypes.rawValue
-    }!
+    let propertyTypeElements = rootElement.children.filter { element in
+      return element.name == ReservedElementName.PropertyType.rawValue
+    }
 
     var types = [String: ValidationType]()
-    for child in propertyTypesElement.children {
+    for child in propertyTypeElements {
       let key = child.attributes["key"]!
       let type = child.attributes["type"]!
       // TODO(mcudich): XML should express validation domain.
