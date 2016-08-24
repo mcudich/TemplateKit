@@ -1,5 +1,5 @@
 public class NodeRegistry {
-  static let shared = NodeRegistry()
+  public static let shared = NodeRegistry()
 
   public typealias NodeInstanceProvider = ([String: Any]) -> Node
   private lazy var providers = [String: NodeInstanceProvider]()
@@ -50,7 +50,8 @@ public class NodeRegistry {
       "selfAlignment": FlexboxValidation.selfAlignment,
     ]
 
-    let boxTypes = defaultPropertyTypes.merged(with: [
+    var boxTypes = defaultPropertyTypes
+    boxTypes.merge(with: [
       "flexDirection": FlexboxValidation.flexDirection,
       "paddingTop": Validation.float,
       "paddingBottom": Validation.float,
@@ -60,12 +61,21 @@ public class NodeRegistry {
       "childAlignment": FlexboxValidation.childAlignment
     ])
 
-    let textTypes = defaultPropertyTypes.merged(with: [
-      "text": Validation.string
+    var textTypes = defaultPropertyTypes
+    textTypes.merge(with: [
+      "text": Validation.string,
+      "fontName": Validation.string,
+      "fontSize": Validation.float,
+      "textColor": Validation.color,
+      "textAlignment": TextValidation.textAlignment,
+      "lineBreakMode": TextValidation.lineBreakMode
     ])
 
-    let imageTypes = defaultPropertyTypes.merged(with: [
-      "url": Validation.url
+    var imageTypes = defaultPropertyTypes
+    imageTypes.merge(with: [
+      "url": Validation.url,
+      "name": Validation.string,
+      "contentMode": ImageValidation.contentMode
     ])
 
     register(propertyTypes: boxTypes, forIdentifier: "Box")

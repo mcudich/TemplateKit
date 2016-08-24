@@ -1,7 +1,5 @@
 <Definition id="Details">
-  <PropertyTypes>
-    <PropertyType key="description" type="string" />
-  </PropertyTypes>
+  <PropertyType key="description" type="string" />
 
   <Box>
     <Text text="$description" />

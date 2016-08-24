@@ -43,6 +43,7 @@ indirect enum NodeReference {
 
 struct NodeDefinition {
   let identifier: String
+  let dependencies: [URL]
   let root: NodeReference
   let propertyTypes: [String: ValidationType]
 
