@@ -17,16 +17,16 @@ class TemplateParser: Parser {
   }
 }
 
-public class TemplateClient {
+public class TemplateService {
   let networkService = ResourceService<NetworkTransport, TemplateParser>()
   let fileService = ResourceService<FileTransport, TemplateParser>()
 
   public init() {}
 }
 
-extension TemplateClient: NodeProvider {
+extension TemplateService: NodeProvider {
   public func node(withLocation location: URL, properties: [String : Any]?, completion: NodeResultHandler) {
-    loadTemplate(location, completion: processDefinition(withLocation: location) { result in
+    loadTemplate(withLocation: location, completion: processDefinition(withLocation: location) { result in
       switch result {
       case .success(let definition):
         completion(.success(definition.makeNode(withProperties: properties)))
@@ -36,8 +36,8 @@ extension TemplateClient: NodeProvider {
     })
   }
 
-  private func loadTemplate(_ location: URL, completion: NodeDefinitionResultHandler) {
-    if (location as NSURL).isFileReferenceURL() || location.isFileURL {
+  private func loadTemplate(withLocation location: URL, completion: NodeDefinitionResultHandler) {
+    if location.isFileURL {
       fileService.load(location, completion: completion)
     } else {
       networkService.load(location, completion: completion)
@@ -46,31 +46,37 @@ extension TemplateClient: NodeProvider {
 
   private func processDefinition(withLocation location: URL, completion: NodeDefinitionResultHandler) -> NodeDefinitionResultHandler {
     return { [weak self] result in
-      guard let weakSelf = self else { return }
-
       switch result {
       case .success(let definition):
-        NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: definition.name)
-        NodeRegistry.shared.register(propertyTypes: definition.propertyTypes, forIdentifier: definition.name)
-
-        if definition.dependencies.isEmpty {
-          return completion(result)
-        }
-
-        var pendingDependencies = Set(definition.dependencies)
-        for dependency in definition.dependencies {
-          let resolvedURL = URL(string: dependency.absoluteString, relativeTo: location)!
-          let absoluteURL = URL(string: resolvedURL.absoluteString)!
-          weakSelf.loadTemplate(resolvedURL, completion: weakSelf.processDefinition(withLocation: resolvedURL) { dependencyResult in
-            pendingDependencies.remove(dependency)
-            if pendingDependencies.count == 0 {
-              completion(result)
-            }
-          })
+        self?.registerDefinition(definition)
+        self?.loadDependencies(definition.dependencies, withRelativeURL: location) {
+          completion(result)
         }
       case .error(_):
         completion(result)
       }
+    }
+  }
+
+  private func registerDefinition(_ definition: NodeDefinition) {
+    NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: definition.name)
+    NodeRegistry.shared.register(propertyTypes: definition.propertyTypes, forIdentifier: definition.name)
+  }
+
+  private func loadDependencies(_ dependencies: [URL], withRelativeURL relativeURL: URL, completion: @escaping () -> Void) {
+    if dependencies.isEmpty {
+      return completion()
+    }
+
+    var pendingDependencies = Set(dependencies)
+    for dependency in dependencies {
+      let resolvedURL = URL(string: dependency.absoluteString, relativeTo: relativeURL)!
+      loadTemplate(withLocation: resolvedURL, completion: processDefinition(withLocation: resolvedURL) { dependencyResult in
+        pendingDependencies.remove(dependency)
+        if pendingDependencies.count == 0 {
+          completion()
+        }
+      })
     }
   }
 }
