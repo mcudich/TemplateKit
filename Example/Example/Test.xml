@@ -1,4 +1,4 @@
-<Definition id="Test">
+<Definition name="Test">
   <Import url="./Details.xml" />
 
   <PropertyType key="model" type="any" />
