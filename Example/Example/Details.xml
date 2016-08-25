@@ -1,4 +1,4 @@
-<Definition id="Details">
+<Definition name="Details">
   <PropertyType key="description" type="string" />
 
   <Box>

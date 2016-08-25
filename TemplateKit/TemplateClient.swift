@@ -13,10 +13,7 @@ class TemplateParser: Parser {
   required init() {}
 
   func parse(data: Data) throws -> NodeDefinition {
-    guard let definition = Template.parse(xml: data) else {
-      throw TemplateKitError.parserError("Invalid template data")
-    }
-    return definition
+    return try Template.parse(xml: data)
   }
 }
 
@@ -53,8 +50,8 @@ extension TemplateClient: NodeProvider {
 
       switch result {
       case .success(let definition):
-        NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: definition.identifier)
-        NodeRegistry.shared.register(propertyTypes: definition.propertyTypes, forIdentifier: definition.identifier)
+        NodeRegistry.shared.register(nodeInstanceProvider: definition.makeNode, forIdentifier: definition.name)
+        NodeRegistry.shared.register(propertyTypes: definition.propertyTypes, forIdentifier: definition.name)
 
         if definition.dependencies.isEmpty {
           return completion(result)

@@ -193,8 +193,8 @@ public class TableView: UITableView {
               UIView.setAnimationsEnabled(true)
             }
           }
-        case .error(_):
-          break
+        case .error(let error):
+          print(error)
         }
       }
     }
