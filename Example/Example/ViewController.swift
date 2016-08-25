@@ -15,10 +15,7 @@ struct TestModel: Model {
 }
 
 class ViewController: UIViewController {
-  fileprivate lazy var client: TemplateClient = {
-    let client = TemplateClient()
-    return client
-  }()
+  fileprivate lazy var client = TemplateService()
 
   fileprivate lazy var tableView: TableView = {
     let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .plain)
