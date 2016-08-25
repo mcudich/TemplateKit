@@ -173,18 +173,25 @@ public class TableView: UITableView {
     }
 
     let expectedRowCount = tableViewDataSource.tableView(self, numberOfRowsInSection: 0)
-    for row in 0..<expectedRowCount {
-      let indexPath = IndexPath(row: row, section: 0)
+    let indexPaths = (0..<expectedRowCount).map { IndexPath(row: $0, section: 0) }
+    var completedNodes = 0
+    for indexPath in indexPaths {
       let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
       let location = tableViewDataSource.tableView(self, locationForNodeAtIndexPath: indexPath)
       let properties = tableViewDataSource.tableView?(self, propertiesForRowAtIndexPath: indexPath) ?? [:]
+
       nodeProvider.node(withLocation: location, properties: properties) { [weak self] result in
         switch result {
         case .success(let node):
           node.sizeToFit(CGSize(width: self?.bounds.width ?? 0, height: CGFloat.greatestFiniteMagnitude))
           self?.rowNodeCache[cacheKey] = node
-          DispatchQueue.main.async {
-            self?.insertRows(at: [indexPath], with: .none)
+          completedNodes += 1
+          if completedNodes == expectedRowCount {
+            DispatchQueue.main.async {
+              UIView.setAnimationsEnabled(false)
+              self?.insertRows(at: indexPaths, with: .none)
+              UIView.setAnimationsEnabled(true)
+            }
           }
         case .error(_):
           break
@@ -200,7 +207,6 @@ extension TableView {
   }
 
   func heightForNode(_ node: Node?) -> CGFloat {
-    print(node?.view.calculatedFrame)
     return node?.view.calculatedFrame?.height ?? 0
   }
 }

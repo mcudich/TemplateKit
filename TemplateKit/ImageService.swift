@@ -21,6 +21,6 @@ class ImageParser: Parser {
   }
 }
 
-class ImageService: NetworkService<ImageParser, UIImage> {
+class ImageService: ResourceService<NetworkTransport, ImageParser> {
   static let shared = ImageService()
 }

@@ -21,7 +21,8 @@ class TemplateParser: Parser {
 }
 
 public class TemplateClient {
-  let templateService = NetworkService<TemplateParser, NodeDefinition>()
+  let networkService = ResourceService<NetworkTransport, TemplateParser>()
+  let fileService = ResourceService<FileTransport, TemplateParser>()
 
   public init() {}
 }
@@ -40,17 +41,9 @@ extension TemplateClient: NodeProvider {
 
   private func loadTemplate(_ location: URL, completion: NodeDefinitionResultHandler) {
     if (location as NSURL).isFileReferenceURL() || location.isFileURL {
-      DispatchQueue.global(qos: .background).async {
-        do {
-          let data = try Data(contentsOf: location)
-          let definition = try TemplateParser().parse(data: data)
-          completion(.success(definition))
-        } catch {
-          completion(.error(error))
-        }
-      }
+      fileService.load(location, completion: completion)
     } else {
-      templateService.load(location, completion: completion)
+      networkService.load(location, completion: completion)
     }
   }
 
