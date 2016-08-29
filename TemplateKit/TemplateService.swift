@@ -18,8 +18,7 @@ class TemplateParser: Parser {
 }
 
 public class TemplateService {
-  let networkService = ResourceService<NetworkTransport, TemplateParser>()
-  let fileService = ResourceService<FileTransport, TemplateParser>()
+  let resourceService = ResourceService<TemplateParser>()
 
   public init() {}
 }
@@ -37,11 +36,7 @@ extension TemplateService: NodeProvider {
   }
 
   private func loadTemplate(withLocation location: URL, completion: NodeDefinitionResultHandler) {
-    if location.isFileURL {
-      fileService.load(location, completion: completion)
-    } else {
-      networkService.load(location, completion: completion)
-    }
+    resourceService.load(location, completion: completion)
   }
 
   private func processDefinition(withLocation location: URL, completion: NodeDefinitionResultHandler) -> NodeDefinitionResultHandler {
