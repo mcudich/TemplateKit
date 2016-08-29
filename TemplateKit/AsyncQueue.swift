@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias Task = (() -> Void) -> Void
+typealias Task = (@escaping () -> Void) -> Void
 
 class AsyncOperation: Operation {
   var task: Task?
@@ -49,7 +49,7 @@ class AsyncOperation: Operation {
     _executing = true
 
     task? {
-      complete()
+      self.complete()
     }
   }
 
@@ -66,9 +66,9 @@ class AsyncQueue<OperationType: AsyncOperation>: OperationQueue {
     self.maxConcurrentOperationCount = maxConcurrentOperationCount
   }
 
-  func enqueueOperation(withBlock block: Task) -> OperationType {
+  func enqueueOperation(withBlock block: Task) {
     let operation = OperationType()
     operation.task = block
-    return operation
+    addOperation(operation)
   }
 }
