@@ -18,34 +18,7 @@ protocol Parser {
   func parse(data: Data) throws -> ParsedType
 }
 
-protocol Transport {
-  static func load(url: URL, completion: @escaping (Result<Data>) -> Void)
-}
-
-class NetworkTransport: Transport {
-  static func load(url: URL, completion: @escaping (Result<Data>) -> Void) {
-    Alamofire.request(url, withMethod: .get).responseData { response in
-      switch response.result {
-      case .success(let data):
-        completion(.success(data))
-      case .failure(let error):
-        completion(.error(error))
-      }
-    }
-  }
-}
-
-class FileTransport: Transport {
-  static func load(url: URL, completion: @escaping (Result<Data>) -> Void) {
-    do {
-      completion(.success(try Data(contentsOf: url)))
-    } catch {
-      completion(.error(error))
-    }
-  }
-}
-
-class RequestOperation<TransportType: Transport, ParserType: Parser>: Operation {
+class RequestOperation<ParserType: Parser>: Operation {
   typealias OperationCompletionHandler = (URL, ResponseType?) -> Void
   typealias ResponseType = ParserType.ParsedType
 
@@ -131,10 +104,10 @@ class RequestOperation<TransportType: Transport, ParserType: Parser>: Operation 
   }
 }
 
-class ResourceService<TransportType: Transport, ParserType: Parser> {
+class ResourceService<ParserType: Parser> {
   typealias ResponseType = ParserType.ParsedType
 
-  private lazy var pendingOperations = [URL: RequestOperation<TransportType, ParserType>]()
+  private lazy var pendingOperations = [URL: RequestOperation<ParserType>]()
 
   private lazy var operationQueue: OperationQueue = {
     let queue = OperationQueue()
@@ -153,7 +126,7 @@ class ResourceService<TransportType: Transport, ParserType: Parser> {
       return pendingOperation.pendingCallbacks.append(completion)
     }
 
-    let operation = RequestOperation<TransportType, ParserType>(url: url) { [weak self] url, response in
+    let operation = RequestOperation<ParserType>(url: url) { [weak self] url, response in
       let _ = self?.pendingOperations.removeValue(forKey: url)
       self?.cache[url] = response
     }
