@@ -70,7 +70,9 @@ class ImageView: UIImageView {
       ImageService.shared.load(url) { [weak self] result in
         switch result {
         case .success(let image):
-          self?.image = image
+          DispatchQueue.main.async {
+            self?.image = image
+          }
         case .error(_):
           // TODO(mcudich): Show placeholder error image.
           break

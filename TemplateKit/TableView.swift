@@ -112,10 +112,12 @@ public class TableView: UITableView {
   }
 
   fileprivate let cellIdentifier = "TableViewCell"
+  fileprivate lazy var rowNodeCache = [Int: Node]()
+
   private let nodeProvider: NodeProvider
+  private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
   private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
   private var dataSourceProxy: (DelegateProxyProtocol & UITableViewDataSource)?
-  fileprivate lazy var rowNodeCache = [Int: Node]()
 
   public init(nodeProvider: NodeProvider, frame: CGRect, style: UITableViewStyle) {
     self.nodeProvider = nodeProvider
@@ -165,6 +167,46 @@ public class TableView: UITableView {
     return delegateProxy
   }
 
+  public override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    guard let tableViewDataSource = tableViewDataSource else {
+      return
+    }
+
+    let insert = {
+      super.insertRows(at: indexPaths, with: animation)
+    }
+
+    operationQueue.enqueueOperation { done in
+      var completedNodes = 0
+
+      for indexPath in indexPaths {
+        let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
+        let location = tableViewDataSource.tableView(self, locationForNodeAtIndexPath: indexPath)
+        let properties = tableViewDataSource.tableView?(self, propertiesForRowAtIndexPath: indexPath) ?? [:]
+
+        self.nodeProvider.node(withLocation: location, properties: properties) { [weak self] result in
+          switch result {
+          case .success(let node):
+            node.sizeToFit(CGSize(width: self?.bounds.width ?? 0, height: CGFloat.greatestFiniteMagnitude))
+            self?.rowNodeCache[cacheKey] = node
+            completedNodes += 1
+
+            DispatchQueue.main.async {
+              UIView.performWithoutAnimation {
+                if completedNodes == indexPaths.count {
+                  insert()
+                  done()
+                }
+              }
+            }
+          case .error(let error):
+            print(error)
+          }
+        }
+      }
+    }
+  }
+
   public override func reloadData() {
     super.reloadData()
 
@@ -174,30 +216,7 @@ public class TableView: UITableView {
 
     let expectedRowCount = tableViewDataSource.tableView(self, numberOfRowsInSection: 0)
     let indexPaths = (0..<expectedRowCount).map { IndexPath(row: $0, section: 0) }
-    var completedNodes = 0
-    for indexPath in indexPaths {
-      let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-      let location = tableViewDataSource.tableView(self, locationForNodeAtIndexPath: indexPath)
-      let properties = tableViewDataSource.tableView?(self, propertiesForRowAtIndexPath: indexPath) ?? [:]
-
-      nodeProvider.node(withLocation: location, properties: properties) { [weak self] result in
-        switch result {
-        case .success(let node):
-          node.sizeToFit(CGSize(width: self?.bounds.width ?? 0, height: CGFloat.greatestFiniteMagnitude))
-          self?.rowNodeCache[cacheKey] = node
-          completedNodes += 1
-          if completedNodes == expectedRowCount {
-            DispatchQueue.main.async {
-              UIView.setAnimationsEnabled(false)
-              self?.insertRows(at: indexPaths, with: .none)
-              UIView.setAnimationsEnabled(true)
-            }
-          }
-        case .error(let error):
-          print(error)
-        }
-      }
-    }
+    insertRows(at: indexPaths, with: .none)
   }
 }
 
