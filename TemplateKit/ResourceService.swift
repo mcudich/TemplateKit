@@ -21,13 +21,19 @@ protocol Parser {
 class ResourceService<ParserType: Parser> {
   typealias ResponseType = ParserType.ParsedType
 
-  private lazy var pendingOperations = [URL: [CompletionHandler<ResponseType>]]()
-
+  private lazy var requestQueue: DispatchQueue = DispatchQueue(label: "requestQueue")
   private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 8)
 
+  private lazy var pendingOperations = [URL: [CompletionHandler<ResponseType>]]()
   private lazy var cache = [URL: ResponseType]()
 
   func load(_ url: URL, completion: CompletionHandler<ResponseType>) {
+    requestQueue.async {
+      self.enqueueLoad(url, completion: completion)
+    }
+  }
+
+  func enqueueLoad(_ url: URL, completion: CompletionHandler<ResponseType>) {
     if let response = cache[url] {
       return completion(.success(response))
     }
@@ -40,7 +46,7 @@ class ResourceService<ParserType: Parser> {
     pendingOperations[url] = [completion]
 
     operationQueue.enqueueOperation { done in
-      Alamofire.request(url, withMethod: .get).responseData { [weak self] response in
+      Alamofire.request(url, withMethod: .get).responseData(queue: self.requestQueue) { [weak self] response in
         switch response.result {
         case .failure(let error):
           self?.fail(forURL: url, withError: error)
