@@ -105,6 +105,8 @@ class TextView: UILabel {
 
   required init() {
     super.init(frame: CGRect.zero)
+
+    isUserInteractionEnabled = true
   }
 
   required init?(coder aDecoder: NSCoder) {

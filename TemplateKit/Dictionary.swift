@@ -14,4 +14,10 @@ extension Dictionary {
       self[key] = value
     }
   }
+
+  func merged(with dictionary: Dictionary) -> Dictionary {
+    var copy = self
+    copy.merge(with: dictionary)
+    return copy
+  }
 }

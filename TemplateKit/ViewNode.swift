@@ -13,7 +13,13 @@ public class ViewNode<V: View>: Node {
 
   public lazy var view: View = {
     var view = V()
+
     view.propertyProvider = self
+
+    if let tapHandler = self.properties?["onTap"] {
+      view.addTapHandler(target: self, action: #selector(handleTap))
+    }
+
     return view
   }()
 
@@ -34,5 +40,13 @@ public class ViewNode<V: View>: Node {
 
   public func sizeToFit(_ size: CGSize) {
     view.sizeToFit(size)
+  }
+
+  @objc private func handleTap(sender: Any) {
+    guard let tapHandler = properties?["onTap"] as? (() -> Void) else {
+      return
+    }
+
+    tapHandler()
   }
 }

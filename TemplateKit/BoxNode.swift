@@ -123,15 +123,20 @@ extension BoxNode: ContainerNode {
   }
 }
 
-public class BoxView: View {
+public class BoxView: UIView, View {
   public weak var propertyProvider: PropertyProvider?
 
   public var calculatedFrame: CGRect?
 
-  private lazy var renderedView = UIView()
   fileprivate lazy var children = [View]()
 
-  public required init() {}
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+  }
+  
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   func add(view: View) {
     children.append(view)
@@ -142,13 +147,13 @@ public class BoxView: View {
     for child in children {
       let childView = child.render()
       childView.frame = child.calculatedFrame ?? CGRect.zero
-      renderedView.addSubview(childView)
+      addSubview(childView)
     }
 
-    return renderedView
+    return self
   }
 
-  public func sizeThatFits(_ size: CGSize) -> CGSize {
+  public override func sizeThatFits(_ size: CGSize) -> CGSize {
     let layout = flexNode.layout(withMaxWidth: size.width)
 
     apply(layout: layout)
@@ -167,7 +172,7 @@ public class BoxView: View {
   }
 }
 
-typealias FlexNode = SwiftBox.Node
+public typealias FlexNode = SwiftBox.Node
 
 extension View {
   var flexSize: CGSize {
@@ -186,15 +191,15 @@ extension View {
   }
 
   var selfAlignment: SelfAlignment {
-    return propertyProvider?.get("selfAlignment") ?? .flexStart
+    return propertyProvider?.get("selfAlignment") ?? .stretch
   }
 }
 
-protocol FlexNodeProvider {
+public protocol FlexNodeProvider {
   var flexNode: FlexNode { get }
 }
 
-extension FlexNodeProvider where Self: View {
+public extension FlexNodeProvider where Self: View {
   var flexNode: FlexNode {
     return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex)
   }
@@ -217,7 +222,7 @@ extension BoxView: FlexNodeProvider {
     return propertyProvider?.get("childAlignment") ?? .stretch
   }
 
-  var flexNode: FlexNode {
+  public var flexNode: FlexNode {
     let flexNodes: [FlexNode] = children.map {
       guard let flexNodeProvider = $0 as? FlexNodeProvider else {
         fatalError("Child in a Box node must implement the FlexNodeProvider protocol")
