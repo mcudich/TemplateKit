@@ -25,7 +25,11 @@ class ViewController: UIViewController {
     super.viewDidLoad()
 
     let location = Bundle.main.url(forResource: "App", withExtension: "xml")!
-    let properties = ["width": self.view.bounds.width, "height": self.view.bounds.height]
+    let properties: [String: Any] = [
+      "width": view.bounds.width,
+      "height": view.bounds.height,
+      "onTapAddRow": onTapAddRow
+    ]
     TemplateService.shared.node(withLocation: location, properties: properties) { result in
       switch result {
       case .success(let node):
@@ -38,5 +42,9 @@ class ViewController: UIViewController {
         fatalError(error.localizedDescription)
       }
     }
+  }
+
+  func onTapAddRow() {
+
   }
 }

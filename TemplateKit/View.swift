@@ -14,7 +14,11 @@ public protocol Renderable: class {
   func sizeToFit(_ size: CGSize)
 }
 
-public protocol View: Renderable {
+public protocol GestureHandler {
+  func addTapHandler(target: Any?, action: Selector?)
+}
+
+public protocol View: Renderable, GestureHandler {
   var calculatedFrame: CGRect? { set get }
   var propertyProvider: PropertyProvider? { set get }
 
@@ -28,5 +32,16 @@ extension View {
       calculatedFrame = CGRect.zero
     }
     calculatedFrame?.size = sizeThatFits(size)
+  }
+
+  public func addTapHandler(target: Any?, action: Selector?) {
+
+  }
+}
+
+extension View where Self: UIView {
+  public func addTapHandler(target: Any?, action: Selector?) {
+    let gestureRecognizer = UITapGestureRecognizer(target: target, action: action)
+    addGestureRecognizer(gestureRecognizer)
   }
 }

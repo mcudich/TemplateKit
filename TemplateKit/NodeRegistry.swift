@@ -10,7 +10,8 @@ public class NodeRegistry {
     "marginLeft": Validation.float,
     "marginRight": Validation.float,
     "selfAlignment": FlexboxValidation.selfAlignment,
-    "flex": Validation.float
+    "flex": Validation.float,
+    "onTap": Validation.any
   ]
 
   public typealias NodeInstanceProvider = ([String: Any]) -> Node

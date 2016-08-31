@@ -123,15 +123,20 @@ extension BoxNode: ContainerNode {
   }
 }
 
-public class BoxView: View {
+public class BoxView: UIView, View {
   public weak var propertyProvider: PropertyProvider?
 
   public var calculatedFrame: CGRect?
 
-  private lazy var renderedView = UIView()
   fileprivate lazy var children = [View]()
 
-  public required init() {}
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+  }
+  
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   func add(view: View) {
     children.append(view)
@@ -142,13 +147,13 @@ public class BoxView: View {
     for child in children {
       let childView = child.render()
       childView.frame = child.calculatedFrame ?? CGRect.zero
-      renderedView.addSubview(childView)
+      addSubview(childView)
     }
 
-    return renderedView
+    return self
   }
 
-  public func sizeThatFits(_ size: CGSize) -> CGSize {
+  public override func sizeThatFits(_ size: CGSize) -> CGSize {
     let layout = flexNode.layout(withMaxWidth: size.width)
 
     apply(layout: layout)
