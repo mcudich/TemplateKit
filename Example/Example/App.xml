@@ -1,0 +1,9 @@
+<Definition name="App">
+  <PropertyType key="width" type="float" />
+  <PropertyType key="height" type="float" />
+
+  <Box width="$width" height="$height" paddingTop="60">
+    <Text text="Add row" />
+    <TodoList flex="1" />
+  </Box>
+</Definition>

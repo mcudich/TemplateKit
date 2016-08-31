@@ -1,5 +1,17 @@
 public class NodeRegistry {
   public static let shared = NodeRegistry()
+  public static let defaultPropertyTypes: [String: ValidationType] = [
+    "x": Validation.float,
+    "y": Validation.float,
+    "width": Validation.float,
+    "height": Validation.float,
+    "marginTop": Validation.float,
+    "marginBottom": Validation.float,
+    "marginLeft": Validation.float,
+    "marginRight": Validation.float,
+    "selfAlignment": FlexboxValidation.selfAlignment,
+    "flex": Validation.float
+  ]
 
   public typealias NodeInstanceProvider = ([String: Any]) -> Node
   private lazy var providers = [String: NodeInstanceProvider]()
@@ -27,8 +39,7 @@ public class NodeRegistry {
 
   func propertyTypes(forIdentifier identifier: String) -> [String: ValidationType] {
     guard let propertyTypes = propertyTypes[identifier] else {
-      // TODO(mcudich): Throw an error instead.
-      fatalError()
+      return [:]
     }
     return propertyTypes
   }
@@ -38,20 +49,7 @@ public class NodeRegistry {
     register(nodeInstanceProvider: { ViewNode<TextView>(properties: $0) }, forIdentifier: "Text")
     register(nodeInstanceProvider: { ViewNode<ImageView>(properties: $0) }, forIdentifier: "Image")
 
-    let defaultPropertyTypes: [String: ValidationType] = [
-      "x": Validation.float,
-      "y": Validation.float,
-      "width": Validation.float,
-      "height": Validation.float,
-      "marginTop": Validation.float,
-      "marginBottom": Validation.float,
-      "marginLeft": Validation.float,
-      "marginRight": Validation.float,
-      "selfAlignment": FlexboxValidation.selfAlignment,
-    ]
-
-    var boxTypes = defaultPropertyTypes
-    boxTypes.merge(with: [
+    let boxTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
       "flexDirection": FlexboxValidation.flexDirection,
       "paddingTop": Validation.float,
       "paddingBottom": Validation.float,
@@ -61,8 +59,7 @@ public class NodeRegistry {
       "childAlignment": FlexboxValidation.childAlignment
     ])
 
-    var textTypes = defaultPropertyTypes
-    textTypes.merge(with: [
+    let textTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
       "text": Validation.string,
       "fontName": Validation.string,
       "fontSize": Validation.float,
@@ -71,8 +68,7 @@ public class NodeRegistry {
       "lineBreakMode": TextValidation.lineBreakMode
     ])
 
-    var imageTypes = defaultPropertyTypes
-    imageTypes.merge(with: [
+    let imageTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
       "url": Validation.url,
       "name": Validation.string,
       "contentMode": ImageValidation.contentMode

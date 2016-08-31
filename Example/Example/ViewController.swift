@@ -9,43 +9,34 @@
 import UIKit
 import TemplateKit
 
-struct TestModel: Model {
-  let title: String
-  let description: String
-}
-
 class ViewController: UIViewController {
-  fileprivate lazy var client = TemplateService()
+  var appNode: Node?
 
-  fileprivate lazy var tableView: TableView = {
-    let tableView = TableView(nodeProvider: self, frame: CGRect.zero, style: .plain)
-
-    tableView.tableViewDataSource = self
-
-    return tableView
-  }()
-
-  override func loadView() {
-    view = tableView
-  }
-}
-
-extension ViewController: NodeProvider {
-  func node(withLocation location: URL, properties: [String : Any]?, completion: NodeResultHandler) {
-    return client.node(withLocation: location, properties: properties, completion: completion)
-  }
-}
-
-extension ViewController: TableViewDataSource {
-  func tableView(_ tableView: TableView, locationForNodeAtIndexPath indexPath: IndexPath) -> URL {
-    return Bundle.main.url(forResource: "Test", withExtension: "xml")!
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    let provider = { properties in
+      return ViewNode<TodoList>(properties: properties)
+    }
+    NodeRegistry.shared.register(nodeInstanceProvider: provider, forIdentifier: "TodoList")
+    NodeRegistry.shared.register(propertyTypes: NodeRegistry.defaultPropertyTypes, forIdentifier: "TodoList")
   }
 
-  func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]? {
-    return ["model": TestModel(title: "my title", description: "something"), "foo": "bar"]
-  }
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 100
+    let location = Bundle.main.url(forResource: "App", withExtension: "xml")!
+    let properties = ["width": self.view.bounds.width, "height": self.view.bounds.height]
+    TemplateService.shared.node(withLocation: location, properties: properties) { result in
+      switch result {
+      case .success(let node):
+        self.appNode = node
+        node.sizeToFit(self.view.bounds.size)
+        DispatchQueue.main.async {
+          self.view.addSubview(node.render())
+        }
+      case .error(let error):
+        fatalError(error.localizedDescription)
+      }
+    }
   }
 }

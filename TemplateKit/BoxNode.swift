@@ -167,7 +167,7 @@ public class BoxView: View {
   }
 }
 
-typealias FlexNode = SwiftBox.Node
+public typealias FlexNode = SwiftBox.Node
 
 extension View {
   var flexSize: CGSize {
@@ -186,15 +186,15 @@ extension View {
   }
 
   var selfAlignment: SelfAlignment {
-    return propertyProvider?.get("selfAlignment") ?? .flexStart
+    return propertyProvider?.get("selfAlignment") ?? .stretch
   }
 }
 
-protocol FlexNodeProvider {
+public protocol FlexNodeProvider {
   var flexNode: FlexNode { get }
 }
 
-extension FlexNodeProvider where Self: View {
+public extension FlexNodeProvider where Self: View {
   var flexNode: FlexNode {
     return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex)
   }
@@ -217,7 +217,7 @@ extension BoxView: FlexNodeProvider {
     return propertyProvider?.get("childAlignment") ?? .stretch
   }
 
-  var flexNode: FlexNode {
+  public var flexNode: FlexNode {
     let flexNodes: [FlexNode] = children.map {
       guard let flexNodeProvider = $0 as? FlexNodeProvider else {
         fatalError("Child in a Box node must implement the FlexNodeProvider protocol")

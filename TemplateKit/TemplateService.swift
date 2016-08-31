@@ -18,6 +18,8 @@ class TemplateParser: Parser {
 }
 
 public class TemplateService {
+  public static let shared = TemplateService()
+
   let resourceService = ResourceService<TemplateParser>()
 
   public init() {}
