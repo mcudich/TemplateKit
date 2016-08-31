@@ -34,9 +34,7 @@ extension View {
     calculatedFrame?.size = sizeThatFits(size)
   }
 
-  public func addTapHandler(target: Any?, action: Selector?) {
-
-  }
+  public func addTapHandler(target: Any?, action: Selector?) {}
 }
 
 extension View where Self: UIView {

@@ -16,7 +16,6 @@ public class ViewNode<V: View>: Node {
 
     view.propertyProvider = self
 
-    print(self.properties)
     if let tapHandler = self.properties?["onTap"] {
       view.addTapHandler(target: self, action: #selector(handleTap))
     }
