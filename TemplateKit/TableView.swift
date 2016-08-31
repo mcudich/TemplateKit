@@ -167,6 +167,24 @@ public class TableView: UITableView {
     return delegateProxy
   }
 
+  public override func beginUpdates() {
+    operationQueue.enqueueOperation { done in
+      DispatchQueue.main.async {
+        super.beginUpdates()
+        done()
+      }
+    }
+  }
+
+  public override func endUpdates() {
+    operationQueue.enqueueOperation { done in
+      DispatchQueue.main.async {
+        super.endUpdates()
+        done()
+      }
+    }
+  }
+
   public override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
     guard let tableViewDataSource = tableViewDataSource else {
       return
@@ -207,6 +225,74 @@ public class TableView: UITableView {
     }
   }
 
+  public override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    let delete = {
+      super.deleteRows(at: indexPaths, with: animation)
+    }
+    operationQueue.enqueueOperation { done in
+      delete()
+      done()
+    }
+  }
+
+  public override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    let indexPaths = sections.reduce([]) { previous, section in
+      return previous + self.indexPaths(forSection: section)
+    }
+
+    insertRows(at: indexPaths, with: animation)
+  }
+
+  public override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    let delete = {
+      super.deleteSections(sections, with: animation)
+    }
+    operationQueue.enqueueOperation { done in
+      delete()
+      done()
+    }
+  }
+
+  public override func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {
+    let move = {
+      super.moveRow(at: indexPath, to: newIndexPath)
+    }
+    operationQueue.enqueueOperation { done in
+      move()
+      done()
+    }
+  }
+
+  public override func moveSection(_ section: Int, toSection newSection: Int) {
+    let move = {
+      super.moveSection(section, toSection: newSection)
+    }
+    operationQueue.enqueueOperation { done in
+      move()
+      done()
+    }
+  }
+
+  public override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    let reload = {
+      super.reloadRows(at: indexPaths, with: animation)
+    }
+    operationQueue.enqueueOperation { done in
+      reload()
+      done()
+    }
+  }
+
+  public override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    let reload = {
+      super.reloadSections(sections, with: animation)
+    }
+    operationQueue.enqueueOperation { done in
+      reload()
+      done()
+    }
+  }
+
   public override func reloadData() {
     super.reloadData()
 
@@ -214,9 +300,23 @@ public class TableView: UITableView {
       return
     }
 
-    let expectedRowCount = tableViewDataSource.tableView(self, numberOfRowsInSection: 0)
-    let indexPaths = (0..<expectedRowCount).map { IndexPath(row: $0, section: 0) }
+    let sectionCount = tableViewDataSource.numberOfSectionsInTableView?(self) ?? 1
+    let indexPaths: [IndexPath] = (0..<sectionCount).reduce([]) { previous, section in
+      return previous + self.indexPaths(forSection: section)
+    }
+
     insertRows(at: indexPaths, with: .none)
+  }
+
+  private func indexPaths(forSection section: Int) -> [IndexPath] {
+    guard let tableViewDataSource = tableViewDataSource else {
+      return []
+    }
+
+    let expectedRowCount = tableViewDataSource.tableView(self, numberOfRowsInSection: section)
+    return (0..<expectedRowCount).map { row in
+      return IndexPath(row: row, section: section)
+    }
   }
 }
 
