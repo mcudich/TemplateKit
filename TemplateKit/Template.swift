@@ -63,7 +63,7 @@ enum Template {
         throw TemplateKitError.parserError("Missing `type` value for property type")
       }
       // TODO(mcudich): XML should express validation domain.
-      guard let validationType: ValidationType = Validation(rawValue: type) ?? FlexboxValidation(rawValue: type) ?? ImageValidation(rawValue: type) ?? TextValidation(rawValue: type) else {
+      guard let validationType: ValidationType = Validation(rawValue: type) ?? FlexboxValidation(rawValue: type) ?? ImageValidation(rawValue: type) else {
         throw TemplateKitError.parserError("Unknown validation type")
       }
 

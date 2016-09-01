@@ -111,16 +111,18 @@ enum FlexboxValidation: String, ValidationType {
 
 public class BoxNode: ViewNode<BoxView> {
   public lazy var children = [Node]()
+
+  public required init(properties: [String : Any], children: () -> [Node]) {
+    super.init(properties: properties)
+  }
+  
+  public required init(properties: [String : Any]) {
+    fatalError("init(properties:key:) has not been implemented")
+  }
 }
 
 extension BoxNode: ContainerNode {
-  public func add(child: Node) {
-    children.append(child)
 
-    guard let boxView = view as? BoxView else { return }
-
-    boxView.add(view: child.view)
-  }
 }
 
 public class BoxView: UIView, View {
@@ -154,95 +156,72 @@ public class BoxView: UIView, View {
   }
 
   public override func sizeThatFits(_ size: CGSize) -> CGSize {
-    let layout = flexNode.layout(withMaxWidth: size.width)
-
-    apply(layout: layout)
-
-    return layout.frame.size
+    return CGSize.zero
   }
 
-  private func apply(layout: Layout) {
-    for (index, layout) in layout.children.enumerated() {
-      let child = children[index]
-      child.calculatedFrame = layout.frame
-      if let child = child as? BoxView {
-        child.apply(layout: layout)
-      }
-    }
-  }
 }
 
-public typealias FlexNode = SwiftBox.Node
-
-extension View {
-  var flexSize: CGSize {
-    let width: CGFloat = propertyProvider?.get("width") ?? FlexNode.Undefined
-    let height: CGFloat = propertyProvider?.get("height") ?? FlexNode.Undefined
-
-    return CGSize(width: width, height: height)
-  }
-
-  public var flex: CGFloat {
-    return propertyProvider?.get("flex") ?? 0
-  }
-
-  public var margin: Edges {
-    return Edges(left: propertyProvider?.get("marginLeft") ?? 0, right: propertyProvider?.get("marginRight") ?? 0, bottom: propertyProvider?.get("marginBottom") ?? 0, top: propertyProvider?.get("marginTop") ?? 0)
-  }
-
-  var selfAlignment: SelfAlignment {
-    return propertyProvider?.get("selfAlignment") ?? .stretch
-  }
-}
-
-public protocol FlexNodeProvider {
-  var flexNode: FlexNode { get }
-}
-
-public extension FlexNodeProvider where Self: View {
-  var flexNode: FlexNode {
-    return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex)
-  }
-}
-
-extension BoxView: FlexNodeProvider {
-  public var flexDirection: Direction {
-    return propertyProvider?.get("flexDirection") ?? .column
-  }
-
-  public var padding: Edges {
-    return Edges(left: propertyProvider?.get("paddingLeft") ?? 0, right: propertyProvider?.get("paddingRight") ?? 0, bottom: propertyProvider?.get("paddingBottom") ?? 0, top: propertyProvider?.get("paddingTop") ?? 0)
-  }
-
-  public var justification: Justification {
-    return propertyProvider?.get("justification") ?? .flexStart
-  }
-
-  public var childAlignment: ChildAlignment {
-    return propertyProvider?.get("childAlignment") ?? .stretch
-  }
-
-  public var flexNode: FlexNode {
-    let flexNodes: [FlexNode] = children.map {
-      guard let flexNodeProvider = $0 as? FlexNodeProvider else {
-        fatalError("Child in a Box node must implement the FlexNodeProvider protocol")
-      }
-
-      return flexNodeProvider.flexNode
-    }
-
-    return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection, margin: margin, padding: padding, wrap: false, justification: justification, selfAlignment: selfAlignment, childAlignment: childAlignment, flex: flex)
-  }
-}
-
-extension TextView: FlexNodeProvider {
-  var flexNode: FlexNode {
-    let measure: ((CGFloat) -> CGSize) = { [weak self] width in
-      let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-      return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
-    }
-    return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
-  }
-}
-
-extension ImageView: FlexNodeProvider {}
+//extension View {
+//  var flexSize: CGSize {
+//    let width: CGFloat = propertyProvider?.get("width") ?? FlexNode.Undefined
+//    let height: CGFloat = propertyProvider?.get("height") ?? FlexNode.Undefined
+//
+//    return CGSize(width: width, height: height)
+//  }
+//
+//  public var flex: CGFloat {
+//    return propertyProvider?.get("flex") ?? 0
+//  }
+//
+//  public var margin: Edges {
+//    return Edges(left: propertyProvider?.get("marginLeft") ?? 0, right: propertyProvider?.get("marginRight") ?? 0, bottom: propertyProvider?.get("marginBottom") ?? 0, top: propertyProvider?.get("marginTop") ?? 0)
+//  }
+//
+//  var selfAlignment: SelfAlignment {
+//    return propertyProvider?.get("selfAlignment") ?? .stretch
+//  }
+//}
+//
+//
+//
+//extension BoxView: FlexNodeProvider {
+//  public var flexDirection: Direction {
+//    return propertyProvider?.get("flexDirection") ?? .column
+//  }
+//
+//  public var padding: Edges {
+//    return Edges(left: propertyProvider?.get("paddingLeft") ?? 0, right: propertyProvider?.get("paddingRight") ?? 0, bottom: propertyProvider?.get("paddingBottom") ?? 0, top: propertyProvider?.get("paddingTop") ?? 0)
+//  }
+//
+//  public var justification: Justification {
+//    return propertyProvider?.get("justification") ?? .flexStart
+//  }
+//
+//  public var childAlignment: ChildAlignment {
+//    return propertyProvider?.get("childAlignment") ?? .stretch
+//  }
+//
+//  public var flexNode: FlexNode {
+//    let flexNodes: [FlexNode] = children.map {
+//      guard let flexNodeProvider = $0 as? FlexNodeProvider else {
+//        fatalError("Child in a Box node must implement the FlexNodeProvider protocol")
+//      }
+//
+//      return flexNodeProvider.flexNode
+//    }
+//
+//    return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection, margin: margin, padding: padding, wrap: false, justification: justification, selfAlignment: selfAlignment, childAlignment: childAlignment, flex: flex)
+//  }
+//}
+//
+//extension TextView: FlexNodeProvider {
+//  var flexNode: FlexNode {
+//    let measure: ((CGFloat) -> CGSize) = { [weak self] width in
+//      let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
+//      return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
+//    }
+//    return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
+//  }
+//}
+//
+//extension ImageView: FlexNodeProvider {}

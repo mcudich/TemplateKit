@@ -9,7 +9,7 @@ indirect enum NodeReference {
 
       let node = NodeRegistry.shared.node(withIdentifier: identifier, properties: validatedProperties)
 
-      if let containerNode = node as? ContainerNode {
+      if var containerNode = node as? ContainerNode {
         children.forEach {
           containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
         }

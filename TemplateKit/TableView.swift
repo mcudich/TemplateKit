@@ -67,10 +67,10 @@ class TableViewCell: UITableViewCell {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-      if let node = node {
-        node.sizeToFit(bounds.size)
-        contentView.addSubview(node.render())
-      }
+//      if let node = node {
+//        node.sizeToFit(bounds.size)
+//        contentView.addSubview(node.render())
+//      }
     }
   }
 }
@@ -205,7 +205,7 @@ public class TableView: UITableView {
         self.nodeProvider.node(withLocation: location, properties: properties) { [weak self] result in
           switch result {
           case .success(let node):
-            node.sizeToFit(CGSize(width: self?.bounds.width ?? 0, height: CGFloat.greatestFiniteMagnitude))
+//            node.sizeToFit(CGSize(width: self?.bounds.width ?? 0, height: CGFloat.greatestFiniteMagnitude))
             self?.rowNodeCache[cacheKey] = node
             completedNodes += 1
 
@@ -326,7 +326,7 @@ extension TableView {
   }
 
   func heightForNode(_ node: Node?) -> CGFloat {
-    return node?.view.calculatedFrame?.height ?? 0
+    return 0 //node?.view.calculatedFrame?.height ?? 0
   }
 }
 

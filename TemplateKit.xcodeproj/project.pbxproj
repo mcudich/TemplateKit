@@ -25,7 +25,6 @@
 		D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194301D57F2450049991F /* StringRepresentable.swift */; };
 		D891943D1D57F2450049991F /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194311D57F2450049991F /* Template.swift */; };
 		D891943E1D57F2450049991F /* TemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194321D57F2450049991F /* TemplateService.swift */; };
-		D891943F1D57F2450049991F /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194331D57F2450049991F /* TextView.swift */; };
 		D89194451D57F24F0049991F /* BoxNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194401D57F24F0049991F /* BoxNodeTests.swift */; };
 		D89194461D57F24F0049991F /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194411D57F24F0049991F /* NodeTests.swift */; };
 		D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194431D57F24F0049991F /* SimpleTemplate.xml */; };
@@ -38,6 +37,8 @@
 		D8CB3E181D6D15B2003274AD /* ResourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E171D6D15B2003274AD /* ResourceService.swift */; };
 		D8CB3E1A1D6D42B2003274AD /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E191D6D42B2003274AD /* Error.swift */; };
 		D8CB3E1C1D74B524003274AD /* AsyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E1B1D74B524003274AD /* AsyncQueue.swift */; };
+		D8CB3E4F1D77BC65003274AD /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E4E1D77BC65003274AD /* Box.swift */; };
+		D8CB3E511D77F76A003274AD /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E501D77F76A003274AD /* Text.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +73,6 @@
 		D89194301D57F2450049991F /* StringRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringRepresentable.swift; sourceTree = "<group>"; };
 		D89194311D57F2450049991F /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		D89194321D57F2450049991F /* TemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateService.swift; sourceTree = "<group>"; };
-		D89194331D57F2450049991F /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D89194401D57F24F0049991F /* BoxNodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxNodeTests.swift; sourceTree = "<group>"; };
 		D89194411D57F24F0049991F /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		D89194431D57F24F0049991F /* SimpleTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SimpleTemplate.xml; sourceTree = "<group>"; };
@@ -85,6 +85,8 @@
 		D8CB3E171D6D15B2003274AD /* ResourceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceService.swift; sourceTree = "<group>"; };
 		D8CB3E191D6D42B2003274AD /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		D8CB3E1B1D74B524003274AD /* AsyncQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncQueue.swift; sourceTree = "<group>"; };
+		D8CB3E4E1D77BC65003274AD /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		D8CB3E501D77F76A003274AD /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,9 +137,7 @@
 			children = (
 				D89194131D57F1FB0049991F /* Info.plist */,
 				D89194281D57F2450049991F /* BoxNode.swift */,
-				D89194291D57F2450049991F /* ContainerNode.swift */,
 				D891942B1D57F2450049991F /* Model.swift */,
-				D891942C1D57F2450049991F /* Node.swift */,
 				D891942D1D57F2450049991F /* NodeDefinition.swift */,
 				D891942E1D57F2450049991F /* NodeRegistry.swift */,
 				D89194301D57F2450049991F /* StringRepresentable.swift */,
@@ -145,7 +145,6 @@
 				D89194311D57F2450049991F /* Template.swift */,
 				D89194321D57F2450049991F /* TemplateService.swift */,
 				D89194111D57F1FB0049991F /* TemplateKit.h */,
-				D89194331D57F2450049991F /* TextView.swift */,
 				D89195041D5A6E350049991F /* DelegateProxy.swift */,
 				D8811CC61D5BE8FF0098624B /* ViewNode.swift */,
 				D8811CC81D5BE91E0098624B /* View.swift */,
@@ -157,6 +156,10 @@
 				D8CB3E171D6D15B2003274AD /* ResourceService.swift */,
 				D8CB3E191D6D42B2003274AD /* Error.swift */,
 				D8CB3E1B1D74B524003274AD /* AsyncQueue.swift */,
+				D891942C1D57F2450049991F /* Node.swift */,
+				D89194291D57F2450049991F /* ContainerNode.swift */,
+				D8CB3E4E1D77BC65003274AD /* Box.swift */,
+				D8CB3E501D77F76A003274AD /* Text.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -329,7 +332,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8811CC91D5BE91E0098624B /* View.swift in Sources */,
-				D891943F1D57F2450049991F /* TextView.swift in Sources */,
 				D8811CC71D5BE8FF0098624B /* ViewNode.swift in Sources */,
 				D891943E1D57F2450049991F /* TemplateService.swift in Sources */,
 				D89194341D57F2450049991F /* BoxNode.swift in Sources */,
@@ -338,9 +340,11 @@
 				D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */,
 				D8811CD11D5D815C0098624B /* ImageView.swift in Sources */,
 				D89194381D57F2450049991F /* Node.swift in Sources */,
+				D8CB3E511D77F76A003274AD /* Text.swift in Sources */,
 				D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */,
 				D89194351D57F2450049991F /* ContainerNode.swift in Sources */,
 				D8CB3E181D6D15B2003274AD /* ResourceService.swift in Sources */,
+				D8CB3E4F1D77BC65003274AD /* Box.swift in Sources */,
 				D8CB3E1A1D6D42B2003274AD /* Error.swift in Sources */,
 				D8811CCD1D5C118D0098624B /* Validation.swift in Sources */,
 				D89195051D5A6E350049991F /* DelegateProxy.swift in Sources */,

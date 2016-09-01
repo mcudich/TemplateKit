@@ -47,7 +47,6 @@ public class NodeRegistry {
 
   private func registerDefaultProviders() {
     register(nodeInstanceProvider: { BoxNode(properties: $0) }, forIdentifier: "Box")
-    register(nodeInstanceProvider: { ViewNode<TextView>(properties: $0) }, forIdentifier: "Text")
     register(nodeInstanceProvider: { ViewNode<ImageView>(properties: $0) }, forIdentifier: "Image")
 
     let boxTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
@@ -64,9 +63,7 @@ public class NodeRegistry {
       "text": Validation.string,
       "fontName": Validation.string,
       "fontSize": Validation.float,
-      "textColor": Validation.color,
-      "textAlignment": TextValidation.textAlignment,
-      "lineBreakMode": TextValidation.lineBreakMode
+      "textColor": Validation.color
     ])
 
     let imageTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
