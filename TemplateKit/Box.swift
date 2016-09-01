@@ -11,6 +11,7 @@ import SwiftBox
 
 public struct Box: ContainerNode {
   public let properties: [String: Any]
+  public var state: Any?
   public var calculatedFrame: CGRect?
 
   public var children: [Node]

@@ -90,6 +90,7 @@ class TextView: UILabel {
 
 public struct Text: Node {
   public let properties: [String: Any]
+  public var state: Any?
   public var calculatedFrame: CGRect?
 
   fileprivate var textLayout = TextLayout()

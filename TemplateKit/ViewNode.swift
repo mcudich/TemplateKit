@@ -11,6 +11,7 @@ import SwiftBox
 
 public class ViewNode<V: View>: Node {
   public let properties: [String: Any]
+  public var state: Any?
   public var calculatedFrame: CGRect?
 
   public lazy var view: View = {
@@ -40,7 +41,7 @@ public class ViewNode<V: View>: Node {
     return renderedView
   }
 
-  public func render(completion: (UIView) -> Void) {
+  public func render(completion: @escaping (UIView) -> Void) {
     
   }
 

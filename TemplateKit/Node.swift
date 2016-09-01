@@ -6,6 +6,7 @@ public protocol PropertyProvider: class {
 
 public protocol Node: Layoutable {
   var properties: [String: Any] { get }
+  var state: Any? { get }
   var key: String? { get }
   var calculatedFrame: CGRect? { get set }
 

@@ -9,17 +9,36 @@
 import Foundation
 import TemplateKit
 
-struct App: Node {
+struct AppState {
+  private(set) var counter = 0
+
+  mutating func increment() {
+    counter += 1
+  }
+}
+
+class App: Node {
   var properties: [String : Any]
+  public var state: Any? = AppState()
   var calculatedFrame: CGRect?
 
-  init(properties: [String : Any]) {
+  var appState: AppState {
+    set {
+      state = newValue
+    }
+    get {
+      return state as! AppState
+    }
+  }
+
+  required init(properties: [String : Any]) {
     self.properties = properties
   }
 
   func build(completion: (Node) -> Void) {
     let app = Box(properties: ["width": CGFloat(320), "height": CGFloat(500)]) {
-      [Text(properties: ["text": "foo"])]
+      [Text(properties: ["text": "Increment", "onTap": incrementCounter]),
+       Text(properties: ["text": "\(appState.counter)"])]
     }
     completion(app)
   }
@@ -28,5 +47,9 @@ struct App: Node {
     build { (var root) in
       root.sizeThatFits(size, completion: completion)
     }
+  }
+
+  private func incrementCounter() {
+    appState.increment()
   }
 }
