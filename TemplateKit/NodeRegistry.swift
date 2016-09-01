@@ -9,7 +9,6 @@ public class NodeRegistry {
     "marginBottom": Validation.float,
     "marginLeft": Validation.float,
     "marginRight": Validation.float,
-    "selfAlignment": FlexboxValidation.selfAlignment,
     "flex": Validation.float,
     "onTap": Validation.any
   ]
@@ -46,27 +45,20 @@ public class NodeRegistry {
   }
 
   private func registerDefaultProviders() {
-    register(nodeInstanceProvider: { BoxNode(properties: $0) }, forIdentifier: "Box")
-    register(nodeInstanceProvider: { ViewNode<TextView>(properties: $0) }, forIdentifier: "Text")
     register(nodeInstanceProvider: { ViewNode<ImageView>(properties: $0) }, forIdentifier: "Image")
 
     let boxTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
-      "flexDirection": FlexboxValidation.flexDirection,
       "paddingTop": Validation.float,
       "paddingBottom": Validation.float,
       "paddingLeft": Validation.float,
-      "paddingRight": Validation.float,
-      "justification": FlexboxValidation.justification,
-      "childAlignment": FlexboxValidation.childAlignment
+      "paddingRight": Validation.float
     ])
 
     let textTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
       "text": Validation.string,
       "fontName": Validation.string,
       "fontSize": Validation.float,
-      "textColor": Validation.color,
-      "textAlignment": TextValidation.textAlignment,
-      "lineBreakMode": TextValidation.lineBreakMode
+      "textColor": Validation.color
     ])
 
     let imageTypes = NodeRegistry.defaultPropertyTypes.merged(with: [

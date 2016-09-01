@@ -19,3 +19,6 @@ DerivedData
 *.xcworkspace
 Carthage/Checkouts
 Carthage/Build
+
+# OSX
+.DS_Store

@@ -53,7 +53,7 @@ class ResourceService<ParserType: Parser> {
         case .success(let value):
           self?.processResponse(forURL: url, withData: value)
         }
-        self?.pendingOperations.removeValue(forKey: url)
+        let _ = self?.pendingOperations.removeValue(forKey: url)
         done()
       }
     }
