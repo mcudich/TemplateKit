@@ -16,7 +16,6 @@
 		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
-		D89194341D57F2450049991F /* BoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194281D57F2450049991F /* BoxNode.swift */; };
 		D89194351D57F2450049991F /* ContainerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194291D57F2450049991F /* ContainerNode.swift */; };
 		D89194371D57F2450049991F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891942B1D57F2450049991F /* Model.swift */; };
 		D89194381D57F2450049991F /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891942C1D57F2450049991F /* Node.swift */; };
@@ -64,7 +63,6 @@
 		D89194131D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D89194181D57F1FB0049991F /* TemplateKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TemplateKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D891941F1D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D89194281D57F2450049991F /* BoxNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxNode.swift; sourceTree = "<group>"; };
 		D89194291D57F2450049991F /* ContainerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNode.swift; sourceTree = "<group>"; };
 		D891942B1D57F2450049991F /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		D891942C1D57F2450049991F /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
@@ -136,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				D89194131D57F1FB0049991F /* Info.plist */,
-				D89194281D57F2450049991F /* BoxNode.swift */,
 				D891942B1D57F2450049991F /* Model.swift */,
 				D891942D1D57F2450049991F /* NodeDefinition.swift */,
 				D891942E1D57F2450049991F /* NodeRegistry.swift */,
@@ -334,7 +331,6 @@
 				D8811CC91D5BE91E0098624B /* View.swift in Sources */,
 				D8811CC71D5BE8FF0098624B /* ViewNode.swift in Sources */,
 				D891943E1D57F2450049991F /* TemplateService.swift in Sources */,
-				D89194341D57F2450049991F /* BoxNode.swift in Sources */,
 				D8811CD31D5D84260098624B /* ImageService.swift in Sources */,
 				D8CB3E161D6BF9DA003274AD /* Result.swift in Sources */,
 				D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */,

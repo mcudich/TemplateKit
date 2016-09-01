@@ -9,15 +9,20 @@
 import Foundation
 import SwiftBox
 
-public struct Box: ContainerNode {
+public class Box: ContainerNode {
+  public typealias View = UIView
+
+  public var root: Node?
+  public var renderedView: UIView?
   public let properties: [String: Any]
   public var state: Any?
   public var calculatedFrame: CGRect?
+  public var eventTarget = EventTarget()
 
   public var children: [Node]
 
   public var padding: Edges {
-    return get("padding") ?? Edges()
+    return Edges(left: get("paddingLeft") ?? 0, right: get("paddingRight") ?? 0, bottom: get("paddingBottom") ?? 0, top: get("paddingTop") ?? 0)
   }
   public var flexDirection: Direction {
     return get("flexDirection") ?? .column
@@ -29,13 +34,13 @@ public struct Box: ContainerNode {
     return get("childAlignment") ?? .stretch
   }
 
-  public init(properties: [String : Any]) {
+  public required init(properties: [String : Any]) {
     self.properties = properties
     self.children = []
   }
 
-  public init(properties: [String : Any], children: () -> [Node]) {
-    self.init(properties: properties)
+  public required init(properties: [String : Any], children: () -> [Node]) {
+    self.properties = properties
     self.children = children()
   }
 
@@ -43,7 +48,7 @@ public struct Box: ContainerNode {
     completion(self)
   }
 
-  public mutating func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void) {
+  public func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void) {
     let layout = flexNode.layout(withMaxWidth: size.width)
 
     apply(layout: layout)
@@ -51,10 +56,10 @@ public struct Box: ContainerNode {
     completion(layout.frame.size)
   }
 
-  private mutating func apply(layout: Layout) {
+  private func apply(layout: Layout) {
     for (index, layout) in layout.children.enumerated() {
       children[index].calculatedFrame = layout.frame
-      if var box = children[index] as? Box {
+      if let box = children[index] as? Box {
         box.apply(layout: layout)
       }
     }
@@ -83,7 +88,7 @@ public extension Layoutable where Self: Node {
     return CGSize(width: width, height: height)
   }
   public var margin: Edges {
-    return get("margin") ?? Edges()
+    return Edges(left: get("marginLeft") ?? 0, right: get("marginRight") ?? 0, bottom: get("marginBottom") ?? 0, top: get("marginTop") ?? 0)
   }
   public var selfAlignment: SelfAlignment {
     return get("selfAlignment") ?? .auto

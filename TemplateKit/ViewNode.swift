@@ -10,9 +10,12 @@ import Foundation
 import SwiftBox
 
 public class ViewNode<V: View>: Node {
+  public var root: Node?
+  public var renderedView: UIView?
   public let properties: [String: Any]
   public var state: Any?
   public var calculatedFrame: CGRect?
+  public var eventTarget = EventTarget()
 
   public lazy var view: View = {
     var view = V()

@@ -1,13 +1,15 @@
-public protocol ContainerNode: Node {
+public protocol ContainerNode: LeafNode {
+  typealias View = UIView
+
   var children: [Node] { get set }
-  mutating func add(child: Node)
+  func add(child: Node)
   func contains(child: Node) -> Bool
 
   init(properties: [String: Any], children: () -> [Node])
 }
 
 extension ContainerNode {
-  public mutating func add(child: Node) {
+  public func add(child: Node) {
     children.append(child)
   }
 
@@ -15,25 +17,27 @@ extension ContainerNode {
     return children.contains { $0 == child }
   }
 
-  public func render(completion: @escaping (UIView) -> Void) {
-    let parent = UIView()
-    parent.frame = calculatedFrame ?? CGRect.zero
+  public func applyProperties(to view: UIView) {}
+
+  public func buildView() -> UIView {
+    let parent = renderedView ?? UIView()
+
+    for subview in parent.subviews {
+      subview.removeFromSuperview()
+    }
 
     var views: [UIView?] = [UIView?](repeating: nil, count: children.count)
     for (index, child) in children.enumerated() {
       child.render { view in
-        if let calculatedFrame = child.calculatedFrame {
-          view.frame = calculatedFrame
-        }
         views[index] = view
         if views.count == self.children.count {
           views.forEach { subview in
             guard let subview = subview else { return }
             parent.addSubview(subview)
           }
-          completion(parent)
         }
       }
     }
+    return parent
   }
 }

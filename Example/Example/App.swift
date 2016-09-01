@@ -18,9 +18,12 @@ struct AppState {
 }
 
 class App: Node {
+  var root: Node?
+  var renderedView: UIView?
   var properties: [String : Any]
   public var state: Any? = AppState()
   var calculatedFrame: CGRect?
+  public var eventTarget = EventTarget()
 
   var appState: AppState {
     set {
@@ -36,20 +39,15 @@ class App: Node {
   }
 
   func build(completion: (Node) -> Void) {
-    let app = Box(properties: ["width": CGFloat(320), "height": CGFloat(500)]) {
+    let app = Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
       [Text(properties: ["text": "Increment", "onTap": incrementCounter]),
        Text(properties: ["text": "\(appState.counter)"])]
     }
     completion(app)
   }
 
-  func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void) {
-    build { (var root) in
-      root.sizeThatFits(size, completion: completion)
-    }
-  }
-
   private func incrementCounter() {
     appState.increment()
+    update()
   }
 }

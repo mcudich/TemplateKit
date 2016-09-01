@@ -68,7 +68,7 @@ class TextLayout {
   }
 }
 
-class TextView: UILabel {
+public class TextView: UILabel {
   let textLayout: TextLayout
 
   init(textLayout: TextLayout) {
@@ -79,43 +79,51 @@ class TextView: UILabel {
     isUserInteractionEnabled = true
   }
 
-  required init?(coder aDecoder: NSCoder) {
+  public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override func drawText(in rect: CGRect) {
+  override public func drawText(in rect: CGRect) {
     textLayout.drawText(in: rect)
+  }
+
+  public override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+    super.addGestureRecognizer(gestureRecognizer)
   }
 }
 
-public struct Text: Node {
+public class Text: LeafNode {
+  public typealias View = TextView
+
+  public var root: Node?
+  public var renderedView: UIView?
   public let properties: [String: Any]
   public var state: Any?
   public var calculatedFrame: CGRect?
+  public var eventTarget = EventTarget()
 
   fileprivate var textLayout = TextLayout()
 
-  public init(properties: [String : Any]) {
+  public required init(properties: [String : Any]) {
     self.properties = properties
   }
 
-  public func build(completion: (Node) -> Void) {
-    completion(self)
-  }
-
-  public func render(completion: @escaping (UIView) -> Void) {
-    applyProperties()
-    let view = TextView(textLayout: textLayout)
-    view.setNeedsDisplay()
-    completion(view)
-  }
-
   public func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void) {
-    applyProperties()
+    applyTextProperties()
     completion(textLayout.sizeThatFits(size))
   }
 
-  fileprivate func applyProperties() {
+  public func buildView() -> UIView {
+    let view = TextView(textLayout: textLayout)
+    view.setNeedsDisplay()
+    return view
+  }
+
+  public func applyProperties(to view: UIView) {
+    applyTextProperties()
+  }
+
+  fileprivate func applyTextProperties() {
     if let text: String = get("text") {
       textLayout.textValue = text
     }
@@ -137,9 +145,9 @@ public struct Text: Node {
 extension Text: Layoutable {
   public var flexNode: FlexNode {
     let measure: ((CGFloat) -> CGSize) = { width in
-      self.applyProperties()
+      self.applyTextProperties()
       let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-      return self.textLayout.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
+      return self.textLayout.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) 
     }
 
     return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
