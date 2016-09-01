@@ -14,8 +14,10 @@ class ViewController: UIViewController {
     super.viewDidLoad()
 
     let app = App(properties: [:])
-    app.render { appView in
-      self.view.addSubview(appView)
+    DispatchQueue.global(qos: .background).async {
+      app.render { appView in
+        self.view.addSubview(appView)
+      }
     }
   }
 }
