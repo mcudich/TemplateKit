@@ -9,45 +9,28 @@
 import Foundation
 import TemplateKit
 
-struct AppState {
-  private(set) var counter = 0
-
-  mutating func increment() {
-    counter += 1
-  }
-}
-
 class App: Node {
   var root: Node?
   var renderedView: UIView?
   var properties: [String : Any]
-  public var state: Any? = AppState()
+  public var state: Any?
   var calculatedFrame: CGRect?
   public var eventTarget = EventTarget()
 
-  var appState: AppState {
-    set {
-      state = newValue
-    }
-    get {
-      return state as! AppState
-    }
-  }
+  private var counterValue = 0
 
   required init(properties: [String : Any]) {
     self.properties = properties
   }
 
-  func build(completion: (Node) -> Void) {
-    let app = Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
-      [Text(properties: ["text": "Increment", "onTap": incrementCounter]),
-       Text(properties: ["text": "\(appState.counter)"])]
+  func build() -> Node {
+    return Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
+      [Counter(properties: ["count": counterValue]), Text(properties: ["text": "Randomize", "onTap": randomizeCounter])]
     }
-    completion(app)
   }
 
-  private func incrementCounter() {
-    appState.increment()
+  private func randomizeCounter() {
+    counterValue = Int(arc4random())
     update()
   }
 }

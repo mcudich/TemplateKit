@@ -10,14 +10,11 @@ import UIKit
 import TemplateKit
 
 class ViewController: UIViewController {
+  var appNode = App(properties: [:])
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let app = App(properties: [:])
-    DispatchQueue.global(qos: .background).async {
-      app.render { appView in
-        self.view.addSubview(appView)
-      }
-    }
+    view.addSubview(appNode.render())
   }
 }

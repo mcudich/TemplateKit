@@ -108,9 +108,9 @@ public class Text: LeafNode {
     self.properties = properties
   }
 
-  public func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void) {
+  public func sizeThatFits(_ size: CGSize) -> CGSize {
     applyTextProperties()
-    completion(textLayout.sizeThatFits(size))
+    return textLayout.sizeThatFits(size)
   }
 
   public func buildView() -> UIView {
@@ -145,9 +145,8 @@ public class Text: LeafNode {
 extension Text: Layoutable {
   public var flexNode: FlexNode {
     let measure: ((CGFloat) -> CGSize) = { width in
-      self.applyTextProperties()
       let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-      return self.textLayout.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) 
+      return self.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) 
     }
 
     return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)

@@ -14,7 +14,7 @@ extension ContainerNode {
   }
 
   public func contains(child: Node) -> Bool {
-    return children.contains { $0 == child }
+    return children.contains { $0 === child }
   }
 
   public func applyProperties(to view: UIView) {}
@@ -26,18 +26,11 @@ extension ContainerNode {
       subview.removeFromSuperview()
     }
 
-    var views: [UIView?] = [UIView?](repeating: nil, count: children.count)
-    for (index, child) in children.enumerated() {
-      child.render { view in
-        views[index] = view
-        if views.count == self.children.count {
-          views.forEach { subview in
-            guard let subview = subview else { return }
-            parent.addSubview(subview)
-          }
-        }
-      }
+    for child in children {
+      let childView = child.render()
+      parent.addSubview(childView)
     }
+
     return parent
   }
 }
