@@ -38,12 +38,11 @@ class Counter: Node {
     self.properties = properties
   }
 
-  func build(completion: (Node) -> Void) {
-    completion(
-      Box(properties: [:]) {
+  func build() -> Node {
+    return Box(properties: [:]) {
         [Text(properties: ["text": "Increment", "onTap": incrementCounter]),
          Text(properties: ["text": "\(counterState.counter)"])]
-    })
+    }
   }
 
   private func incrementCounter() {

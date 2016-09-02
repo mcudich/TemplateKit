@@ -21,10 +21,9 @@ class App: Node {
     self.properties = properties
   }
 
-  func build(completion: (Node) -> Void) {
-    completion(
-      Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
-        [Counter(properties: [:])]
-    })
+  func build() -> Node {
+    return Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
+      [Counter(properties: [:]).build()]
+    }
   }
 }

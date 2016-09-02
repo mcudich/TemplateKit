@@ -26,18 +26,12 @@ extension ContainerNode {
       subview.removeFromSuperview()
     }
 
-    var views: [UIView?] = [UIView?](repeating: nil, count: children.count)
-    for (index, child) in children.enumerated() {
-      child.render { view in
-        views[index] = view
-        if views.count == self.children.count {
-          views.forEach { subview in
-            guard let subview = subview else { return }
-            parent.addSubview(subview)
-          }
-        }
-      }
+    for child in children {
+      let childView = child.render()
+      print(childView)
+      parent.addSubview(childView)
     }
+
     return parent
   }
 }

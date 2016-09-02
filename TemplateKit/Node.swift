@@ -16,9 +16,9 @@ public protocol Node: class, Layoutable {
 
   init(properties: [String: Any])
 
-  func build(completion: (Node) -> Void)
-  func render(completion: @escaping (UIView) -> Void)
-  func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void)
+  func build() -> Node
+  func render() -> UIView
+  func sizeThatFits(_ size: CGSize) -> CGSize
   func sizeToFit(_ size: CGSize)
 }
 
@@ -39,44 +39,40 @@ extension Node {
     return properties[key] as? T
   }
 
-  public func render(completion: @escaping (UIView) -> Void) {
-    build { root in
-      self.root = root
-      root.sizeToFit(flexSize)
-      DispatchQueue.main.async {
-        root.render { view in
-          self.renderedView = view
-          self.applyCoreProperties(to: view)
-          completion(view)
-        }
-      }
-    }
+  public func render() -> UIView {
+    let built = build()
+    built.sizeToFit(flexSize)
+
+    let rendered = built.render()
+    applyCoreProperties(to: rendered)
+
+    root = built
+    renderedView = rendered
+
+    return rendered
   }
 
   public func update() {
-    build { root in
-      self.root = root
-      root.sizeToFit(flexSize)
-      root.renderedView = renderedView
-      root.render { view in
-        self.applyCoreProperties(to: view)
-      }
-    }
+    let built = build()
+    built.sizeToFit(flexSize)
+    built.renderedView = renderedView
+
+    let rendered = built.render()
+    applyCoreProperties(to: rendered)
+
+    root = built
   }
 
-  public func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void) {
-    build { root in
-      root.sizeThatFits(size, completion: completion)
-    }
+  public func sizeThatFits(_ size: CGSize) -> CGSize {
+    return build().sizeThatFits(size) ?? CGSize.zero
   }
 
   public func sizeToFit(_ size: CGSize) {
-    sizeThatFits(size) { computedSize in
-      if calculatedFrame == nil {
-        calculatedFrame = CGRect.zero
-      }
-      calculatedFrame!.size = computedSize
+    let computedSize = sizeThatFits(size)
+    if calculatedFrame == nil {
+      calculatedFrame = CGRect.zero
     }
+    calculatedFrame!.size = computedSize
   }
 
   fileprivate func applyCoreProperties(to view: UIView) {
@@ -103,11 +99,11 @@ public protocol LeafNode: Node {
 }
 
 extension LeafNode {
-  public func build(completion: (Node) -> Void) {
-    completion(self)
+  public func build() -> Node {
+    return self
   }
 
-  public func render(completion: @escaping (UIView) -> Void) {
+  public func render() -> UIView {
     let view = buildView()
 
     applyFrame(to: view)
@@ -116,7 +112,7 @@ extension LeafNode {
 
     renderedView = view
 
-    return completion(view)
+    return view
   }
 
   public func applyFrame(to view: UIView) {

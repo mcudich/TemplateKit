@@ -33,8 +33,8 @@ public class ViewNode<V: View>: Node {
     self.properties = properties
   }
 
-  public func build(completion: (Node) -> Void) {
-    completion(self)
+  public func build() -> Node {
+    return self
   }
 
   public func render() -> UIView {
@@ -42,10 +42,6 @@ public class ViewNode<V: View>: Node {
     let renderedView = view.render()
     renderedView.frame = frame
     return renderedView
-  }
-
-  public func render(completion: @escaping (UIView) -> Void) {
-    
   }
 
   public func sizeThatFits(_ size: CGSize) -> CGSize {

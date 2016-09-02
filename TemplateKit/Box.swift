@@ -48,12 +48,12 @@ public class Box: ContainerNode {
     completion(self)
   }
 
-  public func sizeThatFits(_ size: CGSize, completion: (CGSize) -> Void) {
+  public func sizeThatFits(_ size: CGSize) -> CGSize {
     let layout = flexNode.layout(withMaxWidth: size.width)
 
     apply(layout: layout)
 
-    completion(layout.frame.size)
+    return layout.frame.size
   }
 
   private func apply(layout: Layout) {
