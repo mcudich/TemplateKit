@@ -44,10 +44,6 @@ public class Box: ContainerNode {
     self.children = children()
   }
 
-  public func build(completion: (Node) -> Void) {
-    completion(self)
-  }
-
   public func sizeThatFits(_ size: CGSize) -> CGSize {
     let layout = flexNode.layout(withMaxWidth: size.width)
 
@@ -58,8 +54,9 @@ public class Box: ContainerNode {
 
   private func apply(layout: Layout) {
     for (index, layout) in layout.children.enumerated() {
-      children[index].calculatedFrame = layout.frame
-      if let box = children[index] as? Box {
+      let child = children[index]
+      child.calculatedFrame = layout.frame
+      if let box = child as? Box {
         box.apply(layout: layout)
       }
     }
@@ -100,7 +97,7 @@ public extension Layoutable where Self: Node {
 
 extension Box: Layoutable {
   public var flexNode: FlexNode {
-    let flexNodes = children.map { $0.flexNode }
+    let flexNodes = children.map { $0.build().flexNode }
 
     return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection, margin: margin, padding: padding, wrap: false, justification: justification, selfAlignment: selfAlignment, childAlignment: childAlignment, flex: flex)
   }

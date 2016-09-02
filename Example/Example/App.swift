@@ -17,13 +17,20 @@ class App: Node {
   var calculatedFrame: CGRect?
   public var eventTarget = EventTarget()
 
+  private var counterValue = 0
+
   required init(properties: [String : Any]) {
     self.properties = properties
   }
 
   func build() -> Node {
     return Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
-      [Counter(properties: [:]).build()]
+      [Counter(properties: ["count": counterValue]), Text(properties: ["text": "Randomize", "onTap": randomizeCounter])]
     }
+  }
+
+  private func randomizeCounter() {
+    counterValue = Int(arc4random())
+    update()
   }
 }

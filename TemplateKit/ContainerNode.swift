@@ -14,7 +14,7 @@ extension ContainerNode {
   }
 
   public func contains(child: Node) -> Bool {
-    return children.contains { $0 == child }
+    return children.contains { $0 === child }
   }
 
   public func applyProperties(to view: UIView) {}
@@ -28,7 +28,6 @@ extension ContainerNode {
 
     for child in children {
       let childView = child.render()
-      print(childView)
       parent.addSubview(childView)
     }
 

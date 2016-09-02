@@ -40,31 +40,15 @@ extension Node {
   }
 
   public func render() -> UIView {
-    let built = build()
-    built.sizeToFit(flexSize)
-
-    let rendered = built.render()
-    applyCoreProperties(to: rendered)
-
-    root = built
-    renderedView = rendered
-
-    return rendered
+    return render(withView: nil)
   }
 
   public func update() {
-    let built = build()
-    built.sizeToFit(flexSize)
-    built.renderedView = renderedView
-
-    let rendered = built.render()
-    applyCoreProperties(to: rendered)
-
-    root = built
+    let _ = render(withView: root?.renderedView)
   }
 
   public func sizeThatFits(_ size: CGSize) -> CGSize {
-    return build().sizeThatFits(size) ?? CGSize.zero
+    return build().sizeThatFits(size)
   }
 
   public func sizeToFit(_ size: CGSize) {
@@ -75,12 +59,35 @@ extension Node {
     calculatedFrame!.size = computedSize
   }
 
+  fileprivate func applyFrame(to view: UIView) {
+    if let calculatedFrame = calculatedFrame {
+      view.frame = calculatedFrame
+    }
+  }
+
   fileprivate func applyCoreProperties(to view: UIView) {
     if let onTap: () -> Void = get("onTap") {
       eventTarget.tapHandler = onTap
       let recognizer = UITapGestureRecognizer(target: eventTarget, action: #selector(EventTarget.handleTap))
       view.addGestureRecognizer(recognizer)
     }
+  }
+
+  private func render(withView view: UIView?) -> UIView {
+    let built = build()
+    built.sizeToFit(flexSize)
+
+    if let view = view {
+      built.renderedView = view
+    }
+
+    let rendered = built.render()
+    applyFrame(to: rendered)
+    applyCoreProperties(to: rendered)
+
+    root = built
+
+    return rendered
   }
 }
 
@@ -93,7 +100,6 @@ public class EventTarget: NSObject {
 }
 
 public protocol LeafNode: Node {
-  func applyFrame(to view: UIView)
   func applyProperties(to view: UIView)
   func buildView() -> UIView
 }
@@ -113,11 +119,5 @@ extension LeafNode {
     renderedView = view
 
     return view
-  }
-
-  public func applyFrame(to view: UIView) {
-    if let calculatedFrame = calculatedFrame {
-      view.frame = calculatedFrame
-    }
   }
 }

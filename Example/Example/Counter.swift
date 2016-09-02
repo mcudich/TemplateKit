@@ -11,7 +11,7 @@ import TemplateKit
 
 class Counter: Node {
   struct State {
-    private(set) var counter = 0
+    var counter = 0
 
     mutating func increment() {
       counter += 1
@@ -36,6 +36,7 @@ class Counter: Node {
 
   required init(properties: [String : Any]) {
     self.properties = properties
+    counterState.counter = get("count") ?? 0
   }
 
   func build() -> Node {
