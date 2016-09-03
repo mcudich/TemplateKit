@@ -11,7 +11,6 @@ import TemplateKit
 
 class ViewController: UIViewController {
   var appNode = App(properties: [:])
-  var message: Message!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -19,8 +18,7 @@ class ViewController: UIViewController {
     let messageURL = Bundle.main.url(forResource: "Message", withExtension: "xml")!
     TemplateService.shared.fetchTemplates(withURLs: [messageURL]) { result in
       DispatchQueue.main.async {
-        self.message = Message(properties: ["text": "test"])
-        self.view.addSubview(self.message.render())
+        self.view.addSubview(self.appNode.render())
       }
     }
   }

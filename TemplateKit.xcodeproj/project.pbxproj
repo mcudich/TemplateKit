@@ -36,6 +36,9 @@
 		D8CB3E511D77F76A003274AD /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E501D77F76A003274AD /* Text.swift */; };
 		D8CB3E551D7A0881003274AD /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E541D7A0881003274AD /* Image.swift */; };
 		D8CB3E571D7A6CA8003274AD /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E561D7A6CA8003274AD /* View.swift */; };
+		D8CB3E5B1D7A9E80003274AD /* FlexboxValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E5A1D7A9E80003274AD /* FlexboxValidation.swift */; };
+		D8CB3E5D1D7A9EDE003274AD /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E5C1D7A9EDE003274AD /* TextValidation.swift */; };
+		D8CB3E5F1D7A9F1C003274AD /* ImageValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E5E1D7A9F1C003274AD /* ImageValidation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +84,9 @@
 		D8CB3E501D77F76A003274AD /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		D8CB3E541D7A0881003274AD /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		D8CB3E561D7A6CA8003274AD /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		D8CB3E5A1D7A9E80003274AD /* FlexboxValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexboxValidation.swift; sourceTree = "<group>"; };
+		D8CB3E5C1D7A9EDE003274AD /* TextValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
+		D8CB3E5E1D7A9F1C003274AD /* ImageValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageValidation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +144,6 @@
 				D89194321D57F2450049991F /* TemplateService.swift */,
 				D89194111D57F1FB0049991F /* TemplateKit.h */,
 				D89195041D5A6E350049991F /* DelegateProxy.swift */,
-				D8811CCC1D5C118D0098624B /* Validation.swift */,
 				D8811CCE1D5C2A8D0098624B /* Dictionary.swift */,
 				D8811CD21D5D84260098624B /* ImageService.swift */,
 				D8CB3E151D6BF9DA003274AD /* Result.swift */,
@@ -151,6 +156,10 @@
 				D8CB3E501D77F76A003274AD /* Text.swift */,
 				D8CB3E541D7A0881003274AD /* Image.swift */,
 				D8CB3E561D7A6CA8003274AD /* View.swift */,
+				D8811CCC1D5C118D0098624B /* Validation.swift */,
+				D8CB3E5A1D7A9E80003274AD /* FlexboxValidation.swift */,
+				D8CB3E5C1D7A9EDE003274AD /* TextValidation.swift */,
+				D8CB3E5E1D7A9F1C003274AD /* ImageValidation.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -324,9 +333,12 @@
 			files = (
 				D891943E1D57F2450049991F /* TemplateService.swift in Sources */,
 				D8811CD31D5D84260098624B /* ImageService.swift in Sources */,
+				D8CB3E5F1D7A9F1C003274AD /* ImageValidation.swift in Sources */,
 				D8CB3E161D6BF9DA003274AD /* Result.swift in Sources */,
 				D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */,
 				D89194381D57F2450049991F /* Node.swift in Sources */,
+				D8CB3E5D1D7A9EDE003274AD /* TextValidation.swift in Sources */,
+				D8CB3E5B1D7A9E80003274AD /* FlexboxValidation.swift in Sources */,
 				D8CB3E511D77F76A003274AD /* Text.swift in Sources */,
 				D8CB3E551D7A0881003274AD /* Image.swift in Sources */,
 				D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */,

@@ -4,14 +4,13 @@ import AEXML
 struct Template {
   let root: NodeReference
 
-  func makeNode(withProperties properties: [String: Any]?) -> Node {
-    return root.makeInstance(withContextProperties: properties)
+  init(xml: Data) throws {
+    let document = try AEXMLDocument(xmlData: xml)
+    root = document.root.nodeReference
   }
 
-  static func parse(xml: Data) throws -> Template {
-    let document = try AEXMLDocument(xmlData: xml)
-
-    return Template(root: document.root.nodeReference)
+  func makeNode(withProperties properties: [String: Any]?) throws -> Node {
+    return try root.makeInstance(withContextProperties: properties)
   }
 }
 
@@ -24,14 +23,16 @@ extension AEXMLElement {
 indirect enum NodeReference {
   case Reference(String, [NodeReference], [String: String])
 
-  func makeInstance(withContextProperties contextProperties: [String: Any]?) -> Node {
+  func makeInstance(withContextProperties contextProperties: [String: Any]?) throws -> Node {
     if case let .Reference(identifier, children, properties) = self {
       let resolvedProperties = resolve(properties: properties, withContextProperties: contextProperties)
-      let node = NodeRegistry.shared.node(withIdentifier: identifier, properties: resolvedProperties)
+      let propertyTypes = try NodeRegistry.shared.propertyTypes(forIdentifier: identifier)
+      let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
+      let node = try NodeRegistry.shared.node(withIdentifier: identifier, properties: validatedProperties)
 
       if let containerNode = node as? ContainerNode {
-        children.forEach {
-          containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
+        try children.forEach {
+          try containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
         }
       }
 

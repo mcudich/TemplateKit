@@ -9,7 +9,7 @@ class TemplateParser: Parser {
   required init() {}
 
   func parse(data: Data) throws -> Template {
-    return try Template.parse(xml: data)
+    return try Template(xml: data)
   }
 }
 
@@ -23,8 +23,8 @@ public class TemplateService {
   public init() {}
 
   public func node(withLocation location: URL, properties: [String: Any]? = [:]) throws -> Node {
-    guard let node = cache[location]?.makeNode(withProperties: properties) else {
-      throw TemplateKitError.missingTemplate
+    guard let node = try cache[location]?.makeNode(withProperties: properties) else {
+      throw TemplateKitError.missingTemplate("Template not found for \(location)")
     }
     return node
   }
@@ -41,7 +41,7 @@ public class TemplateService {
             completion(.success())
           }
         case .error(_):
-          completion(.error(TemplateKitError.missingTemplate))
+          completion(.error(TemplateKitError.missingTemplate("Template not found at \(url)")))
         }
       }
     }

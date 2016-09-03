@@ -5,6 +5,8 @@ public protocol PropertyProvider: class {
 }
 
 public protocol Node: class, Layoutable {
+  static var propertyTypes: [String: ValidationType] { get }
+
   var root: Node? { get set }
   var renderedView: UIView? { get set }
 
@@ -31,6 +33,26 @@ public func ==(lhs: Node, rhs: Node) -> Bool {
 }
 
 extension Node {
+  public static var commonPropertyTypes: [String: ValidationType] {
+    return [
+      "x": Validation.float,
+      "y": Validation.float,
+      "width": Validation.float,
+      "height": Validation.float,
+      "marginTop": Validation.float,
+      "marginBottom": Validation.float,
+      "marginLeft": Validation.float,
+      "marginRight": Validation.float,
+      "selfAlignment": FlexboxValidation.selfAlignment,
+      "flex": Validation.float,
+      "onTap": Validation.any
+    ]
+  }
+
+  public static var propertyTypes: [String: ValidationType] {
+    return commonPropertyTypes
+  }
+
   public var key: String? {
     return get("key")
   }

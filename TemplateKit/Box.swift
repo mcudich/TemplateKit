@@ -10,6 +10,18 @@ import Foundation
 import SwiftBox
 
 public class Box: ContainerNode {
+  public static var propertyTypes: [String: ValidationType] {
+    return commonPropertyTypes.merged(with: [
+      "flexDirection": FlexboxValidation.flexDirection,
+      "paddingTop": Validation.float,
+      "paddingBottom": Validation.float,
+      "paddingLeft": Validation.float,
+      "paddingRight": Validation.float,
+      "justification": FlexboxValidation.justification,
+      "childAlignment": FlexboxValidation.childAlignment
+    ])
+  }
+
   public typealias View = UIView
 
   public var root: Node?

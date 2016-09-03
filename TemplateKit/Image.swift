@@ -9,6 +9,14 @@
 import Foundation
 
 public class Image: LeafNode {
+  public static var propertyTypes: [String: ValidationType] {
+    return commonPropertyTypes.merged(with: [
+      "url": Validation.url,
+      "name": Validation.string,
+      "contentMode": ImageValidation.contentMode
+    ])
+  }
+
   public var root: Node?
   public var renderedView: UIView?
   public let properties: [String: Any]
