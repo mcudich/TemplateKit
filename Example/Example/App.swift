@@ -25,7 +25,11 @@ class App: Node {
 
   func build() -> Node {
     return Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
-      [Counter(properties: ["count": counterValue]), Text(properties: ["text": "Randomize", "onTap": randomizeCounter])]
+      [
+        Counter(properties: ["count": counterValue]),
+        Text(properties: ["text": "Randomize", "onTap": randomizeCounter]),
+        Image(properties: ["url": URL(string: "https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg"), "width": CGFloat(150), "height": CGFloat(150)])
+      ]
     }
   }
 

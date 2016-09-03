@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D8811CC71D5BE8FF0098624B /* ViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CC61D5BE8FF0098624B /* ViewNode.swift */; };
-		D8811CC91D5BE91E0098624B /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CC81D5BE91E0098624B /* View.swift */; };
 		D8811CCD1D5C118D0098624B /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CCC1D5C118D0098624B /* Validation.swift */; };
 		D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CCE1D5C2A8D0098624B /* Dictionary.swift */; };
-		D8811CD11D5D815C0098624B /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CD01D5D815C0098624B /* ImageView.swift */; };
 		D8811CD31D5D84260098624B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8811CD21D5D84260098624B /* ImageService.swift */; };
 		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -38,6 +35,7 @@
 		D8CB3E1C1D74B524003274AD /* AsyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E1B1D74B524003274AD /* AsyncQueue.swift */; };
 		D8CB3E4F1D77BC65003274AD /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E4E1D77BC65003274AD /* Box.swift */; };
 		D8CB3E511D77F76A003274AD /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E501D77F76A003274AD /* Text.swift */; };
+		D8CB3E551D7A0881003274AD /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E541D7A0881003274AD /* Image.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,11 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D8811CC61D5BE8FF0098624B /* ViewNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewNode.swift; sourceTree = "<group>"; };
-		D8811CC81D5BE91E0098624B /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		D8811CCC1D5C118D0098624B /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		D8811CCE1D5C2A8D0098624B /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
-		D8811CD01D5D815C0098624B /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		D8811CD21D5D84260098624B /* ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		D8811CD41D5D85540098624B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +80,7 @@
 		D8CB3E1B1D74B524003274AD /* AsyncQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncQueue.swift; sourceTree = "<group>"; };
 		D8CB3E4E1D77BC65003274AD /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		D8CB3E501D77F76A003274AD /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		D8CB3E541D7A0881003274AD /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,11 +139,8 @@
 				D89194321D57F2450049991F /* TemplateService.swift */,
 				D89194111D57F1FB0049991F /* TemplateKit.h */,
 				D89195041D5A6E350049991F /* DelegateProxy.swift */,
-				D8811CC61D5BE8FF0098624B /* ViewNode.swift */,
-				D8811CC81D5BE91E0098624B /* View.swift */,
 				D8811CCC1D5C118D0098624B /* Validation.swift */,
 				D8811CCE1D5C2A8D0098624B /* Dictionary.swift */,
-				D8811CD01D5D815C0098624B /* ImageView.swift */,
 				D8811CD21D5D84260098624B /* ImageService.swift */,
 				D8CB3E151D6BF9DA003274AD /* Result.swift */,
 				D8CB3E171D6D15B2003274AD /* ResourceService.swift */,
@@ -157,6 +150,7 @@
 				D89194291D57F2450049991F /* ContainerNode.swift */,
 				D8CB3E4E1D77BC65003274AD /* Box.swift */,
 				D8CB3E501D77F76A003274AD /* Text.swift */,
+				D8CB3E541D7A0881003274AD /* Image.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -328,15 +322,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8811CC91D5BE91E0098624B /* View.swift in Sources */,
-				D8811CC71D5BE8FF0098624B /* ViewNode.swift in Sources */,
 				D891943E1D57F2450049991F /* TemplateService.swift in Sources */,
 				D8811CD31D5D84260098624B /* ImageService.swift in Sources */,
 				D8CB3E161D6BF9DA003274AD /* Result.swift in Sources */,
 				D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */,
-				D8811CD11D5D815C0098624B /* ImageView.swift in Sources */,
 				D89194381D57F2450049991F /* Node.swift in Sources */,
 				D8CB3E511D77F76A003274AD /* Text.swift in Sources */,
+				D8CB3E551D7A0881003274AD /* Image.swift in Sources */,
 				D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */,
 				D89194351D57F2450049991F /* ContainerNode.swift in Sources */,
 				D8CB3E181D6D15B2003274AD /* ResourceService.swift in Sources */,
