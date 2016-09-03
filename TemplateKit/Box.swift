@@ -33,6 +33,10 @@ public class Box: ContainerNode {
 
   public var children: [Node]
 
+  // Retain underlying built nodes during layout. Without this, the result of build() for each child
+  // is destroyed after flexNode is generated.
+  fileprivate var builtChildren = [Node]()
+
   public var padding: Edges {
     return Edges(left: get("paddingLeft") ?? 0, right: get("paddingRight") ?? 0, bottom: get("paddingBottom") ?? 0, top: get("paddingTop") ?? 0)
   }
@@ -109,7 +113,8 @@ public extension Layoutable where Self: Node {
 
 extension Box: Layoutable {
   public var flexNode: FlexNode {
-    let flexNodes = children.map { $0.build().flexNode }
+    builtChildren = children.map { $0.build() }
+    let flexNodes = builtChildren.map { $0.flexNode }
 
     return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection, margin: margin, padding: padding, wrap: false, justification: justification, selfAlignment: selfAlignment, childAlignment: childAlignment, flex: flex)
   }

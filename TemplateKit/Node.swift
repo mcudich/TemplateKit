@@ -74,11 +74,10 @@ extension Node {
   }
 
   public func sizeToFit(_ size: CGSize) {
-    let computedSize = sizeThatFits(size)
     if calculatedFrame == nil {
       calculatedFrame = CGRect.zero
     }
-    calculatedFrame!.size = computedSize
+    calculatedFrame!.size = sizeThatFits(size)
   }
 
   fileprivate func applyFrame(to view: UIView) {
@@ -98,7 +97,6 @@ extension Node {
   private func render(withView view: UIView?) -> UIView {
     let built = build()
     built.sizeToFit(flexSize)
-
     if let view = view {
       built.renderedView = view
     }
