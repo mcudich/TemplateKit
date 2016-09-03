@@ -93,8 +93,6 @@ public class TextView: UILabel {
 }
 
 public class Text: LeafNode {
-  public typealias View = TextView
-
   public var root: Node?
   public var renderedView: UIView?
   public let properties: [String: Any]

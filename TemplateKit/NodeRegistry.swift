@@ -45,8 +45,6 @@ public class NodeRegistry {
   }
 
   private func registerDefaultProviders() {
-    register(nodeInstanceProvider: { ViewNode<ImageView>(properties: $0) }, forIdentifier: "Image")
-
     let boxTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
       "paddingTop": Validation.float,
       "paddingBottom": Validation.float,
@@ -63,8 +61,7 @@ public class NodeRegistry {
 
     let imageTypes = NodeRegistry.defaultPropertyTypes.merged(with: [
       "url": Validation.url,
-      "name": Validation.string,
-      "contentMode": ImageValidation.contentMode
+      "name": Validation.string
     ])
 
     register(propertyTypes: boxTypes, forIdentifier: "Box")
