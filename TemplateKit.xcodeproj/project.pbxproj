@@ -16,7 +16,6 @@
 		D89194351D57F2450049991F /* ContainerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194291D57F2450049991F /* ContainerNode.swift */; };
 		D89194371D57F2450049991F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891942B1D57F2450049991F /* Model.swift */; };
 		D89194381D57F2450049991F /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891942C1D57F2450049991F /* Node.swift */; };
-		D89194391D57F2450049991F /* NodeDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891942D1D57F2450049991F /* NodeDefinition.swift */; };
 		D891943A1D57F2450049991F /* NodeRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891942E1D57F2450049991F /* NodeRegistry.swift */; };
 		D891943C1D57F2450049991F /* StringRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194301D57F2450049991F /* StringRepresentable.swift */; };
 		D891943D1D57F2450049991F /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194311D57F2450049991F /* Template.swift */; };
@@ -62,7 +61,6 @@
 		D89194291D57F2450049991F /* ContainerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNode.swift; sourceTree = "<group>"; };
 		D891942B1D57F2450049991F /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		D891942C1D57F2450049991F /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		D891942D1D57F2450049991F /* NodeDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeDefinition.swift; sourceTree = "<group>"; };
 		D891942E1D57F2450049991F /* NodeRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeRegistry.swift; sourceTree = "<group>"; };
 		D89194301D57F2450049991F /* StringRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringRepresentable.swift; sourceTree = "<group>"; };
 		D89194311D57F2450049991F /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
@@ -133,7 +131,6 @@
 			children = (
 				D89194131D57F1FB0049991F /* Info.plist */,
 				D891942B1D57F2450049991F /* Model.swift */,
-				D891942D1D57F2450049991F /* NodeDefinition.swift */,
 				D891942E1D57F2450049991F /* NodeRegistry.swift */,
 				D89194301D57F2450049991F /* StringRepresentable.swift */,
 				D89195011D580B2B0049991F /* TableView.swift */,
@@ -342,7 +339,6 @@
 				D891943D1D57F2450049991F /* Template.swift in Sources */,
 				D8CB3E571D7A6CA8003274AD /* View.swift in Sources */,
 				D89195021D580B2B0049991F /* TableView.swift in Sources */,
-				D89194391D57F2450049991F /* NodeDefinition.swift in Sources */,
 				D89194371D57F2450049991F /* Model.swift in Sources */,
 				D891943A1D57F2450049991F /* NodeRegistry.swift in Sources */,
 				D8CB3E1C1D74B524003274AD /* AsyncQueue.swift in Sources */,

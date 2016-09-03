@@ -1,80 +1,62 @@
 import Foundation
 import AEXML
 
-enum ReservedElementName: String {
-  case PropertyType
-  case Import
-}
+struct Template {
+  let root: NodeReference
 
-enum Template {
-  static func parse(xml: Data) throws -> NodeDefinition {
+  func makeNode(withProperties properties: [String: Any]?) -> Node {
+    return root.makeInstance(withContextProperties: properties)
+  }
+
+  static func parse(xml: Data) throws -> Template {
     let document = try AEXMLDocument(xmlData: xml)
-    let name = try parseName(rootElement: document.root)
-    let dependencies = try parseDependencies(rootElement: document.root)
-    let rootNodeElement = try parseRootNode(rootElement: document.root)
-    let propertyTypes = try parsePropertyTypes(rootElement: document.root)
 
-    return NodeDefinition(name: name, dependencies: dependencies, root: rootNodeElement.nodeReference, propertyTypes: propertyTypes)
-  }
-
-  private static func parseName(rootElement: AEXMLElement) throws -> String {
-    guard let name = rootElement.attributes["name"] else {
-      throw TemplateKitError.parserError("Missing name value")
-    }
-    return name
-  }
-
-  private static func parseDependencies(rootElement: AEXMLElement) throws -> [URL] {
-    let importElements = rootElement.children.filter { element in
-      return element.name == ReservedElementName.Import.rawValue
-    }
-    return try importElements.map { tag in
-      guard let urlValue = tag.attributes["url"] else {
-        throw TemplateKitError.parserError("Import element missing `url` value")
-      }
-      guard let url = URL(string: urlValue) else {
-        throw TemplateKitError.parserError("Import element URL is invalid")
-      }
-      return url
-    }
-  }
-
-  private static func parseRootNode(rootElement: AEXMLElement) throws -> AEXMLElement {
-    let nodeTag = rootElement.children.first { element in
-      return ReservedElementName(rawValue: element.name) == nil
-    }
-    guard let foundTag = nodeTag else {
-      throw TemplateKitError.parserError("Root node element not found")
-    }
-    return foundTag
-  }
-
-  private static func parsePropertyTypes(rootElement: AEXMLElement) throws -> [String: ValidationType] {
-    let propertyTypeElements = rootElement.children.filter { element in
-      return element.name == ReservedElementName.PropertyType.rawValue
-    }
-
-    var types = [String: ValidationType]()
-    for child in propertyTypeElements {
-      guard let key = child.attributes["key"] else {
-        throw TemplateKitError.parserError("Missing `key` value for property type")
-      }
-      guard let type = child.attributes["type"] else {
-        throw TemplateKitError.parserError("Missing `type` value for property type")
-      }
-      // TODO(mcudich): XML should express validation domain.
-      guard let validationType: ValidationType = Validation(rawValue: type) else {
-        throw TemplateKitError.parserError("Unknown validation type")
-      }
-
-      types[key] = validationType
-    }
-    return types
+    return Template(root: document.root.nodeReference)
   }
 }
 
 extension AEXMLElement {
   var nodeReference: NodeReference {
     return .Reference(name, children.map { $0.nodeReference }, attributes)
+  }
+}
+
+indirect enum NodeReference {
+  case Reference(String, [NodeReference], [String: String])
+
+  func makeInstance(withContextProperties contextProperties: [String: Any]?) -> Node {
+    if case let .Reference(identifier, children, properties) = self {
+      let resolvedProperties = resolve(properties: properties, withContextProperties: contextProperties)
+      let node = NodeRegistry.shared.node(withIdentifier: identifier, properties: resolvedProperties)
+
+      if let containerNode = node as? ContainerNode {
+        children.forEach {
+          containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
+        }
+      }
+
+      return node
+    }
+    fatalError("Unknown reference type")
+  }
+
+  private func resolve(properties: [String: String], withContextProperties contextProperties: [String: Any]?) -> [String: Any] {
+    var resolvedProperties = [String: Any]()
+    for (key, value) in properties {
+      resolvedProperties[key] = resolve(value, properties: contextProperties)
+    }
+
+    return resolvedProperties
+  }
+
+  private func resolve(_ value: Any, properties: [String: Any]?) -> Any? {
+    guard let expression = value as? String, expression.hasPrefix("$") else {
+      return value
+    }
+
+    let startIndex = expression.characters.index(expression.startIndex, offsetBy: 1)
+    let keyPath = expression.substring(from: startIndex)
+    
+    return properties?.value(forKey: keyPath)
   }
 }

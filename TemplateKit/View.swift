@@ -16,13 +16,12 @@ public class View: LeafNode {
   public var calculatedFrame: CGRect?
   public var eventTarget = EventTarget()
 
-  public init(properties: [String: Any], view: UIView) {
-    self.properties = properties
-    self.renderedView = view
-  }
-
   public required init(properties: [String : Any]) {
     self.properties = properties
+
+    if let view: UIView = get("view") {
+      renderedView = view
+    }
   }
 
   public func buildView() -> UIView {

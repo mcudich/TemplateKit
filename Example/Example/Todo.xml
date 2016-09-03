@@ -1,7 +1,0 @@
-<Definition name="Todo">
-  <PropertyType key="model" type="any" />
-
-  <Box paddingTop="10" paddingBottom="10" paddingLeft="10" flexDirection="row">
-    <Text text="$model.description" fontSize="20" />
-  </Box>
-</Definition>

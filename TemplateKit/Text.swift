@@ -10,11 +10,11 @@ import Foundation
 import SwiftBox
 
 class TextLayout {
-  var textValue = ""
+  var text = ""
   var fontName = UIFont.systemFont(ofSize: UIFont.systemFontSize).fontName
   var fontSize = UIFont.systemFontSize
   var color = UIColor.black
-  var lineBreakModeValue = NSLineBreakMode.byTruncatingTail
+  var lineBreakMode = NSLineBreakMode.byTruncatingTail
 
   fileprivate lazy var layoutManager: NSLayoutManager = {
     let layoutManager = NSLayoutManager()
@@ -61,10 +61,9 @@ class TextLayout {
       NSForegroundColorAttributeName: color
     ]
 
-    let text = NSAttributedString(string: textValue, attributes: attributes)
-    textStorage.setAttributedString(text)
+    textStorage.setAttributedString(NSAttributedString(string: text, attributes: attributes))
 
-    textContainer.lineBreakMode = lineBreakModeValue
+    textContainer.lineBreakMode = lineBreakMode
   }
 }
 
@@ -85,10 +84,6 @@ public class TextView: UILabel {
 
   override public func drawText(in rect: CGRect) {
     textLayout.drawText(in: rect)
-  }
-
-  public override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
-    super.addGestureRecognizer(gestureRecognizer)
   }
 }
 
@@ -123,7 +118,7 @@ public class Text: LeafNode {
 
   fileprivate func applyTextProperties() {
     if let text: String = get("text") {
-      textLayout.textValue = text
+      textLayout.text = text
     }
     if let fontName: String = get("fontName") {
       textLayout.fontName = fontName
@@ -135,16 +130,16 @@ public class Text: LeafNode {
       textLayout.color = color
     }
     if let lineBreakMode: NSLineBreakMode = get("lineBreakMode") {
-      textLayout.lineBreakModeValue = lineBreakMode
+      textLayout.lineBreakMode = lineBreakMode
     }
   }
 }
 
 extension Text: Layoutable {
   public var flexNode: FlexNode {
-    let measure: ((CGFloat) -> CGSize) = { width in
+    let measure: ((CGFloat) -> CGSize) = { [weak self] width in
       let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-      return self.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) 
+      return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
     }
 
     return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
