@@ -35,6 +35,7 @@ class App: NSObject, Node {
         Counter(properties: ["count": counterValue]),
         Text(properties: ["text": "Randomize", "onTap": randomizeCounter]),
         Image(properties: ["url": URL(string: "https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg"), "width": CGFloat(150), "height": CGFloat(150)]),
+        Message(properties: ["text": "blah"]),
         View(properties: ["flex": CGFloat(1), "view": tableView])
       ]
     }

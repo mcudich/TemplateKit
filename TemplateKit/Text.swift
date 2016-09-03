@@ -88,6 +88,17 @@ public class TextView: UILabel {
 }
 
 public class Text: LeafNode {
+  public static var propertyTypes: [String: ValidationType] {
+    return commonPropertyTypes.merged(with: [
+      "text": Validation.string,
+      "fontName": Validation.string,
+      "fontSize": Validation.float,
+      "textColor": Validation.color,
+      "textAlignment": TextValidation.textAlignment,
+      "lineBreakMode": TextValidation.lineBreakMode
+    ])
+  }
+
   public var root: Node?
   public var renderedView: UIView?
   public let properties: [String: Any]
@@ -137,9 +148,10 @@ public class Text: LeafNode {
 
 extension Text: Layoutable {
   public var flexNode: FlexNode {
-    let measure: ((CGFloat) -> CGSize) = { [weak self] width in
+    // TODO(mcudich): Fix this weird retain.
+    let measure: ((CGFloat) -> CGSize) = { width in
       let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-      return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
+      return self.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude))
     }
 
     return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
