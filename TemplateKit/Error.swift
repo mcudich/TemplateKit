@@ -10,4 +10,5 @@ import Foundation
 
 enum TemplateKitError: Error {
   case parserError(String)
+  case missingTemplate
 }
