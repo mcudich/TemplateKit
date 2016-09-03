@@ -36,28 +36,52 @@ import UIKit
 }
 
 // This is a sub-set of UITableViewDataSource.
-@objc public protocol TableViewDataSource: NSObjectProtocol {
-  func tableView(_ tableView: TableView, locationForNodeAtIndexPath indexPath: IndexPath) -> URL
+public protocol TableViewDataSource: NSObjectProtocol {
+  func tableView(_ tableView: TableView, nodeAtIndexPath indexPath: IndexPath) -> Node
+  func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int
+
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-
-  @objc optional func tableView(_ tableView: TableView, propertiesForRowAtIndexPath indexPath: IndexPath) -> [String: Any]?
-  // Provide a hash value for the given row to enable component and controller caching.
-  @objc optional func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int
-
-  @objc optional func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
-  @objc optional func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
-  @objc optional func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String?
-  @objc optional func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool
-  @objc optional func tableView(_ tableView: UITableView, canMoveRowAtIndexPath indexPath: IndexPath) -> Bool
-  @objc optional func sectionIndexTitlesForTableView(_ tableView: UITableView) -> [String]?
-  @objc optional func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int
-  @objc optional func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath)
-  @objc optional func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath)
+  func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+  func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String?
+  func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool
+  func tableView(_ tableView: UITableView, canMoveRowAtIndexPath indexPath: IndexPath) -> Bool
+  func sectionIndexTitlesForTableView(_ tableView: UITableView) -> [String]?
+  func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int
+  func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath)
+  func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath)
 }
 
-extension TableViewDataSource {
+public extension TableViewDataSource {
   func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int {
-    return NSIndexPath(item: indexPath.item, section: indexPath.section).hashValue
+    return IndexPath(row: indexPath.row, section: indexPath.section).hashValue
+  }
+  func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
+    return 1
+  }
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return nil
+  }
+  func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    return nil
+  }
+  func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
+    return false
+  }
+  func tableView(_ tableView: UITableView, canMoveRowAtIndexPath indexPath: IndexPath) -> Bool {
+    return false
+  }
+  func sectionIndexTitlesForTableView(_ tableView: UITableView) -> [String]? {
+    return nil
+  }
+  func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+    return 0
+  }
+  func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+
+  }
+  func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath) {
+
   }
 }
 
@@ -67,10 +91,10 @@ class TableViewCell: UITableViewCell {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-//      if let node = node {
-//        node.sizeToFit(bounds.size)
-//        contentView.addSubview(node.render())
-//      }
+      if let node = node {
+        node.sizeToFit(bounds.size)
+        contentView.addSubview(node.render())
+      }
     }
   }
 }
@@ -114,14 +138,11 @@ public class TableView: UITableView {
   fileprivate let cellIdentifier = "TableViewCell"
   fileprivate lazy var rowNodeCache = [Int: Node]()
 
-  private let nodeProvider: NodeProvider
   private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
   private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
   private var dataSourceProxy: (DelegateProxyProtocol & UITableViewDataSource)?
 
-  public init(nodeProvider: NodeProvider, frame: CGRect, style: UITableViewStyle) {
-    self.nodeProvider = nodeProvider
-
+  public override init(frame: CGRect, style: UITableViewStyle) {
     super.init(frame: frame, style: style)
 
     configureTableDelegate()
@@ -195,31 +216,16 @@ public class TableView: UITableView {
     }
 
     operationQueue.enqueueOperation { done in
-      var completedNodes = 0
-
       for indexPath in indexPaths {
         let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-        let location = tableViewDataSource.tableView(self, locationForNodeAtIndexPath: indexPath)
-        let properties = tableViewDataSource.tableView?(self, propertiesForRowAtIndexPath: indexPath) ?? [:]
-
-        self.nodeProvider.node(withLocation: location, properties: properties) { [weak self] result in
-          switch result {
-          case .success(let node):
-//            node.sizeToFit(CGSize(width: self?.bounds.width ?? 0, height: CGFloat.greatestFiniteMagnitude))
-            self?.rowNodeCache[cacheKey] = node
-            completedNodes += 1
-
-            DispatchQueue.main.async {
-              UIView.performWithoutAnimation {
-                if completedNodes == indexPaths.count {
-                  insert()
-                  done()
-                }
-              }
-            }
-          case .error(let error):
-            print(error)
-          }
+        let node = tableViewDataSource.tableView(self, nodeAtIndexPath: indexPath)
+        node.sizeToFit(CGSize(width: self.bounds.width , height: CGFloat.greatestFiniteMagnitude))
+        self.rowNodeCache[cacheKey] = node
+      }
+      DispatchQueue.main.async {
+        UIView.performWithoutAnimation {
+          insert()
+          done()
         }
       }
     }
@@ -300,7 +306,7 @@ public class TableView: UITableView {
       return
     }
 
-    let sectionCount = tableViewDataSource.numberOfSectionsInTableView?(self) ?? 1
+    let sectionCount = tableViewDataSource.numberOfSectionsInTableView(self)
     let indexPaths: [IndexPath] = (0..<sectionCount).reduce([]) { previous, section in
       return previous + self.indexPaths(forSection: section)
     }
@@ -326,7 +332,7 @@ extension TableView {
   }
 
   func heightForNode(_ node: Node?) -> CGFloat {
-    return 0 //node?.view.calculatedFrame?.height ?? 0
+    return node?.calculatedFrame?.height ?? 0
   }
 }
 

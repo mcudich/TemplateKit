@@ -39,7 +39,7 @@ public class Image: LeafNode {
   }
 
   private func load(_ url: URL, _ view: UIImageView) {
-    ImageService.shared.load(url) { [weak self] result in
+    ImageService.shared.load(url) { result in
       switch result {
       case .success(let image):
         DispatchQueue.main.async {

@@ -36,6 +36,7 @@
 		D8CB3E4F1D77BC65003274AD /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E4E1D77BC65003274AD /* Box.swift */; };
 		D8CB3E511D77F76A003274AD /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E501D77F76A003274AD /* Text.swift */; };
 		D8CB3E551D7A0881003274AD /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E541D7A0881003274AD /* Image.swift */; };
+		D8CB3E571D7A6CA8003274AD /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E561D7A6CA8003274AD /* View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		D8CB3E4E1D77BC65003274AD /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		D8CB3E501D77F76A003274AD /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		D8CB3E541D7A0881003274AD /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		D8CB3E561D7A6CA8003274AD /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				D8CB3E4E1D77BC65003274AD /* Box.swift */,
 				D8CB3E501D77F76A003274AD /* Text.swift */,
 				D8CB3E541D7A0881003274AD /* Image.swift */,
+				D8CB3E561D7A6CA8003274AD /* View.swift */,
 			);
 			path = TemplateKit;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				D8811CCD1D5C118D0098624B /* Validation.swift in Sources */,
 				D89195051D5A6E350049991F /* DelegateProxy.swift in Sources */,
 				D891943D1D57F2450049991F /* Template.swift in Sources */,
+				D8CB3E571D7A6CA8003274AD /* View.swift in Sources */,
 				D89195021D580B2B0049991F /* TableView.swift in Sources */,
 				D89194391D57F2450049991F /* NodeDefinition.swift in Sources */,
 				D89194371D57F2450049991F /* Model.swift in Sources */,
