@@ -32,13 +32,13 @@ public class NodeRegistry {
   }
 
   private func registerDefaultProviders() {
-    register("Box") { Box(properties: $0) }
-    register("Text") { Text(properties: $0) }
-    register("Image") { Image(properties: $0) }
-    register("View") { View(properties: $0) }
-
-    register("Box", propertyTypes: Box.propertyTypes)
-    register("Text", propertyTypes: Text.propertyTypes)
-    register("Image", propertyTypes: Image.propertyTypes)
+//    register("Box") { Box(properties: $0) }
+//    register("Text") { Text(properties: $0) }
+//    register("Image") { Image(properties: $0) }
+//    register("View") { View(properties: $0) }
+//
+//    register("Box", propertyTypes: Box.propertyTypes)
+//    register("Text", propertyTypes: Text.propertyTypes)
+//    register("Image", propertyTypes: Image.propertyTypes)
   }
 }

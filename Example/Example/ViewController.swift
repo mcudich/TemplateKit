@@ -10,16 +10,12 @@ import UIKit
 import TemplateKit
 
 class ViewController: UIViewController {
-  var appNode = App(properties: [:])
-
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let messageURL = Bundle.main.url(forResource: "Message", withExtension: "xml")!
-    TemplateService.shared.fetchTemplates(withURLs: [messageURL]) { result in
-      self.appNode.sizeToFit(self.view.bounds.size)
-      DispatchQueue.main.async {
-        self.view.addSubview(self.appNode.render())
+    DispatchQueue.global(qos: .background).async {
+      UIKitRenderer.render(Element(ElementType.node(App.self))) { [weak self] appView in
+        self?.view.addSubview(appView)
       }
     }
   }

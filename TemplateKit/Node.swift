@@ -4,22 +4,22 @@ public protocol PropertyProvider: class {
   func get<T>(_ key: String) -> T?
 }
 
-public protocol Node: class, Layoutable {
-  static var propertyTypes: [String: ValidationType] { get }
+public protocol ElementRepresentable {
+  // TODO(mcudich): Consider making this generic.
+  func make(_ properties: [String: Any], _ children: [Element]?) -> UIView
+}
 
-  var root: Node? { get set }
-  var renderedView: UIView? { get set }
+public protocol Node: class {
+  static var propertyTypes: [String: ValidationType] { get }
 
   var properties: [String: Any] { get }
   var state: Any? { get }
   var key: String? { get }
-  var calculatedFrame: CGRect? { get set }
   var eventTarget: EventTarget { get }
 
   init(properties: [String: Any])
 
-  func build() -> Node
-  func render() -> UIView
+  func render() -> Element
   func sizeThatFits(_ size: CGSize) -> CGSize
   func sizeToFit(_ size: CGSize)
 }
@@ -61,29 +61,21 @@ extension Node {
     return properties[key] as? T
   }
 
-  public func render() -> UIView {
-    return render(withView: nil)
-  }
-
-  public func update() {
-    let _ = render(withView: root?.renderedView)
-  }
-
   public func sizeThatFits(_ size: CGSize) -> CGSize {
-    return build().sizeThatFits(size)
+    return CGSize.zero
   }
 
   public func sizeToFit(_ size: CGSize) {
-    if calculatedFrame == nil {
-      calculatedFrame = CGRect.zero
-    }
-    calculatedFrame!.size = sizeThatFits(size)
+//    if calculatedFrame == nil {
+//      calculatedFrame = CGRect.zero
+//    }
+//    calculatedFrame!.size = sizeThatFits(size)
   }
 
   fileprivate func applyFrame(to view: UIView) {
-    if let calculatedFrame = calculatedFrame {
-      view.frame = calculatedFrame
-    }
+//    if let calculatedFrame = calculatedFrame {
+//      view.frame = calculatedFrame
+//    }
   }
 
   fileprivate func applyCoreProperties(to view: UIView) {
@@ -93,22 +85,6 @@ extension Node {
       view.addGestureRecognizer(recognizer)
     }
   }
-
-  private func render(withView view: UIView?) -> UIView {
-    let built = build()
-    built.sizeToFit(flexSize)
-    if let view = view {
-      built.renderedView = view
-    }
-
-    let rendered = built.render()
-    applyFrame(to: rendered)
-    applyCoreProperties(to: rendered)
-
-    root = built
-
-    return rendered
-  }
 }
 
 public class EventTarget: NSObject {
@@ -116,28 +92,5 @@ public class EventTarget: NSObject {
 
   public func handleTap() {
     tapHandler?()
-  }
-}
-
-public protocol LeafNode: Node {
-  func applyProperties(to view: UIView)
-  func buildView() -> UIView
-}
-
-extension LeafNode {
-  public func build() -> Node {
-    return self
-  }
-
-  public func render() -> UIView {
-    let view = buildView()
-
-    applyFrame(to: view)
-    applyCoreProperties(to: view)
-    applyProperties(to: view)
-
-    renderedView = view
-
-    return view
   }
 }

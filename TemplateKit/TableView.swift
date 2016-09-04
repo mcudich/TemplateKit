@@ -93,7 +93,7 @@ class TableViewCell: UITableViewCell {
       }
       if let node = node {
         node.sizeToFit(bounds.size)
-        contentView.addSubview(node.render())
+//        contentView.addSubview(node.render())
       }
     }
   }
@@ -332,7 +332,7 @@ extension TableView {
   }
 
   func heightForNode(_ node: Node?) -> CGFloat {
-    return node?.calculatedFrame?.height ?? 0
+    return 0//node?.calculatedFrame?.height ?? 0
   }
 }
 

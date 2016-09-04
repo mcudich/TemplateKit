@@ -2,120 +2,20 @@
 //  Box.swift
 //  TemplateKit
 //
-//  Created by Matias Cudich on 8/31/16.
+//  Created by Matias Cudich on 9/3/16.
 //  Copyright © 2016 Matias Cudich. All rights reserved.
 //
 
 import Foundation
-import SwiftBox
 
-public class Box: ContainerNode {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [
-      "flexDirection": FlexboxValidation.flexDirection,
-      "paddingTop": Validation.float,
-      "paddingBottom": Validation.float,
-      "paddingLeft": Validation.float,
-      "paddingRight": Validation.float,
-      "justification": FlexboxValidation.justification,
-      "childAlignment": FlexboxValidation.childAlignment
-    ])
+public class Box: UIView {
+  public init(children: [UIView]) {
+    super.init(frame: CGRect.zero)
+
+    children.forEach(addSubview)
   }
-
-  public typealias View = UIView
-
-  public var root: Node?
-  public var renderedView: UIView?
-  public let properties: [String: Any]
-  public var state: Any?
-  public var calculatedFrame: CGRect?
-  public var eventTarget = EventTarget()
-
-  public var children: [Node]
-
-  // Retain underlying built nodes during layout. Without this, the result of build() for each child
-  // is destroyed after flexNode is generated.
-  fileprivate var builtChildren = [Node]()
-
-  public var padding: Edges {
-    return Edges(left: get("paddingLeft") ?? 0, right: get("paddingRight") ?? 0, bottom: get("paddingBottom") ?? 0, top: get("paddingTop") ?? 0)
-  }
-  public var flexDirection: Direction {
-    return get("flexDirection") ?? .column
-  }
-  public var justification: Justification {
-    return get("justification") ?? .flexStart
-  }
-  public var childAlignment: ChildAlignment {
-    return get("childAlignment") ?? .stretch
-  }
-
-  public required init(properties: [String : Any]) {
-    self.properties = properties
-    self.children = []
-  }
-
-  public required init(properties: [String : Any], children: () -> [Node]) {
-    self.properties = properties
-    self.children = children()
-  }
-
-  public func sizeThatFits(_ size: CGSize) -> CGSize {
-    let layout = flexNode.layout(withMaxWidth: size.width)
-
-    apply(layout: layout)
-
-    return layout.frame.size
-  }
-
-  private func apply(layout: Layout) {
-    for (index, layout) in layout.children.enumerated() {
-      let child = children[index]
-      child.calculatedFrame = layout.frame
-      if let box = child as? Box {
-        box.apply(layout: layout)
-      }
-    }
-  }
-}
-
-public typealias FlexNode = SwiftBox.Node
-
-public protocol Layoutable {
-  var flexNode: FlexNode { get }
-  var flexSize: CGSize { get }
-  var margin: Edges { get }
-  var selfAlignment: SelfAlignment { get }
-  var flex: CGFloat { get }
-}
-
-public extension Layoutable where Self: Node {
-  var flexNode: FlexNode {
-    return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex)
-  }
-
-  public var flexSize: CGSize {
-    let width: CGFloat = get("width") ?? FlexNode.Undefined
-    let height: CGFloat = get("height") ?? FlexNode.Undefined
-
-    return CGSize(width: width, height: height)
-  }
-  public var margin: Edges {
-    return Edges(left: get("marginLeft") ?? 0, right: get("marginRight") ?? 0, bottom: get("marginBottom") ?? 0, top: get("marginTop") ?? 0)
-  }
-  public var selfAlignment: SelfAlignment {
-    return get("selfAlignment") ?? .auto
-  }
-  public var flex: CGFloat {
-    return get("flex") ?? 0
-  }
-}
-
-extension Box: Layoutable {
-  public var flexNode: FlexNode {
-    builtChildren = children.map { $0.build() }
-    let flexNodes = builtChildren.map { $0.flexNode }
-
-    return FlexNode(size: flexSize, children: flexNodes, direction: flexDirection, margin: margin, padding: padding, wrap: false, justification: justification, selfAlignment: selfAlignment, childAlignment: childAlignment, flex: flex)
+  
+  required public init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }

@@ -30,11 +30,11 @@ indirect enum NodeReference {
       let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
       let node = try NodeRegistry.shared.node(withIdentifier: identifier, properties: validatedProperties)
 
-      if let containerNode = node as? ContainerNode {
-        try children.forEach {
-          try containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
-        }
-      }
+//      if let containerNode = node as? ContainerNode {
+//        try children.forEach {
+//          try containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
+//        }
+//      }
 
       return node
     }
