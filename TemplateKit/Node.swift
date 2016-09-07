@@ -13,15 +13,15 @@ public protocol Node: class {
   static var propertyTypes: [String: ValidationType] { get }
 
   var properties: [String: Any] { get }
-  var state: Any? { get }
+  var state: Any? { get set }
   var key: String? { get }
-  var eventTarget: EventTarget { get }
+  var currentElement: Element? { get set }
+  var renderedView: UIView? { get set }
 
   init(properties: [String: Any])
 
   func render() -> Element
-  func sizeThatFits(_ size: CGSize) -> CGSize
-  func sizeToFit(_ size: CGSize)
+  func updateState(stateMutation: () -> Any?)
 }
 
 public func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
@@ -32,7 +32,7 @@ public func ==(lhs: Node, rhs: Node) -> Bool {
   return lhs.properties == rhs.properties && lhs.key == rhs.key
 }
 
-extension Node {
+public extension Node {
   public static var commonPropertyTypes: [String: ValidationType] {
     return [
       "x": Validation.float,
@@ -53,6 +53,11 @@ extension Node {
     return commonPropertyTypes
   }
 
+  public func updateState(stateMutation: () -> Any?) {
+    state = stateMutation()
+    update()
+  }
+
   public var key: String? {
     return get("key")
   }
@@ -61,36 +66,37 @@ extension Node {
     return properties[key] as? T
   }
 
-  public func sizeThatFits(_ size: CGSize) -> CGSize {
-    return CGSize.zero
-  }
+  func update() {
+    let updatedElement = UIKitRenderer.resolve(render())
 
-  public func sizeToFit(_ size: CGSize) {
-//    if calculatedFrame == nil {
-//      calculatedFrame = CGRect.zero
-//    }
-//    calculatedFrame!.size = sizeThatFits(size)
-  }
-
-  fileprivate func applyFrame(to view: UIView) {
-//    if let calculatedFrame = calculatedFrame {
-//      view.frame = calculatedFrame
-//    }
-  }
-
-  fileprivate func applyCoreProperties(to view: UIView) {
-    if let onTap: () -> Void = get("onTap") {
-      eventTarget.tapHandler = onTap
-      let recognizer = UITapGestureRecognizer(target: eventTarget, action: #selector(EventTarget.handleTap))
-      view.addGestureRecognizer(recognizer)
+    guard let currentElement = currentElement, let renderedView = renderedView else {
+      // TODO(mcudich): Handle this.
+      fatalError()
     }
+    var newStack = [updatedElement]
+    var currentStack = [currentElement]
+    var viewStack = [renderedView]
+
+    while !newStack.isEmpty && !currentStack.isEmpty && !viewStack.isEmpty {
+      let new = newStack.removeFirst()
+      let current = currentStack.removeFirst()
+      let view = viewStack.removeFirst()
+      if new != current {
+        let newView = UIKitRenderer.make(new)
+        let parentView = view.superview!
+        let viewIndex = parentView.subviews.index(of: view)!
+        view.removeFromSuperview()
+        parentView.insertSubview(newView, at: viewIndex)
+      } else {
+        newStack.append(contentsOf: new.children ?? [])
+        currentStack.append(contentsOf: current.children ?? [])
+        viewStack.append(contentsOf: view.subviews)
+      }
+    }
+
+    let layout = UIKitRenderer.layout(updatedElement)
+    Layout.apply(layout, to: renderedView)
   }
 }
 
-public class EventTarget: NSObject {
-  var tapHandler: (() -> Void)?
 
-  public func handleTap() {
-    tapHandler?()
-  }
-}

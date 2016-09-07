@@ -10,10 +10,24 @@ import Foundation
 import TemplateKit
 
 class Details: Node {
-  var properties: [String : Any]
-  public var state: Any?
-  public var eventTarget = EventTarget()
+  public var renderedView: UIView?
+  public var currentElement: Element?
+  public var properties: [String : Any]
+  public var state: Any? = State()
 
+  struct State {
+    var text = "hi"
+  }
+
+
+  private var detailState: State {
+    get {
+      return state as! State
+    }
+    set {
+      state = newValue
+    }
+  }
 
   required init(properties: [String : Any]) {
     self.properties = properties
@@ -21,8 +35,15 @@ class Details: Node {
 
   func render() -> Element {
     return Element(ElementType.box, [:], [
-      Element(ElementType.text, ["text": "hi"]),
-      Element(ElementType.text)
+      Element(ElementType.text, ["text": detailState.text]),
+      Element(ElementType.text, ["text": "there", "onTap": flipText])
     ])
+  }
+
+  func flipText() {
+    updateState {
+      detailState.text = "bye"
+      return detailState
+    }
   }
 }

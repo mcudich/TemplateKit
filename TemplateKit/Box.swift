@@ -8,11 +8,15 @@
 
 import Foundation
 
-public class Box: UIView {
-  public init(children: [UIView]) {
+public class Box: UIView, NativeView {
+  public lazy var eventTarget = EventTarget()
+
+  public init(properties: [String: Any], children: [UIView]) {
     super.init(frame: CGRect.zero)
 
     children.forEach(addSubview)
+
+    applyCommonProperties(properties: properties)
   }
   
   required public init?(coder aDecoder: NSCoder) {

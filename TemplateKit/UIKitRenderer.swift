@@ -18,9 +18,9 @@ public enum ElementType: ElementRepresentable {
   public func make(_ properties: [String: Any], _ children: [Element]?) -> UIView {
     switch self {
     case .box:
-      return Box(children: children?.map { $0.type.make($0.properties, $0.children) } ?? [])
+      return Box(properties: properties, children: children?.map { UIKitRenderer.make($0) } ?? [])
     case .text:
-      return Text()
+      return Text(properties: properties)
     case .image:
       return Image()
     default:
@@ -42,14 +42,15 @@ public enum UIKitRenderer {
 
   static func resolve(_ element: Element) -> Element {
     switch element.type {
-    case ElementType.node(let nodeClass):
-      if let nodeClass = nodeClass as? Node.Type {
-        return resolve(nodeClass.init(properties: element.properties).render())
-      }
+    case ElementType.node(let nodeClass as Node.Type):
+      let node = nodeClass.init(properties: element.properties)
+      var element = resolve(node.render())
+      node.currentElement = element
+      element.owner = node
+      return element
     default:
       return Element(element.type, element.properties, element.children?.map { resolve($0) })
     }
-    fatalError()
   }
 
   static func layout(_ element: Element) -> SwiftBox.Layout {
@@ -57,6 +58,8 @@ public enum UIKitRenderer {
   }
 
   static func make(_ element: Element) -> UIView {
-    return element.type.make(element.properties, element.children)
+    let renderedView = element.type.make(element.properties, element.children)
+    element.owner?.renderedView = renderedView
+    return renderedView
   }
 }

@@ -91,10 +91,10 @@ class TableViewCell: UITableViewCell {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-      if let node = node {
-        node.sizeToFit(bounds.size)
-//        contentView.addSubview(node.render())
-      }
+//      if let node = node {
+////        node.sizeToFit(bounds.size)
+////        contentView.addSubview(node.render())
+//      }
     }
   }
 }
@@ -219,7 +219,6 @@ public class TableView: UITableView {
       for indexPath in indexPaths {
         let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
         let node = tableViewDataSource.tableView(self, nodeAtIndexPath: indexPath)
-        node.sizeToFit(CGSize(width: self.bounds.width , height: CGFloat.greatestFiniteMagnitude))
         self.rowNodeCache[cacheKey] = node
       }
       DispatchQueue.main.async {

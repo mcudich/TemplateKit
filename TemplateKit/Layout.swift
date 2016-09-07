@@ -55,8 +55,9 @@ extension Element {
       return SwiftBox.Node(size: flexSize, children: childNodes, direction: flexDirection, margin: margin, padding: padding, wrap: false, justification: justification, selfAlignment: selfAlignment, childAlignment: childAlignment, flex: flex)
     case ElementType.text:
       let measure: ((CGFloat) -> CGSize) = { width in
-        let _ = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-        return CGSize.zero
+        let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
+        let textLayout = TextLayout(properties: self.properties)
+        return textLayout.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude))
       }
       return SwiftBox.Node(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
     default:

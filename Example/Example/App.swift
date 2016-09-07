@@ -10,18 +10,41 @@ import Foundation
 import TemplateKit
 
 class App: Node {
-  var properties: [String : Any]
-  public var state: Any?
-  public var eventTarget = EventTarget()
+  public var renderedView: UIView?
+  public var currentElement: Element?
+  public var properties: [String : Any]
+  public var state: Any? = State()
+
+  struct State {
+    var counter = 0
+  }
+
+
+  private var appState: State {
+    get {
+      return state as! State
+    }
+    set {
+      state = newValue
+    }
+  }
 
   required init(properties: [String : Any]) {
     self.properties = properties
   }
 
   func render() -> Element {
-    return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500)], [
-      Element(ElementType.text, ["text": "blah"]),
+    return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)], [
+      Element(ElementType.text, ["text": "blah", "onTap": incrementCounter]),
+      Element(ElementType.text, ["text": "\(appState.counter)"]),
       Element(ElementType.node(Details.self))
     ])
+  }
+
+  func incrementCounter() {
+    updateState {
+      appState.counter = 3
+      return appState
+    }
   }
 }
