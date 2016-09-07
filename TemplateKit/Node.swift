@@ -28,6 +28,10 @@ public func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
   return NSDictionary(dictionary: lhs).isEqual(to: rhs)
 }
 
+public func !=(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
+  return !NSDictionary(dictionary: lhs).isEqual(to: rhs)
+}
+
 public func ==(lhs: Node, rhs: Node) -> Bool {
   return lhs.properties == rhs.properties && lhs.key == rhs.key
 }
@@ -69,33 +73,21 @@ public extension Node {
   func update() {
     let updatedElement = UIKitRenderer.resolve(render())
 
-    guard let currentElement = currentElement, let renderedView = renderedView else {
-      // TODO(mcudich): Handle this.
-      fatalError()
-    }
-    var newStack = [updatedElement]
-    var currentStack = [currentElement]
-    var viewStack = [renderedView]
-
-    while !newStack.isEmpty && !currentStack.isEmpty && !viewStack.isEmpty {
-      let new = newStack.removeFirst()
-      let current = currentStack.removeFirst()
-      let view = viewStack.removeFirst()
-      if new != current {
-        let newView = UIKitRenderer.make(new)
-        let parentView = view.superview!
-        let viewIndex = parentView.subviews.index(of: view)!
-        view.removeFromSuperview()
-        parentView.insertSubview(newView, at: viewIndex)
-      } else {
-        newStack.append(contentsOf: new.children ?? [])
-        currentStack.append(contentsOf: current.children ?? [])
-        viewStack.append(contentsOf: view.subviews)
-      }
-    }
-
-    let layout = UIKitRenderer.layout(updatedElement)
-    Layout.apply(layout, to: renderedView)
+    // Prerequisite: keep a map of elements to views inside the node so it's easy to look them up
+    // and we don't need to traverse the UIView hierarchy inside the diff algorithm, and therefore
+    // can move it to a background thread.
+    //
+    // Move through and queue up child lists. For each child list, walk through and check if
+    // the current child is different from the new one for that index. If so, remove the current
+    // one and insert the new one. If the new list has any left over, insert them all. As we walk
+    // through each of these children, queue up additional child lists to look at for any *current*
+    // nodes that are left over. If we completely remove a current node, that tree will be wholesale
+    // replaced by the *new* node. If the new list is shorter than the current one, drop any extra
+    // nodes.
+    //
+    // Difference check should be done in this order:
+    // * Are the types different? If so, replace.
+    // * Are the properties different? If so, mutate.
   }
 }
 

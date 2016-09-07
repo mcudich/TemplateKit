@@ -58,6 +58,7 @@ public enum UIKitRenderer {
   }
 
   static func make(_ element: Element) -> UIView {
+    // TODO(mcudich): Store a map of element to view on the owner to make updates easier later.
     let renderedView = element.type.make(element.properties, element.children)
     element.owner?.renderedView = renderedView
     return renderedView
