@@ -15,6 +15,12 @@ class TextLayout {
   var color = UIColor.black
   var lineBreakMode = NSLineBreakMode.byTruncatingTail
 
+  var properties = [String: Any]() {
+    didSet {
+      transferProperties()
+    }
+  }
+
   fileprivate lazy var layoutManager: NSLayoutManager = {
     let layoutManager = NSLayoutManager()
     layoutManager.addTextContainer(self.textContainer)
@@ -34,22 +40,7 @@ class TextLayout {
     return textContainer
   }()
 
-  convenience init(properties: [String: Any]) {
-    self.init()
-
-    if let text = properties["text"] as? String {
-      self.text = text
-    }
-    if let fontName = properties["fontName"] as? String {
-      self.fontName = fontName
-    }
-    if let fontSize = properties["fontSize"] as? CGFloat {
-      self.fontSize = fontSize
-    }
-    if let lineBreakMode = properties["lineBreakMode"] as? NSLineBreakMode {
-      self.lineBreakMode = lineBreakMode
-    }
-  }
+  init() {}
 
   func sizeThatFits(_ size: CGSize) -> CGSize {
     applyProperties()
@@ -67,6 +58,21 @@ class TextLayout {
 
     layoutManager.drawBackground(forGlyphRange: glyphRange, at: CGPoint.zero);
     layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: CGPoint.zero);
+  }
+
+  private func transferProperties() {
+    if let text = properties["text"] as? String {
+      self.text = text
+    }
+    if let fontName = properties["fontName"] as? String {
+      self.fontName = fontName
+    }
+    if let fontSize = properties["fontSize"] as? CGFloat {
+      self.fontSize = fontSize
+    }
+    if let lineBreakMode = properties["lineBreakMode"] as? NSLineBreakMode {
+      self.lineBreakMode = lineBreakMode
+    }
   }
 
   private func applyProperties() {
@@ -87,11 +93,17 @@ class TextLayout {
 public class Text: UILabel, NativeView {
   public lazy var eventTarget = EventTarget()
 
-  private let textLayout: TextLayout
+  public var properties = [String : Any]() {
+    didSet {
+      applyCommonProperties(properties: properties)
+      textLayout.properties = properties
+      setNeedsDisplay()
+    }
+  }
 
-  init(properties: [String: Any]) {
-    textLayout = TextLayout(properties: properties)
-  
+  private lazy var textLayout = TextLayout()
+
+  public required init() {
     super.init(frame: CGRect.zero)
 
     isUserInteractionEnabled = true

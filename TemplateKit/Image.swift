@@ -8,4 +8,20 @@
 
 import Foundation
 
-public class Image: UIImageView {}
+public class Image: UIImageView, NativeView {
+  public lazy var eventTarget = EventTarget()
+
+  public var properties = [String : Any]() {
+    didSet {
+      applyCommonProperties(properties: properties)
+    }
+  }
+
+  public required init() {
+    super.init(frame: CGRect.zero)
+  }
+  
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}

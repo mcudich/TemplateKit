@@ -10,7 +10,8 @@ import Foundation
 import TemplateKit
 
 class App: Node {
-  public var renderedView: UIView?
+  public var children: [BaseNode]?
+  public var currentInstance: BaseNode?
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
@@ -18,7 +19,6 @@ class App: Node {
   struct State {
     var counter = 0
   }
-
 
   private var appState: State {
     get {

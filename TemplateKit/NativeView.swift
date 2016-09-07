@@ -20,9 +20,19 @@ public class EventTarget: NSObject {
 
 public protocol NativeView {
   var eventTarget: EventTarget { get }
+  var properties: [String: Any] { get set }
+  var children: [NativeView]? { get set }
+
+  init()
 }
 
 extension NativeView where Self: UIView {
+  public var children: [NativeView]? {
+    set {
+    }
+    get { return nil }
+  }
+
   func applyCommonProperties(properties: [String: Any]) {
     applyTapHandler(properties)
   }

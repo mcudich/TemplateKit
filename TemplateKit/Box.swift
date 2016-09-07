@@ -11,12 +11,29 @@ import Foundation
 public class Box: UIView, NativeView {
   public lazy var eventTarget = EventTarget()
 
-  public init(properties: [String: Any], children: [UIView]) {
+  public var properties = [String : Any]() {
+    didSet {
+      applyCommonProperties(properties: properties)
+    }
+  }
+
+  public var children: [NativeView]? {
+    didSet {
+      // TODO(mcudich): Be smarter about adding/removing/moving here.
+      for view in subviews {
+        view.removeFromSuperview()
+      }
+
+      for child in (children ?? []) {
+        if let subview = child as? UIView {
+          addSubview(subview)
+        }
+      }
+    }
+  }
+
+  public required init() {
     super.init(frame: CGRect.zero)
-
-    children.forEach(addSubview)
-
-    applyCommonProperties(properties: properties)
   }
   
   required public init?(coder aDecoder: NSCoder) {

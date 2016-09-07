@@ -15,52 +15,78 @@ public enum ElementType: ElementRepresentable {
   case image
   case node(AnyClass)
 
-  public func make(_ properties: [String: Any], _ children: [Element]?) -> UIView {
+  public func make(_ properties: [String: Any], _ children: [Element]?) -> BaseNode {
     switch self {
     case .box:
-      return Box(properties: properties, children: children?.map { UIKitRenderer.make($0) } ?? [])
+      return NativeNode<Box>(properties: properties, children: children?.map { UIKitRenderer.instantiate($0) })
     case .text:
-      return Text(properties: properties)
+      return NativeNode<Text>(properties: properties)
     case .image:
-      return Image()
+      return NativeNode<Image>(properties: properties)
+    case .node(let nodeClass as Node.Type):
+      return nodeClass.init(properties: properties)
+    default:
+      fatalError()
+    }
+  }
+
+  public var hashValue: Int {
+    switch self {
+    case .box:
+      return 0
+    case .text:
+      return 1
+    case .image:
+      return 2
+    case .node(let nodeClass as Node.Type):
+      return "\(type(of: nodeClass))".hashValue
     default:
       fatalError()
     }
   }
 }
 
+public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
+  return lhs.hashValue == rhs.hashValue
+}
+
+public func !=(lhs: ElementType, rhs: ElementType) -> Bool {
+  return lhs.hashValue != rhs.hashValue
+}
+
 public enum UIKitRenderer {
-  public static func render(_ element: Element, completion: @escaping (UIView) -> Void) {
-    let elementTree = resolve(element)
-    let computedLayout = layout(elementTree)
+  public static func render(_ element: Element, completion: @escaping (Node, UIView) -> Void) {
+    guard let node = instantiate(element) as? Node else {
+      fatalError()
+    }
+
     DispatchQueue.main.async {
-      let viewTree = make(elementTree)
-      Layout.apply(computedLayout, to: viewTree)
-      completion(viewTree)
+      let layout = Layout.perform(materialize(node))
+      let builtView = node.build() as! UIView
+      Layout.apply(layout, to: builtView)
+      completion(node, builtView)
     }
   }
 
-  static func resolve(_ element: Element) -> Element {
-    switch element.type {
-    case ElementType.node(let nodeClass as Node.Type):
-      let node = nodeClass.init(properties: element.properties)
-      var element = resolve(node.render())
-      node.currentElement = element
-      element.owner = node
-      return element
-    default:
-      return Element(element.type, element.properties, element.children?.map { resolve($0) })
+  static func instantiate(_ element: Element) -> BaseNode {
+    let made = element.type.make(element.properties, element.children)
+
+    if let node = made as? Node {
+      let currentElement = node.render()
+      node.currentElement = currentElement
+      node.currentInstance = instantiate(currentElement)
+    } else {
+      made.currentElement = element
     }
+
+    return made
   }
 
-  static func layout(_ element: Element) -> SwiftBox.Layout {
-    return Layout.perform(element)
-  }
-
-  static func make(_ element: Element) -> UIView {
-    // TODO(mcudich): Store a map of element to view on the owner to make updates easier later.
-    let renderedView = element.type.make(element.properties, element.children)
-    element.owner?.renderedView = renderedView
-    return renderedView
+  static func materialize(_ node: Node) -> Element {
+    guard let currentInstance = node.currentInstance, let currentElement = currentInstance.currentElement else {
+      fatalError()
+    }
+    let children = currentInstance.children?.map { $0.currentElement! }
+    return Element(currentElement.type, currentElement.properties, children)
   }
 }

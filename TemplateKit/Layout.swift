@@ -56,7 +56,8 @@ extension Element {
     case ElementType.text:
       let measure: ((CGFloat) -> CGSize) = { width in
         let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-        let textLayout = TextLayout(properties: self.properties)
+        let textLayout = TextLayout()
+        textLayout.properties = self.properties
         return textLayout.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude))
       }
       return SwiftBox.Node(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)

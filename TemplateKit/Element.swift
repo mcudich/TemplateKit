@@ -8,17 +8,15 @@
 
 import Foundation
 
-public struct Element: Equatable {
+public struct Element {
   let type: ElementRepresentable
   let properties: [String: Any]
   let children: [Element]?
-  weak var owner: Node?
 
-  public init(_ type: ElementRepresentable, _ properties: [String: Any] = [:], _ children: [Element]? = nil, owner: Node? = nil) {
+  public init(_ type: ElementRepresentable, _ properties: [String: Any] = [:], _ children: [Element]? = nil) {
     self.type = type
     self.properties = properties
     self.children = children
-    self.owner = owner
   }
 
   public func get<T>(_ key: String) -> T? {
@@ -26,8 +24,22 @@ public struct Element: Equatable {
   }
 }
 
-extension Element: CustomStringConvertible {
-  public var description: String {
+extension Element: Hashable {
+  public var hashValue: Int {
+    var result = 31
+    if let type = type as? ElementType {
+      result = 37 * result + type.hashValue
+    }
+    result = 37 * result + NSDictionary(dictionary: properties).hashValue
+    for child in (children ?? []) {
+      result = 37 * result + child.hashValue
+    }
+    return result
+  }
+}
+
+extension Element {
+  public var recursiveDescription: String {
     return description(forDepth: 0)
   }
 
@@ -41,5 +53,5 @@ extension Element: CustomStringConvertible {
 
 public func ==(lhs: Element, rhs: Element) -> Bool {
   // TODO(mcudich): Check type equality.
-  return lhs.properties == rhs.properties
+  return lhs.type == rhs.type && lhs.properties == rhs.properties
 }

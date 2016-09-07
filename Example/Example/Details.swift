@@ -10,7 +10,8 @@ import Foundation
 import TemplateKit
 
 class Details: Node {
-  public var renderedView: UIView?
+  public var children: [BaseNode]?
+  public var currentInstance: BaseNode?
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
