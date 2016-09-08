@@ -19,16 +19,21 @@ extension UIView: Layoutable {
   }
 }
 
-public protocol NativeView: Layoutable, PropertyHolder {
+public protocol View: Layoutable {
   var frame: CGRect { get set }
+}
+
+extension UIView: View {}
+
+public protocol NativeView: View, PropertyHolder {
   var eventTarget: AnyObject? { get set }
-  var children: [NativeView]? { get set }
+  var children: [View]? { get set }
 
   init()
 }
 
 extension NativeView where Self: UIView {
-  public var children: [NativeView]? {
+  public var children: [View]? {
     set {
     }
     get { return nil }

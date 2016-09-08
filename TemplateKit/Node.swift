@@ -33,9 +33,9 @@ public protocol BaseNode: class, PropertyHolder, Keyable {
   var children: [BaseNode]? { get set }
   var currentElement: Element? { get set }
   var currentInstance: BaseNode? { get set }
-  var builtView: NativeView? { get }
+  var builtView: View? { get }
 
-  func build() -> NativeView
+  func build() -> View
   func computeLayout() -> SwiftBox.Layout
 
   func insert(child: BaseNode, at index: Int?)
@@ -128,7 +128,7 @@ public extension BaseNode {
       }
     }
 
-    for (key, child) in currentChildren {
+    for (_, child) in currentChildren {
       remove(child: child)
     }
   }
@@ -219,7 +219,7 @@ public extension Node {
     update()
   }
 
-  public var builtView: NativeView? {
+  public var builtView: View? {
     return currentInstance?.builtView
   }
 
@@ -232,7 +232,7 @@ public extension Node {
     }
   }
 
-  public func build() -> NativeView {
+  public func build() -> View {
     guard let currentInstance = currentInstance else {
       fatalError()
     }

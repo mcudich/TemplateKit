@@ -9,12 +9,14 @@
 import Foundation
 import TemplateKit
 
-class App: Node {
+class App: NSObject, Node {
   public weak var owner: Node?
   public var currentInstance: BaseNode?
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
+
+  fileprivate var todoCount = 0
 
   struct State {
     var counter = 0
@@ -31,18 +33,28 @@ class App: Node {
     }
   }
 
+  private lazy var tableView: TableView = {
+    let tableView = TableView(frame: CGRect.zero, style: .plain)
+    tableView.tableViewDataSource = self
+    return tableView
+  }()
+
+
   required init(properties: [String : Any], owner: Node?) {
     self.properties = properties
     self.owner = owner
   }
 
   func render() -> Element {
-    return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)], [
+    return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(568), "paddingTop": CGFloat(60)], [
       Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
       Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
       Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
       Element(ElementType.box, [:], getItems()),
-      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"])
+      Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
+      Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
+      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"]),
+      Element(ElementType.view(tableView), ["flex": CGFloat(1)])
     ])
   }
 
@@ -80,5 +92,26 @@ class App: Node {
       appState.flipped = !appState.flipped
       return appState
     }
+  }
+
+  @objc func addTodo() {
+    todoCount += 1
+    tableView.insertRows(at: [IndexPath(row: todoCount - 1, section: 0)], with: .left)
+  }
+
+  @objc func removeTodo() {
+    let rowToDelete = todoCount - 1
+    todoCount -= 1
+    tableView.deleteRows(at: [IndexPath(row: rowToDelete, section: 0)], with: .left)
+  }
+}
+
+extension App: TableViewDataSource {
+  func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
+    return Element(ElementType.node(Todo.self), ["width": CGFloat(320)])
+  }
+
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return todoCount
   }
 }
