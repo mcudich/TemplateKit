@@ -9,7 +9,7 @@
 import Foundation
 import SwiftBox
 
-public enum ElementType: ElementRepresentable {
+public enum ElementType: ElementRepresentable, Equatable {
   case box
   case text
   case image
@@ -30,28 +30,23 @@ public enum ElementType: ElementRepresentable {
     }
   }
 
-  public var hashValue: Int {
-    switch self {
-    case .box:
-      return 0
-    case .text:
-      return 1
-    case .image:
-      return 2
-    case .node(let nodeClass as Node.Type):
-      return "\(type(of: nodeClass))".hashValue
-    default:
-      fatalError()
+  public func equals(_ other: ElementRepresentable) -> Bool {
+    guard let otherType = other as? ElementType else {
+      return false
     }
+    return self == otherType
   }
 }
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
-  return lhs.hashValue == rhs.hashValue
-}
-
-public func !=(lhs: ElementType, rhs: ElementType) -> Bool {
-  return lhs.hashValue != rhs.hashValue
+  switch (lhs, rhs) {
+  case (.box, .box), (.text, .text), (.image, .image):
+    return true
+  case (.node(let lhsClass), .node(let rhsClass)):
+    return lhsClass == rhsClass
+  default:
+    return false
+  }
 }
 
 public enum UIKitRenderer {

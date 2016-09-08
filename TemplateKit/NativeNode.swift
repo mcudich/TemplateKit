@@ -10,7 +10,7 @@ import Foundation
 
 class NativeNode<T: NativeView>: BaseNode {
   var properties: [String: Any]
-  let children: [BaseNode]?
+  var children: [BaseNode]?
   var currentElement: Element?
   var renderedView: NativeView? {
     return builtView

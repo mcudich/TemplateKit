@@ -7,13 +7,8 @@ public protocol PropertyProvider: class {
 public protocol ElementRepresentable {
   // TODO(mcudich): Consider making this generic.
   func make(_ properties: [String: Any], _ children: [Element]?) -> BaseNode
-}
 
-public func ==(lhs: ElementRepresentable, rhs: ElementRepresentable) -> Bool {
-  if let lhs = lhs as? ElementType, let rhs = rhs as? ElementType {
-    return lhs == rhs
-  }
-  return false
+  func equals(_ other: ElementRepresentable) -> Bool
 }
 
 public protocol BaseNode: class {
@@ -98,7 +93,7 @@ public extension Node {
 
   func update() {
     DispatchQueue.global(qos: .background).async {
-      self.diff()
+      self.performDiff()
 
       DispatchQueue.main.async {
         self.build()
@@ -106,9 +101,10 @@ public extension Node {
     }
   }
 
-  func diff() {
+  func performDiff() {
     let newElement = render()
 
+    var currentParent: BaseNode!
     var newElements = [[newElement]]
     var currentInstances = [[currentInstance]]
 
@@ -118,41 +114,56 @@ public extension Node {
 
       for (index, element) in newList.enumerated() {
         if let instance = currentList[index] {
-          let elementType = element.type as! ElementType
-          let instanceType = instance.currentElement!.type as! ElementType
-
-          if case .node(let classType) = elementType, classType == type(of: instance) {
-            print("deal with node update")
-          } else if elementType != instanceType {
+          if shouldReplace(instance, with: element) {
             replace(instance, with: element)
-            continue
-          } else if element.properties != instance.currentElement!.properties {
-            updateProperties(instance, with: element)
+          } else {
+            maybeUpdateProperties(instance, with: element)
+
+            currentParent = instance
+            newElements.append(element.children ?? [])
+            currentInstances.append(instance.children ?? [])
           }
-          newElements.append(element.children ?? [])
-          currentInstances.append(instance.children ?? [])
         } else {
-          // TODO(mcudich): Need a parent here.
-          append(element)
+          append(element, to: currentParent)
+        }
+      }
+
+      if currentList.count > newList.count {
+        for index in newList.count..<currentList.count {
+          remove(currentList[index]!, from: currentParent)
         }
       }
     }
   }
 
+  func shouldReplace(_ instance: BaseNode, with element: Element) -> Bool {
+    if case ElementType.node(let classType) = element.type, classType != type(of: instance) || !element.type.equals(instance.currentElement!.type) {
+      return true
+    }
+    return false
+  }
+
   func replace(_ instance: BaseNode, with element: Element) {
-    print("Replacing \(instance) with \(element)")
+    let replacement = element.type.make(element.properties, element.children)
+    print("Replacing \(instance) with \(replacement)")
   }
 
-  func updateProperties(_ instance: BaseNode, with element: Element) {
-    print("Updating properties in \(instance) with \(element)")
+  func maybeUpdateProperties(_ instance: BaseNode, with element: Element) {
+    if instance.properties == element.properties {
+      return
+    }
     instance.properties = element.properties
+    if let node = instance as? Node {
+      node.performDiff()
+    }
   }
 
-  func append(_ element: Element) {
+  func append(_ element: Element, to parent: BaseNode) {
+    let addition = element.type.make(element.properties, element.children)
     print("Adding \(element)")
   }
 
-  func remove(_ instance: BaseNode) {
+  func remove(_ instance: BaseNode, from parent: BaseNode) {
     print("Removing \(instance)")
   }
 }

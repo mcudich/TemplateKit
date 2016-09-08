@@ -37,7 +37,7 @@ class App: Node {
     return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)], [
       Element(ElementType.text, ["text": "blah", "onTap": incrementCounter]),
       Element(ElementType.text, ["text": "\(appState.counter)"]),
-      Element(ElementType.node(Details.self))
+      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"])
     ])
   }
 

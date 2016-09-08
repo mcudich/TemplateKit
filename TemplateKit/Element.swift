@@ -24,20 +24,6 @@ public struct Element {
   }
 }
 
-extension Element: Hashable {
-  public var hashValue: Int {
-    var result = 31
-    if let type = type as? ElementType {
-      result = 37 * result + type.hashValue
-    }
-    result = 37 * result + NSDictionary(dictionary: properties).hashValue
-    for child in (children ?? []) {
-      result = 37 * result + child.hashValue
-    }
-    return result
-  }
-}
-
 extension Element {
   public var recursiveDescription: String {
     return description(forDepth: 0)
@@ -49,9 +35,4 @@ extension Element {
     let propertiesDescription = properties.map { entry in " \(entry.key)=\(entry.value)" }.joined()
     return "\(depthPadding)<\(type)\(propertiesDescription)>\n\(childrenDescription)"
   }
-}
-
-public func ==(lhs: Element, rhs: Element) -> Bool {
-  // TODO(mcudich): Check type equality.
-  return lhs.type == rhs.type && lhs.properties == rhs.properties
 }
