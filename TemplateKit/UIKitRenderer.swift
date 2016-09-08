@@ -15,16 +15,16 @@ public enum ElementType: ElementRepresentable, Equatable {
   case image
   case node(AnyClass)
 
-  public func make(_ properties: [String: Any], _ children: [Element]?) -> BaseNode {
+  public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode {
     switch self {
     case .box:
-      return NativeNode<Box>(properties: properties, children: children?.map { UIKitRenderer.instantiate($0) })
+      return NativeNode<Box>(properties: properties, children: children?.map { UIKitRenderer.instantiate($0, owner: owner) }, owner: owner)
     case .text:
-      return NativeNode<Text>(properties: properties)
+      return NativeNode<Text>(properties: properties, owner: owner)
     case .image:
-      return NativeNode<Image>(properties: properties)
+      return NativeNode<Image>(properties: properties, owner: owner)
     case .node(let nodeClass as Node.Type):
-      return nodeClass.init(properties: properties)
+      return nodeClass.init(properties: properties, owner: owner)
     default:
       fatalError()
     }
@@ -51,7 +51,7 @@ public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
 
 public enum UIKitRenderer {
   public static func render(_ element: Element, completion: @escaping (Node, UIView) -> Void) {
-    guard let node = instantiate(element) as? Node else {
+    guard let node = instantiate(element, owner: nil) as? Node else {
       fatalError()
     }
 
@@ -63,13 +63,13 @@ public enum UIKitRenderer {
     }
   }
 
-  static func instantiate(_ element: Element) -> BaseNode {
-    let made = element.type.make(element.properties, element.children)
+  static func instantiate(_ element: Element, owner: Node?) -> BaseNode {
+    let made = element.type.make(element.properties, element.children, owner)
 
     if let node = made as? Node {
       let currentElement = node.render()
       node.currentElement = currentElement
-      node.currentInstance = instantiate(currentElement)
+      node.currentInstance = instantiate(currentElement, owner: node)
     } else {
       made.currentElement = element
     }

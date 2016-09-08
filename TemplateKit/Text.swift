@@ -91,7 +91,7 @@ class TextLayout {
 }
 
 public class Text: UILabel, NativeView {
-  public lazy var eventTarget = EventTarget()
+  public var eventTarget: AnyObject?
 
   public var properties = [String : Any]() {
     didSet {

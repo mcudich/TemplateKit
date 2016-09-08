@@ -1,17 +1,12 @@
 import UIKit
 
-public protocol PropertyProvider: class {
-  func get<T>(_ key: String) -> T?
-}
-
 public protocol ElementRepresentable {
-  // TODO(mcudich): Consider making this generic.
-  func make(_ properties: [String: Any], _ children: [Element]?) -> BaseNode
-
+  func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
 public protocol BaseNode: class {
+  weak var owner: Node? { get set }
   var properties: [String: Any] { get set }
   var children: [BaseNode]? { get set }
   var currentElement: Element? { get set }
@@ -38,6 +33,7 @@ public extension BaseNode {
     guard let index = index(of: child) else {
       return
     }
+    print(">>> Removing \(child)")
     children?.remove(at: index)
   }
 
@@ -93,20 +89,23 @@ public extension BaseNode {
     if instance.properties == element.properties {
       return
     }
+    print(">>> Updating properties on \(instance) with \(element.properties)")
     instance.properties = element.properties
   }
 
   func replace(_ instance: BaseNode, with element: Element) {
-    let replacement = UIKitRenderer.instantiate(element)
+    let replacement = UIKitRenderer.instantiate(element, owner: owner)
     guard let index = index(of: instance) else {
       fatalError()
     }
+    print(">>> Replacing \(instance.currentElement) with \(element)")
     remove(child: instance)
     insert(child: replacement, at: index)
   }
 
   func append(_ element: Element) {
-    insert(child: UIKitRenderer.instantiate(element))
+    print(">>> Adding \(element)")
+    insert(child: UIKitRenderer.instantiate(element, owner: owner))
   }
 }
 
@@ -116,7 +115,7 @@ public protocol Node: BaseNode {
   var state: Any? { get set }
   var key: String? { get }
 
-  init(properties: [String: Any])
+  init(properties: [String: Any], owner: Node?)
 
   func render() -> Element
   func updateState(stateMutation: () -> Any?)

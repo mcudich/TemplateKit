@@ -27,13 +27,13 @@ class ResourceService<ParserType: Parser> {
   private lazy var pendingOperations = [URL: [CompletionHandler<ResponseType>]]()
   private lazy var cache = [URL: ResponseType]()
 
-  func load(_ url: URL, completion: CompletionHandler<ResponseType>) {
+  func load(_ url: URL, completion: @escaping CompletionHandler<ResponseType>) {
     requestQueue.async {
       self.enqueueLoad(url, completion: completion)
     }
   }
 
-  func enqueueLoad(_ url: URL, completion: CompletionHandler<ResponseType>) {
+  func enqueueLoad(_ url: URL, completion: @escaping CompletionHandler<ResponseType>) {
     if let response = cache[url] {
       return completion(.success(response))
     }
@@ -46,7 +46,7 @@ class ResourceService<ParserType: Parser> {
     pendingOperations[url] = [completion]
 
     operationQueue.enqueueOperation { done in
-      Alamofire.request(url, withMethod: .get).responseData(queue: self.requestQueue) { [weak self] response in
+      Alamofire.request(url, method: .get).responseData(queue: self.requestQueue) { [weak self] response in
         switch response.result {
         case .failure(let error):
           self?.fail(forURL: url, withError: error)

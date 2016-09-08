@@ -8,18 +8,8 @@
 
 import Foundation
 
-typealias GestureHandler = () -> Void
-
-public class EventTarget: NSObject {
-  var onTap: GestureHandler?
-
-  public func handleTap() {
-    onTap?()
-  }
-}
-
 public protocol NativeView {
-  var eventTarget: EventTarget { get }
+  var eventTarget: AnyObject? { get set }
   var properties: [String: Any] { get set }
   var children: [NativeView]? { get set }
 
@@ -38,11 +28,10 @@ extension NativeView where Self: UIView {
   }
 
   private func applyTapHandler(_ properties: [String: Any]) {
-    guard let onTap = properties["onTap"] as? GestureHandler else {
+    guard let onTap = properties["onTap"] as? Selector else {
       return
     }
-    eventTarget.onTap = onTap
-    let recognizer = UITapGestureRecognizer(target: eventTarget, action: #selector(EventTarget.handleTap))
+    let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
     addGestureRecognizer(recognizer)
   }
 }

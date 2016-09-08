@@ -10,6 +10,7 @@ import Foundation
 import TemplateKit
 
 class App: Node {
+  public weak var owner: Node?
   public var currentInstance: BaseNode?
   public var currentElement: Element?
   public var properties: [String : Any]
@@ -29,34 +30,35 @@ class App: Node {
     }
   }
 
-  required init(properties: [String : Any]) {
+  required init(properties: [String : Any], owner: Node?) {
     self.properties = properties
+    self.owner = owner
   }
 
   func render() -> Element {
     return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)], [
-      Element(ElementType.text, ["text": "blah", "onTap": incrementCounter]),
-      getCounter(),
-//      Element(ElementType.text, ["text": "\(appState.counter)"]),
-      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"])
+      Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
+      Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
+      Element(ElementType.box, [:], getItems())
     ])
   }
 
-  func getCounter() -> Element {
-    if appState.showCounter {
-      return Element(ElementType.text, ["text": "\(appState.counter)"])
-    } else {
-      return Element(ElementType.box, [:], [
-        Element(ElementType.text, ["text": "not yet"])
-      ])
+  func getItems() -> [Element] {
+    return (0..<appState.counter).map {
+      return Element(ElementType.text, ["text": "\($0)"])
+    }.reversed()
+  }
+
+  @objc func incrementCounter() {
+    updateState {
+      appState.counter += 1
+      return appState
     }
   }
 
-  func incrementCounter() {
+  @objc func decrementCounter() {
     updateState {
-
-        appState.showCounter = !appState.showCounter
-
+      appState.counter -= 1
       return appState
     }
   }

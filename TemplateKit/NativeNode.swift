@@ -9,23 +9,23 @@
 import Foundation
 
 class NativeNode<T: NativeView>: BaseNode {
+  weak var owner: Node?
   var properties: [String: Any]
   var children: [BaseNode]?
   var currentElement: Element?
 
-  private lazy var builtView: T = {
-    return T()
-  }()
+  private lazy var builtView = T()
 
-  init(properties: [String: Any], children: [BaseNode]? = nil) {
+  init(properties: [String: Any], children: [BaseNode]? = nil, owner: Node? = nil) {
     self.properties = properties
     self.children = children
+    self.owner = owner
   }
 
   func build() -> NativeView {
+    builtView.eventTarget = owner
     builtView.properties = properties
-    let newChildren = children?.map { $0.build() }
-    builtView.children = newChildren
+    builtView.children = children?.map { $0.build() }
     return builtView
   }
 

@@ -9,7 +9,7 @@ public class NodeRegistry {
     registerDefaultProviders()
   }
 
-  public func register(_ identifier: String, provider: NodeInstanceProvider) {
+  public func register(_ identifier: String, provider: @escaping NodeInstanceProvider) {
     providers[identifier] = provider
   }
 

@@ -66,7 +66,7 @@ class AsyncQueue<OperationType: AsyncOperation>: OperationQueue {
     self.maxConcurrentOperationCount = maxConcurrentOperationCount
   }
 
-  func enqueueOperation(withBlock block: Task) {
+  func enqueueOperation(withBlock block: @escaping Task) {
     let operation = OperationType()
     operation.task = block
     addOperation(operation)

@@ -9,7 +9,7 @@
 import Foundation
 
 public class Image: UIImageView, NativeView {
-  public lazy var eventTarget = EventTarget()
+  public var eventTarget: AnyObject?
 
   public var properties = [String : Any]() {
     didSet {

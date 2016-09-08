@@ -10,6 +10,7 @@ import Foundation
 import TemplateKit
 
 class Details: Node {
+  public weak var owner: Node?
   public var currentInstance: BaseNode?
   public var currentElement: Element?
   public var properties: [String : Any] {
@@ -32,8 +33,9 @@ class Details: Node {
     }
   }
 
-  required init(properties: [String : Any]) {
+  required init(properties: [String : Any], owner: Node?) {
     self.properties = properties
+    self.owner = owner
   }
 
   func render() -> Element {
