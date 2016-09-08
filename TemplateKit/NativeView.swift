@@ -20,6 +20,7 @@ extension UIView: Layoutable {
 }
 
 public protocol NativeView: Layoutable {
+  var frame: CGRect { get set }
   var eventTarget: AnyObject? { get set }
   var properties: [String: Any] { get set }
   var children: [NativeView]? { get set }

@@ -37,7 +37,7 @@ import UIKit
 
 // This is a sub-set of UITableViewDataSource.
 public protocol TableViewDataSource: NSObjectProtocol {
-  func tableView(_ tableView: TableView, nodeAtIndexPath indexPath: IndexPath) -> Node
+  func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element
   func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -78,10 +78,8 @@ public extension TableViewDataSource {
     return 0
   }
   func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
-
   }
   func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath) {
-
   }
 }
 
@@ -91,10 +89,9 @@ class TableViewCell: UITableViewCell {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-//      if let node = node {
-////        node.sizeToFit(bounds.size)
-////        contentView.addSubview(node.render())
-//      }
+      if let node = node {
+        contentView.addSubview(node.builtView as! UIView)
+      }
     }
   }
 }
@@ -216,15 +213,21 @@ public class TableView: UITableView {
     }
 
     operationQueue.enqueueOperation { done in
+      var pending = indexPaths.count
       for indexPath in indexPaths {
         let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-        let node = tableViewDataSource.tableView(self, nodeAtIndexPath: indexPath)
-        self.rowNodeCache[cacheKey] = node
-      }
-      DispatchQueue.main.async {
-        UIView.performWithoutAnimation {
-          insert()
-          done()
+        let element = tableViewDataSource.tableView(self, elementAtIndexPath: indexPath)
+        UIKitRenderer.render(element) { [weak self] node, view in
+          self?.rowNodeCache[cacheKey] = node
+          pending -= 1
+          if pending == 0 {
+            DispatchQueue.main.async {
+              UIView.performWithoutAnimation {
+                insert()
+                done()
+              }
+            }
+          }
         }
       }
     }
@@ -331,7 +334,7 @@ extension TableView {
   }
 
   func heightForNode(_ node: Node?) -> CGFloat {
-    return 0//node?.calculatedFrame?.height ?? 0
+    return node?.builtView?.frame.height ?? 0
   }
 }
 
