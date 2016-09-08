@@ -204,106 +204,99 @@ public class TableView: UITableView {
   }
 
   public override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    guard let tableViewDataSource = tableViewDataSource else {
-      return
-    }
-
-    let insert = {
-      super.insertRows(at: indexPaths, with: animation)
-    }
-
+    precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
-      var pending = indexPaths.count
-      for indexPath in indexPaths {
-        let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-        let element = tableViewDataSource.tableView(self, elementAtIndexPath: indexPath)
-        UIKitRenderer.render(element) { [weak self] node, view in
-          self?.rowNodeCache[cacheKey] = node
-          pending -= 1
-          if pending == 0 {
-            DispatchQueue.main.async {
-              UIView.performWithoutAnimation {
-                insert()
-                done()
-              }
-            }
-          }
-        }
+      DispatchQueue.main.async {
+        super.insertRows(at: indexPaths, with: animation)
+        done()
       }
     }
   }
 
   public override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    let delete = {
-      super.deleteRows(at: indexPaths, with: animation)
+    guard let tableViewDataSource = tableViewDataSource else {
+      return
     }
+
+    purgeNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
-      delete()
-      done()
+      DispatchQueue.main.async {
+        super.deleteRows(at: indexPaths, with: animation)
+        done()
+      }
     }
   }
 
   public override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    // TODO(mcudich): This probably needs to be put on the queue as well.
     let indexPaths = sections.reduce([]) { previous, section in
       return previous + self.indexPaths(forSection: section)
     }
 
-    insertRows(at: indexPaths, with: animation)
+    precacheNodes(at: indexPaths)
+    operationQueue.enqueueOperation { done in
+      super.insertSections(sections, with: animation)
+      done()
+    }
   }
 
   public override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    let delete = {
-      super.deleteSections(sections, with: animation)
+    let indexPaths = sections.reduce([]) { previous, section in
+      return previous + self.indexPaths(forSection: section)
     }
+
+    purgeNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
-      delete()
-      done()
+      DispatchQueue.main.async {
+        super.deleteSections(sections, with: animation)
+        done()
+      }
     }
   }
 
   public override func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {
-    let move = {
-      super.moveRow(at: indexPath, to: newIndexPath)
-    }
     operationQueue.enqueueOperation { done in
-      move()
-      done()
+      DispatchQueue.main.async {
+        super.moveRow(at: indexPath, to: newIndexPath)
+        done()
+      }
     }
   }
 
   public override func moveSection(_ section: Int, toSection newSection: Int) {
-    let move = {
-      super.moveSection(section, toSection: newSection)
-    }
     operationQueue.enqueueOperation { done in
-      move()
-      done()
+      DispatchQueue.main.async {
+        super.moveSection(section, toSection: newSection)
+        done()
+      }
     }
   }
 
   public override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    let reload = {
-      super.reloadRows(at: indexPaths, with: animation)
-    }
+    precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
-      reload()
-      done()
+      DispatchQueue.main.async {
+        super.reloadRows(at: indexPaths, with: animation)
+        done()
+      }
     }
   }
 
   public override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    let reload = {
-      super.reloadSections(sections, with: animation)
+    let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
+      return previous + self.indexPaths(forSection: section)
     }
+
+    precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
-      reload()
-      done()
+      DispatchQueue.main.async {
+        super.reloadSections(sections, with: animation)
+        done()
+      }
     }
   }
 
   public override func reloadData() {
-    super.reloadData()
-
     guard let tableViewDataSource = tableViewDataSource else {
       return
     }
@@ -313,7 +306,13 @@ public class TableView: UITableView {
       return previous + self.indexPaths(forSection: section)
     }
 
-    insertRows(at: indexPaths, with: .none)
+    precacheNodes(at: indexPaths)
+    operationQueue.enqueueOperation { done in
+      DispatchQueue.main.async {
+        super.reloadData()
+        done()
+      }
+    }
   }
 
   private func indexPaths(forSection section: Int) -> [IndexPath] {
@@ -325,6 +324,67 @@ public class TableView: UITableView {
     return (0..<expectedRowCount).map { row in
       return IndexPath(row: row, section: section)
     }
+  }
+
+  func precacheNodes(at indexPaths: [IndexPath]) {
+    operationQueue.enqueueOperation { done in
+      self.performPrecache(for: indexPaths, done: done)
+    }
+  }
+
+  func precacheNodes(in sections: IndexSet) {
+    operationQueue.enqueueOperation { done in
+      let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
+        return previous + self.indexPaths(forSection: section)
+      }
+      self.performPrecache(for: indexPaths, done: done)
+    }
+  }
+
+  func performPrecache(for indexPaths: [IndexPath], done: @escaping () -> Void) {
+    guard let tableViewDataSource = tableViewDataSource, indexPaths.count > 0 else {
+      return done()
+    }
+
+    var pending = indexPaths.count
+    for indexPath in indexPaths {
+      let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
+      let element = tableViewDataSource.tableView(self, elementAtIndexPath: indexPath)
+      UIKitRenderer.render(element) { [weak self] node, view in
+        self?.rowNodeCache[cacheKey] = node
+        pending -= 1
+        if pending == 0 {
+          done()
+        }
+      }
+    }
+  }
+
+  func purgeNodes(at indexPaths: [IndexPath]) {
+    operationQueue.enqueueOperation { done in
+      self.performPurgeNodes(for: indexPaths, done: done)
+    }
+  }
+
+  func purgeNodes(in sections: IndexSet) {
+    operationQueue.enqueueOperation { done in
+      let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
+        return previous + self.indexPaths(forSection: section)
+      }
+      self.performPurgeNodes(for: indexPaths, done: done)
+    }
+  }
+
+  func performPurgeNodes(for indexPaths: [IndexPath], done: @escaping () -> Void) {
+    guard let tableViewDataSource = tableViewDataSource, indexPaths.count > 0 else {
+      return done()
+    }
+
+    for indexPath in indexPaths {
+      let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
+      self.rowNodeCache.removeValue(forKey: cacheKey)
+    }
+    done()
   }
 }
 

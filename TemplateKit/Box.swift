@@ -17,7 +17,7 @@ public class Box: UIView, NativeView {
     }
   }
 
-  public var children: [NativeView]? {
+  public var children: [View]? {
     didSet {
       var pendingViews = Set(subviews)
 

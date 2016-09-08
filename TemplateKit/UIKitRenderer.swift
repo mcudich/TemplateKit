@@ -13,6 +13,7 @@ public enum ElementType: ElementRepresentable, Equatable {
   case box
   case text
   case image
+  case view(UIView)
   case node(AnyClass)
 
   public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode {
@@ -23,6 +24,8 @@ public enum ElementType: ElementRepresentable, Equatable {
       return NativeNode<Text>(properties: properties, owner: owner)
     case .image:
       return NativeNode<Image>(properties: properties, owner: owner)
+    case .view(let view):
+      return ViewNode(view: view)
     case .node(let nodeClass as Node.Type):
       return nodeClass.init(properties: properties, owner: owner)
     default:

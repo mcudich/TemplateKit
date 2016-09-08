@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D81BAF241D808C4300743630 /* NativeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BAF231D808C4300743630 /* NativeNode.swift */; };
+		D83936841D8216DD008CA7F1 /* ViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936831D8216DD008CA7F1 /* ViewNode.swift */; };
 		D83A084F1D7E824900992988 /* NativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83A084E1D7E824900992988 /* NativeView.swift */; };
 		D880D5A91D81E24D00608D79 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D880D5A81D81E24D00608D79 /* Renderer.swift */; };
 		D880D5AB1D81F2A000608D79 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = D880D5AA1D81F2A000608D79 /* Array.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		D81BAF231D808C4300743630 /* NativeNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeNode.swift; sourceTree = "<group>"; };
+		D83936831D8216DD008CA7F1 /* ViewNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewNode.swift; sourceTree = "<group>"; };
 		D83A084E1D7E824900992988 /* NativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeView.swift; sourceTree = "<group>"; };
 		D880D5A81D81E24D00608D79 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		D880D5AA1D81F2A000608D79 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				D8CB3E1B1D74B524003274AD /* AsyncQueue.swift */,
 				D891942C1D57F2450049991F /* Node.swift */,
 				D81BAF231D808C4300743630 /* NativeNode.swift */,
+				D83936831D8216DD008CA7F1 /* ViewNode.swift */,
 				D83A084E1D7E824900992988 /* NativeView.swift */,
 				D8EB96351D7B4E24003E15D3 /* Element.swift */,
 				D8811CCC1D5C118D0098624B /* Validation.swift */,
@@ -352,6 +355,7 @@
 				D8EB96441D7CA5F6003E15D3 /* Layout.swift in Sources */,
 				D8EB963E1D7B6517003E15D3 /* Image.swift in Sources */,
 				D8EB96361D7B4E24003E15D3 /* Element.swift in Sources */,
+				D83936841D8216DD008CA7F1 /* ViewNode.swift in Sources */,
 				D8CB3E5F1D7A9F1C003274AD /* ImageValidation.swift in Sources */,
 				D8CB3E161D6BF9DA003274AD /* Result.swift in Sources */,
 				D8811CCF1D5C2A8D0098624B /* Dictionary.swift in Sources */,
