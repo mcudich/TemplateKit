@@ -10,7 +10,6 @@ import Foundation
 import TemplateKit
 
 class App: Node {
-  public var children: [BaseNode]?
   public var currentInstance: BaseNode?
   public var currentElement: Element?
   public var properties: [String : Any]
@@ -18,6 +17,7 @@ class App: Node {
 
   struct State {
     var counter = 0
+    var showCounter = false
   }
 
   private var appState: State {
@@ -36,14 +36,27 @@ class App: Node {
   func render() -> Element {
     return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)], [
       Element(ElementType.text, ["text": "blah", "onTap": incrementCounter]),
-      Element(ElementType.text, ["text": "\(appState.counter)"]),
+      getCounter(),
+//      Element(ElementType.text, ["text": "\(appState.counter)"]),
       Element(ElementType.node(Details.self), ["message": "\(appState.counter)"])
     ])
   }
 
+  func getCounter() -> Element {
+    if appState.showCounter {
+      return Element(ElementType.text, ["text": "\(appState.counter)"])
+    } else {
+      return Element(ElementType.box, [:], [
+        Element(ElementType.text, ["text": "not yet"])
+      ])
+    }
+  }
+
   func incrementCounter() {
     updateState {
-      appState.counter = 3
+
+        appState.showCounter = !appState.showCounter
+
       return appState
     }
   }

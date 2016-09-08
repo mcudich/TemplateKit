@@ -13,11 +13,101 @@ public protocol ElementRepresentable {
 
 public protocol BaseNode: class {
   var properties: [String: Any] { get set }
-  var children: [BaseNode]? { get }
+  var children: [BaseNode]? { get set }
   var currentElement: Element? { get set }
-  var renderedView: NativeView? { get }
+  var currentInstance: BaseNode? { get set }
 
   func build() -> NativeView
+
+  func insert(child: BaseNode, at index: Int?)
+  func remove(child: BaseNode)
+  func index(of child: BaseNode) -> Int?
+}
+
+public extension BaseNode {
+  public var currentInstance: BaseNode? {
+    set {}
+    get { return self }
+  }
+
+  func insert(child: BaseNode, at index: Int? = nil) {
+    children?.insert(child, at: index ?? children!.endIndex)
+  }
+
+  func remove(child: BaseNode) {
+    guard let index = index(of: child) else {
+      return
+    }
+    children?.remove(at: index)
+  }
+
+  func index(of child: BaseNode) -> Int? {
+    return children?.index(where: { $0 === child })
+  }
+
+  func performDiff(newElement: Element) {
+    guard let currentInstance = currentInstance else {
+      fatalError()
+    }
+
+    maybeUpdateProperties(instance: currentInstance, with: newElement)
+    currentElement = newElement
+
+    let children = newElement.children ?? []
+
+    var currentChildren = currentInstance.children ?? []
+    for element in children {
+      if currentChildren.count == 0 {
+        append(element)
+        continue
+      }
+
+      let instance = currentChildren.removeFirst()
+      if shouldReplace(instance, with: element) {
+        replace(instance, with: element)
+      } else {
+        maybeUpdateProperties(instance: instance, with: element)
+        // TODO(mcudich): Make this more generic.
+        if let node = instance as? Node {
+          instance.performDiff(newElement: node.render())
+        } else {
+          instance.performDiff(newElement: element)
+        }
+      }
+    }
+
+    for child in currentChildren {
+      remove(child: child)
+    }
+  }
+
+  func shouldReplace(_ instance: BaseNode, with element: Element) -> Bool {
+    if case ElementType.node(let classType) = element.type {
+      return classType != type(of: instance)
+    }
+
+    return !element.type.equals(instance.currentElement!.type)
+  }
+
+  func maybeUpdateProperties(instance: BaseNode, with element: Element) {
+    if instance.properties == element.properties {
+      return
+    }
+    instance.properties = element.properties
+  }
+
+  func replace(_ instance: BaseNode, with element: Element) {
+    let replacement = UIKitRenderer.instantiate(element)
+    guard let index = index(of: instance) else {
+      fatalError()
+    }
+    remove(child: instance)
+    insert(child: replacement, at: index)
+  }
+
+  func append(_ element: Element) {
+    insert(child: UIKitRenderer.instantiate(element))
+  }
 }
 
 public protocol Node: BaseNode {
@@ -25,7 +115,6 @@ public protocol Node: BaseNode {
 
   var state: Any? { get set }
   var key: String? { get }
-  var currentInstance: BaseNode? { get set }
 
   init(properties: [String: Any])
 
@@ -75,8 +164,13 @@ public extension Node {
     return get("key")
   }
 
-  public var renderedView: NativeView? {
-    return currentInstance?.renderedView
+  public var children: [BaseNode]? {
+    get {
+      return currentInstance?.children
+    }
+    set {
+      currentInstance?.children = newValue
+    }
   }
 
   public func get<T>(_ key: String) -> T? {
@@ -93,81 +187,13 @@ public extension Node {
 
   func update() {
     DispatchQueue.global(qos: .background).async {
-      self.performDiff()
+      self.performDiff(newElement: self.render())
+      let layout = Layout.perform(UIKitRenderer.materialize(self))
 
       DispatchQueue.main.async {
-        self.build()
+        let builtView = self.build() as! UIView
+        Layout.apply(layout, to: builtView)
       }
     }
   }
-
-  func performDiff() {
-    let newElement = render()
-
-    var currentParent: BaseNode!
-    var newElements = [[newElement]]
-    var currentInstances = [[currentInstance]]
-
-    while !newElements.isEmpty && !currentInstances.isEmpty {
-      let newList = newElements.removeFirst()
-      let currentList = currentInstances.removeFirst()
-
-      for (index, element) in newList.enumerated() {
-        if let instance = currentList[index] {
-          if shouldReplace(instance, with: element) {
-            replace(instance, with: element)
-          } else {
-            maybeUpdateProperties(instance, with: element)
-
-            currentParent = instance
-            newElements.append(element.children ?? [])
-            currentInstances.append(instance.children ?? [])
-          }
-        } else {
-          append(element, to: currentParent)
-        }
-      }
-
-      if currentList.count > newList.count {
-        for index in newList.count..<currentList.count {
-          remove(currentList[index]!, from: currentParent)
-        }
-      }
-    }
-  }
-
-  func shouldReplace(_ instance: BaseNode, with element: Element) -> Bool {
-    if case ElementType.node(let classType) = element.type, classType != type(of: instance) || !element.type.equals(instance.currentElement!.type) {
-      return true
-    }
-    return false
-  }
-
-  func replace(_ instance: BaseNode, with element: Element) {
-    let replacement = element.type.make(element.properties, element.children)
-    print("Replacing \(instance) with \(replacement)")
-  }
-
-  func maybeUpdateProperties(_ instance: BaseNode, with element: Element) {
-    if instance.properties == element.properties {
-      return
-    }
-    instance.properties = element.properties
-    if let node = instance as? Node {
-      node.performDiff()
-    }
-  }
-
-  func append(_ element: Element, to parent: BaseNode) {
-    let addition = element.type.make(element.properties, element.children)
-    print("Adding \(element)")
-  }
-
-  func remove(_ instance: BaseNode, from parent: BaseNode) {
-    print("Removing \(instance)")
-  }
-}
-
-struct ChildList {
-  var children: [BaseNode]
 }

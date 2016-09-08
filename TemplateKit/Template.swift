@@ -24,7 +24,7 @@ indirect enum NodeReference {
   case Reference(String, [NodeReference], [String: String])
 
   func makeInstance(withContextProperties contextProperties: [String: Any]?) throws -> Node {
-    if case let .Reference(identifier, children, properties) = self {
+    if case let .Reference(identifier, _, properties) = self {
       let resolvedProperties = resolve(properties: properties, withContextProperties: contextProperties)
       let propertyTypes = try NodeRegistry.shared.propertyTypes(forIdentifier: identifier)
       let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)

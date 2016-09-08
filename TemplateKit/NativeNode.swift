@@ -12,9 +12,6 @@ class NativeNode<T: NativeView>: BaseNode {
   var properties: [String: Any]
   var children: [BaseNode]?
   var currentElement: Element?
-  var renderedView: NativeView? {
-    return builtView
-  }
 
   private lazy var builtView: T = {
     return T()
@@ -27,7 +24,8 @@ class NativeNode<T: NativeView>: BaseNode {
 
   func build() -> NativeView {
     builtView.properties = properties
-    builtView.children = children?.map { $0.build() }
+    let newChildren = children?.map { $0.build() }
+    builtView.children = newChildren
     return builtView
   }
 
