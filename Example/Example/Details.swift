@@ -40,12 +40,12 @@ class Details: Node {
 
   func render() -> Element {
     return Element(ElementType.box, [:], [
-      Element(ElementType.text, ["text": detailState.text]),
-      Element(ElementType.text, ["text": "there", "onTap": flipText])
+      Element(ElementType.text, ["text": "\(detailState.text) blah"]),
+      Element(ElementType.text, ["text": "there", "onTap": #selector(Details.flipText)])
     ])
   }
 
-  func flipText() {
+  @objc func flipText() {
     updateState {
       detailState.text = "bye"
       return detailState

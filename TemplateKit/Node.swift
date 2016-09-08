@@ -33,6 +33,7 @@ public protocol BaseNode: class, PropertyHolder, Keyable {
   var children: [BaseNode]? { get set }
   var currentElement: Element? { get set }
   var currentInstance: BaseNode? { get set }
+  var builtView: NativeView? { get }
 
   func build() -> NativeView
   func computeLayout() -> SwiftBox.Layout
@@ -46,6 +47,14 @@ public extension BaseNode {
   public var currentInstance: BaseNode? {
     set {}
     get { return self }
+  }
+
+  var root: BaseNode? {
+    var current: Node? = owner ?? (self as? Node)
+    while let currentOwner = current?.owner {
+      current = currentOwner
+    }
+    return current
   }
 
   func insert(child: BaseNode, at index: Int? = nil) {
@@ -74,8 +83,12 @@ public extension BaseNode {
   }
 
   func computeLayout() -> SwiftBox.Layout {
-    let children = currentInstance?.children?.map { $0.currentElement! }
-    let workingElement = Element(currentElement!.type, currentElement!.properties, children)
+    guard let root = root else {
+      fatalError("Can't compute layout without a valid root node")
+    }
+
+    let children = root.currentInstance?.children?.map { $0.currentElement! }
+    let workingElement = Element(root.currentElement!.type, root.currentElement!.properties, children)
     return Layout.perform(workingElement)
   }
 
@@ -206,6 +219,10 @@ public extension Node {
     update()
   }
 
+  public var builtView: NativeView? {
+    return currentInstance?.builtView
+  }
+
   public var children: [BaseNode]? {
     get {
       return currentInstance?.children
@@ -229,7 +246,8 @@ public extension Node {
       let layout = self.computeLayout()
 
       DispatchQueue.main.async {
-        self.build().applyLayout(layout: layout)
+        let _ = self.build()
+        self.root?.builtView?.applyLayout(layout: layout)
       }
     }
   }

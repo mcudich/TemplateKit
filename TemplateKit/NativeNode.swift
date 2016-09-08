@@ -14,7 +14,7 @@ class NativeNode<T: NativeView>: BaseNode {
   var children: [BaseNode]?
   var currentElement: Element?
 
-  private lazy var builtView = T()
+  lazy var builtView: NativeView? = T()
 
   init(properties: [String: Any], children: [BaseNode]? = nil, owner: Node? = nil) {
     self.properties = properties
@@ -23,9 +23,14 @@ class NativeNode<T: NativeView>: BaseNode {
   }
 
   func build() -> NativeView {
+    guard var builtView = builtView else {
+      fatalError("Failed to build view")
+    }
+
     builtView.eventTarget = owner
     builtView.properties = properties
     builtView.children = children?.map { $0.build() }
+
     return builtView
   }
 

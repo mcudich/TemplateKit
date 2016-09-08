@@ -41,7 +41,8 @@ class App: Node {
       Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
       Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
       Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
-      Element(ElementType.box, [:], getItems())
+      Element(ElementType.box, [:], getItems()),
+      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"])
     ])
   }
 
