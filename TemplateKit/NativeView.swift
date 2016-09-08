@@ -7,8 +7,19 @@
 //
 
 import Foundation
+import SwiftBox
 
-public protocol NativeView {
+public protocol Layoutable {
+  func applyLayout(layout: SwiftBox.Layout)
+}
+
+extension UIView: Layoutable {
+  public func applyLayout(layout: SwiftBox.Layout) {
+    Layout.apply(layout, to: self)
+  }
+}
+
+public protocol NativeView: Layoutable {
   var eventTarget: AnyObject? { get set }
   var properties: [String: Any] { get set }
   var children: [NativeView]? { get set }

@@ -1,4 +1,5 @@
 import UIKit
+import SwiftBox
 
 public protocol ElementRepresentable {
   func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode
@@ -13,6 +14,7 @@ public protocol BaseNode: class {
   var currentInstance: BaseNode? { get set }
 
   func build() -> NativeView
+  func computeLayout() -> SwiftBox.Layout
 
   func insert(child: BaseNode, at index: Int?)
   func remove(child: BaseNode)
@@ -39,6 +41,12 @@ public extension BaseNode {
 
   func index(of child: BaseNode) -> Int? {
     return children?.index(where: { $0 === child })
+  }
+
+  func computeLayout() -> SwiftBox.Layout {
+    let children = currentInstance?.children?.map { $0.currentElement! }
+    let workingElement = Element(currentElement!.type, currentElement!.properties, children)
+    return Layout.perform(workingElement)
   }
 
   func performDiff(newElement: Element) {
@@ -187,11 +195,10 @@ public extension Node {
   func update() {
     DispatchQueue.global(qos: .background).async {
       self.performDiff(newElement: self.render())
-      let layout = Layout.perform(UIKitRenderer.materialize(self))
+      let layout = self.computeLayout()
 
       DispatchQueue.main.async {
-        let builtView = self.build() as! UIView
-        Layout.apply(layout, to: builtView)
+        self.build().applyLayout(layout: layout)
       }
     }
   }

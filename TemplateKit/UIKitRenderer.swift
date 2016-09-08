@@ -49,25 +49,6 @@ public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   }
 }
 
-public enum UIKitRenderer {
-  public static func render(_ element: Element, completion: @escaping (Node, UIView) -> Void) {
-    guard let node = element.build() as? Node else {
-      fatalError()
-    }
-
-    DispatchQueue.main.async {
-      let layout = Layout.perform(materialize(node))
-      let builtView = node.build() as! UIView
-      Layout.apply(layout, to: builtView)
-      completion(node, builtView)
-    }
-  }
-
-  static func materialize(_ node: Node) -> Element {
-    guard let currentInstance = node.currentInstance, let currentElement = currentInstance.currentElement else {
-      fatalError()
-    }
-    let children = currentInstance.children?.map { $0.currentElement! }
-    return Element(currentElement.type, currentElement.properties, children)
-  }
+public enum UIKitRenderer: Renderer {
+  public typealias ViewType = UIView
 }
