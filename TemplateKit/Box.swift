@@ -19,16 +19,18 @@ public class Box: UIView, NativeView {
 
   public var children: [NativeView]? {
     didSet {
-      // TODO(mcudich): Be smarter about adding/removing/moving here.
-      for view in subviews {
-        view.removeFromSuperview()
+      var pendingViews = Set(subviews)
+
+      for (index, child) in (children ?? []).enumerated() {
+        guard let childView = child as? UIView else {
+          fatalError()
+        }
+
+        insertSubview(childView, at: index)
+        pendingViews.remove(childView)
       }
 
-      for child in (children ?? []) {
-        if let subview = child as? UIView {
-          addSubview(subview)
-        }
-      }
+      pendingViews.forEach { $0.removeFromSuperview() }
     }
   }
 
