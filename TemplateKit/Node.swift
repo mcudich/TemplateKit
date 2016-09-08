@@ -94,7 +94,7 @@ public extension BaseNode {
   }
 
   func replace(_ instance: BaseNode, with element: Element) {
-    let replacement = UIKitRenderer.instantiate(element, owner: owner)
+    let replacement = element.build(with: owner)
     guard let index = index(of: instance) else {
       fatalError()
     }
@@ -105,7 +105,7 @@ public extension BaseNode {
 
   func append(_ element: Element) {
     print(">>> Adding \(element)")
-    insert(child: UIKitRenderer.instantiate(element, owner: owner))
+    insert(child: element.build(with: owner))
   }
 }
 

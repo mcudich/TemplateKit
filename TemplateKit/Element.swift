@@ -22,6 +22,20 @@ public struct Element {
   public func get<T>(_ key: String) -> T? {
     return properties[key] as? T
   }
+
+  public func build(with owner: Node? = nil) -> BaseNode {
+    let made = type.make(properties, children, owner)
+
+    if let node = made as? Node {
+      let currentElement = node.render()
+      node.currentElement = currentElement
+      node.currentInstance = currentElement.build(with: node)
+    } else {
+      made.currentElement = self
+    }
+
+    return made
+  }
 }
 
 extension Element {

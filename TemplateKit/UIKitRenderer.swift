@@ -18,7 +18,7 @@ public enum ElementType: ElementRepresentable, Equatable {
   public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode {
     switch self {
     case .box:
-      return NativeNode<Box>(properties: properties, children: children?.map { UIKitRenderer.instantiate($0, owner: owner) }, owner: owner)
+      return NativeNode<Box>(properties: properties, children: children?.map { $0.build(with: owner) }, owner: owner)
     case .text:
       return NativeNode<Text>(properties: properties, owner: owner)
     case .image:
@@ -51,7 +51,7 @@ public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
 
 public enum UIKitRenderer {
   public static func render(_ element: Element, completion: @escaping (Node, UIView) -> Void) {
-    guard let node = instantiate(element, owner: nil) as? Node else {
+    guard let node = element.build() as? Node else {
       fatalError()
     }
 
@@ -61,20 +61,6 @@ public enum UIKitRenderer {
       Layout.apply(layout, to: builtView)
       completion(node, builtView)
     }
-  }
-
-  static func instantiate(_ element: Element, owner: Node?) -> BaseNode {
-    let made = element.type.make(element.properties, element.children, owner)
-
-    if let node = made as? Node {
-      let currentElement = node.render()
-      node.currentElement = currentElement
-      node.currentInstance = instantiate(currentElement, owner: node)
-    } else {
-      made.currentElement = element
-    }
-
-    return made
   }
 
   static func materialize(_ node: Node) -> Element {
