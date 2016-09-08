@@ -14,6 +14,7 @@ public class Image: UIImageView, NativeView {
   public var properties = [String : Any]() {
     didSet {
       applyCommonProperties(properties: properties)
+      applyImageProperties(properties: properties)
     }
   }
 
@@ -23,5 +24,25 @@ public class Image: UIImageView, NativeView {
   
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  func applyImageProperties(properties: [String: Any]) {
+    contentMode = get("contentMode") ?? .scaleToFill
+
+    if let url: URL = get("url") {
+      ImageService.shared.load(url) { [weak self] result in
+        switch result {
+        case .success(let image):
+          DispatchQueue.main.async {
+            self?.image = image
+          }
+        case .error(_):
+          // TODO(mcudich): Show placeholder error image.
+          break
+        }
+      }
+    } else if let name: String = get("name") {
+      image = UIImage(named: name)
+    }
   }
 }
