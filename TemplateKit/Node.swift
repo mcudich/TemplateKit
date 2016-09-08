@@ -1,38 +1,199 @@
 import UIKit
+import SwiftBox
 
-public protocol PropertyProvider: class {
+public protocol ElementRepresentable {
+  func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode
+  func equals(_ other: ElementRepresentable) -> Bool
+}
+
+public protocol PropertyHolder {
+  var properties: [String: Any] { get set }
+
   func get<T>(_ key: String) -> T?
 }
 
-public protocol Node: class, Layoutable {
+public extension PropertyHolder {
+  public func get<T>(_ key: String) -> T? {
+    return properties[key] as? T
+  }
+}
+
+public protocol Keyable {
+  var key: String? { get }
+}
+
+public extension Keyable where Self: PropertyHolder {
+  public var key: String? {
+    return get("key")
+  }
+}
+
+public protocol BaseNode: class, PropertyHolder, Keyable {
+  weak var owner: Node? { get set }
+  var children: [BaseNode]? { get set }
+  var currentElement: Element? { get set }
+  var currentInstance: BaseNode? { get set }
+  var builtView: NativeView? { get }
+
+  func build() -> NativeView
+  func computeLayout() -> SwiftBox.Layout
+
+  func insert(child: BaseNode, at index: Int?)
+  func remove(child: BaseNode)
+  func index(of child: BaseNode) -> Int?
+}
+
+public extension BaseNode {
+  public var currentInstance: BaseNode? {
+    set {}
+    get { return self }
+  }
+
+  var root: BaseNode? {
+    var current: Node? = owner ?? (self as? Node)
+    while let currentOwner = current?.owner {
+      current = currentOwner
+    }
+    return current
+  }
+
+  func insert(child: BaseNode, at index: Int? = nil) {
+    children?.insert(child, at: index ?? children!.endIndex)
+  }
+
+  func remove(child: BaseNode) {
+    guard let index = index(of: child) else {
+      return
+    }
+    print(">>> Removing \(child)")
+    children?.remove(at: index)
+  }
+
+  func move(child: BaseNode, to index: Int) {
+    guard let currentIndex = self.index(of: child), currentIndex != index else {
+      return
+    }
+    print(">>> Moving \(child) to \(index)")
+    children?.remove(at: currentIndex)
+    insert(child: child, at: index)
+  }
+
+  func index(of child: BaseNode) -> Int? {
+    return children?.index(where: { $0 === child })
+  }
+
+  func computeLayout() -> SwiftBox.Layout {
+    guard let root = root else {
+      fatalError("Can't compute layout without a valid root node")
+    }
+
+    let children = root.currentInstance?.children?.map { $0.currentElement! }
+    let workingElement = Element(root.currentElement!.type, root.currentElement!.properties, children)
+    return Layout.perform(workingElement)
+  }
+
+  func performDiff(newElement: Element) {
+    guard let currentInstance = currentInstance else {
+      fatalError()
+    }
+
+    maybeUpdateProperties(instance: currentInstance, with: newElement)
+    currentElement = newElement
+
+    let children = newElement.children ?? []
+
+    var currentChildren = (currentInstance.children ?? []).keyed { index, elm in
+      computeKey(index, elm)
+    }
+
+    for (index, element) in children.enumerated() {
+      let key = computeKey(index, element)
+      guard let instance = currentChildren[key] else {
+        append(element)
+        continue
+      }
+      currentChildren.removeValue(forKey: key)
+
+      if shouldReplace(instance, with: element) {
+        replace(instance, with: element)
+      } else {
+        maybeUpdateProperties(instance: instance, with: element)
+        move(child: instance, to: index)
+        // TODO(mcudich): Make this more generic.
+        if let node = instance as? Node {
+          instance.performDiff(newElement: node.render())
+        } else {
+          instance.performDiff(newElement: element)
+        }
+      }
+    }
+
+    for (key, child) in currentChildren {
+      remove(child: child)
+    }
+  }
+
+  func shouldReplace(_ instance: BaseNode, with element: Element) -> Bool {
+    if case ElementType.node(let classType) = element.type {
+      return classType != type(of: instance)
+    }
+
+    return !element.type.equals(instance.currentElement!.type)
+  }
+
+  func maybeUpdateProperties(instance: BaseNode, with element: Element) {
+    // TODO(mcudich): Move this into shouldUpdate.
+    if instance.properties == element.properties {
+      return
+    }
+    print(">>> Updating properties on \(instance) with \(element.properties)")
+    var instance = instance
+    instance.properties = element.properties
+  }
+
+  func replace(_ instance: BaseNode, with element: Element) {
+    let replacement = element.build(with: owner)
+    guard let index = index(of: instance) else {
+      fatalError()
+    }
+    print(">>> Replacing \(instance.currentElement) with \(element)")
+    remove(child: instance)
+    insert(child: replacement, at: index)
+  }
+
+  func append(_ element: Element) {
+    print(">>> Adding \(element)")
+    insert(child: element.build(with: owner))
+  }
+
+  func computeKey(_ index: Int, _ keyable: Keyable) -> String {
+    return keyable.key ?? "\(index)"
+  }
+}
+
+public protocol Node: BaseNode {
   static var propertyTypes: [String: ValidationType] { get }
 
-  var root: Node? { get set }
-  var renderedView: UIView? { get set }
+  var state: Any? { get set }
+  init(properties: [String: Any], owner: Node?)
 
-  var properties: [String: Any] { get }
-  var state: Any? { get }
-  var key: String? { get }
-  var calculatedFrame: CGRect? { get set }
-  var eventTarget: EventTarget { get }
-
-  init(properties: [String: Any])
-
-  func build() -> Node
-  func render() -> UIView
-  func sizeThatFits(_ size: CGSize) -> CGSize
-  func sizeToFit(_ size: CGSize)
+  func render() -> Element
+  func updateState(stateMutation: () -> Any?)
 }
 
 public func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
   return NSDictionary(dictionary: lhs).isEqual(to: rhs)
 }
 
+public func !=(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
+  return !NSDictionary(dictionary: lhs).isEqual(to: rhs)
+}
+
 public func ==(lhs: Node, rhs: Node) -> Bool {
   return lhs.properties == rhs.properties && lhs.key == rhs.key
 }
 
-extension Node {
+public extension Node {
   public static var commonPropertyTypes: [String: ValidationType] {
     return [
       "x": Validation.float,
@@ -53,91 +214,41 @@ extension Node {
     return commonPropertyTypes
   }
 
-  public var key: String? {
-    return get("key")
+  public func updateState(stateMutation: () -> Any?) {
+    state = stateMutation()
+    update()
   }
 
-  public func get<T>(_ key: String) -> T? {
-    return properties[key] as? T
+  public var builtView: NativeView? {
+    return currentInstance?.builtView
   }
 
-  public func render() -> UIView {
-    return render(withView: nil)
-  }
-
-  public func update() {
-    let _ = render(withView: root?.renderedView)
-  }
-
-  public func sizeThatFits(_ size: CGSize) -> CGSize {
-    return build().sizeThatFits(size)
-  }
-
-  public func sizeToFit(_ size: CGSize) {
-    if calculatedFrame == nil {
-      calculatedFrame = CGRect.zero
+  public var children: [BaseNode]? {
+    get {
+      return currentInstance?.children
     }
-    calculatedFrame!.size = sizeThatFits(size)
-  }
-
-  fileprivate func applyFrame(to view: UIView) {
-    if let calculatedFrame = calculatedFrame {
-      view.frame = calculatedFrame
+    set {
+      currentInstance?.children = newValue
     }
   }
 
-  fileprivate func applyCoreProperties(to view: UIView) {
-    if let onTap: () -> Void = get("onTap") {
-      eventTarget.tapHandler = onTap
-      let recognizer = UITapGestureRecognizer(target: eventTarget, action: #selector(EventTarget.handleTap))
-      view.addGestureRecognizer(recognizer)
-    }
-  }
-
-  private func render(withView view: UIView?) -> UIView {
-    let built = build()
-    built.sizeToFit(flexSize)
-    if let view = view {
-      built.renderedView = view
+  public func build() -> NativeView {
+    guard let currentInstance = currentInstance else {
+      fatalError()
     }
 
-    let rendered = built.render()
-    applyFrame(to: rendered)
-    applyCoreProperties(to: rendered)
-
-    root = built
-
-    return rendered
-  }
-}
-
-public class EventTarget: NSObject {
-  var tapHandler: (() -> Void)?
-
-  public func handleTap() {
-    tapHandler?()
-  }
-}
-
-public protocol LeafNode: Node {
-  func applyProperties(to view: UIView)
-  func buildView() -> UIView
-}
-
-extension LeafNode {
-  public func build() -> Node {
-    return self
+    return currentInstance.build()
   }
 
-  public func render() -> UIView {
-    let view = buildView()
+  func update() {
+    DispatchQueue.global(qos: .background).async {
+      self.performDiff(newElement: self.render())
+      let layout = self.computeLayout()
 
-    applyFrame(to: view)
-    applyCoreProperties(to: view)
-    applyProperties(to: view)
-
-    renderedView = view
-
-    return view
+      DispatchQueue.main.async {
+        let _ = self.build()
+        self.root?.builtView?.applyLayout(layout: layout)
+      }
+    }
   }
 }

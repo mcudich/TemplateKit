@@ -2,12 +2,11 @@
 //  Text.swift
 //  TemplateKit
 //
-//  Created by Matias Cudich on 8/31/16.
+//  Created by Matias Cudich on 9/3/16.
 //  Copyright © 2016 Matias Cudich. All rights reserved.
 //
 
 import Foundation
-import SwiftBox
 
 class TextLayout {
   var text = ""
@@ -15,6 +14,12 @@ class TextLayout {
   var fontSize = UIFont.systemFontSize
   var color = UIColor.black
   var lineBreakMode = NSLineBreakMode.byTruncatingTail
+
+  var properties = [String: Any]() {
+    didSet {
+      transferProperties()
+    }
+  }
 
   fileprivate lazy var layoutManager: NSLayoutManager = {
     let layoutManager = NSLayoutManager()
@@ -35,6 +40,8 @@ class TextLayout {
     return textContainer
   }()
 
+  init() {}
+
   func sizeThatFits(_ size: CGSize) -> CGSize {
     applyProperties()
     textContainer.size = size;
@@ -46,10 +53,26 @@ class TextLayout {
   }
 
   fileprivate func drawText(in rect: CGRect) {
+    applyProperties()
     let glyphRange = layoutManager.glyphRange(for: textContainer);
 
     layoutManager.drawBackground(forGlyphRange: glyphRange, at: CGPoint.zero);
     layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: CGPoint.zero);
+  }
+
+  private func transferProperties() {
+    if let text = properties["text"] as? String {
+      self.text = text
+    }
+    if let fontName = properties["fontName"] as? String {
+      self.fontName = fontName
+    }
+    if let fontSize = properties["fontSize"] as? CGFloat {
+      self.fontSize = fontSize
+    }
+    if let lineBreakMode = properties["lineBreakMode"] as? NSLineBreakMode {
+      self.lineBreakMode = lineBreakMode
+    }
   }
 
   private func applyProperties() {
@@ -67,15 +90,25 @@ class TextLayout {
   }
 }
 
-public class TextView: UILabel {
-  let textLayout: TextLayout
+public class Text: UILabel, NativeView {
+  public var eventTarget: AnyObject?
 
-  init(textLayout: TextLayout) {
-    self.textLayout = textLayout
+  public var properties = [String : Any]() {
+    didSet {
+      applyCommonProperties(properties: properties)
+      textLayout.properties = properties
+      setNeedsDisplay()
+    }
+  }
 
+  private lazy var textLayout = TextLayout()
+
+  public required init() {
     super.init(frame: CGRect.zero)
 
     isUserInteractionEnabled = true
+
+    applyCommonProperties(properties: properties)
   }
 
   public required init?(coder aDecoder: NSCoder) {
@@ -84,75 +117,5 @@ public class TextView: UILabel {
 
   override public func drawText(in rect: CGRect) {
     textLayout.drawText(in: rect)
-  }
-}
-
-public class Text: LeafNode {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [
-      "text": Validation.string,
-      "fontName": Validation.string,
-      "fontSize": Validation.float,
-      "textColor": Validation.color,
-      "textAlignment": TextValidation.textAlignment,
-      "lineBreakMode": TextValidation.lineBreakMode
-    ])
-  }
-
-  public var root: Node?
-  public var renderedView: UIView?
-  public let properties: [String: Any]
-  public var state: Any?
-  public var calculatedFrame: CGRect?
-  public var eventTarget = EventTarget()
-
-  fileprivate var textLayout = TextLayout()
-
-  public required init(properties: [String : Any]) {
-    self.properties = properties
-  }
-
-  public func sizeThatFits(_ size: CGSize) -> CGSize {
-    applyTextProperties()
-    return textLayout.sizeThatFits(size)
-  }
-
-  public func buildView() -> UIView {
-    let view = TextView(textLayout: textLayout)
-    view.setNeedsDisplay()
-    return view
-  }
-
-  public func applyProperties(to view: UIView) {
-    applyTextProperties()
-  }
-
-  fileprivate func applyTextProperties() {
-    if let text: String = get("text") {
-      textLayout.text = text
-    }
-    if let fontName: String = get("fontName") {
-      textLayout.fontName = fontName
-    }
-    if let fontSize: CGFloat = get("fontSize") {
-      textLayout.fontSize = fontSize
-    }
-    if let color: UIColor = get("color") {
-      textLayout.color = color
-    }
-    if let lineBreakMode: NSLineBreakMode = get("lineBreakMode") {
-      textLayout.lineBreakMode = lineBreakMode
-    }
-  }
-}
-
-extension Text: Layoutable {
-  public var flexNode: FlexNode {
-    let measure: ((CGFloat) -> CGSize) = { [weak self] width in
-      let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-      return self?.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
-    }
-
-    return FlexNode(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
   }
 }

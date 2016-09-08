@@ -24,17 +24,17 @@ indirect enum NodeReference {
   case Reference(String, [NodeReference], [String: String])
 
   func makeInstance(withContextProperties contextProperties: [String: Any]?) throws -> Node {
-    if case let .Reference(identifier, children, properties) = self {
+    if case let .Reference(identifier, _, properties) = self {
       let resolvedProperties = resolve(properties: properties, withContextProperties: contextProperties)
       let propertyTypes = try NodeRegistry.shared.propertyTypes(forIdentifier: identifier)
       let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
       let node = try NodeRegistry.shared.node(withIdentifier: identifier, properties: validatedProperties)
 
-      if let containerNode = node as? ContainerNode {
-        try children.forEach {
-          try containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
-        }
-      }
+//      if let containerNode = node as? ContainerNode {
+//        try children.forEach {
+//          try containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
+//        }
+//      }
 
       return node
     }

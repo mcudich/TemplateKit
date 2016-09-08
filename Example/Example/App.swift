@@ -9,50 +9,76 @@
 import Foundation
 import TemplateKit
 
-class App: NSObject, Node {
-  var root: Node?
-  var renderedView: UIView?
-  var properties: [String : Any]
-  public var state: Any?
-  var calculatedFrame: CGRect?
-  public var eventTarget = EventTarget()
+class App: Node {
+  public weak var owner: Node?
+  public var currentInstance: BaseNode?
+  public var currentElement: Element?
+  public var properties: [String : Any]
+  public var state: Any? = State()
 
-  private var counterValue = 0
-
-  private lazy var tableView: UIView = {
-    let tableView = TableView(frame: CGRect.zero, style: .plain)
-    tableView.tableViewDataSource = self
-    return tableView
-  }()
-
-  required init(properties: [String : Any]) {
-    self.properties = properties
+  struct State {
+    var counter = 0
+    var showCounter = false
+    var flipped = false
   }
 
-  func build() -> Node {
-    return Box(properties: ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)]) {
-      [
-        Counter(properties: ["count": counterValue]),
-        Text(properties: ["text": "Randomize", "onTap": randomizeCounter]),
-        Image(properties: ["url": URL(string: "https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg"), "width": CGFloat(150), "height": CGFloat(150)]),
-        Message(properties: ["text": "blah"]),
-        View(properties: ["flex": CGFloat(1), "view": tableView])
-      ]
+  private var appState: State {
+    get {
+      return state as! State
+    }
+    set {
+      state = newValue
     }
   }
 
-  private func randomizeCounter() {
-    counterValue = Int(arc4random())
-    update()
-  }
-}
-
-extension App: TableViewDataSource {
-  func tableView(_ tableView: TableView, nodeAtIndexPath indexPath: IndexPath) -> Node {
-    return Text(properties: ["text": "foo"])
+  required init(properties: [String : Any], owner: Node?) {
+    self.properties = properties
+    self.owner = owner
   }
 
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 20
+  func render() -> Element {
+    return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)], [
+      Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
+      Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
+      Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
+      Element(ElementType.box, [:], getItems()),
+      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"])
+    ])
+  }
+
+  func getKey(index: Int) -> String {
+    return ["foo", "bar", "baz", "blah", "flah", "asdf"][index]
+  }
+
+  func getItems() -> [Element] {
+    let items = (0..<appState.counter).map {
+      return Element(ElementType.text, ["text": "\($0)", "key": getKey(index: $0)])
+    }
+    if appState.flipped {
+      return items.reversed()
+    } else {
+      return items
+    }
+  }
+
+  @objc func incrementCounter() {
+    updateState {
+      appState.counter += 1
+      return appState
+    }
+  }
+
+  @objc func decrementCounter() {
+    updateState {
+      appState.counter -= 1
+      return appState
+    }
+  }
+
+  @objc func flip() {
+    updateState {
+      appState.flipped = !appState.flipped
+      return appState
+    }
   }
 }
