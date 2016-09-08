@@ -8,19 +8,16 @@
 
 import Foundation
 
-public struct Element {
+public struct Element: PropertyHolder, Keyable {
   let type: ElementRepresentable
-  let properties: [String: Any]
   let children: [Element]?
+
+  public var properties: [String: Any]
 
   public init(_ type: ElementRepresentable, _ properties: [String: Any] = [:], _ children: [Element]? = nil) {
     self.type = type
     self.properties = properties
     self.children = children
-  }
-
-  public func get<T>(_ key: String) -> T? {
-    return properties[key] as? T
   }
 
   public func build(with owner: Node? = nil) -> BaseNode {

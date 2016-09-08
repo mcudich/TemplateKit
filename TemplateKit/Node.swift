@@ -6,9 +6,30 @@ public protocol ElementRepresentable {
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
-public protocol BaseNode: class {
-  weak var owner: Node? { get set }
+public protocol PropertyHolder {
   var properties: [String: Any] { get set }
+
+  func get<T>(_ key: String) -> T?
+}
+
+public extension PropertyHolder {
+  public func get<T>(_ key: String) -> T? {
+    return properties[key] as? T
+  }
+}
+
+public protocol Keyable {
+  var key: String? { get }
+}
+
+public extension Keyable where Self: PropertyHolder {
+  public var key: String? {
+    return get("key")
+  }
+}
+
+public protocol BaseNode: class, PropertyHolder, Keyable {
+  weak var owner: Node? { get set }
   var children: [BaseNode]? { get set }
   var currentElement: Element? { get set }
   var currentInstance: BaseNode? { get set }
@@ -39,6 +60,15 @@ public extension BaseNode {
     children?.remove(at: index)
   }
 
+  func move(child: BaseNode, to index: Int) {
+    guard let currentIndex = self.index(of: child), currentIndex != index else {
+      return
+    }
+    print(">>> Moving \(child) to \(index)")
+    children?.remove(at: currentIndex)
+    insert(child: child, at: index)
+  }
+
   func index(of child: BaseNode) -> Int? {
     return children?.index(where: { $0 === child })
   }
@@ -59,18 +89,23 @@ public extension BaseNode {
 
     let children = newElement.children ?? []
 
-    var currentChildren = currentInstance.children ?? []
-    for element in children {
-      if currentChildren.count == 0 {
+    var currentChildren = (currentInstance.children ?? []).keyed { index, elm in
+      computeKey(index, elm)
+    }
+
+    for (index, element) in children.enumerated() {
+      let key = computeKey(index, element)
+      guard let instance = currentChildren[key] else {
         append(element)
         continue
       }
+      currentChildren.removeValue(forKey: key)
 
-      let instance = currentChildren.removeFirst()
       if shouldReplace(instance, with: element) {
         replace(instance, with: element)
       } else {
         maybeUpdateProperties(instance: instance, with: element)
+        move(child: instance, to: index)
         // TODO(mcudich): Make this more generic.
         if let node = instance as? Node {
           instance.performDiff(newElement: node.render())
@@ -80,7 +115,7 @@ public extension BaseNode {
       }
     }
 
-    for child in currentChildren {
+    for (key, child) in currentChildren {
       remove(child: child)
     }
   }
@@ -94,10 +129,12 @@ public extension BaseNode {
   }
 
   func maybeUpdateProperties(instance: BaseNode, with element: Element) {
+    // TODO(mcudich): Move this into shouldUpdate.
     if instance.properties == element.properties {
       return
     }
     print(">>> Updating properties on \(instance) with \(element.properties)")
+    var instance = instance
     instance.properties = element.properties
   }
 
@@ -115,14 +152,16 @@ public extension BaseNode {
     print(">>> Adding \(element)")
     insert(child: element.build(with: owner))
   }
+
+  func computeKey(_ index: Int, _ keyable: Keyable) -> String {
+    return keyable.key ?? "\(index)"
+  }
 }
 
 public protocol Node: BaseNode {
   static var propertyTypes: [String: ValidationType] { get }
 
   var state: Any? { get set }
-  var key: String? { get }
-
   init(properties: [String: Any], owner: Node?)
 
   func render() -> Element
@@ -167,10 +206,6 @@ public extension Node {
     update()
   }
 
-  public var key: String? {
-    return get("key")
-  }
-
   public var children: [BaseNode]? {
     get {
       return currentInstance?.children
@@ -178,10 +213,6 @@ public extension Node {
     set {
       currentInstance?.children = newValue
     }
-  }
-
-  public func get<T>(_ key: String) -> T? {
-    return properties[key] as? T
   }
 
   public func build() -> NativeView {

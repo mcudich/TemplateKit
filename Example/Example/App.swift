@@ -19,6 +19,7 @@ class App: Node {
   struct State {
     var counter = 0
     var showCounter = false
+    var flipped = false
   }
 
   private var appState: State {
@@ -39,14 +40,24 @@ class App: Node {
     return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(500), "paddingTop": CGFloat(60)], [
       Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
       Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
+      Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
       Element(ElementType.box, [:], getItems())
     ])
   }
 
+  func getKey(index: Int) -> String {
+    return ["foo", "bar", "baz", "blah", "flah", "asdf"][index]
+  }
+
   func getItems() -> [Element] {
-    return (0..<appState.counter).map {
-      return Element(ElementType.text, ["text": "\($0)"])
-    }.reversed()
+    let items = (0..<appState.counter).map {
+      return Element(ElementType.text, ["text": "\($0)", "key": getKey(index: $0)])
+    }
+    if appState.flipped {
+      return items.reversed()
+    } else {
+      return items
+    }
   }
 
   @objc func incrementCounter() {
@@ -59,6 +70,13 @@ class App: Node {
   @objc func decrementCounter() {
     updateState {
       appState.counter -= 1
+      return appState
+    }
+  }
+
+  @objc func flip() {
+    updateState {
+      appState.flipped = !appState.flipped
       return appState
     }
   }
