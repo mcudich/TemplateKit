@@ -36,6 +36,7 @@ class Todo: Node {
 
   func render() -> Element {
     return Element(ElementType.box, ["width": get("width")!], [
+      Element(ElementType.image, ["url": URL(string: "https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg"), "width": CGFloat(24), "height": CGFloat(24)]),
       Element(ElementType.text, ["text": todoState.text, "onTap": #selector(Todo.random)]),
     ])
   }
