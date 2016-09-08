@@ -214,10 +214,6 @@ public class TableView: UITableView {
   }
 
   public override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    guard let tableViewDataSource = tableViewDataSource else {
-      return
-    }
-
     purgeNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
@@ -228,12 +224,7 @@ public class TableView: UITableView {
   }
 
   public override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    // TODO(mcudich): This probably needs to be put on the queue as well.
-    let indexPaths = sections.reduce([]) { previous, section in
-      return previous + self.indexPaths(forSection: section)
-    }
-
-    precacheNodes(at: indexPaths)
+    precacheNodes(in: sections)
     operationQueue.enqueueOperation { done in
       super.insertSections(sections, with: animation)
       done()
@@ -241,11 +232,7 @@ public class TableView: UITableView {
   }
 
   public override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    let indexPaths = sections.reduce([]) { previous, section in
-      return previous + self.indexPaths(forSection: section)
-    }
-
-    purgeNodes(at: indexPaths)
+    purgeNodes(in: sections)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.deleteSections(sections, with: animation)
@@ -283,11 +270,7 @@ public class TableView: UITableView {
   }
 
   public override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
-      return previous + self.indexPaths(forSection: section)
-    }
-
-    precacheNodes(at: indexPaths)
+    precacheNodes(in: sections)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.reloadSections(sections, with: animation)
