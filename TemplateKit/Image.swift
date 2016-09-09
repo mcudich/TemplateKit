@@ -34,6 +34,11 @@ public class Image: UIImageView, NativeView {
     fatalError("init(coder:) has not been implemented")
   }
 
+  func applyProperties(properties: [String: Any]) {
+    applyCommonProperties(properties: properties)
+    applyImageProperties(properties: properties)
+  }
+
   func applyImageProperties(properties: [String: Any]) {
     contentMode = get("contentMode") ?? .scaleToFill
 
