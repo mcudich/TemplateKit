@@ -9,6 +9,14 @@
 import Foundation
 import SwiftBox
 
+public protocol Layoutable {
+  func applyLayout(layout: SwiftBox.Layout)
+}
+
+public protocol View: Layoutable {
+  var frame: CGRect { get set }
+}
+
 enum Layout {
   static func perform(_ element: Element) -> SwiftBox.Layout {
     return element.node.layout()
