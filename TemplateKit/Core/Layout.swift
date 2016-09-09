@@ -21,10 +21,6 @@ enum Layout {
   static func perform(_ element: Element) -> CSSLayout {
     return element.node.layout()
   }
-
-  static func apply(_ layout: CSSLayout, to view: UIView) {
-    layout.apply(to: view)
-  }
 }
 
 extension Element {
