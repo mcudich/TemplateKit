@@ -12,6 +12,7 @@ import SwiftBox
 public enum ElementType: ElementRepresentable, Equatable {
   case box
   case text
+  case textField
   case image
   case view(UIView)
   case node(AnyClass)
@@ -22,6 +23,8 @@ public enum ElementType: ElementRepresentable, Equatable {
       return NativeNode<Box>(properties: properties, children: children?.map { $0.build(with: owner) }, owner: owner)
     case .text:
       return NativeNode<Text>(properties: properties, owner: owner)
+    case .textField:
+      return NativeNode<TextField>(properties: properties, owner: owner)
     case .image:
       return NativeNode<Image>(properties: properties, owner: owner)
     case .view(let view):
@@ -46,6 +49,8 @@ public enum ElementType: ElementRepresentable, Equatable {
       return .box
     case "text":
       return .text
+    case "textfield":
+      return .textField
     case "image":
       return .image
     default:
@@ -56,7 +61,7 @@ public enum ElementType: ElementRepresentable, Equatable {
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
-  case (.box, .box), (.text, .text), (.image, .image):
+  case (.box, .box), (.text, .text), (.image, .image), (.textField, .textField):
     return true
   case (.node(let lhsClass), .node(let rhsClass)):
     return lhsClass == rhsClass
