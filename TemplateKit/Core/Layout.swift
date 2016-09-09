@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import SwiftBox
+import CSSLayout
 
 public protocol Layoutable {
-  func applyLayout(layout: SwiftBox.Layout)
+  func applyLayout(layout: CSSLayout)
 }
 
 public protocol View: Layoutable {
@@ -18,59 +18,100 @@ public protocol View: Layoutable {
 }
 
 enum Layout {
-  static func perform(_ element: Element) -> SwiftBox.Layout {
+  static func perform(_ element: Element) -> CSSLayout {
     return element.node.layout()
   }
 
-  static func apply(_ layout: SwiftBox.Layout, to view: UIView) {
-    layout.apply(toView: view)
+  static func apply(_ layout: CSSLayout, to view: UIView) {
+    layout.apply(to: view)
   }
 }
 
 extension Element {
-  public var padding: Edges {
-    return Edges(left: get("paddingLeft") ?? 0, right: get("paddingRight") ?? 0, bottom: get("paddingBottom") ?? 0, top: get("paddingTop") ?? 0)
-  }
-  public var flexDirection: Direction {
-    return get("flexDirection") ?? .column
-  }
-  public var justification: Justification {
-    return get("justification") ?? .flexStart
-  }
-  public var childAlignment: ChildAlignment {
-    return get("childAlignment") ?? .stretch
-  }
-  public var flexSize: CGSize {
-    let width: CGFloat = get("width") ?? SwiftBox.Node.Undefined
-    let height: CGFloat = get("height") ?? SwiftBox.Node.Undefined
-
-    return CGSize(width: width, height: height)
-  }
-  public var margin: Edges {
-    return Edges(left: get("marginLeft") ?? 0, right: get("marginRight") ?? 0, bottom: get("marginBottom") ?? 0, top: get("marginTop") ?? 0)
-  }
-  public var selfAlignment: SelfAlignment {
-    return get("selfAlignment") ?? .auto
-  }
-  public var flex: CGFloat {
-    return get("flex") ?? 0
+  public var flexDirection: CSSFlexDirection {
+    return get("flexDirection") ?? CSSFlexDirectionColumn
   }
 
-  var node: SwiftBox.Node {
+  public var justifyContent: CSSJustify {
+    return get("justifyContent") ?? CSSJustifyFlexStart
+  }
+
+  public var alignContent: CSSAlign {
+    return get("alignContent") ?? CSSAlignStretch
+  }
+
+  public var alignItems: CSSAlign {
+    return get("alignItems") ?? CSSAlignStretch
+  }
+
+  public var alignSelf: CSSAlign {
+    return get("alignSelf") ?? CSSAlignAuto
+  }
+
+  public var positionType: CSSPositionType {
+    return get("positionType") ?? CSSPositionTypeRelative
+  }
+
+  public var flexWrap: CSSWrapType {
+    return get("flexWrap") ?? CSSWrapTypeNoWrap
+  }
+
+  public var overflow: CSSOverflow {
+    return get("overflow") ?? CSSOverflowVisible
+  }
+
+  public var flexGrow: Float {
+    return get("flexGrow") ?? 0
+  }
+
+  public var flexShrink: Float {
+    return get("flexShrink") ?? 0
+  }
+
+  public var margin: CSSEdges {
+    return CSSEdges(left: get("marginLeft") ?? 0, right: get("marginRight") ?? 0, bottom: get("marginBottom") ?? 0, top: get("marginTop") ?? 0)
+  }
+
+  public var position: CSSEdges {
+    return CSSEdges(left: get("left") ?? 0, right: get("right") ?? 0, bottom: get("bottom") ?? 0, top: get("top") ?? 0)
+  }
+
+  public var padding: CSSEdges {
+    return CSSEdges(left: get("paddingLeft") ?? 0, right: get("paddingRight") ?? 0, bottom: get("paddingBottom") ?? 0, top: get("paddingTop") ?? 0)
+  }
+
+  public var size: CSSSize {
+    return CSSSize(width: get("width") ?? Float.nan, height: get("height") ?? Float.nan)
+  }
+
+  public var minSize: CSSSize {
+    return CSSSize(width: get("minWidth") ?? 0, height: get("minHeight") ?? 0)
+  }
+
+  public var maxSize: CSSSize {
+    return CSSSize(width: get("maxWidth") ?? Float.greatestFiniteMagnitude, height: get("maxHeight") ?? Float.greatestFiniteMagnitude)
+  }
+
+  var node: CSSNode {
     switch self.type {
     case ElementType.box:
       let childNodes = children?.map { $0.node } ?? []
-      return SwiftBox.Node(size: flexSize, children: childNodes, direction: flexDirection, margin: margin, padding: padding, wrap: false, justification: justification, selfAlignment: selfAlignment, childAlignment: childAlignment, flex: flex)
+      return CSSNode(flexDirection: flexDirection, justifyContent: justifyContent, alignContent: alignContent, alignItems: alignItems, alignSelf: alignSelf, positionType: positionType, flexWrap: flexWrap, overflow: overflow, flexGrow: flexGrow, flexShrink: flexShrink, margin: margin, position: position, padding: padding, size: size, minSize: minSize, maxSize: maxSize, children: childNodes)
     case ElementType.text:
-      let measure: ((CGFloat) -> CGSize) = { width in
-        let effectiveWidth = width.isNaN ? CGFloat.greatestFiniteMagnitude : width
-        let textLayout = TextLayout()
-        textLayout.properties = self.properties
-        return textLayout.sizeThatFits(CGSize(width: effectiveWidth, height: CGFloat.greatestFiniteMagnitude))
+      let textLayout = TextLayout()
+      textLayout.properties = properties
+      let context = UnsafeMutableRawPointer(Unmanaged.passRetained(textLayout).toOpaque())
+
+      let measure: CSSMeasureFunc = { context, width, widthMode, height, heightMode in
+        let effectiveWidth = width.isNaN ? Float.greatestFiniteMagnitude : width
+        let textLayout = Unmanaged<TextLayout>.fromOpaque(context!).takeUnretainedValue()
+        let size = textLayout.sizeThatFits(CGSize(width: CGFloat(effectiveWidth), height: CGFloat.greatestFiniteMagnitude))
+
+        return CSSSize(width: Float(size.width), height: Float(size.height))
       }
-      return SwiftBox.Node(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex, measure: measure)
+      return CSSNode(alignSelf: alignSelf, flexGrow: flexGrow, margin: margin, size: size, measure: measure, context: context)
     default:
-      return SwiftBox.Node(size: flexSize, margin: margin, selfAlignment: selfAlignment, flex: flex)
+      return CSSNode(alignSelf: alignSelf, flexGrow: flexGrow, margin: margin, size: size)
     }
   }
 }

@@ -48,8 +48,9 @@
 		D83937011D83504C008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936FB1D83504C008CA7F1 /* CSSMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D83937021D83504C008CA7F1 /* CSSNodeList.c in Sources */ = {isa = PBXBuildFile; fileRef = D83936FC1D83504C008CA7F1 /* CSSNodeList.c */; };
 		D83937031D83504C008CA7F1 /* CSSNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936FD1D83504C008CA7F1 /* CSSNodeList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */; };
-		D83937081D835207008CA7F1 /* Layout2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937071D835207008CA7F1 /* Layout2.swift */; };
+		D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937071D835207008CA7F1 /* CSSLayout.swift */; };
+		D839370F1D835A9F008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D839370E1D835A9F008CA7F1 /* CSSMacros.h */; };
 		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
@@ -57,7 +58,6 @@
 		D89194461D57F24F0049991F /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194411D57F24F0049991F /* NodeTests.swift */; };
 		D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194431D57F24F0049991F /* SimpleTemplate.xml */; };
 		D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194441D57F24F0049991F /* TemplateWithModel.xml */; };
-		D891944A1D57F6910049991F /* SwiftBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194491D57F6910049991F /* SwiftBox.framework */; };
 		D891944C1D57F7280049991F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891944B1D57F7280049991F /* AEXML.framework */; };
 /* End PBXBuildFile section */
 
@@ -117,16 +117,15 @@
 		D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CSSLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D83936F11D834EAE008CA7F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D83936F61D834F35008CA7F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		D83936F71D834F6F008CA7F1 /* iphoneos.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iphoneos.modulemap; sourceTree = "<group>"; };
 		D83936F81D83504C008CA7F1 /* CSSLayout-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSSLayout-internal.h"; sourceTree = "<group>"; };
 		D83936F91D83504C008CA7F1 /* CSSLayout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSLayout.c; sourceTree = "<group>"; };
 		D83936FA1D83504C008CA7F1 /* CSSLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSLayout.h; sourceTree = "<group>"; };
-		D83936FB1D83504C008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSMacros.h; sourceTree = "<group>"; };
+		D83936FB1D83504C008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSMacros.h; path = /Users/mcudich/src/TemplateKit/CSSLayout/CSSMacros.h; sourceTree = "<absolute>"; };
 		D83936FC1D83504C008CA7F1 /* CSSNodeList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSNodeList.c; sourceTree = "<group>"; };
 		D83936FD1D83504C008CA7F1 /* CSSNodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSNodeList.h; sourceTree = "<group>"; };
-		D83937041D835060008CA7F1 /* iphonesimulator.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iphonesimulator.modulemap; sourceTree = "<group>"; };
-		D83937051D83507C008CA7F1 /* macosx.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macosx.modulemap; sourceTree = "<group>"; };
-		D83937071D835207008CA7F1 /* Layout2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout2.swift; sourceTree = "<group>"; };
+		D83937041D835060008CA7F1 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		D83937071D835207008CA7F1 /* CSSLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSSLayout.swift; sourceTree = "<group>"; };
+		D839370E1D835A9F008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSMacros.h; sourceTree = "<group>"; };
 		D8811CD41D5D85540098624B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194111D57F1FB0049991F /* TemplateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemplateKit.h; sourceTree = "<group>"; };
@@ -137,7 +136,6 @@
 		D89194411D57F24F0049991F /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		D89194431D57F24F0049991F /* SimpleTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SimpleTemplate.xml; sourceTree = "<group>"; };
 		D89194441D57F24F0049991F /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
-		D89194491D57F6910049991F /* SwiftBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftBox.framework; path = Carthage/Build/iOS/SwiftBox.framework; sourceTree = "<group>"; };
 		D891944B1D57F7280049991F /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,7 +153,6 @@
 			files = (
 				D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */,
 				D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */,
-				D891944A1D57F6910049991F /* SwiftBox.framework in Frameworks */,
 				D891944C1D57F7280049991F /* AEXML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,7 +181,7 @@
 				D83936971D8348C5008CA7F1 /* PropertyHolder.swift */,
 				D83936981D8348C5008CA7F1 /* Renderer.swift */,
 				D83936991D8348C5008CA7F1 /* ViewNode.swift */,
-				D83937071D835207008CA7F1 /* Layout2.swift */,
+				D83937071D835207008CA7F1 /* CSSLayout.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -249,14 +246,12 @@
 				D83936F81D83504C008CA7F1 /* CSSLayout-internal.h */,
 				D83936F91D83504C008CA7F1 /* CSSLayout.c */,
 				D83936FA1D83504C008CA7F1 /* CSSLayout.h */,
-				D83936FB1D83504C008CA7F1 /* CSSMacros.h */,
+				D839370E1D835A9F008CA7F1 /* CSSMacros.h */,
 				D83936FC1D83504C008CA7F1 /* CSSNodeList.c */,
 				D83936FD1D83504C008CA7F1 /* CSSNodeList.h */,
 				D83936F11D834EAE008CA7F1 /* Info.plist */,
 				D83936F61D834F35008CA7F1 /* Config.xcconfig */,
-				D83936F71D834F6F008CA7F1 /* iphoneos.modulemap */,
-				D83937041D835060008CA7F1 /* iphonesimulator.modulemap */,
-				D83937051D83507C008CA7F1 /* macosx.modulemap */,
+				D83937041D835060008CA7F1 /* module.modulemap */,
 			);
 			path = CSSLayout;
 			sourceTree = "<group>";
@@ -266,7 +261,6 @@
 			children = (
 				D8811CD41D5D85540098624B /* Alamofire.framework */,
 				D891944B1D57F7280049991F /* AEXML.framework */,
-				D89194491D57F6910049991F /* SwiftBox.framework */,
 				D89194101D57F1FB0049991F /* TemplateKit */,
 				D891941C1D57F1FB0049991F /* TemplateKitTests */,
 				D83936EF1D834EAE008CA7F1 /* CSSLayout */,
@@ -324,8 +318,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D83937011D83504C008CA7F1 /* CSSMacros.h in Headers */,
 				D83937001D83504C008CA7F1 /* CSSLayout.h in Headers */,
+				D83937011D83504C008CA7F1 /* CSSMacros.h in Headers */,
+				D839370F1D835A9F008CA7F1 /* CSSMacros.h in Headers */,
 				D83937031D83504C008CA7F1 /* CSSNodeList.h in Headers */,
 				D83936FE1D83504C008CA7F1 /* CSSLayout-internal.h in Headers */,
 			);
@@ -491,7 +486,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/AEXML.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftBox.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 			);
 			outputPaths = (
@@ -540,7 +534,7 @@
 				D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */,
 				D83936D51D8348C5008CA7F1 /* ImageValidation.swift in Sources */,
 				D83936C11D8348C5008CA7F1 /* Image.swift in Sources */,
-				D83937081D835207008CA7F1 /* Layout2.swift in Sources */,
+				D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */,
 				D83936CA1D8348C5008CA7F1 /* Model.swift in Sources */,
 				D83936D61D8348C5008CA7F1 /* StringRepresentable.swift in Sources */,
 				D83936B71D8348C5008CA7F1 /* Component.swift in Sources */,
@@ -585,6 +579,7 @@
 			baseConfigurationReference = D83936F61D834F35008CA7F1 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -611,6 +606,7 @@
 			baseConfigurationReference = D83936F61D834F35008CA7F1 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -636,6 +632,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -687,6 +684,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -731,6 +729,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -741,6 +741,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = TemplateKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -757,6 +758,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -767,6 +770,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = TemplateKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -1,5 +1,4 @@
 import UIKit
-import SwiftBox
 
 public protocol Node: class, PropertyHolder, Keyable {
   weak var owner: Component? { get set }
@@ -9,7 +8,7 @@ public protocol Node: class, PropertyHolder, Keyable {
   var builtView: View? { get }
 
   func build() -> View
-  func computeLayout() -> SwiftBox.Layout
+  func computeLayout() -> CSSLayout
 
   func insert(child: Node, at index: Int?)
   func remove(child: Node)
@@ -53,7 +52,7 @@ public extension Node {
     return children?.index(where: { $0 === child })
   }
 
-  func computeLayout() -> SwiftBox.Layout {
+  func computeLayout() -> CSSLayout {
     guard let root = root else {
       fatalError("Can't compute layout without a valid root component")
     }

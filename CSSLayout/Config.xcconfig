@@ -6,6 +6,4 @@
 //  Copyright © 2016 Matias Cudich. All rights reserved.
 //
 
-MODULEMAP_FILE[sdk=iphoneos*]        = $(SRCROOT)/CSSLayout/iphoneos.modulemap
-MODULEMAP_FILE[sdk=iphonesimulator*] = $(SRCROOT)/CSSLayout/iphonesimulator.modulemap
-MODULEMAP_FILE[sdk=macosx*]          = $(SRCROOT)/CSSLayout/macosx.modulemap
+MODULEMAP_FILE[sdk=*] = $(SRCROOT)/CSSLayout/module.modulemap

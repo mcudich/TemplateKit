@@ -47,8 +47,8 @@ class App: NSObject, Component {
   }
 
   func render() -> Element {
-    return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(568), "paddingTop": CGFloat(60)], [
-      Element(ElementType.textField, ["text": appState.inputText, "onChange": #selector(App.handleInputChanged), "height": CGFloat(20)]),
+    return Element(ElementType.box, ["width": Float(320.0), "height": Float(568), "paddingTop": Float(60)], [
+      Element(ElementType.textField, ["text": appState.inputText, "onChange": #selector(App.handleInputChanged), "height": Float(20)]),
       Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
       Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
       Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
@@ -56,7 +56,7 @@ class App: NSObject, Component {
       Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
       Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
       Element(ElementType.component(Details.self), ["message": "\(appState.counter)"]),
-      Element(ElementType.view(tableView), ["flex": CGFloat(1)])
+      Element(ElementType.view(tableView), ["flexGrow": Float(1)])
     ])
   }
 
@@ -117,7 +117,7 @@ class App: NSObject, Component {
 
 extension App: TableViewDataSource {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
-    return Element(ElementType.component(Todo.self), ["width": CGFloat(320)])
+    return Element(ElementType.component(Todo.self), ["width": Float(320)])
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
