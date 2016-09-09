@@ -7,64 +7,64 @@
 //
 
 import Foundation
-import SwiftBox
+import CSSLayout
 
 extension String {
-  var flexDirection: Direction {
+  var flexDirection: CSSFlexDirection {
     switch self {
     case "row":
-      return .row
+      return CSSFlexDirectionRow
     case "column":
-      return .column
+      return CSSFlexDirectionColumn
     default:
       fatalError("Unknown direction value")
     }
   }
 
-  var justification: Justification {
+  var justification: CSSJustify {
     switch self {
     case "flexStart":
-      return .flexStart
+      return CSSJustifyFlexStart
     case "center":
-      return .center
+      return CSSJustifyCenter
     case "flexEnd":
-      return .flexEnd
+      return CSSJustifyFlexEnd
     case "spaceBetween":
-      return .spaceBetween
+      return CSSJustifySpaceBetween
     case "spaceAround":
-      return .spaceAround
+      return CSSJustifySpaceAround
     default:
       fatalError("Unknown justification value")
     }
   }
 
-  var selfAlignment: SelfAlignment {
+  var selfAlignment: CSSAlign {
     switch self {
     case "auto":
-      return .auto
+      return CSSAlignAuto
     case "flexStart":
-      return .flexStart
+      return CSSAlignFlexStart
     case "center":
-      return .center
+      return CSSAlignCenter
     case "flexEnd":
-      return .flexEnd
+      return CSSAlignFlexEnd
     case "stretch":
-      return .stretch
+      return CSSAlignStretch
     default:
       fatalError("Unknown selfAlignment value")
     }
   }
 
-  var childAlignment: ChildAlignment {
+  var childAlignment: CSSAlign {
     switch self {
     case "flexStart":
-      return .flexStart
+      return CSSAlignFlexStart
     case "center":
-      return .center
+      return CSSAlignCenter
     case "flexEnd":
-      return .flexEnd
+      return CSSAlignFlexEnd
     case "stretch":
-      return .stretch
+      return CSSAlignStretch
     default:
       fatalError("Unknown childAlignment value")
     }
@@ -80,28 +80,28 @@ enum FlexboxValidation: String, ValidationType {
   func validate(value: Any?) -> Any? {
     switch self {
     case .flexDirection:
-      if value is Direction {
+      if value is CSSFlexDirection {
         return value
       }
       if let stringValue = value as? String {
         return stringValue.flexDirection
       }
     case .justification:
-      if value is Justification {
+      if value is CSSJustify {
         return value
       }
       if let stringValue = value as? String {
         return stringValue.justification
       }
     case .selfAlignment:
-      if value is SelfAlignment {
+      if value is CSSAlign {
         return value
       }
       if let stringValue = value as? String {
         return stringValue.selfAlignment
       }
     case .childAlignment:
-      if value is ChildAlignment {
+      if value is CSSAlign {
         return value
       }
       if let stringValue = value as? String {

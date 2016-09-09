@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftBox
 
 public enum ElementType: ElementRepresentable, Equatable {
   case box

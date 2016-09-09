@@ -40,7 +40,7 @@ class RemoteApp: Component {
   }
 
   func render() -> Element {
-    return try! TemplateService.shared.element(withLocation: RemoteApp.location, properties: ["width": CGFloat(320), "height": CGFloat(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
+    return try! TemplateService.shared.element(withLocation: RemoteApp.location, properties: ["width": Float(320), "height": Float(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
   }
 
   @objc func incrementCounter() {

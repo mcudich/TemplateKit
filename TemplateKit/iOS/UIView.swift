@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import SwiftBox
 
 extension UIView: Layoutable {
-  public func applyLayout(layout: SwiftBox.Layout) {
-    Layout.apply(layout, to: self)
+  public func applyLayout(layout: CSSLayout) {
+    layout.apply(to: self)
   }
 }
 

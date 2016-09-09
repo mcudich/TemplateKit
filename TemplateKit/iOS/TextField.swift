@@ -61,7 +61,7 @@ public class TextField: UITextField, NativeView {
   func onChange() {
     lastSelectedRange = selectedTextRange
     if let onChange: Selector = get("onChange") {
-      eventTarget?.perform(onChange, with: self)
+      let _ = eventTarget?.perform(onChange, with: self)
     }
   }
 }
