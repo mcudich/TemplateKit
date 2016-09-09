@@ -65,7 +65,6 @@ public extension BaseNode {
     guard let index = index(of: child) else {
       return
     }
-    print(">>> Removing \(child)")
     children?.remove(at: index)
   }
 
@@ -73,7 +72,6 @@ public extension BaseNode {
     guard let currentIndex = self.index(of: child), currentIndex != index else {
       return
     }
-    print(">>> Moving \(child) to \(index)")
     children?.remove(at: currentIndex)
     insert(child: child, at: index)
   }
@@ -146,7 +144,8 @@ public extension BaseNode {
     if instance.properties == element.properties {
       return
     }
-    print(">>> Updating properties on \(instance) with \(element.properties)")
+
+    // Because we are hitting a non-class protocol property here, we must declare as var. Swift bug?
     var instance = instance
     instance.properties = element.properties
   }
@@ -156,13 +155,11 @@ public extension BaseNode {
     guard let index = index(of: instance) else {
       fatalError()
     }
-    print(">>> Replacing \(instance.currentElement) with \(element)")
     remove(child: instance)
     insert(child: replacement, at: index)
   }
 
   func append(_ element: Element) {
-    print(">>> Adding \(element)")
     insert(child: element.build(with: owner))
   }
 
@@ -172,9 +169,8 @@ public extension BaseNode {
 }
 
 public protocol Node: BaseNode {
-  static var propertyTypes: [String: ValidationType] { get }
-
   var state: Any? { get set }
+
   init(properties: [String: Any], owner: Node?)
 
   func render() -> Element
@@ -194,26 +190,6 @@ public func ==(lhs: Node, rhs: Node) -> Bool {
 }
 
 public extension Node {
-  public static var commonPropertyTypes: [String: ValidationType] {
-    return [
-      "x": Validation.float,
-      "y": Validation.float,
-      "width": Validation.float,
-      "height": Validation.float,
-      "marginTop": Validation.float,
-      "marginBottom": Validation.float,
-      "marginLeft": Validation.float,
-      "marginRight": Validation.float,
-      "selfAlignment": FlexboxValidation.selfAlignment,
-      "flex": Validation.float,
-      "onTap": Validation.any
-    ]
-  }
-
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes
-  }
-
   public func updateState(stateMutation: () -> Any?) {
     state = stateMutation()
     update()

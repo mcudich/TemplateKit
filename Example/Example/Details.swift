@@ -39,7 +39,7 @@ class Details: Node {
   }
 
   func render() -> Element {
-    return Element(ElementType.box, [:], [
+    return Element(ElementType.box, ["backgroundColor": get("backgroundColor") ?? UIColor.red], [
       Element(ElementType.text, ["text": "\(detailState.text) blah"]),
       Element(ElementType.text, ["text": "there", "onTap": #selector(Details.flipText)])
     ])
@@ -50,5 +50,11 @@ class Details: Node {
       detailState.text = "bye"
       return detailState
     }
+  }
+}
+
+extension Details: PropertyTypeProvider {
+  static var propertyTypes: [String : ValidationType] {
+    return ["backgroundColor": Validation.color]
   }
 }

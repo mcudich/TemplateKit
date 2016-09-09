@@ -13,4 +13,5 @@ enum TemplateKitError: Error {
   case missingTemplate(String)
   case missingProvider(String)
   case missingPropertyTypes(String)
+  case missingNodeType(String)
 }
