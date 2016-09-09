@@ -22,11 +22,11 @@ public class TemplateService {
 
   public init() {}
 
-  public func node(withLocation location: URL, properties: [String: Any]? = [:]) throws -> Node {
-    guard let node = try cache[location]?.makeNode(withProperties: properties) else {
+  public func element(withLocation location: URL, properties: [String: Any] = [:]) throws -> Element {
+    guard var element = try cache[location]?.makeElement(with: properties) else {
       throw TemplateKitError.missingTemplate("Template not found for \(location)")
     }
-    return node
+    return element
   }
 
   public func fetchTemplates(withURLs urls: [URL], completion: @escaping (Result<Void>) -> Void) {

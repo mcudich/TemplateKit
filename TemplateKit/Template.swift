@@ -2,43 +2,24 @@ import Foundation
 import AEXML
 
 struct Template {
-  let root: NodeReference
+  private let document: AEXMLDocument
 
   init(xml: Data) throws {
-    let document = try AEXMLDocument(xmlData: xml)
-    root = document.root.nodeReference
+    self.document = try AEXMLDocument(xmlData: xml)
   }
 
-  func makeNode(withProperties properties: [String: Any]?) throws -> Node {
-    return try root.makeInstance(withContextProperties: properties)
+  func makeElement(with properties: [String: Any]) throws -> Element {
+    return try document.root.makeElement(with: properties)
   }
 }
 
 extension AEXMLElement {
-  var nodeReference: NodeReference {
-    return .Reference(name, children.map { $0.nodeReference }, attributes)
-  }
-}
+  func makeElement(with properties: [String: Any]) throws -> Element {
+    let resolvedProperties = resolve(properties: attributes, withContextProperties: properties)
+    let propertyTypes = try NodeRegistry.shared.propertyTypes(for: name)
+    let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
 
-indirect enum NodeReference {
-  case Reference(String, [NodeReference], [String: String])
-
-  func makeInstance(withContextProperties contextProperties: [String: Any]?) throws -> Node {
-    if case let .Reference(identifier, _, properties) = self {
-      let resolvedProperties = resolve(properties: properties, withContextProperties: contextProperties)
-      let propertyTypes = try NodeRegistry.shared.propertyTypes(forIdentifier: identifier)
-      let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
-      let node = try NodeRegistry.shared.node(withIdentifier: identifier, properties: validatedProperties)
-
-//      if let containerNode = node as? ContainerNode {
-//        try children.forEach {
-//          try containerNode.add(child: $0.makeInstance(withContextProperties: contextProperties))
-//        }
-//      }
-
-      return node
-    }
-    fatalError("Unknown reference type")
+    return Element(try ElementType.fromRaw(name), validatedProperties, try children.map { try $0.makeElement(with: properties) })
   }
 
   private func resolve(properties: [String: String], withContextProperties contextProperties: [String: Any]?) -> [String: Any] {
@@ -57,7 +38,7 @@ indirect enum NodeReference {
 
     let startIndex = expression.characters.index(expression.startIndex, offsetBy: 1)
     let keyPath = expression.substring(from: startIndex)
-    
+
     return properties?.value(forKey: keyPath)
   }
 }

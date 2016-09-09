@@ -1,10 +1,5 @@
-<Definition name="App">
-  <PropertyType key="width" type="float" />
-  <PropertyType key="height" type="float" />
-  <PropertyType key="onTapAddRow" type="any" />
+<box width="$width" height="$height" paddingTop="60">
+  <text text="Add row" />
+  <details backgroundColor="#ff00ff" />
+</box>
 
-  <Box width="$width" height="$height" paddingTop="60">
-    <Text text="Add row" onTap="$onTapAddRow" />
-    <TodoList flex="1" />
-  </Box>
-</Definition>

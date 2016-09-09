@@ -9,6 +9,14 @@
 import Foundation
 
 public class Image: UIImageView, NativeView {
+  public static var propertyTypes: [String: ValidationType] {
+    return commonPropertyTypes.merged(with: [
+      "url": Validation.url,
+      "name": Validation.string,
+      "contentMode": ImageValidation.contentMode
+    ])
+  }
+
   public var eventTarget: AnyObject?
 
   public var properties = [String : Any]() {

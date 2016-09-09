@@ -91,6 +91,17 @@ class TextLayout {
 }
 
 public class Text: UILabel, NativeView {
+  public static var propertyTypes: [String: ValidationType] {
+    return commonPropertyTypes.merged(with: [
+      "text": Validation.string,
+      "fontName": Validation.string,
+      "fontSize": Validation.float,
+      "textColor": Validation.color,
+      "textAlignment": TextValidation.textAlignment,
+      "lineBreakMode": TextValidation.lineBreakMode
+    ])
+  }
+
   public var eventTarget: AnyObject?
 
   public var properties = [String : Any]() {

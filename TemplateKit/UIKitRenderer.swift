@@ -39,6 +39,19 @@ public enum ElementType: ElementRepresentable, Equatable {
     }
     return self == otherType
   }
+
+  static func fromRaw(_ rawValue: String) throws -> ElementType {
+    switch rawValue {
+    case "box":
+      return .box
+    case "text":
+      return .text
+    case "image":
+      return .image
+    default:
+      return try .node(NodeRegistry.shared.nodeType(for: rawValue))
+    }
+  }
 }
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
