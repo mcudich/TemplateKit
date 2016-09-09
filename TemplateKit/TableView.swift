@@ -84,13 +84,13 @@ public extension TableViewDataSource {
 }
 
 class TableViewCell: UITableViewCell {
-  var node: Node? {
+  var component: Component? {
     didSet {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-      if let node = node {
-        contentView.addSubview(node.builtView as! UIView)
+      if let component = component {
+        contentView.addSubview(component.builtView as! UIView)
       }
     }
   }
@@ -133,7 +133,7 @@ public class TableView: UITableView {
   }
 
   fileprivate let cellIdentifier = "TableViewCell"
-  fileprivate lazy var rowNodeCache = [Int: Node]()
+  fileprivate lazy var rowComponentCache = [Int: Component]()
 
   private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
   private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
@@ -152,14 +152,14 @@ public class TableView: UITableView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  fileprivate func node(withIndexPath indexPath: IndexPath) -> Node? {
+  fileprivate func component(withIndexPath indexPath: IndexPath) -> Component? {
     guard let tableViewDataSource = tableViewDataSource else {
       return nil
     }
 
     let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-    if let cachedNode = rowNodeCache[cacheKey] {
-      return cachedNode
+    if let cachedComponent = rowComponentCache[cacheKey] {
+      return cachedComponent
     }
 
     return nil
@@ -204,7 +204,7 @@ public class TableView: UITableView {
   }
 
   public override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    precacheNodes(at: indexPaths)
+    precacheComponents(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.insertRows(at: indexPaths, with: animation)
@@ -214,7 +214,7 @@ public class TableView: UITableView {
   }
 
   public override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    purgeNodes(at: indexPaths)
+    purgeComponents(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.deleteRows(at: indexPaths, with: animation)
@@ -224,7 +224,7 @@ public class TableView: UITableView {
   }
 
   public override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    precacheNodes(in: sections)
+    precacheComponents(in: sections)
     operationQueue.enqueueOperation { done in
       super.insertSections(sections, with: animation)
       done()
@@ -232,7 +232,7 @@ public class TableView: UITableView {
   }
 
   public override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    purgeNodes(in: sections)
+    purgeComponents(in: sections)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.deleteSections(sections, with: animation)
@@ -260,7 +260,7 @@ public class TableView: UITableView {
   }
 
   public override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    precacheNodes(at: indexPaths)
+    precacheComponents(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.reloadRows(at: indexPaths, with: animation)
@@ -270,7 +270,7 @@ public class TableView: UITableView {
   }
 
   public override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    precacheNodes(in: sections)
+    precacheComponents(in: sections)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.reloadSections(sections, with: animation)
@@ -289,7 +289,7 @@ public class TableView: UITableView {
       return previous + self.indexPaths(forSection: section)
     }
 
-    precacheNodes(at: indexPaths)
+    precacheComponents(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         super.reloadData()
@@ -309,13 +309,13 @@ public class TableView: UITableView {
     }
   }
 
-  func precacheNodes(at indexPaths: [IndexPath]) {
+  func precacheComponents(at indexPaths: [IndexPath]) {
     operationQueue.enqueueOperation { done in
       self.performPrecache(for: indexPaths, done: done)
     }
   }
 
-  func precacheNodes(in sections: IndexSet) {
+  func precacheComponents(in sections: IndexSet) {
     operationQueue.enqueueOperation { done in
       let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
         return previous + self.indexPaths(forSection: section)
@@ -333,8 +333,8 @@ public class TableView: UITableView {
     for indexPath in indexPaths {
       let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
       let element = tableViewDataSource.tableView(self, elementAtIndexPath: indexPath)
-      UIKitRenderer.render(element) { [weak self] node, view in
-        self?.rowNodeCache[cacheKey] = node
+      UIKitRenderer.render(element) { [weak self] component, view in
+        self?.rowComponentCache[cacheKey] = component
         pending -= 1
         if pending == 0 {
           done()
@@ -343,29 +343,29 @@ public class TableView: UITableView {
     }
   }
 
-  func purgeNodes(at indexPaths: [IndexPath]) {
+  func purgeComponents(at indexPaths: [IndexPath]) {
     operationQueue.enqueueOperation { done in
-      self.performPurgeNodes(for: indexPaths, done: done)
+      self.performPurge(for: indexPaths, done: done)
     }
   }
 
-  func purgeNodes(in sections: IndexSet) {
+  func purgeComponents(in sections: IndexSet) {
     operationQueue.enqueueOperation { done in
       let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
         return previous + self.indexPaths(forSection: section)
       }
-      self.performPurgeNodes(for: indexPaths, done: done)
+      self.performPurge(for: indexPaths, done: done)
     }
   }
 
-  func performPurgeNodes(for indexPaths: [IndexPath], done: @escaping () -> Void) {
+  func performPurge(for indexPaths: [IndexPath], done: @escaping () -> Void) {
     guard let tableViewDataSource = tableViewDataSource, indexPaths.count > 0 else {
       return done()
     }
 
     for indexPath in indexPaths {
       let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-      self.rowNodeCache.removeValue(forKey: cacheKey)
+      self.rowComponentCache.removeValue(forKey: cacheKey)
     }
     done()
   }
@@ -373,23 +373,23 @@ public class TableView: UITableView {
 
 extension TableView {
   func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
-    return heightForNode(node(withIndexPath: indexPath))
+    return heightForComponent(component(withIndexPath: indexPath))
   }
 
-  func heightForNode(_ node: Node?) -> CGFloat {
-    return node?.builtView?.frame.height ?? 0
+  func heightForComponent(_ component: Component?) -> CGFloat {
+    return component?.builtView?.frame.height ?? 0
   }
 }
 
 extension TableView {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return rowNodeCache.count
+    return rowComponentCache.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
     let cell = dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! TableViewCell
-    if let node = node(withIndexPath: indexPath) {
-      cell.node = node
+    if let component = component(withIndexPath: indexPath) {
+      cell.component = component
     }
     return cell
   }

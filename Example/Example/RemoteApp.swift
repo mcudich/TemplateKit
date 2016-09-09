@@ -9,10 +9,10 @@
 import Foundation
 import TemplateKit
 
-class RemoteApp: Node {
+class RemoteApp: Component {
   static let location = Bundle.main.url(forResource: "App", withExtension: "xml")!
-  public weak var owner: Node?
-  public var currentInstance: BaseNode?
+  public weak var owner: Component?
+  public var currentInstance: Node?
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
@@ -34,9 +34,7 @@ class RemoteApp: Node {
     }
   }
 
-
-
-  required init(properties: [String : Any], owner: Node?) {
+  required init(properties: [String : Any], owner: Component?) {
     self.properties = properties
     self.owner = owner
   }

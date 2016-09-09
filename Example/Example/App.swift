@@ -9,9 +9,9 @@
 import Foundation
 import TemplateKit
 
-class App: NSObject, Node {
-  public weak var owner: Node?
-  public var currentInstance: BaseNode?
+class App: NSObject, Component {
+  public weak var owner: Component?
+  public var currentInstance: Node?
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
@@ -40,7 +40,7 @@ class App: NSObject, Node {
   }()
 
 
-  required init(properties: [String : Any], owner: Node?) {
+  required init(properties: [String : Any], owner: Component?) {
     self.properties = properties
     self.owner = owner
   }
@@ -53,7 +53,7 @@ class App: NSObject, Node {
       Element(ElementType.box, [:], getItems()),
       Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
       Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
-      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"]),
+      Element(ElementType.component(Details.self), ["message": "\(appState.counter)"]),
       Element(ElementType.view(tableView), ["flex": CGFloat(1)])
     ])
   }
@@ -108,7 +108,7 @@ class App: NSObject, Node {
 
 extension App: TableViewDataSource {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
-    return Element(ElementType.node(Todo.self), ["width": CGFloat(320)])
+    return Element(ElementType.component(Todo.self), ["width": CGFloat(320)])
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

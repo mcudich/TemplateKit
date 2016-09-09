@@ -8,10 +8,10 @@
 
 import Foundation
 
-class ViewNode: BaseNode {
-  weak var owner: Node?
+class ViewNode: Node {
+  weak var owner: Component?
   var properties = [String: Any]()
-  var children: [BaseNode]?
+  var children: [Node]?
   var currentElement: Element?
 
   var builtView: View?
@@ -20,7 +20,7 @@ class ViewNode: BaseNode {
     self.builtView = view
   }
 
-  init(properties: [String: Any], children: [BaseNode]? = nil, owner: Node? = nil) {
+  init(properties: [String: Any], children: [Node]? = nil, owner: Component? = nil) {
     self.properties = properties
     self.children = children
     self.owner = owner

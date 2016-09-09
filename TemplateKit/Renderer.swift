@@ -10,23 +10,23 @@ import Foundation
 
 public protocol Renderer {
   associatedtype ViewType: Layoutable
-  static func render(_ element: Element, completion: @escaping (Node, ViewType) -> Void)
+  static func render(_ element: Element, completion: @escaping (Component, ViewType) -> Void)
 }
 
 public extension Renderer {
-  static func render(_ element: Element, completion: @escaping (Node, ViewType) -> Void) {
-    guard let node = element.build() as? Node else {
+  static func render(_ element: Element, completion: @escaping (Component, ViewType) -> Void) {
+    guard let component = element.build() as? Component else {
       fatalError()
     }
 
-    let layout = node.computeLayout()
+    let layout = component.computeLayout()
 
     DispatchQueue.main.async {
-      guard let builtView = node.build() as? ViewType else {
+      guard let builtView = component.build() as? ViewType else {
         fatalError("Unexpected view type")
       }
       builtView.applyLayout(layout: layout)
-      completion(node, builtView)
+      completion(component, builtView)
     }
   }
 }

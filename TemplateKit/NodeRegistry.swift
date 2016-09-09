@@ -2,7 +2,7 @@ public class NodeRegistry {
   public static let shared = NodeRegistry()
 
   private lazy var propertyTypes = [String: [String: ValidationType]]()
-  private lazy var nodeTypes = [String: AnyClass]()
+  private lazy var componentTypes = [String: AnyClass]()
 
   init() {
     registerDefaultProviders()
@@ -13,7 +13,7 @@ public class NodeRegistry {
   }
 
   public func register(_ classType: AnyClass, for name: String) {
-    nodeTypes[name] = classType
+    componentTypes[name] = classType
     if let propertyTypeProvider = classType as? PropertyTypeProvider.Type {
       register(propertyTypeProvider.propertyTypes, for: name)
     }
@@ -26,8 +26,8 @@ public class NodeRegistry {
     return propertyTypes
   }
 
-  func nodeType(for name: String) throws -> AnyClass {
-    guard let nodeType = nodeTypes[name] else {
+  func componentType(for name: String) throws -> AnyClass {
+    guard let nodeType = componentTypes[name] else {
       throw TemplateKitError.missingNodeType("Node type not found for \(name)")
     }
     return nodeType

@@ -16,7 +16,7 @@ struct Template {
 extension AEXMLElement {
   func makeElement(with properties: [String: Any]) throws -> Element {
     let resolvedProperties = resolve(properties: attributes, withContextProperties: properties)
-    let propertyTypes = try NodeRegistry.shared.propertyTypes(for: name)
+    let propertyTypes = NodeRegistry.shared.propertyTypes(for: name)
     let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
 
     return Element(try ElementType.fromRaw(name), validatedProperties, try children.map { try $0.makeElement(with: properties) })

@@ -1,6 +1,5 @@
 import UIKit
 
-public typealias NodeResultHandler = (Result<Node>) -> Void
 typealias NodeDefinitionResultHandler = (Result<Template>) -> Void
 
 class TemplateParser: Parser {
@@ -23,7 +22,7 @@ public class TemplateService {
   public init() {}
 
   public func element(withLocation location: URL, properties: [String: Any] = [:]) throws -> Element {
-    guard var element = try cache[location]?.makeElement(with: properties) else {
+    guard let element = try cache[location]?.makeElement(with: properties) else {
       throw TemplateKitError.missingTemplate("Template not found for \(location)")
     }
     return element

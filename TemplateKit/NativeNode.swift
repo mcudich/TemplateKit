@@ -8,15 +8,15 @@
 
 import Foundation
 
-class NativeNode<T: NativeView>: BaseNode {
-  weak var owner: Node?
+class NativeNode<T: NativeView>: Node {
+  weak var owner: Component?
   var properties: [String: Any]
-  var children: [BaseNode]?
+  var children: [Node]?
   var currentElement: Element?
 
   lazy var builtView: View? = T()
 
-  init(properties: [String: Any], children: [BaseNode]? = nil, owner: Node? = nil) {
+  init(properties: [String: Any], children: [Node]? = nil, owner: Component? = nil) {
     self.properties = properties
     self.children = children
     self.owner = owner
