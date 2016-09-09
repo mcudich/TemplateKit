@@ -9,9 +9,9 @@
 import Foundation
 import TemplateKit
 
-class App: NSObject, Node {
-  public weak var owner: Node?
-  public var currentInstance: BaseNode?
+class App: NSObject, Component {
+  public weak var owner: Component?
+  public var currentInstance: Node?
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
@@ -41,23 +41,22 @@ class App: NSObject, Node {
   }()
 
 
-  required init(properties: [String : Any], owner: Node?) {
+  required init(properties: [String : Any], owner: Component?) {
     self.properties = properties
     self.owner = owner
   }
 
   func render() -> Element {
-    print(appState.inputText)
     return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(568), "paddingTop": CGFloat(60)], [
       Element(ElementType.textField, ["text": appState.inputText, "onChange": #selector(App.handleInputChanged), "height": CGFloat(20)]),
-//      Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
-//      Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
-//      Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
-//      Element(ElementType.box, [:], getItems()),
-//      Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
-//      Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
-//      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"]),
-//      Element(ElementType.view(tableView), ["flex": CGFloat(1)])
+      Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
+      Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
+      Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
+      Element(ElementType.box, [:], getItems()),
+      Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
+      Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
+      Element(ElementType.component(Details.self), ["message": "\(appState.counter)"]),
+      Element(ElementType.view(tableView), ["flex": CGFloat(1)])
     ])
   }
 
@@ -118,7 +117,7 @@ class App: NSObject, Node {
 
 extension App: TableViewDataSource {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
-    return Element(ElementType.node(Todo.self), ["width": CGFloat(320)])
+    return Element(ElementType.component(Todo.self), ["width": CGFloat(320)])
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

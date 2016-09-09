@@ -15,9 +15,9 @@ public enum ElementType: ElementRepresentable, Equatable {
   case textField
   case image
   case view(UIView)
-  case node(AnyClass)
+  case component(AnyClass)
 
-  public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode {
+  public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Component?) -> Node {
     switch self {
     case .box:
       return NativeNode<Box>(properties: properties, children: children?.map { $0.build(with: owner) }, owner: owner)
@@ -29,8 +29,8 @@ public enum ElementType: ElementRepresentable, Equatable {
       return NativeNode<Image>(properties: properties, owner: owner)
     case .view(let view):
       return ViewNode(view: view)
-    case .node(let nodeClass as Node.Type):
-      return nodeClass.init(properties: properties, owner: owner)
+    case .component(let componentClass as Component.Type):
+      return componentClass.init(properties: properties, owner: owner)
     default:
       fatalError()
     }
@@ -54,7 +54,7 @@ public enum ElementType: ElementRepresentable, Equatable {
     case "image":
       return .image
     default:
-      return try .node(NodeRegistry.shared.nodeType(for: rawValue))
+      return try .component(NodeRegistry.shared.componentType(for: rawValue))
     }
   }
 }
@@ -63,7 +63,7 @@ public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
   case (.box, .box), (.text, .text), (.image, .image), (.textField, .textField):
     return true
-  case (.node(let lhsClass), .node(let rhsClass)):
+  case (.component(let lhsClass), .component(let rhsClass)):
     return lhsClass == rhsClass
   default:
     return false

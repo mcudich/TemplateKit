@@ -9,9 +9,9 @@
 import Foundation
 import TemplateKit
 
-class Details: Node {
-  public weak var owner: Node?
-  public var currentInstance: BaseNode?
+class Details: Component {
+  public weak var owner: Component?
+  public var currentInstance: Node?
   public var currentElement: Element?
   public var properties: [String : Any] {
     didSet {
@@ -33,7 +33,7 @@ class Details: Node {
     }
   }
 
-  required init(properties: [String : Any], owner: Node?) {
+  required init(properties: [String : Any], owner: Component?) {
     self.properties = properties
     self.owner = owner
   }

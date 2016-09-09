@@ -1,74 +1,47 @@
 import UIKit
 import SwiftBox
 
-public protocol ElementRepresentable {
-  func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> BaseNode
-  func equals(_ other: ElementRepresentable) -> Bool
-}
-
-public protocol PropertyHolder {
-  var properties: [String: Any] { get set }
-
-  func get<T>(_ key: String) -> T?
-}
-
-public extension PropertyHolder {
-  public func get<T>(_ key: String) -> T? {
-    return properties[key] as? T
-  }
-}
-
-public protocol Keyable {
-  var key: String? { get }
-}
-
-public extension Keyable where Self: PropertyHolder {
-  public var key: String? {
-    return get("key")
-  }
-}
-
-public protocol BaseNode: class, PropertyHolder, Keyable {
-  weak var owner: Node? { get set }
-  var children: [BaseNode]? { get set }
+public protocol Node: class, PropertyHolder, Keyable {
+  weak var owner: Component? { get set }
+  var children: [Node]? { get set }
   var currentElement: Element? { get set }
-  var currentInstance: BaseNode? { get set }
+  var currentInstance: Node? { get set }
   var builtView: View? { get }
 
   func build() -> View
   func computeLayout() -> SwiftBox.Layout
 
-  func insert(child: BaseNode, at index: Int?)
-  func remove(child: BaseNode)
-  func index(of child: BaseNode) -> Int?
+  func insert(child: Node, at index: Int?)
+  func remove(child: Node)
+  func index(of child: Node) -> Int?
 }
 
-public extension BaseNode {
-  public var currentInstance: BaseNode? {
+public extension Node {
+  public var currentInstance: Node? {
     set {}
     get { return self }
   }
 
-  var root: BaseNode? {
-    var current: Node? = owner ?? (self as? Node)
+  var root: Node? {
+    var current: Component? = owner ?? (self as? Component)
     while let currentOwner = current?.owner {
       current = currentOwner
     }
     return current
   }
 
-  func insert(child: BaseNode, at index: Int? = nil) {
+  func insert(child: Node, at index: Int? = nil) {
     children?.insert(child, at: index ?? children!.endIndex)
   }
 
-  func remove(child: BaseNode) {
+  func remove(child: Node) {
     guard let index = index(of: child) else {
       return
     }
     children?.remove(at: index)
   }
 
-  func move(child: BaseNode, to index: Int) {
+  func move(child: Node, to index: Int) {
     guard let currentIndex = self.index(of: child), currentIndex != index else {
       return
     }
@@ -76,13 +49,13 @@ public extension BaseNode {
     insert(child: child, at: index)
   }
 
-  func index(of child: BaseNode) -> Int? {
+  func index(of child: Node) -> Int? {
     return children?.index(where: { $0 === child })
   }
 
   func computeLayout() -> SwiftBox.Layout {
     guard let root = root else {
-      fatalError("Can't compute layout without a valid root node")
+      fatalError("Can't compute layout without a valid root component")
     }
 
     let children = root.currentInstance?.children?.map { $0.currentElement! }
@@ -118,8 +91,8 @@ public extension BaseNode {
         maybeUpdateProperties(instance: instance, with: element)
         move(child: instance, to: index)
         // TODO(mcudich): Make this more generic.
-        if let node = instance as? Node {
-          instance.performDiff(newElement: node.render())
+        if let componentInstance = instance as? Component {
+          instance.performDiff(newElement: componentInstance.render())
         } else {
           instance.performDiff(newElement: element)
         }
@@ -131,15 +104,15 @@ public extension BaseNode {
     }
   }
 
-  func shouldReplace(_ instance: BaseNode, with element: Element) -> Bool {
-    if case ElementType.node(let classType) = element.type {
+  func shouldReplace(_ instance: Node, with element: Element) -> Bool {
+    if case ElementType.component(let classType) = element.type {
       return classType != type(of: instance)
     }
 
     return !element.type.equals(instance.currentElement!.type)
   }
 
-  func maybeUpdateProperties(instance: BaseNode, with element: Element) {
+  func maybeUpdateProperties(instance: Node, with element: Element) {
     // TODO(mcudich): Move this into shouldUpdate.
     if instance.properties == element.properties {
       return
@@ -150,7 +123,7 @@ public extension BaseNode {
     instance.properties = element.properties
   }
 
-  func replace(_ instance: BaseNode, with element: Element) {
+  func replace(_ instance: Node, with element: Element) {
     let replacement = element.build(with: owner)
     guard let index = index(of: instance) else {
       fatalError()
@@ -168,63 +141,10 @@ public extension BaseNode {
   }
 }
 
-public protocol Node: BaseNode {
-  var state: Any? { get set }
-
-  init(properties: [String: Any], owner: Node?)
-
-  func render() -> Element
-  func updateState(stateMutation: () -> Any?)
-}
-
-public func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
+func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
   return NSDictionary(dictionary: lhs).isEqual(to: rhs)
 }
 
-public func !=(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
+func !=(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
   return !NSDictionary(dictionary: lhs).isEqual(to: rhs)
-}
-
-public func ==(lhs: Node, rhs: Node) -> Bool {
-  return lhs.properties == rhs.properties && lhs.key == rhs.key
-}
-
-public extension Node {
-  public func updateState(stateMutation: () -> Any?) {
-    state = stateMutation()
-    update()
-  }
-
-  public var builtView: View? {
-    return currentInstance?.builtView
-  }
-
-  public var children: [BaseNode]? {
-    get {
-      return currentInstance?.children
-    }
-    set {
-      currentInstance?.children = newValue
-    }
-  }
-
-  public func build() -> View {
-    guard let currentInstance = currentInstance else {
-      fatalError()
-    }
-
-    return currentInstance.build()
-  }
-
-  func update() {
-    DispatchQueue.global(qos: .background).async {
-      self.performDiff(newElement: self.render())
-      let layout = self.computeLayout()
-
-      DispatchQueue.main.async {
-        let _ = self.build()
-        self.root?.builtView?.applyLayout(layout: layout)
-      }
-    }
-  }
 }

@@ -8,6 +8,11 @@
 
 import Foundation
 
+public protocol ElementRepresentable {
+  func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Component?) -> Node
+  func equals(_ other: ElementRepresentable) -> Bool
+}
+
 public struct Element: PropertyHolder, Keyable {
   let type: ElementRepresentable
   let children: [Element]?
@@ -20,13 +25,13 @@ public struct Element: PropertyHolder, Keyable {
     self.children = children
   }
 
-  public func build(with owner: Node? = nil) -> BaseNode {
+  public func build(with owner: Component? = nil) -> Node {
     let made = type.make(properties, children, owner)
 
-    if let node = made as? Node {
-      let currentElement = node.render()
-      node.currentElement = currentElement
-      node.currentInstance = currentElement.build(with: node)
+    if let component = made as? Component {
+      let currentElement = component.render()
+      component.currentElement = currentElement
+      component.currentInstance = currentElement.build(with: component)
     } else {
       made.currentElement = self
     }
