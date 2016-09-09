@@ -65,10 +65,3 @@ public class TextField: UITextField, NativeView {
     }
   }
 }
-
-extension TextField: UITextFieldDelegate {
-  public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
-    return true
-  }
-}

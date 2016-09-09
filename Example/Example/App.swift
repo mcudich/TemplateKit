@@ -47,7 +47,6 @@ class App: NSObject, Component {
   }
 
   func render() -> Element {
-    print(appState.inputText)
     return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(568), "paddingTop": CGFloat(60)], [
       Element(ElementType.textField, ["text": appState.inputText, "onChange": #selector(App.handleInputChanged), "height": CGFloat(20)]),
       Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
@@ -56,7 +55,7 @@ class App: NSObject, Component {
       Element(ElementType.box, [:], getItems()),
       Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
       Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
-      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"]),
+      Element(ElementType.component(Details.self), ["message": "\(appState.counter)"]),
       Element(ElementType.view(tableView), ["flex": CGFloat(1)])
     ])
   }
