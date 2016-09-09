@@ -22,6 +22,7 @@ class App: NSObject, Node {
     var counter = 0
     var showCounter = false
     var flipped = false
+    var inputText = ""
   }
 
   private var appState: State {
@@ -46,15 +47,17 @@ class App: NSObject, Node {
   }
 
   func render() -> Element {
+    print(appState.inputText)
     return Element(ElementType.box, ["width": CGFloat(320), "height": CGFloat(568), "paddingTop": CGFloat(60)], [
-      Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
-      Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
-      Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
-      Element(ElementType.box, [:], getItems()),
-      Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
-      Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
-      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"]),
-      Element(ElementType.view(tableView), ["flex": CGFloat(1)])
+      Element(ElementType.textField, ["text": appState.inputText, "onChange": #selector(App.handleInputChanged), "height": CGFloat(20)]),
+//      Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
+//      Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
+//      Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
+//      Element(ElementType.box, [:], getItems()),
+//      Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
+//      Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
+//      Element(ElementType.node(Details.self), ["message": "\(appState.counter)"]),
+//      Element(ElementType.view(tableView), ["flex": CGFloat(1)])
     ])
   }
 
@@ -90,6 +93,13 @@ class App: NSObject, Node {
   @objc func flip() {
     updateState {
       appState.flipped = !appState.flipped
+      return appState
+    }
+  }
+
+  @objc func handleInputChanged(sender: UITextField) {
+    updateState {
+      appState.inputText = sender.text ?? ""
       return appState
     }
   }

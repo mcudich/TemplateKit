@@ -18,6 +18,7 @@ public enum Validation: String, ValidationType {
   case integer
   case url
   case color
+  case selector
   case any
 
   public func validate(value: Any?) -> Any? {
@@ -53,6 +54,13 @@ public enum Validation: String, ValidationType {
       }
       if let stringValue = value as? String {
         return stringValue.color
+      }
+    case .selector:
+      if value is Selector {
+        return value
+      }
+      if let stringValue = value as? String {
+        return Selector(stringValue)
       }
     case .any:
       return value

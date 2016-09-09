@@ -14,6 +14,7 @@ class TextLayout {
   var fontSize = UIFont.systemFontSize
   var color = UIColor.black
   var lineBreakMode = NSLineBreakMode.byTruncatingTail
+  var textAlignment = NSTextAlignment.natural
 
   var properties = [String: Any]() {
     didSet {
@@ -72,6 +73,9 @@ class TextLayout {
     }
     if let lineBreakMode = properties["lineBreakMode"] as? NSLineBreakMode {
       self.lineBreakMode = lineBreakMode
+    }
+    if let textAlignment = properties["textAlignment"] as? NSTextAlignment {
+      self.textAlignment = textAlignment
     }
   }
 

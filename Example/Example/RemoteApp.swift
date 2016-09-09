@@ -34,14 +34,19 @@ class RemoteApp: Node {
     }
   }
 
-
-
   required init(properties: [String : Any], owner: Node?) {
     self.properties = properties
     self.owner = owner
   }
 
   func render() -> Element {
-    return try! TemplateService.shared.element(withLocation: RemoteApp.location, properties: ["width": CGFloat(320), "height": CGFloat(568)])
+    return try! TemplateService.shared.element(withLocation: RemoteApp.location, properties: ["width": CGFloat(320), "height": CGFloat(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
+  }
+
+  @objc func incrementCounter() {
+    updateState {
+      appState.counter += 1
+      return appState
+    }
   }
 }
