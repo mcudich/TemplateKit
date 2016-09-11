@@ -146,7 +146,6 @@ struct CSSNode {
   func layout(availableWidth: Float = Float.nan, availableHeight: Float = Float.nan) -> CSSLayout {
     let instance = nodeRef
 
-    CSSNodePrint(instance, CSSPrintOptionsStyle)
     CSSNodeCalculateLayout(instance, availableWidth, availableHeight, CSSDirectionLTR)
 
     return CSSLayout(nodeRef: instance)

@@ -1,4 +1,5 @@
 import UIKit
+import Alamofire
 
 typealias NodeDefinitionResultHandler = (Result<Template>) -> Void
 
@@ -12,14 +13,29 @@ class TemplateParser: Parser {
   }
 }
 
-public class TemplateService {
-  public static let shared = TemplateService()
+protocol TemplateService {
+  func element(withLocation location: URL, properties: [String: Any]) throws -> Element
+  func fetchTemplates(withURLs urls: [URL], completion: @escaping (Result<Void>) -> Void)
+  func watchTemplates(withURLs urls: [URL], completion: @escaping (Result<Void>) -> Void)
+}
 
+public class XMLTemplateService: TemplateService {
+  public static let shared = XMLTemplateService()
+
+  public var cachePolicy: CachePolicy {
+    set {
+      resourceService.cachePolicy = newValue
+    }
+    get {
+      return resourceService.cachePolicy
+    }
+  }
   let resourceService = ResourceService<TemplateParser>()
 
   private lazy var cache = [URL: Template]()
 
-  public init() {}
+  public init() {
+  }
 
   public func element(withLocation location: URL, properties: [String: Any] = [:]) throws -> Element {
     guard let element = try cache[location]?.makeElement(with: properties) else {
@@ -42,6 +58,16 @@ public class TemplateService {
         case .error(_):
           completion(.error(TemplateKitError.missingTemplate("Template not found at \(url)")))
         }
+      }
+    }
+  }
+
+  public func watchTemplates(withURLs urls: [URL], completion: @escaping (Result<Void>) -> Void) {
+    let time = DispatchTime.now() + DispatchTimeInterval.seconds(5)
+    DispatchQueue.main.asyncAfter(deadline: time) {
+      self.fetchTemplates(withURLs: urls) { result in
+        completion(result)
+        self.watchTemplates(withURLs: urls, completion: completion)
       }
     }
   }

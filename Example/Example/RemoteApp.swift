@@ -10,7 +10,7 @@ import Foundation
 import TemplateKit
 
 class RemoteApp: Component {
-  static let location = Bundle.main.url(forResource: "App", withExtension: "xml")!
+  static let location = URL(string: "http://localhost:8000/App.xml")!
   public weak var owner: Component?
   public var currentInstance: Node?
   public var currentElement: Element?
@@ -40,7 +40,7 @@ class RemoteApp: Component {
   }
 
   func render() -> Element {
-    return try! TemplateService.shared.element(withLocation: RemoteApp.location, properties: ["width": Float(320), "height": Float(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
+    return try! XMLTemplateService.shared.element(withLocation: RemoteApp.location, properties: ["width": Float(320), "height": Float(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
   }
 
   @objc func incrementCounter() {
