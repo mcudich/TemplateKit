@@ -374,6 +374,12 @@ public class TableView: UITableView {
   }
 }
 
+extension TableView: Updateable {
+  public func update() {
+    reloadData()
+  }
+}
+
 extension TableView {
   func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
     return heightForComponent(component(withIndexPath: indexPath))

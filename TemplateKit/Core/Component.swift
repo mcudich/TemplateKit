@@ -8,7 +8,11 @@
 
 import Foundation
 
-public protocol Component: Node {
+public protocol Updateable {
+  func update()
+}
+
+public protocol Component: Node, Updateable {
   var state: Any? { get set }
   var context: Context? { get set }
 
