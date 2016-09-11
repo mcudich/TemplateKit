@@ -68,8 +68,8 @@ class TextLayout {
     if let fontName = properties["fontName"] as? String {
       self.fontName = fontName
     }
-    if let fontSize = properties["fontSize"] as? CGFloat {
-      self.fontSize = fontSize
+    if let fontSize = properties["fontSize"] as? Float {
+      self.fontSize = CGFloat(fontSize)
     }
     if let lineBreakMode = properties["lineBreakMode"] as? NSLineBreakMode {
       self.lineBreakMode = lineBreakMode

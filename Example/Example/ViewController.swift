@@ -9,27 +9,34 @@
 import UIKit
 import TemplateKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, Context {
+  lazy var templateService: TemplateService = XMLTemplateService()
+
+  private var xmlTemplateSevice: XMLTemplateService {
+    return templateService as! XMLTemplateService
+  }
+
   var appComponent: App?
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-//    NodeRegistry.shared.register(Details.self, for: "details")
-//    TemplateService.shared.fetchTemplates(withURLs: [RemoteApp.location]) { result in
-//      DispatchQueue.global(qos: .background).async {
-//        UIKitRenderer.render(Element(ElementType.component(RemoteApp.self))) { [weak self] component, view in
-//          self?.appComponent = component as? RemoteApp
-//          self?.view.addSubview(view)
-//        }
-//      }
-//    }
+    xmlTemplateSevice.cachePolicy = .never
 
-    DispatchQueue.global(qos: .background).async {
-      UIKitRenderer.render(Element(ElementType.component(App.self))) { [weak self] component, view in
-        self?.appComponent = component as? App
-        self?.view.addSubview(view)
+    templateService.fetchTemplates(withURLs: [Todo.location]) { result in
+      DispatchQueue.global(qos: .background).async {
+        UIKitRenderer.render(Element(ElementType.component(App.self)), context: self) { [weak self] component, view in
+          self?.appComponent = component as? App
+          self?.view.addSubview(view)
+        }
+        self.watchTemplates()
       }
+    }
+  }
+
+  func watchTemplates() {
+    xmlTemplateSevice.watchTemplates(withURLs: [Todo.location]) { result in
+      self.appComponent?.update()
     }
   }
 }

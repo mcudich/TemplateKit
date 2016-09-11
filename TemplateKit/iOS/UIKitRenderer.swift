@@ -69,6 +69,6 @@ public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   }
 }
 
-public enum UIKitRenderer: Renderer {
+public class UIKitRenderer: Renderer {
   public typealias ViewType = UIView
 }

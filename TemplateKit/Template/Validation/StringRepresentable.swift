@@ -5,11 +5,8 @@ extension String {
     return NumberFormatter().number(from: self)?.intValue
   }
 
-  var float: CGFloat? {
-    if let float = NumberFormatter().number(from: self)?.floatValue {
-      return CGFloat(float)
-    }
-    return nil
+  var float: Float? {
+    return NumberFormatter().number(from: self)?.floatValue
   }
 
   var url: URL? {

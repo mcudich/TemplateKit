@@ -18,8 +18,15 @@ protocol Parser {
   func parse(data: Data) throws -> ParsedType
 }
 
+public enum CachePolicy {
+  case always
+  case never
+}
+
 class ResourceService<ParserType: Parser> {
   typealias ResponseType = ParserType.ParsedType
+
+  public var cachePolicy: CachePolicy = .always
 
   private lazy var requestQueue: DispatchQueue = DispatchQueue(label: "requestQueue")
   private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 8)
@@ -63,7 +70,9 @@ class ResourceService<ParserType: Parser> {
     let parser = ParserType()
     do {
       let parsed = try parser.parse(data: data)
-      cache[url] = parsed
+      if cachePolicy == .always {
+        cache[url] = parsed
+      }
       processCallbacks(forURL: url, result: .success(parsed))
     } catch {
       fail(forURL: url, withError: error)

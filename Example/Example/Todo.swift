@@ -10,11 +10,14 @@ import Foundation
 import TemplateKit
 
 class Todo: Component {
+  static let location = URL(string: "http://localhost:8000/Todo.xml")!
+
   public weak var owner: Component?
   public var currentInstance: Node?
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
+  public var context: Context?
 
   struct State {
     var text = "blah"
@@ -35,10 +38,8 @@ class Todo: Component {
   }
 
   func render() -> Element {
-    return Element(ElementType.box, ["width": get("width")!], [
-      Element(ElementType.image, ["url": URL(string: "https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg"), "width": Float(24), "height": Float(24)]),
-      Element(ElementType.text, ["text": todoState.text, "onTap": #selector(Todo.random)]),
-    ])
+    let context = getContext()
+    return try! context.templateService.element(withLocation: Todo.location, properties: ["todoText": todoState.text])
   }
 
   @objc func random() {

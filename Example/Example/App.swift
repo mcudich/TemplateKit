@@ -15,6 +15,7 @@ class App: NSObject, Component {
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
+  public var context: Context?
 
   fileprivate var todoCount = 0
 
@@ -35,7 +36,7 @@ class App: NSObject, Component {
   }
 
   private lazy var tableView: TableView = {
-    let tableView = TableView(frame: CGRect.zero, style: .plain)
+    let tableView = TableView(frame: CGRect.zero, style: .plain, context: self.getContext())
     tableView.tableViewDataSource = self
     return tableView
   }()

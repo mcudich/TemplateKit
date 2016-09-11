@@ -27,6 +27,9 @@ class ViewNode: Node {
   }
 
   func build() -> View {
+    if let updateableView = builtView as? Updateable, builtView != nil {
+      updateableView.update()
+    }
     return builtView!
   }
 }
