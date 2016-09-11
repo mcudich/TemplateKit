@@ -15,7 +15,7 @@ public protocol Renderer {
 
 public extension Renderer {
   static func render(_ element: Element, completion: @escaping (Component, ViewType) -> Void) {
-    guard let component = element.build() as? Component else {
+    guard let component = element.build(with: nil) as? Component else {
       fatalError()
     }
 

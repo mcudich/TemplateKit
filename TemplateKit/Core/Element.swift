@@ -25,7 +25,7 @@ public struct Element: PropertyHolder, Keyable {
     self.children = children
   }
 
-  public func build(with owner: Component? = nil) -> Node {
+  public func build(with owner: Component?) -> Node {
     let made = type.make(properties, children, owner)
 
     if let component = made as? Component {
