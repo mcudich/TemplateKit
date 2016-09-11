@@ -16,6 +16,7 @@ class RemoteApp: Component {
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
+  public var context: Context?
 
   fileprivate var todoCount = 0
 
@@ -40,7 +41,8 @@ class RemoteApp: Component {
   }
 
   func render() -> Element {
-    return try! XMLTemplateService.shared.element(withLocation: RemoteApp.location, properties: ["width": Float(320), "height": Float(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
+    let context = getContext()
+    return try! context.templateService.element(withLocation: RemoteApp.location, properties: ["width": Float(320), "height": Float(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
   }
 
   @objc func incrementCounter() {

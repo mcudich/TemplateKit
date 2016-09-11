@@ -8,14 +8,18 @@
 
 import Foundation
 
+public protocol Context {
+  var templateService: TemplateService { get }
+}
+
 public protocol Renderer {
   associatedtype ViewType: Layoutable
-  static func render(_ element: Element, completion: @escaping (Component, ViewType) -> Void)
+  static func render(_ element: Element, context: Context, completion: @escaping (Component, ViewType) -> Void)
 }
 
 public extension Renderer {
-  static func render(_ element: Element, completion: @escaping (Component, ViewType) -> Void) {
-    guard let component = element.build(with: nil) as? Component else {
+  static func render(_ element: Element, context: Context, completion: @escaping (Component, ViewType) -> Void) {
+    guard let component = element.build(with: nil, context: context) as? Component else {
       fatalError()
     }
 

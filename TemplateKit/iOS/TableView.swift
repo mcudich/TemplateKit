@@ -135,11 +135,14 @@ public class TableView: UITableView {
   fileprivate let cellIdentifier = "TableViewCell"
   fileprivate lazy var rowComponentCache = [Int: Component]()
 
+  private let context: Context
   private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
   private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
   private var dataSourceProxy: (DelegateProxyProtocol & UITableViewDataSource)?
 
-  public override init(frame: CGRect, style: UITableViewStyle) {
+  public init(frame: CGRect, style: UITableViewStyle, context: Context) {
+    self.context = context
+
     super.init(frame: frame, style: style)
 
     configureTableDelegate()
@@ -333,7 +336,7 @@ public class TableView: UITableView {
     for indexPath in indexPaths {
       let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
       let element = tableViewDataSource.tableView(self, elementAtIndexPath: indexPath)
-      UIKitRenderer.render(element) { [weak self] component, view in
+      UIKitRenderer.render(element, context: context) { [weak self] component, view in
         self?.rowComponentCache[cacheKey] = component
         pending -= 1
         if pending == 0 {

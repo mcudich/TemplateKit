@@ -25,10 +25,11 @@ public struct Element: PropertyHolder, Keyable {
     self.children = children
   }
 
-  public func build(with owner: Component?) -> Node {
+  public func build(with owner: Component?, context: Context? = nil) -> Node {
     let made = type.make(properties, children, owner)
 
     if let component = made as? Component {
+      component.context = context
       let currentElement = component.render()
       component.currentElement = currentElement
       component.currentInstance = currentElement.build(with: component)

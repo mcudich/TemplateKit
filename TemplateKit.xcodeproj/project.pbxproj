@@ -51,6 +51,7 @@
 		D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937071D835207008CA7F1 /* CSSLayout.swift */; };
 		D839370F1D835A9F008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D839370E1D835A9F008CA7F1 /* CSSMacros.h */; };
+		D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */; };
 		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
@@ -126,6 +127,7 @@
 		D83937041D835060008CA7F1 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D83937071D835207008CA7F1 /* CSSLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSSLayout.swift; sourceTree = "<group>"; };
 		D839370E1D835A9F008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSMacros.h; sourceTree = "<group>"; };
+		D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateService.swift; sourceTree = "<group>"; };
 		D8811CD41D5D85540098624B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194111D57F1FB0049991F /* TemplateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemplateKit.h; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				D83936D81D834919008CA7F1 /* PropertyType.swift */,
 				D83936A91D8348C5008CA7F1 /* Template.swift */,
 				D83936AA1D8348C5008CA7F1 /* TemplateService.swift */,
+				D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */,
 			);
 			path = Template;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				D83936CA1D8348C5008CA7F1 /* Model.swift in Sources */,
 				D83936D61D8348C5008CA7F1 /* StringRepresentable.swift in Sources */,
 				D83936B71D8348C5008CA7F1 /* Component.swift in Sources */,
+				D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */,
 				D83936C41D8348C5008CA7F1 /* NativeView.swift in Sources */,
 				D83936CD1D8348C5008CA7F1 /* TemplateService.swift in Sources */,
 				D83936D71D8348C5008CA7F1 /* TextValidation.swift in Sources */,
@@ -826,6 +830,7 @@
 				D83936F51D834EAE008CA7F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D89194081D57F1FB0049991F /* Build configuration list for PBXProject "TemplateKit" */ = {
 			isa = XCConfigurationList;

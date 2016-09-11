@@ -19,6 +19,7 @@ class Details: Component {
     }
   }
   public var state: Any? = State()
+  public var context: Context?
 
   struct State {
     var text = "hi"

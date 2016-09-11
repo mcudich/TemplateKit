@@ -10,6 +10,7 @@ import Foundation
 
 public protocol Component: Node {
   var state: Any? { get set }
+  var context: Context? { get set }
 
   init(properties: [String: Any], owner: Component?)
 
@@ -54,5 +55,15 @@ public extension Component {
         self.root?.builtView?.applyLayout(layout: layout)
       }
     }
+  }
+
+  func getContext() -> Context {
+    if let context = context {
+      return context
+    }
+    if let owner = owner {
+      return owner.getContext()
+    }
+    fatalError("No context available")
   }
 }

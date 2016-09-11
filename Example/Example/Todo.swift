@@ -15,6 +15,7 @@ class Todo: Component {
   public var currentElement: Element?
   public var properties: [String : Any]
   public var state: Any? = State()
+  public var context: Context?
 
   struct State {
     var text = "blah"
