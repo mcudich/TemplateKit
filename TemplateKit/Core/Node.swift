@@ -13,6 +13,13 @@ public protocol Node: class, PropertyHolder, Keyable {
   func insert(child: Node, at index: Int?)
   func remove(child: Node)
   func index(of child: Node) -> Int?
+
+  func shouldUpdate(nextProperties: [String: Any]) -> Bool
+  func willBuild()
+  func didBuild()
+  func willUpdate()
+  func didUpdate()
+  func willDetach()
 }
 
 public extension Node {
@@ -37,6 +44,7 @@ public extension Node {
     guard let index = index(of: child) else {
       return
     }
+    child.willDetach()
     children?.remove(at: index)
   }
 
@@ -112,13 +120,14 @@ public extension Node {
   }
 
   func maybeUpdateProperties(instance: Node, with element: Element) {
-    // TODO(mcudich): Move this into shouldUpdate.
-    if instance.properties == element.properties {
+    if !instance.shouldUpdate(nextProperties: element.properties) {
       return
     }
 
     // Because we are hitting a non-class protocol property here, we must declare as var. Swift bug?
     var instance = instance
+
+    instance.willUpdate()
     instance.properties = element.properties
   }
 
@@ -138,6 +147,16 @@ public extension Node {
   func computeKey(_ index: Int, _ keyable: Keyable) -> String {
     return keyable.key ?? "\(index)"
   }
+
+  func shouldUpdate(nextProperties: [String: Any]) -> Bool {
+    return properties != nextProperties
+  }
+
+  func willBuild() {}
+  func didBuild() {}
+  func willUpdate() {}
+  func didUpdate() {}
+  func willDetach() {}
 }
 
 func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
