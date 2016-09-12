@@ -9,7 +9,7 @@
 import Foundation
 import TemplateKit
 
-class DataSource: NSObject, TableViewDataSource {
+class TableDataSource: NSObject, TableViewDataSource {
   var todoCount = 0
 
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
@@ -21,6 +21,18 @@ class DataSource: NSObject, TableViewDataSource {
   }
 }
 
+class CollectionDataSource: NSObject, CollectionViewDataSource {
+  public func collectionView(_ collectionView: CollectionView, elementAtIndexPath indexPath: IndexPath) -> Element {
+    return Element(ElementType.component(Todo.self), ["width": Float(320)])
+  }
+
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return todoCount
+  }
+
+  var todoCount = 0
+}
+
 struct AppState: State {
   var counter = 0
   var showCounter = false
@@ -29,12 +41,20 @@ struct AppState: State {
 }
 
 class App: CompositeComponent<AppState> {
-  private lazy var dataSource = DataSource()
+  private lazy var tableDataSource = TableDataSource()
+  private lazy var collectionViewDataSource = CollectionDataSource()
 
   private lazy var tableView: TableView = {
     let tableView = TableView(frame: CGRect.zero, style: .plain, context: self.getContext())
-    tableView.tableViewDataSource = self.dataSource
+    tableView.tableViewDataSource = self.tableDataSource
     return tableView
+  }()
+
+  private lazy var collectionView: CollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    let collectionView = CollectionView(frame: CGRect.zero, collectionViewLayout: layout, context: self.getContext())
+    collectionView.collectionViewDataSource = self.collectionViewDataSource
+    return collectionView
   }()
 
   override func render() -> Element {
@@ -47,7 +67,7 @@ class App: CompositeComponent<AppState> {
       Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
       Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
       Element(ElementType.component(Details.self), ["message": "\(state.counter)"]),
-      Element(ElementType.view(tableView), ["flexGrow": Float(1)])
+      Element(ElementType.view(collectionView), ["flexGrow": Float(1)])
     ])
   }
 
@@ -95,13 +115,15 @@ class App: CompositeComponent<AppState> {
   }
 
   @objc func addTodo() {
-    dataSource.todoCount += 1
-    tableView.insertRows(at: [IndexPath(row: dataSource.todoCount - 1, section: 0)], with: .left)
+    collectionViewDataSource.todoCount += 1
+    collectionView.insertItems(at: [IndexPath(row: collectionViewDataSource.todoCount - 1, section: 0)])
+//    tableView.insertRows(at: [IndexPath(row: collectionViewDataSource.todoCount - 1, section: 0)], with: .left)
   }
 
   @objc func removeTodo() {
-    let rowToDelete = dataSource.todoCount - 1
-    dataSource.todoCount -= 1
-    tableView.deleteRows(at: [IndexPath(row: rowToDelete, section: 0)], with: .left)
+    let rowToDelete = collectionViewDataSource.todoCount - 1
+    collectionViewDataSource.todoCount -= 1
+    collectionView.deleteItems(at: [IndexPath(row: rowToDelete, section: 0)])
+//    tableView.deleteRows(at: [IndexPath(row: rowToDelete, section: 0)], with: .left)
   }
 }

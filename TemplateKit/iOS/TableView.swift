@@ -96,27 +96,16 @@ class TableViewCell: UITableViewCell {
   }
 }
 
-public class TableView: UITableView {
-  public weak var tableViewDelegate: TableViewDelegate? {
-    didSet {
-      configureTableDelegate()
-    }
-  }
+public class TableView: UITableView, AsyncDataListView {
   public weak var tableViewDataSource: TableViewDataSource? {
     didSet {
       configureTableDataSource()
     }
   }
 
-  public override weak var delegate: UITableViewDelegate? {
-    set {
-      if newValue != nil && newValue !== delegateProxy {
-        fatalError("delegate is not available. Use tableViewDelegate instead.")
-      }
-      super.delegate = newValue
-    }
-    get {
-      return super.delegate
+  public weak var tableViewDelegate: TableViewDelegate? {
+    didSet {
+      configureTableDelegate()
     }
   }
 
@@ -132,21 +121,33 @@ public class TableView: UITableView {
     }
   }
 
-  fileprivate let cellIdentifier = "TableViewCell"
-  fileprivate lazy var rowComponentCache = [Int: Component]()
+  public override weak var delegate: UITableViewDelegate? {
+    set {
+      if newValue != nil && newValue !== delegateProxy {
+        fatalError("delegate is not available. Use tableViewDelegate instead.")
+      }
+      super.delegate = newValue
+    }
+    get {
+      return super.delegate
+    }
+  }
 
-  private let context: Context
-  private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
-  private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
+  lazy var componentCache = [Int: Component]()
+  var context: Context
+  lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
+
+  private let cellIdentifier = "TableViewCell"
   private var dataSourceProxy: (DelegateProxyProtocol & UITableViewDataSource)?
+  private var delegateProxy: (DelegateProxyProtocol & UITableViewDelegate)?
 
   public init(frame: CGRect, style: UITableViewStyle, context: Context) {
     self.context = context
 
     super.init(frame: frame, style: style)
 
-    configureTableDelegate()
     configureTableDataSource()
+    configureTableDelegate()
 
     register(TableViewCell.self, forCellReuseIdentifier: cellIdentifier)
   }
@@ -155,27 +156,14 @@ public class TableView: UITableView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  fileprivate func component(withIndexPath indexPath: IndexPath) -> Component? {
-    guard let tableViewDataSource = tableViewDataSource else {
-      return nil
-    }
-
-    let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-    if let cachedComponent = rowComponentCache[cacheKey] {
-      return cachedComponent
-    }
-
-    return nil
+  private func configureTableDataSource() {
+    dataSourceProxy = configureProxy(withTarget: tableViewDataSource) as? DelegateProxyProtocol & UITableViewDataSource
+    dataSource = dataSourceProxy
   }
 
   private func configureTableDelegate() {
     delegateProxy = configureProxy(withTarget: tableViewDelegate) as? DelegateProxyProtocol & UITableViewDelegate
     delegate = delegateProxy
-  }
-
-  private func configureTableDataSource() {
-    dataSourceProxy = configureProxy(withTarget: tableViewDataSource) as? DelegateProxyProtocol & UITableViewDataSource
-    dataSource = dataSourceProxy
   }
 
   private func configureProxy(withTarget target: NSObjectProtocol?) -> DelegateProxyProtocol {
@@ -207,199 +195,98 @@ public class TableView: UITableView {
   }
 
   public override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    precacheComponents(at: indexPaths)
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.insertRows(at: indexPaths, with: animation)
-        done()
-      }
+    insertItems(at: indexPaths) {
+      super.insertRows(at: indexPaths, with: animation)
     }
   }
 
   public override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    purgeComponents(at: indexPaths)
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.deleteRows(at: indexPaths, with: animation)
-        done()
-      }
+    deleteItems(at: indexPaths) {
+      super.deleteRows(at: indexPaths, with: animation)
     }
   }
 
   public override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    precacheComponents(in: sections)
-    operationQueue.enqueueOperation { done in
+    insertSections(sections) {
       super.insertSections(sections, with: animation)
-      done()
     }
   }
 
   public override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    purgeComponents(in: sections)
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.deleteSections(sections, with: animation)
-        done()
-      }
+    deleteSections(sections) {
+      super.deleteSections(sections, with: animation)
     }
   }
 
   public override func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.moveRow(at: indexPath, to: newIndexPath)
-        done()
-      }
+    moveItem(at: indexPath, to: newIndexPath) {
+      super.moveRow(at: indexPath, to: newIndexPath)
     }
   }
 
   public override func moveSection(_ section: Int, toSection newSection: Int) {
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.moveSection(section, toSection: newSection)
-        done()
-      }
+    moveSection(section, toSection: newSection) {
+      super.moveSection(section, toSection: newSection)
     }
   }
 
   public override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-    precacheComponents(at: indexPaths)
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.reloadRows(at: indexPaths, with: animation)
-        done()
-      }
+    reloadItems(at: indexPaths) {
+      super.reloadRows(at: indexPaths, with: animation)
     }
   }
 
   public override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
-    precacheComponents(in: sections)
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.reloadSections(sections, with: animation)
-        done()
-      }
+    reloadSections(sections) {
+      super.reloadSections(sections, with: animation)
     }
   }
 
   public override func reloadData() {
-    guard let tableViewDataSource = tableViewDataSource else {
-      return
-    }
-
-    let sectionCount = tableViewDataSource.numberOfSectionsInTableView(self)
-    let indexPaths: [IndexPath] = (0..<sectionCount).reduce([]) { previous, section in
-      return previous + self.indexPaths(forSection: section)
-    }
-
-    precacheComponents(at: indexPaths)
-    operationQueue.enqueueOperation { done in
-      DispatchQueue.main.async {
-        super.reloadData()
-        done()
-      }
+    reloadData {
+      super.reloadData()
     }
   }
 
-  private func indexPaths(forSection section: Int) -> [IndexPath] {
-    guard let tableViewDataSource = tableViewDataSource else {
-      return []
-    }
-
-    let expectedRowCount = tableViewDataSource.tableView(self, numberOfRowsInSection: section)
-    return (0..<expectedRowCount).map { row in
-      return IndexPath(row: row, section: section)
-    }
+  func cacheKey(for indexPath: IndexPath) -> Int? {
+    return tableViewDataSource?.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
   }
 
-  func precacheComponents(at indexPaths: [IndexPath]) {
-    operationQueue.enqueueOperation { done in
-      self.performPrecache(for: indexPaths, done: done)
-    }
+  func element(at indexPath: IndexPath) -> Element? {
+    return tableViewDataSource?.tableView(self, elementAtIndexPath: indexPath)
   }
 
-  func precacheComponents(in sections: IndexSet) {
-    operationQueue.enqueueOperation { done in
-      let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
-        return previous + self.indexPaths(forSection: section)
-      }
-      self.performPrecache(for: indexPaths, done: done)
-    }
+  func totalNumberOfSections() -> Int {
+    return tableViewDataSource?.numberOfSectionsInTableView(self) ?? 1
   }
 
-  func performPrecache(for indexPaths: [IndexPath], done: @escaping () -> Void) {
-    guard let tableViewDataSource = tableViewDataSource, indexPaths.count > 0 else {
-      return done()
-    }
-
-    var pending = indexPaths.count
-    for indexPath in indexPaths {
-      let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-      let element = tableViewDataSource.tableView(self, elementAtIndexPath: indexPath)
-      UIKitRenderer.render(element, context: context) { [weak self] component, view in
-        self?.rowComponentCache[cacheKey] = component
-        pending -= 1
-        if pending == 0 {
-          done()
-        }
-      }
-    }
+  func totalNumberOfRows(in section: Int) -> Int? {
+    return tableViewDataSource?.tableView(self, numberOfRowsInSection: section)
   }
 
-  func purgeComponents(at indexPaths: [IndexPath]) {
-    operationQueue.enqueueOperation { done in
-      self.performPurge(for: indexPaths, done: done)
-    }
+  func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+    return heightForComponent(component(at: indexPath))
   }
 
-  func purgeComponents(in sections: IndexSet) {
-    operationQueue.enqueueOperation { done in
-      let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
-        return previous + self.indexPaths(forSection: section)
-      }
-      self.performPurge(for: indexPaths, done: done)
-    }
+  func heightForComponent(_ component: Component?) -> CGFloat {
+    return component?.builtView?.frame.height ?? 0
   }
 
-  func performPurge(for indexPaths: [IndexPath], done: @escaping () -> Void) {
-    guard let tableViewDataSource = tableViewDataSource, indexPaths.count > 0 else {
-      return done()
-    }
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return componentCache.count
+  }
 
-    for indexPath in indexPaths {
-      let cacheKey = tableViewDataSource.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-      self.rowComponentCache.removeValue(forKey: cacheKey)
+  func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+    let cell = dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! TableViewCell
+    if let component = component(at: indexPath) {
+      cell.component = component
     }
-    done()
+    return cell
   }
 }
 
 extension TableView: Updateable {
   public func update() {
     reloadData()
-  }
-}
-
-extension TableView {
-  func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
-    return heightForComponent(component(withIndexPath: indexPath))
-  }
-
-  func heightForComponent(_ component: Component?) -> CGFloat {
-    return component?.builtView?.frame.height ?? 0
-  }
-}
-
-extension TableView {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return rowComponentCache.count
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-    let cell = dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! TableViewCell
-    if let component = component(withIndexPath: indexPath) {
-      cell.component = component
-    }
-    return cell
   }
 }

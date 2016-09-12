@@ -51,6 +51,8 @@
 		D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937071D835207008CA7F1 /* CSSLayout.swift */; };
 		D839370F1D835A9F008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D839370E1D835A9F008CA7F1 /* CSSMacros.h */; };
+		D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937161D872BDE008CA7F1 /* CollectionView.swift */; };
+		D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */; };
 		D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */; };
 		D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43951D86627100DDC9A2 /* CompositeComponent.swift */; };
 		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
@@ -128,6 +130,8 @@
 		D83937041D835060008CA7F1 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D83937071D835207008CA7F1 /* CSSLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSSLayout.swift; sourceTree = "<group>"; };
 		D839370E1D835A9F008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSMacros.h; sourceTree = "<group>"; };
+		D83937161D872BDE008CA7F1 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncDataListView.swift; sourceTree = "<group>"; };
 		D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateService.swift; sourceTree = "<group>"; };
 		D85B43951D86627100DDC9A2 /* CompositeComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CompositeComponent.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D8811CD41D5D85540098624B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -195,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				D839369B1D8348C5008CA7F1 /* Box.swift */,
+				D83937161D872BDE008CA7F1 /* CollectionView.swift */,
 				D839369C1D8348C5008CA7F1 /* DelegateProxy.swift */,
 				D839369D1D8348C5008CA7F1 /* Image.swift */,
 				D839369E1D8348C5008CA7F1 /* ImageService.swift */,
@@ -203,6 +208,7 @@
 				D83936A31D8348C5008CA7F1 /* TextField.swift */,
 				D83936A41D8348C5008CA7F1 /* UIKitRenderer.swift */,
 				D83936DA1D83497C008CA7F1 /* UIView.swift */,
+				D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -534,12 +540,14 @@
 				D83936C21D8348C5008CA7F1 /* ImageService.swift in Sources */,
 				D83936C01D8348C5008CA7F1 /* DelegateProxy.swift in Sources */,
 				D83936BB1D8348C5008CA7F1 /* Node.swift in Sources */,
+				D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */,
 				D83936D91D834919008CA7F1 /* PropertyType.swift in Sources */,
 				D83936C61D8348C5008CA7F1 /* Text.swift in Sources */,
 				D83936BA1D8348C5008CA7F1 /* Layout.swift in Sources */,
 				D83936CB1D8348C5008CA7F1 /* NodeRegistry.swift in Sources */,
 				D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */,
 				D83936D51D8348C5008CA7F1 /* ImageValidation.swift in Sources */,
+				D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */,
 				D83936C11D8348C5008CA7F1 /* Image.swift in Sources */,
 				D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */,
 				D83936CA1D8348C5008CA7F1 /* Model.swift in Sources */,
