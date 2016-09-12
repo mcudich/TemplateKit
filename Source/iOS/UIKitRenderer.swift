@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ElementType: ElementRepresentable, Equatable {
+public enum ElementType: ElementRepresentable {
   case box
   case text
   case textField

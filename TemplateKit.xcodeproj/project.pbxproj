@@ -53,6 +53,7 @@
 		D839370F1D835A9F008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D839370E1D835A9F008CA7F1 /* CSSMacros.h */; };
 		D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937161D872BDE008CA7F1 /* CollectionView.swift */; };
 		D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */; };
+		D839371B1D876E00008CA7F1 /* ElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839371A1D876E00008CA7F1 /* ElementTests.swift */; };
 		D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */; };
 		D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43951D86627100DDC9A2 /* CompositeComponent.swift */; };
 		D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8811CD41D5D85540098624B /* Alamofire.framework */; };
@@ -130,6 +131,7 @@
 		D839370E1D835A9F008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSMacros.h; sourceTree = "<group>"; };
 		D83937161D872BDE008CA7F1 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncDataListView.swift; sourceTree = "<group>"; };
+		D839371A1D876E00008CA7F1 /* ElementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementTests.swift; sourceTree = "<group>"; };
 		D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateService.swift; sourceTree = "<group>"; };
 		D85B43951D86627100DDC9A2 /* CompositeComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CompositeComponent.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D8811CD41D5D85540098624B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			children = (
 				D89194421D57F24F0049991F /* Resources */,
 				D891941F1D57F1FB0049991F /* Info.plist */,
+				D839371A1D876E00008CA7F1 /* ElementTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -388,7 +391,6 @@
 				D89194141D57F1FB0049991F /* Sources */,
 				D89194151D57F1FB0049991F /* Frameworks */,
 				D89194161D57F1FB0049991F /* Resources */,
-				D8409BF11D626BC500874201 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -471,20 +473,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D8409BF11D626BC500874201 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftBox.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		D891944D1D57F89E0049991F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,6 +551,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D839371B1D876E00008CA7F1 /* ElementTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,14 +784,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = TemplateKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -811,11 +802,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = TemplateKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
