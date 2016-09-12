@@ -12,7 +12,7 @@ class ViewNode: Node {
   weak var owner: Component?
   var properties = [String: Any]()
   var children: [Node]?
-  var currentElement: Element?
+  var element: Element?
 
   var builtView: View?
 

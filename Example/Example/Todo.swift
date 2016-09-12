@@ -9,43 +9,21 @@
 import Foundation
 import TemplateKit
 
-class Todo: Component {
+struct TodoState: State {
+  var text = "blah"
+}
+
+class Todo: CompositeComponent<TodoState> {
   static let location = URL(string: "http://localhost:8000/Todo.xml")!
 
-  public weak var owner: Component?
-  public var currentInstance: Node?
-  public var currentElement: Element?
-  public var properties: [String : Any]
-  public var state: Any? = State()
-  public var context: Context?
-
-  struct State {
-    var text = "blah"
-  }
-
-  private var todoState: State {
-    get {
-      return state as! State
-    }
-    set {
-      state = newValue
-    }
-  }
-
-  required init(properties: [String : Any], owner: Component?) {
-    self.properties = properties
-    self.owner = owner
-  }
-
-  func render() -> Element {
-    let context = getContext()
-    return try! context.templateService.element(withLocation: Todo.location, properties: ["todoText": todoState.text])
+  override func render() -> Element {
+    return render(withLocation: Todo.location, properties: ["todoText": state.text])
   }
 
   @objc func random() {
     updateState {
-      todoState.text = "\(Int(arc4random()))"
-      return todoState
+      self.state.text = "\(Int(arc4random()))"
+      return self.state
     }
   }
 }
