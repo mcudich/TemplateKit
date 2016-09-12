@@ -5,7 +5,7 @@ struct Template {
   private let document: AEXMLDocument
 
   init(xml: Data) throws {
-    self.document = try AEXMLDocument(xmlData: xml)
+    self.document = try AEXMLDocument(xml: xml)
   }
 
   func makeElement(with properties: [String: Any]) throws -> Element {
