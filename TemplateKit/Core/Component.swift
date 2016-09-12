@@ -23,11 +23,6 @@ public protocol Component: Node, Updateable {
 }
 
 public extension Component {
-  public func updateState(stateMutation: () -> Any?) {
-    state = stateMutation()
-    update()
-  }
-
   public var builtView: View? {
     return currentInstance?.builtView
   }
@@ -46,7 +41,27 @@ public extension Component {
       fatalError()
     }
 
-    return currentInstance.build()
+    let isNew = currentInstance.builtView == nil
+
+    if isNew {
+      willBuild()
+    }
+
+    let newBuild = currentInstance.build()
+
+    if isNew {
+      didBuild()
+    } else {
+      didUpdate()
+    }
+
+    return newBuild
+  }
+
+  public func updateState(stateMutation: () -> Any?) {
+    willUpdate()
+    state = stateMutation()
+    update()
   }
 
   func update() {

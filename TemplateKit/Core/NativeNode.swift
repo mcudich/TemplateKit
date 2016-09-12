@@ -14,7 +14,7 @@ class NativeNode<T: NativeView>: Node {
   var children: [Node]?
   var currentElement: Element?
 
-  lazy var builtView: View? = T()
+  var builtView: View?
 
   init(properties: [String: Any], children: [Node]? = nil, owner: Component? = nil) {
     self.properties = properties
@@ -23,6 +23,10 @@ class NativeNode<T: NativeView>: Node {
   }
 
   func build() -> View {
+    if builtView == nil {
+      builtView = T()
+    }
+
     guard var builtView = builtView as? NativeView else {
       fatalError("Failed to build view")
     }
