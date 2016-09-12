@@ -13,41 +13,41 @@ public protocol Updateable {
 }
 
 public protocol Component: Node, Updateable {
-  var state: Any? { get set }
+  var componentState: Any? { get set }
   var context: Context? { get set }
 
   init(properties: [String: Any], owner: Component?)
 
   func render() -> Element
-  func updateState(stateMutation: () -> Any?)
+  func updateState(stateMutation: (() -> Any?)?)
 }
 
 public extension Component {
   public var builtView: View? {
-    return currentInstance?.builtView
+    return instance?.builtView
   }
 
   public var children: [Node]? {
     get {
-      return currentInstance?.children
+      return instance?.children
     }
     set {
-      currentInstance?.children = newValue
+      instance?.children = newValue
     }
   }
 
   public func build() -> View {
-    guard let currentInstance = currentInstance else {
+    guard let instance = instance else {
       fatalError()
     }
 
-    let isNew = currentInstance.builtView == nil
+    let isNew = instance.builtView == nil
 
     if isNew {
       willBuild()
     }
 
-    let newBuild = currentInstance.build()
+    let newBuild = instance.build()
 
     if isNew {
       didBuild()
@@ -58,14 +58,20 @@ public extension Component {
     return newBuild
   }
 
-  public func updateState(stateMutation: () -> Any?) {
-    willUpdate()
-    state = stateMutation()
-    update()
+  func update() {
+    updateState(stateMutation: nil)
   }
 
-  func update() {
+  public func updateState(stateMutation: (() -> Any?)?) {
+    willUpdate()
+    update(stateMutation: stateMutation)
+  }
+
+  func update(stateMutation: (() -> Any?)?) {
     DispatchQueue.global(qos: .background).async {
+      if let mutation = stateMutation {
+        self.componentState = mutation()
+      }
       self.performDiff(newElement: self.render())
       let layout = self.computeLayout()
 

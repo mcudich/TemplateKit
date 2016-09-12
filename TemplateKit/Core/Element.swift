@@ -30,11 +30,11 @@ public struct Element: PropertyHolder, Keyable {
 
     if let component = made as? Component {
       component.context = context
-      let currentElement = component.render()
-      component.currentElement = currentElement
-      component.currentInstance = currentElement.build(with: component)
+      let element = component.render()
+      component.element = element
+      component.instance = element.build(with: component)
     } else {
-      made.currentElement = self
+      made.element = self
     }
 
     return made

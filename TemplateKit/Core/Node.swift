@@ -3,8 +3,8 @@ import UIKit
 public protocol Node: class, PropertyHolder, Keyable {
   weak var owner: Component? { get set }
   var children: [Node]? { get set }
-  var currentElement: Element? { get set }
-  var currentInstance: Node? { get set }
+  var element: Element? { get set }
+  var instance: Node? { get set }
   var builtView: View? { get }
 
   func build() -> View
@@ -23,7 +23,7 @@ public protocol Node: class, PropertyHolder, Keyable {
 }
 
 public extension Node {
-  public var currentInstance: Node? {
+  public var instance: Node? {
     set {}
     get { return self }
   }
@@ -65,22 +65,22 @@ public extension Node {
       fatalError("Can't compute layout without a valid root component")
     }
 
-    let children = root.currentInstance?.children?.map { $0.currentElement! }
-    let workingElement = Element(root.currentElement!.type, root.currentElement!.properties, children)
+    let children = root.instance?.children?.map { $0.element! }
+    let workingElement = Element(root.element!.type, root.element!.properties, children)
     return Layout.perform(workingElement)
   }
 
   func performDiff(newElement: Element) {
-    guard let currentInstance = currentInstance else {
+    guard let instance = instance else {
       fatalError()
     }
 
-    maybeUpdateProperties(instance: currentInstance, with: newElement)
-    currentElement = newElement
+    maybeUpdateProperties(instance: instance, with: newElement)
+    element = newElement
 
     let children = newElement.children ?? []
 
-    var currentChildren = (currentInstance.children ?? []).keyed { index, elm in
+    var currentChildren = (instance.children ?? []).keyed { index, elm in
       computeKey(index, elm)
     }
 
@@ -116,7 +116,7 @@ public extension Node {
       return classType != type(of: instance)
     }
 
-    return !element.type.equals(instance.currentElement!.type)
+    return !element.type.equals(instance.element!.type)
   }
 
   func maybeUpdateProperties(instance: Node, with element: Element) {

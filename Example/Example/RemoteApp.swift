@@ -9,46 +9,21 @@
 import Foundation
 import TemplateKit
 
-class RemoteApp: Component {
+struct RemoteAppState: State {
+  var counter = 0
+}
+
+class RemoteApp: CompositeComponent<RemoteAppState> {
   static let location = URL(string: "http://localhost:8000/App.xml")!
-  public weak var owner: Component?
-  public var currentInstance: Node?
-  public var currentElement: Element?
-  public var properties: [String : Any]
-  public var state: Any? = State()
-  public var context: Context?
 
-  fileprivate var todoCount = 0
-
-  struct State {
-    var counter = 0
-    var showCounter = false
-    var flipped = false
-  }
-
-  private var appState: State {
-    get {
-      return state as! State
-    }
-    set {
-      state = newValue
-    }
-  }
-
-  required init(properties: [String : Any], owner: Component?) {
-    self.properties = properties
-    self.owner = owner
-  }
-
-  func render() -> Element {
-    let context = getContext()
-    return try! context.templateService.element(withLocation: RemoteApp.location, properties: ["width": Float(320), "height": Float(568), "count": "\(appState.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
+  override func render() -> Element {
+    return render(withLocation: RemoteApp.location, properties: ["width": Float(320), "height": Float(568), "count": "\(state.counter)", "incrementCounter": #selector(RemoteApp.incrementCounter)])
   }
 
   @objc func incrementCounter() {
     updateState {
-      appState.counter += 1
-      return appState
+      self.state.counter += 1
+      return self.state
     }
   }
 }
