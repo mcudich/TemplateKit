@@ -273,8 +273,8 @@
 			children = (
 				D8811CD41D5D85540098624B /* Alamofire.framework */,
 				D891944B1D57F7280049991F /* AEXML.framework */,
-				D89194101D57F1FB0049991F /* TemplateKit */,
-				D891941C1D57F1FB0049991F /* TemplateKitTests */,
+				D89194101D57F1FB0049991F /* Source */,
+				D891941C1D57F1FB0049991F /* Tests */,
 				D83936EF1D834EAE008CA7F1 /* CSSLayout */,
 				D891940F1D57F1FB0049991F /* Products */,
 			);
@@ -290,7 +290,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D89194101D57F1FB0049991F /* TemplateKit */ = {
+		D89194101D57F1FB0049991F /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				D83936911D8348C5008CA7F1 /* Core */,
@@ -300,10 +300,10 @@
 				D89194131D57F1FB0049991F /* Info.plist */,
 				D89194111D57F1FB0049991F /* TemplateKit.h */,
 			);
-			path = TemplateKit;
+			path = Source;
 			sourceTree = "<group>";
 		};
-		D891941C1D57F1FB0049991F /* TemplateKitTests */ = {
+		D891941C1D57F1FB0049991F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				D89194401D57F24F0049991F /* BoxNodeTests.swift */,
@@ -311,7 +311,7 @@
 				D89194421D57F24F0049991F /* Resources */,
 				D891941F1D57F1FB0049991F /* Info.plist */,
 			);
-			path = TemplateKitTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		D89194421D57F24F0049991F /* Resources */ = {
@@ -758,7 +758,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = TemplateKit/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit;
@@ -787,7 +787,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = TemplateKit/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit;
