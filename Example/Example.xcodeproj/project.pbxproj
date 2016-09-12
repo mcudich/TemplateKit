@@ -72,7 +72,6 @@
 		D89194C11D57FD6F0049991F /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				D85B43931D860B7D00DDC9A2 /* Todo.xml */,
 				D89194C21D57FD6F0049991F /* AppDelegate.swift */,
 				D89194C41D57FD6F0049991F /* ViewController.swift */,
 				D8CB3E521D77FDBA003274AD /* App.swift */,
@@ -83,6 +82,7 @@
 				D89194C91D57FD6F0049991F /* Assets.xcassets */,
 				D89194CB1D57FD6F0049991F /* LaunchScreen.storyboard */,
 				D89194CE1D57FD6F0049991F /* Info.plist */,
+				D85B43931D860B7D00DDC9A2 /* Todo.xml */,
 				D89194D61D57FF2A0049991F /* Message.xml */,
 				D8CB3E1D1D76630F003274AD /* App.xml */,
 			);

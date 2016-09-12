@@ -43,6 +43,9 @@ public class XMLTemplateService: TemplateService {
 
   public func fetchTemplates(withURLs urls: [URL], completion: @escaping (Result<Void>) -> Void) {
     var expectedCount = urls.count
+    if cachePolicy == .never {
+      URLCache.shared.removeAllCachedResponses()
+    }
     for url in urls {
       resourceService.load(url) { [weak self] result in
         expectedCount -= 1
