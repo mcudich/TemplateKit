@@ -13,7 +13,7 @@ class ViewNode: Node {
   var properties = [String: Any]()
   var children: [Node]?
   var element: Element?
-
+  var cssNode: CSSNode
   var builtView: View?
 
   init(view: UIView) {

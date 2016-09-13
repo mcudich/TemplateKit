@@ -19,6 +19,7 @@ open class CompositeComponent<StateType: State>: Component {
   public var element: Element?
   public var instance: Node?
   public var context: Context?
+  public var cssNode: CSSNode
   public lazy var componentState: Any? = self.getInitialState()
 
   open var properties: [String : Any]

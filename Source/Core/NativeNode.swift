@@ -13,8 +13,8 @@ class NativeNode<T: NativeView>: Node {
   var properties: [String: Any]
   var children: [Node]?
   var element: Element?
-
   var builtView: View?
+  var cssNode: CSSNode
 
   init(properties: [String: Any], children: [Node]? = nil, owner: Component? = nil) {
     self.properties = properties

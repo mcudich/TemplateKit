@@ -60,7 +60,7 @@ public struct CSSLayout {
   }
 }
 
-struct CSSNode {
+public struct CSSNode {
   let direction: CSSDirection
   let flexDirection: CSSFlexDirection
   let justifyContent: CSSJustify
@@ -141,6 +141,10 @@ struct CSSNode {
     self.measure = measure
     self.context = context
     self.children = children
+  }
+
+  func insertChild(child: CSSNode, at index: Int) {
+    CSSNodeInsertChild(nodeRef, child.nodeRef, UInt32(index))
   }
 
   func layout(availableWidth: Float = Float.nan, availableHeight: Float = Float.nan) -> CSSLayout {

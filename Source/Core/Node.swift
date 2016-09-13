@@ -6,6 +6,7 @@ public protocol Node: class, PropertyHolder, Keyable {
   var element: Element? { get set }
   var instance: Node? { get set }
   var builtView: View? { get }
+  var cssNode: CSSNode { get }
 
   func build() -> View
   func computeLayout() -> CSSLayout
@@ -38,6 +39,7 @@ public extension Node {
 
   func insert(child: Node, at index: Int? = nil) {
     children?.insert(child, at: index ?? children!.endIndex)
+    cssNode.insertChild(child: child.cssNode, at: index ?? children!.endIndex)
   }
 
   func remove(child: Node) {
@@ -64,10 +66,6 @@ public extension Node {
     guard let root = root else {
       fatalError("Can't compute layout without a valid root component")
     }
-
-    let children = root.instance?.children?.map { $0.element! }
-    let workingElement = Element(root.element!.type, root.element!.properties, children)
-    return Layout.perform(workingElement)
   }
 
   func performDiff(newElement: Element) {
