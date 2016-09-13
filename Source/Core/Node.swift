@@ -6,7 +6,7 @@ public protocol Node: class, PropertyHolder, Keyable {
   var element: Element? { get set }
   var instance: Node? { get set }
   var builtView: View? { get }
-  var cssNode: CSSNode { get }
+  var cssNode: CSSNode? { get set }
 
   func build() -> View
   func computeLayout() -> CSSLayout
@@ -39,7 +39,8 @@ public extension Node {
 
   func insert(child: Node, at index: Int? = nil) {
     children?.insert(child, at: index ?? children!.endIndex)
-    cssNode.insertChild(child: child.cssNode, at: index ?? children!.endIndex)
+    child.maybeBuildCSSNode()
+    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index ?? children!.endIndex - 1)
   }
 
   func remove(child: Node) {
@@ -48,6 +49,9 @@ public extension Node {
     }
     child.willDetach()
     children?.remove(at: index)
+    if let childNode = child.cssNode {
+      cssNode?.removeChild(child: childNode)
+    }
   }
 
   func move(child: Node, to index: Int) {
@@ -55,6 +59,9 @@ public extension Node {
       return
     }
     children?.remove(at: currentIndex)
+    if let childNode = child.cssNode {
+      cssNode?.removeChild(child: childNode)
+    }
     insert(child: child, at: index)
   }
 
@@ -63,9 +70,11 @@ public extension Node {
   }
 
   func computeLayout() -> CSSLayout {
-    guard let root = root else {
+    guard let root = root, let rootCSSNode = root.instance?.maybeBuildCSSNode() else {
       fatalError("Can't compute layout without a valid root component")
     }
+
+    return rootCSSNode.layout()
   }
 
   func performDiff(newElement: Element) {
@@ -127,6 +136,8 @@ public extension Node {
 
     instance.willUpdate()
     instance.properties = element.properties
+
+    instance.updateCSSNode()
   }
 
   func replace(_ instance: Node, with element: Element) {

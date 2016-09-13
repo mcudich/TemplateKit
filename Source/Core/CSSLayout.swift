@@ -9,7 +9,7 @@
 import Foundation
 import CSSLayout
 
-public struct CSSEdges {
+public struct CSSEdges: Equatable {
   let left: Float
   let right: Float
   let bottom: Float
@@ -22,12 +22,23 @@ public struct CSSEdges {
     self.top = top
   }
 
+  public init(_ ref: CSSNodeRef, getEdge: (CSSNodeRef, CSSEdge) -> Float) {
+    self.left = getEdge(ref, CSSEdgeLeft)
+    self.right = getEdge(ref, CSSEdgeRight)
+    self.top = getEdge(ref, CSSEdgeTop)
+    self.bottom = getEdge(ref, CSSEdgeBottom)
+  }
+
   func apply(_ ref: CSSNodeRef, _ applyEdge: (CSSNodeRef, CSSEdge, Float) -> Void) {
     applyEdge(ref, CSSEdgeLeft, left)
     applyEdge(ref, CSSEdgeRight, right)
     applyEdge(ref, CSSEdgeTop, top)
     applyEdge(ref, CSSEdgeBottom, bottom)
   }
+}
+
+public func ==(lhs: CSSEdges, rhs: CSSEdges) -> Bool {
+  return lhs.left == rhs.left && lhs.right == rhs.right && lhs.top == rhs.top && lhs.bottom == rhs.bottom
 }
 
 public struct CSSLayout {
@@ -61,66 +72,257 @@ public struct CSSLayout {
 }
 
 public struct CSSNode {
-  let direction: CSSDirection
-  let flexDirection: CSSFlexDirection
-  let justifyContent: CSSJustify
-  let alignContent: CSSAlign
-  let alignItems: CSSAlign
-  let alignSelf: CSSAlign
-  let positionType: CSSPositionType
-  let flexWrap: CSSWrapType
-  let overflow: CSSOverflow
-  let flexGrow: Float
-  let flexShrink: Float
-  let margin: CSSEdges
-  let position: CSSEdges
-  let padding: CSSEdges
-  let size: CSSSize
-  let minSize: CSSSize
-  let maxSize: CSSSize
-  let measure: CSSMeasureFunc?
-  let context: UnsafeMutableRawPointer?
-  let children: [CSSNode]
+  var direction: CSSDirection {
+    set {
+      if newValue != direction {
+        CSSNodeStyleSetDirection(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetDirection(nodeRef)
+    }
+  }
 
-  var nodeRef: CSSNodeRef {
-    guard let nodeRef = CSSNodeNew() else {
-      fatalError()
+  var flexDirection: CSSFlexDirection {
+    set {
+      if newValue != flexDirection {
+        CSSNodeStyleSetFlexDirection(nodeRef, newValue)
+      }
     }
-    CSSNodeStyleSetDirection(nodeRef, direction)
-    CSSNodeStyleSetFlexDirection(nodeRef, flexDirection)
-    CSSNodeStyleSetJustifyContent(nodeRef, justifyContent)
-    CSSNodeStyleSetAlignContent(nodeRef, alignContent)
-    CSSNodeStyleSetAlignItems(nodeRef, alignItems)
-    CSSNodeStyleSetAlignSelf(nodeRef, alignSelf)
-    CSSNodeStyleSetPositionType(nodeRef, positionType)
-    CSSNodeStyleSetFlexWrap(nodeRef, flexWrap)
-    CSSNodeStyleSetOverflow(nodeRef, overflow)
-    CSSNodeStyleSetFlexGrow(nodeRef, flexGrow)
-    CSSNodeStyleSetFlexShrink(nodeRef, flexShrink)
-    CSSNodeStyleSetWidth(nodeRef, size.width)
-    CSSNodeStyleSetHeight(nodeRef, size.height)
-    CSSNodeStyleSetMinWidth(nodeRef, minSize.width)
-    CSSNodeStyleSetMinHeight(nodeRef, minSize.height)
-    CSSNodeStyleSetMaxWidth(nodeRef, maxSize.width)
-    CSSNodeStyleSetMaxHeight(nodeRef, maxSize.height)
-    if let measure = measure {
-      CSSNodeSetMeasureFunc(nodeRef, measure)
+    get {
+      return CSSNodeStyleGetFlexDirection(nodeRef)
     }
-    if let context = context {
-      CSSNodeSetContext(nodeRef, context)
-    }
-    margin.apply(nodeRef, CSSNodeStyleSetMargin)
-    position.apply(nodeRef, CSSNodeStyleSetPosition)
-    padding.apply(nodeRef, CSSNodeStyleSetPadding)
+  }
 
-    for (index, child) in children.enumerated() {
-      CSSNodeInsertChild(nodeRef, child.nodeRef, UInt32(index))
+  var justifyContent: CSSJustify {
+    set {
+      if newValue != justifyContent {
+        CSSNodeStyleSetJustifyContent(nodeRef, newValue)
+      }
     }
+    get {
+      return CSSNodeStyleGetJustifyContent(nodeRef)
+    }
+  }
 
-    return nodeRef
+  var alignContent: CSSAlign {
+    set {
+      if newValue != alignContent {
+        CSSNodeStyleSetAlignContent(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetAlignContent(nodeRef)
+    }
+  }
+
+  var alignItems: CSSAlign {
+    set {
+      if newValue != alignItems {
+        CSSNodeStyleSetAlignItems(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetAlignItems(nodeRef)
+    }
+  }
+
+  var alignSelf: CSSAlign {
+    set {
+      if newValue != alignSelf {
+        CSSNodeStyleSetAlignSelf(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetAlignSelf(nodeRef)
+    }
+  }
+
+  var positionType: CSSPositionType {
+    set {
+      if newValue != positionType {
+        CSSNodeStyleSetPositionType(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetPositionType(nodeRef)
+    }
+  }
+
+  var flexWrap: CSSWrapType {
+    set {
+      if newValue != flexWrap {
+        CSSNodeStyleSetFlexWrap(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetFlexWrap(nodeRef)
+    }
+  }
+
+  var overflow: CSSOverflow {
+    set {
+      if newValue != overflow {
+        CSSNodeStyleSetOverflow(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetOverflow(nodeRef)
+    }
+  }
+
+  var flexGrow: Float {
+    set {
+      if newValue != flexGrow {
+        CSSNodeStyleSetFlexGrow(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetFlexGrow(nodeRef)
+    }
+  }
+
+  var flexShrink: Float {
+    set {
+      if newValue != flexShrink {
+        CSSNodeStyleSetFlexShrink(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeStyleGetFlexShrink(nodeRef)
+    }
+  }
+
+  var margin: CSSEdges {
+    set {
+      if newValue != margin {
+        newValue.apply(nodeRef, CSSNodeStyleSetMargin)
+      }
+    }
+    get {
+      return CSSEdges(nodeRef, getEdge: CSSNodeStyleGetMargin)
+    }
+  }
+
+  var position: CSSEdges {
+    set {
+      if newValue != position {
+        newValue.apply(nodeRef, CSSNodeStyleSetPosition)
+      }
+    }
+    get {
+      return CSSEdges(nodeRef, getEdge: CSSNodeStyleGetPosition)
+    }
+  }
+
+  var padding: CSSEdges {
+    set {
+      if newValue != padding {
+        newValue.apply(nodeRef, CSSNodeStyleSetPadding)
+      }
+    }
+    get {
+      return CSSEdges(nodeRef, getEdge: CSSNodeStyleGetPadding)
+    }
+  }
+
+  var size: CSSSize {
+    set {
+      if newValue.width != size.width {
+        CSSNodeStyleSetWidth(nodeRef, newValue.width)
+      }
+      if newValue.height != size.height {
+        CSSNodeStyleSetHeight(nodeRef, newValue.height)
+      }
+    }
+    get {
+      let width = CSSNodeStyleGetWidth(nodeRef)
+      let height = CSSNodeStyleGetHeight(nodeRef)
+      return CSSSize(width: width, height: height)
+    }
+  }
+
+  var minSize: CSSSize {
+    set {
+      if newValue.width != minSize.width {
+        CSSNodeStyleSetMinWidth(nodeRef, newValue.width)
+      }
+      if newValue.height != minSize.height {
+        CSSNodeStyleSetMinHeight(nodeRef, newValue.height)
+      }
+    }
+    get {
+      let width = CSSNodeStyleGetMinWidth(nodeRef)
+      let height = CSSNodeStyleGetMinHeight(nodeRef)
+      return CSSSize(width: width, height: height)
+    }
+  }
+
+  var maxSize: CSSSize {
+    set {
+      if newValue.width != maxSize.width {
+        CSSNodeStyleSetMaxWidth(nodeRef, newValue.width)
+      }
+      if newValue.height != maxSize.height {
+        CSSNodeStyleSetMaxHeight(nodeRef, newValue.height)
+      }
+    }
+    get {
+      let width = CSSNodeStyleGetMaxWidth(nodeRef)
+      let height = CSSNodeStyleGetMaxHeight(nodeRef)
+      return CSSSize(width: width, height: height)
+    }
+  }
+
+  var measure: CSSMeasureFunc? {
+    set {
+      if let newValue = newValue {
+        CSSNodeSetMeasureFunc(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeGetMeasureFunc(nodeRef)
+    }
+  }
+
+  var context: UnsafeMutableRawPointer? {
+    set {
+      if let newValue = newValue {
+        CSSNodeSetContext(nodeRef, newValue)
+      }
+    }
+    get {
+      return CSSNodeGetContext(nodeRef)
+    }
+  }
+
+  var children: [CSSNode] {
+    set {
+      for (index, child) in newValue.enumerated() {
+        CSSNodeInsertChild(nodeRef, child.nodeRef, UInt32(index))
+      }
+    }
+    get {
+      let childCount = CSSNodeChildCount(nodeRef)
+      return (0..<childCount).map {
+        return CSSNode(nodeRef: CSSNodeGetChild(nodeRef, $0))
+      }
+    }
+  }
+
+  let nodeRef: CSSNodeRef
+
+  init() {
+    self.nodeRef = CSSNodeNew()
+  }
+
+  init(nodeRef: CSSNodeRef) {
+    self.nodeRef = nodeRef
   }
 
   init(direction: CSSDirection = CSSDirectionLTR, flexDirection: CSSFlexDirection = CSSFlexDirectionColumn, justifyContent: CSSJustify = CSSJustifyFlexStart, alignContent: CSSAlign = CSSAlignAuto, alignItems: CSSAlign = CSSAlignStretch, alignSelf: CSSAlign = CSSAlignStretch, positionType: CSSPositionType = CSSPositionTypeRelative, flexWrap: CSSWrapType = CSSWrapTypeNoWrap, overflow: CSSOverflow = CSSOverflowVisible, flexGrow: Float = 0, flexShrink: Float = 0, margin: CSSEdges = CSSEdges(), position: CSSEdges = CSSEdges(), padding: CSSEdges = CSSEdges(), size: CSSSize = CSSSize(width: Float.nan, height: Float.nan), minSize: CSSSize = CSSSize(width: 0, height: 0), maxSize: CSSSize = CSSSize(width: Float.greatestFiniteMagnitude, height: Float.greatestFiniteMagnitude), measure: CSSMeasureFunc? = nil, context: UnsafeMutableRawPointer? = nil, children: [CSSNode] = []) {
+    self.nodeRef = CSSNodeNew()
+
     self.direction = direction
     self.flexDirection = flexDirection
     self.justifyContent = justifyContent
@@ -147,11 +349,17 @@ public struct CSSNode {
     CSSNodeInsertChild(nodeRef, child.nodeRef, UInt32(index))
   }
 
+  func removeChild(child: CSSNode) {
+    CSSNodeRemoveChild(nodeRef, child.nodeRef)
+  }
+
+  func markDirty() {
+    CSSNodeMarkDirty(nodeRef)
+  }
+
   func layout(availableWidth: Float = Float.nan, availableHeight: Float = Float.nan) -> CSSLayout {
-    let instance = nodeRef
+    CSSNodeCalculateLayout(nodeRef, availableWidth, availableHeight, CSSDirectionLTR)
 
-    CSSNodeCalculateLayout(instance, availableWidth, availableHeight, CSSDirectionLTR)
-
-    return CSSLayout(nodeRef: instance)
+    return CSSLayout(nodeRef: nodeRef)
   }
 }

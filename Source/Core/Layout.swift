@@ -17,15 +17,13 @@ public protocol View: Layoutable {
   var frame: CGRect { get set }
 }
 
-enum Layout {
-  static func perform(_ element: Element) -> CSSLayout {
-    return element.node.layout()
-  }
-}
-
-extension Element {
+extension Node {
   public var flexDirection: CSSFlexDirection {
     return get("flexDirection") ?? CSSFlexDirectionColumn
+  }
+
+  public var direction: CSSDirection {
+    return get("direction") ?? CSSDirectionLTR
   }
 
   public var justifyContent: CSSJustify {
@@ -88,11 +86,51 @@ extension Element {
     return CSSSize(width: get("maxWidth") ?? Float.greatestFiniteMagnitude, height: get("maxHeight") ?? Float.greatestFiniteMagnitude)
   }
 
-  var node: CSSNode {
-    switch self.type {
+  func maybeBuildCSSNode() -> CSSNode {
+    if let cssNode = cssNode {
+      return cssNode
+    }
+
+    var newNode = CSSNode()
+
+    switch self.element!.type {
     case ElementType.box:
-      let childNodes = children?.map { $0.node } ?? []
-      return CSSNode(flexDirection: flexDirection, justifyContent: justifyContent, alignContent: alignContent, alignItems: alignItems, alignSelf: alignSelf, positionType: positionType, flexWrap: flexWrap, overflow: overflow, flexGrow: flexGrow, flexShrink: flexShrink, margin: margin, position: position, padding: padding, size: size, minSize: minSize, maxSize: maxSize, children: childNodes)
+      let childNodes: [CSSNode] = children?.map {
+        return $0.instance!.maybeBuildCSSNode()
+      } ?? []
+      newNode.children = childNodes
+    default:
+      break
+    }
+
+    cssNode = newNode
+
+    updateCSSNode()
+
+    return cssNode!
+  }
+
+  func updateCSSNode() {
+    cssNode?.alignSelf = alignSelf
+    cssNode?.flexGrow = flexGrow
+    cssNode?.margin = margin
+    cssNode?.size = size
+
+    switch self.element!.type {
+    case ElementType.box:
+      cssNode?.flexDirection = flexDirection
+      cssNode?.direction = direction
+      cssNode?.justifyContent = justifyContent
+      cssNode?.alignContent = alignContent
+      cssNode?.alignItems = alignItems
+      cssNode?.positionType = positionType
+      cssNode?.flexWrap = flexWrap
+      cssNode?.overflow = overflow
+      cssNode?.flexShrink = flexShrink
+      cssNode?.position = position
+      cssNode?.padding = padding
+      cssNode?.minSize = minSize
+      cssNode?.maxSize = maxSize
     case ElementType.text:
       let textLayout = TextLayout()
       textLayout.properties = properties
@@ -105,9 +143,15 @@ extension Element {
 
         return CSSSize(width: Float(size.width), height: Float(size.height))
       }
-      return CSSNode(alignSelf: alignSelf, flexGrow: flexGrow, margin: margin, size: size, measure: measure, context: context)
+
+      cssNode?.context = context
+      cssNode?.measure = measure
+
+      // If we're in this function, it's because properties have changed. If so, might as well
+      // mark this node as dirty so it's certain to be visited.
+      cssNode?.markDirty()
     default:
-      return CSSNode(alignSelf: alignSelf, flexGrow: flexGrow, margin: margin, size: size)
+      break
     }
   }
 }
