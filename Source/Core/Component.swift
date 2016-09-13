@@ -27,12 +27,21 @@ public extension Component {
     return instance?.builtView
   }
 
-  public var children: [Node]? {
-    get {
-      return instance?.children
+  public var cssNode: CSSNode? {
+    set {
+      instance?.cssNode = newValue
     }
+    get {
+      return instance?.cssNode
+    }
+  }
+
+  public var children: [Node]? {
     set {
       instance?.children = newValue
+    }
+    get {
+      return instance?.children
     }
   }
 
