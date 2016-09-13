@@ -77,7 +77,7 @@ public extension Component {
   }
 
   func update(stateMutation: (() -> Any?)?) {
-    DispatchQueue.global(qos: .background).async {
+    getContext().updateQueue.async {
       if let mutation = stateMutation {
         self.componentState = mutation()
       }
