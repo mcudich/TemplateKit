@@ -81,7 +81,7 @@ public extension Component {
       if let mutation = stateMutation {
         self.componentState = mutation()
       }
-      self.performDiff(newElement: self.render())
+      self.performDiff(newElement: self.element!)
       let layout = self.computeLayout()
 
       DispatchQueue.main.async {
@@ -89,6 +89,10 @@ public extension Component {
         self.root?.builtView?.applyLayout(layout: layout)
       }
     }
+  }
+
+  func getDiffChildren(newElement: Element) -> [Element]? {
+    return render().children
   }
 
   func getContext() -> Context {

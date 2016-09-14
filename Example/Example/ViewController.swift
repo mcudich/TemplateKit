@@ -26,7 +26,7 @@ class ViewController: UIViewController {
           self?.appComponent = component as? App
           self?.view.addSubview(view)
         }
-        self.watchTemplates()
+//        self.watchTemplates()
       }
     }
   }

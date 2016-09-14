@@ -21,6 +21,9 @@ public protocol Node: class, PropertyHolder, Keyable {
   func willUpdate()
   func didUpdate()
   func willDetach()
+
+  func performDiff(newElement: Element)
+  func getDiffChildren(newElement: Element) -> [Element]?
 }
 
 public extension Node {
@@ -78,20 +81,24 @@ public extension Node {
   }
 
   func performDiff(newElement: Element) {
-    guard let instance = instance else {
-      fatalError()
-    }
+    maybeUpdateProperties(instance: self, with: newElement)
 
-    maybeUpdateProperties(instance: instance, with: newElement)
+    // TODO(mcudich): Only attempt to diff children if properties or state has changed since the last time we rendered.
+    diffChildren(newChildren: getDiffChildren(newElement: newElement) ?? [])
+
     element = newElement
+  }
 
-    let children = newElement.children ?? []
+  func getDiffChildren(newElement: Element) -> [Element]? {
+    return newElement.children
+  }
 
-    var currentChildren = (instance.children ?? []).keyed { index, elm in
+  func diffChildren(newChildren: [Element]) {
+    var currentChildren = (children ?? []).keyed { index, elm in
       computeKey(index, elm)
     }
 
-    for (index, element) in children.enumerated() {
+    for (index, element) in newChildren.enumerated() {
       let key = computeKey(index, element)
       guard let instance = currentChildren[key] else {
         append(element)
@@ -102,14 +109,8 @@ public extension Node {
       if shouldReplace(instance, with: element) {
         replace(instance, with: element)
       } else {
-        maybeUpdateProperties(instance: instance, with: element)
         move(child: instance, to: index)
-        // TODO(mcudich): Make this more generic.
-        if let componentInstance = instance as? Component {
-          instance.performDiff(newElement: componentInstance.render())
-        } else {
-          instance.performDiff(newElement: element)
-        }
+        instance.performDiff(newElement: element)
       }
     }
 
