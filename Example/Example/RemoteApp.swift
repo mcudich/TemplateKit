@@ -9,8 +9,12 @@
 import Foundation
 import TemplateKit
 
-struct RemoteAppState: State {
+struct RemoteAppState: State, Equatable {
   var counter = 0
+}
+
+func ==(lhs: RemoteAppState, rhs: RemoteAppState) -> Bool {
+  return lhs.counter == rhs.counter
 }
 
 class RemoteApp: CompositeComponent<RemoteAppState> {
@@ -21,9 +25,8 @@ class RemoteApp: CompositeComponent<RemoteAppState> {
   }
 
   @objc func incrementCounter() {
-    updateState {
-      self.state.counter += 1
-      return self.state
+    updateComponentState { state in
+      state.counter += 1
     }
   }
 }

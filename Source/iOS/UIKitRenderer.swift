@@ -69,6 +69,13 @@ public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   }
 }
 
+class DefaultContext: Context {
+  var templateService: TemplateService = XMLTemplateService()
+  var updateQueue: DispatchQueue = DispatchQueue(label: "UIKitRenderer")
+}
+
 public class UIKitRenderer: Renderer {
   public typealias ViewType = UIView
+
+  public static var defaultContext: Context = DefaultContext()
 }

@@ -24,6 +24,7 @@ class FakeNode: Node {
   var children: [Node]?
   var element: Element?
   var builtView: View?
+  var cssNode: CSSNode?
   var properties: [String : Any]
 
   init(properties: [String: Any], owner: Component?) {

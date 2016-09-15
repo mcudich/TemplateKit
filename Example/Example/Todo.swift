@@ -9,8 +9,12 @@
 import Foundation
 import TemplateKit
 
-struct TodoState: State {
+struct TodoState: State, Equatable {
   var text = "blah"
+}
+
+func ==(lhs: TodoState, rhs: TodoState) -> Bool {
+  return lhs.text == rhs.text
 }
 
 class Todo: CompositeComponent<TodoState> {
@@ -21,9 +25,8 @@ class Todo: CompositeComponent<TodoState> {
   }
 
   @objc func random() {
-    updateState {
-      self.state.text = "\(Int(arc4random()))"
-      return self.state
+    updateComponentState { state in
+      state.text = "\(Int(arc4random()))"
     }
   }
 }

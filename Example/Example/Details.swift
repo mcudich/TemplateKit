@@ -9,8 +9,13 @@
 import Foundation
 import TemplateKit
 
-struct DetailsState: State {
+struct DetailsState: State, Equatable {
   var text = "hi"
+  var bg = UIColor.red
+}
+
+func ==(lhs: DetailsState, rhs: DetailsState) -> Bool {
+  return lhs.text == rhs.text && lhs.bg == rhs.bg
 }
 
 class Details: CompositeComponent<DetailsState> {
@@ -21,16 +26,16 @@ class Details: CompositeComponent<DetailsState> {
   }
 
   override func render() -> Element {
-    return Element(ElementType.box, ["backgroundColor": get("backgroundColor") ?? UIColor.red], [
+    return Element(ElementType.box, ["backgroundColor": state.bg], [
       Element(ElementType.text, ["text": "\(state.text) blah"]),
       Element(ElementType.text, ["text": "there", "onTap": #selector(Details.flipText)])
     ])
   }
 
   @objc func flipText() {
-    updateState {
-      self.state.text = "bye"
-      return self.state
+    updateComponentState { state in
+      state.bg = .blue
+      state.text = "blue!"
     }
   }
 }

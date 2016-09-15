@@ -33,11 +33,15 @@ class CollectionDataSource: NSObject, CollectionViewDataSource {
   var todoCount = 0
 }
 
-struct AppState: State {
+struct AppState: State, Equatable {
   var counter = 0
   var showCounter = false
   var flipped = false
   var inputText = ""
+}
+
+func ==(lhs: AppState, rhs: AppState) -> Bool {
+  return lhs.counter == rhs.counter && lhs.showCounter == rhs.showCounter && lhs.flipped == rhs.flipped && lhs.inputText == rhs.inputText
 }
 
 class App: CompositeComponent<AppState> {
@@ -87,30 +91,26 @@ class App: CompositeComponent<AppState> {
   }
 
   @objc func incrementCounter() {
-    updateState {
-      self.state.counter += 1
-      return self.state
+    updateComponentState { state in
+      state.counter += 1
     }
   }
 
   @objc func decrementCounter() {
-    updateState {
-      self.state.counter -= 1
-      return self.state
+    updateComponentState { state in
+      state.counter -= 1
     }
   }
 
   @objc func flip() {
-    updateState {
-      self.state.flipped = !self.state.flipped
-      return self.state
+    updateComponentState { state in
+      state.flipped = !self.state.flipped
     }
   }
 
   @objc func handleInputChanged(sender: UITextField) {
-    updateState {
-      self.state.inputText = sender.text ?? ""
-      return self.state
+    updateComponentState { state in
+      state.inputText = sender.text ?? ""
     }
   }
 

@@ -12,14 +12,29 @@ public protocol Updateable {
   func update()
 }
 
+public protocol State {
+  init()
+  func equals(other: State) -> Bool
+}
+
+public extension State where Self: Equatable {
+  func equals(other: State) -> Bool {
+    guard let other = other as? Self else {
+      return false
+    }
+    return self == other
+  }
+}
+
 public protocol Component: Node, Updateable {
-  var componentState: Any? { get set }
+  var componentState: State { get set }
   var context: Context? { get set }
 
   init(properties: [String: Any], owner: Component?)
 
   func render() -> Element
-  func updateState(stateMutation: (() -> Any?)?)
+  func shouldUpdate(nextProperties: [String: Any], nextState: State) -> Bool
+  func updateState<T: State>(stateMutation: @escaping (inout T) -> Void)
 }
 
 public extension Component {
@@ -68,27 +83,52 @@ public extension Component {
   }
 
   func update() {
-    updateState(stateMutation: nil)
+    performUpdate(shouldUpdate: true, nextState: componentState)
   }
 
-  public func updateState(stateMutation: (() -> Any?)?) {
+  public func updateState<T: State>(stateMutation: @escaping (inout T) -> Void) {
     willUpdate()
     update(stateMutation: stateMutation)
   }
 
-  func update(stateMutation: (() -> Any?)?) {
-    DispatchQueue.global(qos: .background).async {
-      if let mutation = stateMutation {
-        self.componentState = mutation()
-      }
-      self.performDiff(newElement: self.render())
-      let layout = self.computeLayout()
+  func update<T: State>(stateMutation: @escaping (inout T) -> Void) {
+    getContext().updateQueue.async {
+      let nextProperties = self.element!.properties
+      var nextState = self.componentState as! T
+      stateMutation(&nextState)
+      let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
 
-      DispatchQueue.main.async {
-        let _ = self.build()
-        self.root?.builtView?.applyLayout(layout: layout)
-      }
+      self.performUpdate(shouldUpdate: shouldUpdate, nextState: nextState)
     }
+  }
+
+  func performUpdate(shouldUpdate: Bool, nextState: State) {
+    if shouldUpdate {
+      self.componentState = nextState
+      self.update(with: self.element!)
+    } else {
+      self.componentState = nextState
+      return
+    }
+
+    let layout = self.computeLayout()
+
+    DispatchQueue.main.async {
+      let _ = self.build()
+      self.root?.builtView?.applyLayout(layout: layout)
+    }
+  }
+
+  func shouldUpdate(nextProperties: [String : Any]) -> Bool {
+    return shouldUpdate(nextProperties: nextProperties, nextState: componentState)
+  }
+
+  func shouldUpdate(nextProperties: [String : Any], nextState: State) -> Bool {
+    return true
+  }
+
+  func performDiff() {
+    instance?.update(with: render())
   }
 
   func getContext() -> Context {

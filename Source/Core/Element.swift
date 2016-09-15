@@ -27,14 +27,11 @@ public struct Element: PropertyHolder, Keyable, Equatable {
 
   public func build(with owner: Component?, context: Context? = nil) -> Node {
     let made = type.make(properties, children, owner)
+    made.element = self
 
     if let component = made as? Component {
       component.context = context
-      let element = component.render()
-      component.element = element
-      component.instance = element.build(with: component)
-    } else {
-      made.element = self
+      component.instance = component.render().build(with: component)
     }
 
     return made
