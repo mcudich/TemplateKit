@@ -9,21 +9,21 @@ public protocol Node: class, PropertyHolder, Keyable {
   var cssNode: CSSNode? { get set }
 
   func build() -> View
+  func shouldUpdate(nextProperties: [String: Any]) -> Bool
+  func update(with newElement: Element)
   func computeLayout() -> CSSLayout
 
   func insert(child: Node, at index: Int?)
   func remove(child: Node)
   func index(of child: Node) -> Int?
 
-  func shouldUpdate(nextProperties: [String: Any]) -> Bool
   func willBuild()
   func didBuild()
   func willUpdate()
   func didUpdate()
   func willDetach()
 
-  func performDiff(newElement: Element)
-  func getDiffChildren(newElement: Element) -> [Element]?
+  func performDiff()
 }
 
 public extension Node {
@@ -42,7 +42,7 @@ public extension Node {
 
   func insert(child: Node, at index: Int? = nil) {
     children?.insert(child, at: index ?? children!.endIndex)
-    child.maybeBuildCSSNode()
+    let _ = child.maybeBuildCSSNode()
     cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index ?? children!.endIndex - 1)
   }
 
@@ -80,17 +80,22 @@ public extension Node {
     return rootCSSNode.layout()
   }
 
-  func performDiff(newElement: Element) {
-    maybeUpdateProperties(instance: self, with: newElement)
-
-    // TODO(mcudich): Only attempt to diff children if properties or state has changed since the last time we rendered.
-    diffChildren(newChildren: getDiffChildren(newElement: newElement) ?? [])
-
+  func update(with newElement: Element) {
     element = newElement
+
+    print(properties, newElement.properties)
+    if shouldUpdate(nextProperties: newElement.properties) {
+      var node = self
+      node.willUpdate()
+      node.properties = newElement.properties
+      node.updateCSSNode()
+    }
+
+    performDiff()
   }
 
-  func getDiffChildren(newElement: Element) -> [Element]? {
-    return newElement.children
+  func performDiff() {
+    diffChildren(newChildren: element?.children ?? [])
   }
 
   func diffChildren(newChildren: [Element]) {
@@ -110,7 +115,7 @@ public extension Node {
         replace(instance, with: element)
       } else {
         move(child: instance, to: index)
-        instance.performDiff(newElement: element)
+        instance.update(with: element)
       }
     }
 
@@ -119,26 +124,16 @@ public extension Node {
     }
   }
 
+  func shouldUpdate(nextProperties: [String: Any]) -> Bool {
+    return properties != nextProperties
+  }
+
   func shouldReplace(_ instance: Node, with element: Element) -> Bool {
     if case ElementType.component(let classType) = element.type {
       return classType != type(of: instance)
     }
 
     return !element.type.equals(instance.element!.type)
-  }
-
-  func maybeUpdateProperties(instance: Node, with element: Element) {
-    if !instance.shouldUpdate(nextProperties: element.properties) {
-      return
-    }
-
-    // Because we are hitting a non-class protocol property here, we must declare as var. Swift bug?
-    var instance = instance
-
-    instance.willUpdate()
-    instance.properties = element.properties
-
-    instance.updateCSSNode()
   }
 
   func replace(_ instance: Node, with element: Element) {
@@ -156,10 +151,6 @@ public extension Node {
 
   func computeKey(_ index: Int, _ keyable: Keyable) -> String {
     return keyable.key ?? "\(index)"
-  }
-
-  func shouldUpdate(nextProperties: [String: Any]) -> Bool {
-    return properties != nextProperties
   }
 
   func willBuild() {}

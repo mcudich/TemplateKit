@@ -11,6 +11,7 @@ import TemplateKit
 
 struct DetailsState: State {
   var text = "hi"
+  var bg = UIColor.red
 }
 
 class Details: CompositeComponent<DetailsState> {
@@ -21,7 +22,7 @@ class Details: CompositeComponent<DetailsState> {
   }
 
   override func render() -> Element {
-    return Element(ElementType.box, ["backgroundColor": get("backgroundColor") ?? UIColor.red], [
+    return Element(ElementType.box, ["backgroundColor": state.bg], [
       Element(ElementType.text, ["text": "\(state.text) blah"]),
       Element(ElementType.text, ["text": "there", "onTap": #selector(Details.flipText)])
     ])
@@ -29,7 +30,8 @@ class Details: CompositeComponent<DetailsState> {
 
   @objc func flipText() {
     updateState {
-      self.state.text = "bye"
+      self.state.bg = .blue
+      self.state.text = "blue!"
       return self.state
     }
   }

@@ -19,6 +19,7 @@ public protocol Component: Node, Updateable {
   init(properties: [String: Any], owner: Component?)
 
   func render() -> Element
+  func shouldUpdate(nextProperties: [String: Any], nextState: Any) -> Bool
   func updateState(stateMutation: (() -> Any?)?)
 }
 
@@ -78,10 +79,18 @@ public extension Component {
 
   func update(stateMutation: (() -> Any?)?) {
     getContext().updateQueue.async {
-      if let mutation = stateMutation {
-        self.componentState = mutation()
+      let nextProperties = self.element!.properties
+      let nextState = stateMutation?()
+      if self.shouldUpdate(nextProperties: nextProperties, nextState: nextState) {
+        if let nextState = nextState {
+          self.componentState = nextState
+        }
+        self.update(with: self.element!)
+      } else {
+        self.componentState = nextState
+        return
       }
-      self.performDiff(newElement: self.element!)
+
       let layout = self.computeLayout()
 
       DispatchQueue.main.async {
@@ -91,8 +100,16 @@ public extension Component {
     }
   }
 
-  func getDiffChildren(newElement: Element) -> [Element]? {
-    return render().children
+  func shouldUpdate(nextProperties: [String : Any]) -> Bool {
+    return shouldUpdate(nextProperties: nextProperties, nextState: componentState)
+  }
+
+  func shouldUpdate(nextProperties: [String : Any], nextState: Any) -> Bool {
+    return properties != nextProperties
+  }
+
+  func performDiff() {
+    instance?.update(with: render())
   }
 
   func getContext() -> Context {
