@@ -10,7 +10,7 @@ import Foundation
 
 public enum Result<ResultType> {
   case success(ResultType)
-  case error(Error)
+  case failure(Error)
 
   var payload: ResultType? {
     if case let .success(result) = self {
@@ -20,7 +20,7 @@ public enum Result<ResultType> {
   }
 
   var error: Error? {
-    if case let .error(error) = self {
+    if case let .failure(error) = self {
       return error
     }
     return nil

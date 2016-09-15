@@ -55,8 +55,8 @@ public class XMLTemplateService: TemplateService {
           if expectedCount == 0 {
             completion(.success())
           }
-        case .error(_):
-          completion(.error(TemplateKitError.missingTemplate("Template not found at \(url)")))
+        case .failure(_):
+          completion(.failure(TemplateKitError.missingTemplate("Template not found at \(url)")))
         }
       }
     }

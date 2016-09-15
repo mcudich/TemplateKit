@@ -49,7 +49,7 @@ public class Image: UIImageView, NativeView {
           DispatchQueue.main.async {
             self?.image = image
           }
-        case .error(_):
+        case .failure(_):
           // TODO(mcudich): Show placeholder error image.
           break
         }

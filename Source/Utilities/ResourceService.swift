@@ -80,7 +80,7 @@ class ResourceService<ParserType: Parser> {
   }
 
   private func fail(forURL url: URL, withError error: Error) {
-    processCallbacks(forURL: url, result: .error(error))
+    processCallbacks(forURL: url, result: .failure(error))
   }
 
   private func processCallbacks(forURL url: URL, result: Result<ResponseType>) {
