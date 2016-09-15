@@ -83,7 +83,7 @@ public extension Component {
   }
 
   func update() {
-//    updateState(stateMutation: { _ in })
+    performUpdate(shouldUpdate: true, nextState: componentState)
   }
 
   public func updateState<T: State>(stateMutation: @escaping (inout T) -> Void) {
@@ -96,20 +96,26 @@ public extension Component {
       let nextProperties = self.element!.properties
       var nextState = self.componentState as! T
       stateMutation(&nextState)
-      if self.shouldUpdate(nextProperties: nextProperties, nextState: nextState) {
-        self.componentState = nextState
-        self.update(with: self.element!)
-      } else {
-        self.componentState = nextState
-        return
-      }
+      let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
 
-      let layout = self.computeLayout()
+      self.performUpdate(shouldUpdate: shouldUpdate, nextState: nextState)
+    }
+  }
 
-      DispatchQueue.main.async {
-        let _ = self.build()
-        self.root?.builtView?.applyLayout(layout: layout)
-      }
+  func performUpdate(shouldUpdate: Bool, nextState: State) {
+    if shouldUpdate {
+      self.componentState = nextState
+      self.update(with: self.element!)
+    } else {
+      self.componentState = nextState
+      return
+    }
+
+    let layout = self.computeLayout()
+
+    DispatchQueue.main.async {
+      let _ = self.build()
+      self.root?.builtView?.applyLayout(layout: layout)
     }
   }
 

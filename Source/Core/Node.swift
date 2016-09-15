@@ -83,7 +83,6 @@ public extension Node {
   func update(with newElement: Element) {
     element = newElement
 
-    print(properties, newElement.properties)
     if shouldUpdate(nextProperties: newElement.properties) {
       var node = self
       node.willUpdate()
