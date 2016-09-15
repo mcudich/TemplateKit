@@ -96,7 +96,7 @@ extension Node {
     switch self.element!.type {
     case ElementType.box:
       let childNodes: [CSSNode] = children?.map {
-        return $0.instance!.maybeBuildCSSNode()
+        return $0.instance.maybeBuildCSSNode()
       } ?? []
       newNode.children = childNodes
     default:

@@ -4,7 +4,7 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   weak var owner: Component? { get set }
   var children: [Node]? { get set }
   var element: Element? { get set }
-  var instance: Node? { get set }
+  var instance: Node { get set}
   var builtView: View? { get }
   var cssNode: CSSNode? { get set }
   var properties: [String: Any] { get set }
@@ -28,7 +28,7 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
 }
 
 public extension Node {
-  public var instance: Node? {
+  public var instance: Node {
     set {}
     get { return self }
   }
@@ -74,11 +74,11 @@ public extension Node {
   }
 
   func computeLayout() -> CSSLayout {
-    guard let root = root, let rootCSSNode = root.instance?.maybeBuildCSSNode() else {
+    guard let root = root else {
       fatalError("Can't compute layout without a valid root component")
     }
 
-    return rootCSSNode.layout()
+    return root.instance.maybeBuildCSSNode().layout()
   }
 
   func update(with newElement: Element) {
