@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol NativeView: View, PropertyHolder, PropertyTypeProvider {
+public protocol NativeView: View, MutablePropertyHolder, PropertyTypeProvider {
   var eventTarget: AnyObject? { get set }
   var children: [View]? { get set }
 

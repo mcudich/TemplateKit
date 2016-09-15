@@ -14,10 +14,9 @@ public protocol ElementRepresentable {
 }
 
 public struct Element: PropertyHolder, Keyable, Equatable {
-  let type: ElementRepresentable
-  let children: [Element]?
-
-  public var properties: [String: Any]
+  public let type: ElementRepresentable
+  public let children: [Element]?
+  public let properties: [String: Any]
 
   public init(_ type: ElementRepresentable, _ properties: [String: Any] = [:], _ children: [Element]? = nil) {
     self.type = type

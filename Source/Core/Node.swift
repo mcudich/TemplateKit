@@ -1,12 +1,13 @@
 import UIKit
 
-public protocol Node: class, PropertyHolder, Keyable {
+public protocol Node: class, MutablePropertyHolder, Keyable {
   weak var owner: Component? { get set }
   var children: [Node]? { get set }
   var element: Element? { get set }
   var instance: Node? { get set }
   var builtView: View? { get }
   var cssNode: CSSNode? { get set }
+  var properties: [String: Any] { get set }
 
   func build() -> View
   func shouldUpdate(nextProperties: [String: Any]) -> Bool
