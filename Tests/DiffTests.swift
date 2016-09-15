@@ -32,7 +32,7 @@ class DiffTests: XCTestCase {
     let tree = Element(ElementType.box, ["foo": "bar"])
     let instance = tree.build(with: nil)
     let newTree = Element(ElementType.box, ["foo": "baz"])
-    instance.performDiff(newElement: newTree)
+    instance.update(with: newTree)
     XCTAssertEqual(instance.get("foo"), "baz")
   }
 
@@ -46,7 +46,7 @@ class DiffTests: XCTestCase {
       Element(ElementType.box, ["foo": "baz"]),
       Element(ElementType.box)
     ])
-    instance.performDiff(newElement: newTree)
+    instance.update(with: newTree)
     let diffedChild = instance.children!.first!
     XCTAssertEqual(diffedChild.get("foo"), "baz")
   }

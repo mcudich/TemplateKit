@@ -12,15 +12,29 @@ public protocol Updateable {
   func update()
 }
 
+public protocol State {
+  init()
+  func equals(other: State) -> Bool
+}
+
+public extension State where Self: Equatable {
+  func equals(other: State) -> Bool {
+    guard let other = other as? Self else {
+      return false
+    }
+    return self == other
+  }
+}
+
 public protocol Component: Node, Updateable {
-  var componentState: Any? { get set }
+  var componentState: State { get set }
   var context: Context? { get set }
 
   init(properties: [String: Any], owner: Component?)
 
   func render() -> Element
-  func shouldUpdate(nextProperties: [String: Any], nextState: Any) -> Bool
-  func updateState(stateMutation: (() -> Any?)?)
+  func shouldUpdate(nextProperties: [String: Any], nextState: State) -> Bool
+  func updateState<T: State>(stateMutation: @escaping (inout T) -> Void)
 }
 
 public extension Component {
@@ -69,22 +83,21 @@ public extension Component {
   }
 
   func update() {
-    updateState(stateMutation: nil)
+//    updateState(stateMutation: { _ in })
   }
 
-  public func updateState(stateMutation: (() -> Any?)?) {
+  public func updateState<T: State>(stateMutation: @escaping (inout T) -> Void) {
     willUpdate()
     update(stateMutation: stateMutation)
   }
 
-  func update(stateMutation: (() -> Any?)?) {
+  func update<T: State>(stateMutation: @escaping (inout T) -> Void) {
     getContext().updateQueue.async {
       let nextProperties = self.element!.properties
-      let nextState = stateMutation?()
+      var nextState = self.componentState as! T
+      stateMutation(&nextState)
       if self.shouldUpdate(nextProperties: nextProperties, nextState: nextState) {
-        if let nextState = nextState {
-          self.componentState = nextState
-        }
+        self.componentState = nextState
         self.update(with: self.element!)
       } else {
         self.componentState = nextState
@@ -104,8 +117,8 @@ public extension Component {
     return shouldUpdate(nextProperties: nextProperties, nextState: componentState)
   }
 
-  func shouldUpdate(nextProperties: [String : Any], nextState: Any) -> Bool {
-    return properties != nextProperties
+  func shouldUpdate(nextProperties: [String : Any], nextState: State) -> Bool {
+    return true
   }
 
   func performDiff() {

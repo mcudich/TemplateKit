@@ -8,18 +8,20 @@
 
 import Foundation
 
-public protocol State {
-  init()
+public struct EmptyState: State, Equatable {
+  public init() {}
 }
 
-struct EmptyState: State {}
+public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
+  return true
+}
 
-open class CompositeComponent<StateType: State>: Component {
+open class CompositeComponent<StateType: State where StateType: Equatable>: Component {
   public var owner: Component?
   public var element: Element?
   public var instance: Node?
   public var context: Context?
-  public lazy var componentState: Any? = self.getInitialState()
+  public lazy var componentState: State = self.getInitialState()
 
   open var properties: [String : Any]
 
@@ -43,6 +45,18 @@ open class CompositeComponent<StateType: State>: Component {
 
   public func render(withLocation location: URL, properties: [String: Any]) -> Element {
     return try! getContext().templateService.element(withLocation: location, properties: properties)
+  }
+
+  // FIXME: For some reason, implementing this as a default in the Component protocol extension
+  // causes subclasses of this class to not receive calls to this function.
+  open func shouldUpdate(nextProperties: [String : Any], nextState: State) -> Bool {
+    return properties != nextProperties || !componentState.equals(other: nextState)
+  }
+
+  public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void) {
+    updateState { (state: inout StateType) in
+      stateMutation(&state)
+    }
   }
 
   open func getInitialState() -> StateType {
