@@ -61,17 +61,13 @@ public extension Component {
   }
 
   public func build() -> View {
-    guard let instance = instance else {
-      fatalError()
-    }
-
-    let isNew = instance.builtView == nil
+    let isNew = instance!.builtView == nil
 
     if isNew {
       willBuild()
     }
 
-    let newBuild = instance.build()
+    let newBuild = instance!.build()
 
     if isNew {
       didBuild()
@@ -93,7 +89,7 @@ public extension Component {
 
   func update<T: State>(stateMutation: @escaping (inout T) -> Void) {
     getContext().updateQueue.async {
-      let nextProperties = self.element!.properties
+      let nextProperties = self.properties
       var nextState = self.componentState as! T
       stateMutation(&nextState)
       let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)

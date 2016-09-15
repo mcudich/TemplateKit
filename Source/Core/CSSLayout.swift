@@ -52,9 +52,7 @@ public struct CSSLayout {
     let height = CGFloat(CSSNodeLayoutGetHeight(nodeRef))
 
     let children: [CSSLayout] = (0..<CSSNodeChildCount(nodeRef)).map {
-      guard let childRef = CSSNodeGetChild(nodeRef, UInt32($0)) else {
-        fatalError()
-      }
+      let childRef = CSSNodeGetChild(nodeRef, UInt32($0))!
       return CSSLayout(nodeRef: childRef)
     }
 

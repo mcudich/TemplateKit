@@ -27,14 +27,12 @@ class NativeNode<T: NativeView>: Node {
       builtView = T()
     }
 
-    guard var builtView = builtView as? NativeView else {
-      fatalError("Failed to build view")
-    }
+    var view = builtView as! NativeView
 
-    builtView.eventTarget = owner
-    builtView.properties = properties
-    builtView.children = children?.map { $0.build() }
+    view.eventTarget = owner
+    view.properties = properties
+    view.children = children?.map { $0.build() }
 
-    return builtView
+    return view
   }
 }

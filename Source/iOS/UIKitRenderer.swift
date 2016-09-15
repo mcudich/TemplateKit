@@ -31,7 +31,7 @@ public enum ElementType: ElementRepresentable {
     case .component(let componentClass as Component.Type):
       return componentClass.init(properties: properties, owner: owner)
     default:
-      fatalError()
+      fatalError("Unknown element type")
     }
   }
 
