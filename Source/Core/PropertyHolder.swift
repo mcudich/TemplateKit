@@ -9,9 +9,13 @@
 import Foundation
 
 public protocol PropertyHolder {
-  var properties: [String: Any] { get set }
+  var properties: [String: Any] { get }
 
   func get<T>(_ key: String) -> T?
+}
+
+public protocol MutablePropertyHolder: PropertyHolder {
+  var properties: [String: Any] { get set }
 }
 
 public extension PropertyHolder {
