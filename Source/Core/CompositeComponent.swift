@@ -19,11 +19,23 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
 open class CompositeComponent<StateType: State where StateType: Equatable>: Component {
   public var owner: Component?
   public var element: Element?
-  public var instance: Node?
   public var context: Context?
   public lazy var componentState: State = self.getInitialState()
 
   open var properties: [String : Any]
+
+  private var _instance: Node?
+  public var instance: Node {
+    get {
+      if _instance == nil {
+        _instance =  self.render().build(with: self)
+      }
+      return _instance!
+    }
+    set {
+      _instance = newValue
+    }
+  }
 
   public var state: StateType {
     set {

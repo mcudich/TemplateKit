@@ -30,7 +30,6 @@ public struct Element: PropertyHolder, Keyable, Equatable {
 
     if let component = made as? Component {
       component.context = context
-      component.instance = component.render().build(with: component)
     }
 
     return made

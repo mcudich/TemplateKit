@@ -22,16 +22,11 @@ public protocol Renderer {
 public extension Renderer {
   static func render(_ element: Element, context: Context? = nil, completion: @escaping (Component, ViewType) -> Void) {
     let context = context ?? defaultContext
-    guard let component = element.build(with: nil, context: context) as? Component else {
-      fatalError()
-    }
-
+    let component = element.build(with: nil, context: context) as! Component
     let layout = component.computeLayout()
 
     DispatchQueue.main.async {
-      guard let builtView = component.build() as? ViewType else {
-        fatalError("Unexpected view type")
-      }
+      let builtView = component.build() as! ViewType
       builtView.applyLayout(layout: layout)
       completion(component, builtView)
     }

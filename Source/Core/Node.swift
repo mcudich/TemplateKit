@@ -4,7 +4,7 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   weak var owner: Component? { get set }
   var children: [Node]? { get set }
   var element: Element? { get set }
-  var instance: Node? { get set }
+  var instance: Node { get set}
   var builtView: View? { get }
   var cssNode: CSSNode? { get set }
   var properties: [String: Any] { get set }
@@ -14,7 +14,7 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   func update(with newElement: Element)
   func computeLayout() -> CSSLayout
 
-  func insert(child: Node, at index: Int?)
+  func insert(child: Node, at index: Int)
   func remove(child: Node)
   func index(of child: Node) -> Int?
 
@@ -28,7 +28,7 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
 }
 
 public extension Node {
-  public var instance: Node? {
+  public var instance: Node {
     set {}
     get { return self }
   }
@@ -41,10 +41,10 @@ public extension Node {
     return current
   }
 
-  func insert(child: Node, at index: Int? = nil) {
-    children?.insert(child, at: index ?? children!.endIndex)
+  func insert(child: Node, at index: Int) {
+    children?.insert(child, at: index)
     let _ = child.maybeBuildCSSNode()
-    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index ?? children!.endIndex - 1)
+    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index)
   }
 
   func remove(child: Node) {
@@ -74,11 +74,11 @@ public extension Node {
   }
 
   func computeLayout() -> CSSLayout {
-    guard let root = root, let rootCSSNode = root.instance?.maybeBuildCSSNode() else {
+    guard let root = root else {
       fatalError("Can't compute layout without a valid root component")
     }
 
-    return rootCSSNode.layout()
+    return root.instance.maybeBuildCSSNode().layout()
   }
 
   func update(with newElement: Element) {
@@ -138,15 +138,13 @@ public extension Node {
 
   func replace(_ instance: Node, with element: Element) {
     let replacement = element.build(with: owner)
-    guard let index = index(of: instance) else {
-      fatalError()
-    }
+    let index = self.index(of: instance)!
     remove(child: instance)
     insert(child: replacement, at: index)
   }
 
   func append(_ element: Element) {
-    insert(child: element.build(with: owner))
+    insert(child: element.build(with: owner), at: children!.endIndex)
   }
 
   func computeKey(_ index: Int, _ keyable: Keyable) -> String {

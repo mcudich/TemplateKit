@@ -39,32 +39,28 @@ public protocol Component: Node, Updateable {
 
 public extension Component {
   public var builtView: View? {
-    return instance?.builtView
+    return instance.builtView
   }
 
   public var cssNode: CSSNode? {
     set {
-      instance?.cssNode = newValue
+      instance.cssNode = newValue
     }
     get {
-      return instance?.cssNode
+      return instance.cssNode
     }
   }
 
   public var children: [Node]? {
     set {
-      instance?.children = newValue
+      instance.children = newValue
     }
     get {
-      return instance?.children
+      return instance.children
     }
   }
 
   public func build() -> View {
-    guard let instance = instance else {
-      fatalError()
-    }
-
     let isNew = instance.builtView == nil
 
     if isNew {
@@ -93,7 +89,7 @@ public extension Component {
 
   func update<T: State>(stateMutation: @escaping (inout T) -> Void) {
     getContext().updateQueue.async {
-      let nextProperties = self.element!.properties
+      let nextProperties = self.properties
       var nextState = self.componentState as! T
       stateMutation(&nextState)
       let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
@@ -128,7 +124,13 @@ public extension Component {
   }
 
   func performDiff() {
-    instance?.update(with: render())
+//    let rendered = render()
+//    // The case where the root node changes type.
+//    if shouldReplace(instance, with: rendered) {
+//      instance = rendered.build(with: self, context: context)
+//    } else {
+    instance.update(with: render())
+//    }
   }
 
   func getContext() -> Context {
