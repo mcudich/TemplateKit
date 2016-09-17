@@ -161,7 +161,7 @@ extension AsyncDataListView {
       guard let cacheKey = self.cacheKey(for: indexPath), let element = self.element(at: indexPath) else {
         continue
       }
-      UIKitRenderer.render(element, context: context) { [weak self] component, view in
+      UIKitRenderer.render(element, container: nil, context: context as Context) { [weak self] component in
         self?.componentCache[cacheKey] = component
         pending -= 1
         if pending == 0 {
