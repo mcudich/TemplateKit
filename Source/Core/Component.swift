@@ -109,7 +109,7 @@ public extension Component {
     let layout = self.computeLayout()
 
     DispatchQueue.main.async {
-      let _ = self.root?.build()
+      let _ = (self.parent ?? self)?.build()
       self.root?.builtView?.applyLayout(layout: layout)
     }
   }

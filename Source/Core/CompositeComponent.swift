@@ -17,7 +17,9 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
 }
 
 open class CompositeComponent<StateType: State>: Component where StateType: Equatable {
-  public var owner: Component?
+  public weak var parent: Node?
+  public weak var owner: Component?
+
   public var element: Element?
   public var context: Context?
   public lazy var componentState: State = self.getInitialState()
