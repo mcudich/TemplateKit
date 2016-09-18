@@ -84,10 +84,9 @@ public extension Node {
     element = newElement
 
     if shouldUpdate(nextProperties: newElement.properties) {
-      var node = self
-      node.willUpdate()
-      node.properties = newElement.properties
-      node.instance.updateCSSNode()
+      willUpdate()
+      properties = newElement.properties
+      instance.updateCSSNode()
     }
 
     performDiff()

@@ -357,7 +357,7 @@ public class CSSNode {
 
   func layout(availableWidth: Float = Float.nan, availableHeight: Float = Float.nan) -> CSSLayout {
     CSSNodeCalculateLayout(nodeRef, availableWidth, availableHeight, CSSDirectionLTR)
-    debugPrint()
+//    debugPrint()
     return CSSLayout(nodeRef: nodeRef)
   }
 
