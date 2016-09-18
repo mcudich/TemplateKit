@@ -9,9 +9,15 @@
 import Foundation
 
 class NativeNode<T: NativeView>: Node {
+  weak var parent: Node?
   weak var owner: Component?
+
   var properties: [String: Any]
-  var children: [Node]?
+  var children: [Node]? {
+    didSet {
+      updateParent()
+    }
+  }
   var element: Element?
   var builtView: View?
   var cssNode: CSSNode?
@@ -20,6 +26,8 @@ class NativeNode<T: NativeView>: Node {
     self.properties = properties
     self.children = children
     self.owner = owner
+
+    updateParent()
   }
 
   func build() -> View {
