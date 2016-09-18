@@ -14,7 +14,13 @@ extension UIView: Layoutable {
   }
 }
 
-extension UIView: View {}
+extension UIView: View {
+  public func replace(_ view: View, with newView: View) {
+    let currentIndex = subviews.index(of: view as! UIView)!
+    (view as! UIView).removeFromSuperview()
+    insertSubview(newView as! UIView, at: currentIndex)
+  }
+}
 
 extension NativeView where Self: UIView {
   public var children: [View]? {
