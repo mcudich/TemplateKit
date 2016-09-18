@@ -10,8 +10,14 @@ import Foundation
 
 class ViewNode: Node {
   weak var owner: Component?
+  weak var parent: Node?
+
   var properties = [String: Any]()
-  var children: [Node]?
+  var children: [Node]? {
+    didSet {
+      updateParent()
+    }
+  }
   var element: Element?
   var cssNode: CSSNode?
   var builtView: View?
@@ -25,6 +31,8 @@ class ViewNode: Node {
     self.properties = properties
     self.children = children
     self.owner = owner
+
+    updateParent()
   }
 
   func build() -> View {

@@ -2,6 +2,8 @@ import UIKit
 
 public protocol Node: class, MutablePropertyHolder, Keyable {
   weak var owner: Component? { get set }
+  weak var parent: Node? { get set }
+
   var children: [Node]? { get set }
   var element: Element? { get set }
   var instance: Node { get set}
@@ -150,6 +152,12 @@ public extension Node {
 
   func computeKey(_ index: Int, _ keyable: Keyable) -> String {
     return keyable.key ?? "\(index)"
+  }
+
+  func updateParent() {
+    for child in (children ?? []) {
+      child.parent = self
+    }
   }
 
   func willBuild() {}
