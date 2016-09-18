@@ -105,11 +105,27 @@ public extension Component {
       return
     }
 
+    let previousInstance = instance
+    let previousParentView = instance.builtView?.superview
+    let previousView = instance.builtView
+
     self.update(with: self.element!)
     let layout = self.computeLayout()
 
     DispatchQueue.main.async {
-      let _ = (self.parent ?? self)?.build()
+      if previousInstance !== self.instance {
+        // We've changed instances in a component that is nested in another. Just ask the parent to
+        // rebuild. This will pick up the new instance and rebuild it.
+        if let parent = self.parent {
+          let _ = parent.build()
+        } else {
+          // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
+          previousParentView!.replace(previousView!, with: self.build())
+        }
+      } else {
+        // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.
+        let _ = self.build()
+      }
       self.root?.builtView?.applyLayout(layout: layout)
     }
   }

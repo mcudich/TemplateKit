@@ -63,6 +63,7 @@
 		D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194441D57F24F0049991F /* TemplateWithModel.xml */; };
 		D891944C1D57F7280049991F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891944B1D57F7280049991F /* AEXML.framework */; };
 		D8E661571D8A1226005D8C4F /* DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E661561D8A1226005D8C4F /* DiffTests.swift */; };
+		D8E6615B1D8E754D005D8C4F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615A1D8E754D005D8C4F /* View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +146,7 @@
 		D89194441D57F24F0049991F /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
 		D891944B1D57F7280049991F /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
 		D8E661561D8A1226005D8C4F /* DiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffTests.swift; sourceTree = "<group>"; };
+		D8E6615A1D8E754D005D8C4F /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 				D83936981D8348C5008CA7F1 /* Renderer.swift */,
 				D83936991D8348C5008CA7F1 /* ViewNode.swift */,
 				D83937071D835207008CA7F1 /* CSSLayout.swift */,
+				D8E6615A1D8E754D005D8C4F /* View.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 				D83936C01D8348C5008CA7F1 /* DelegateProxy.swift in Sources */,
 				D83936BB1D8348C5008CA7F1 /* Node.swift in Sources */,
 				D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */,
+				D8E6615B1D8E754D005D8C4F /* View.swift in Sources */,
 				D83936D91D834919008CA7F1 /* PropertyType.swift in Sources */,
 				D83936C61D8348C5008CA7F1 /* Text.swift in Sources */,
 				D83936BA1D8348C5008CA7F1 /* Layout.swift in Sources */,

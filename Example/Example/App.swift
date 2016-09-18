@@ -62,17 +62,21 @@ class App: CompositeComponent<AppState> {
   }()
 
   override func render() -> Element {
-    return Element(ElementType.box, ["width": Float(320.0), "height": Float(568), "paddingTop": Float(60)], [
-      Element(ElementType.textField, ["text": state.inputText, "onChange": #selector(App.handleInputChanged), "height": Float(20)]),
-      Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
-      Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
-      Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
-      Element(ElementType.box, [:], getItems()),
-      Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
-      Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
-      Element(ElementType.component(Details.self), ["message": "\(state.counter)"]),
-      Element(ElementType.view(collectionView), ["flexGrow": Float(1)])
-    ])
+    if state.flipped {
+      return Element(ElementType.text, ["text": "asdf", "onTap": #selector(App.flip), "marginTop": Float(60)])
+    } else {
+      return Element(ElementType.box, ["width": Float(320.0), "height": Float(568), "paddingTop": Float(60)], [
+        Element(ElementType.textField, ["text": state.inputText, "onChange": #selector(App.handleInputChanged), "height": Float(20)]),
+        Element(ElementType.text, ["text": "add", "onTap": #selector(App.incrementCounter)]),
+        Element(ElementType.text, ["text": "remove", "onTap": #selector(App.decrementCounter)]),
+        Element(ElementType.text, ["text": "flip", "onTap": #selector(App.flip)]),
+        Element(ElementType.box, [:], getItems()),
+        Element(ElementType.text, ["text": "add todo", "onTap": #selector(App.addTodo)]),
+        Element(ElementType.text, ["text": "remove todo", "onTap": #selector(App.removeTodo)]),
+        Element(ElementType.component(Details.self), ["message": "\(state.counter)"]),
+        Element(ElementType.view(collectionView), ["flexGrow": Float(1)])
+      ])
+    }
   }
 
   func getKey(index: Int) -> String {
