@@ -16,8 +16,9 @@ class ViewNode: Node {
   var cssNode: CSSNode?
   var builtView: View?
 
-  init(view: UIView) {
+  init(view: UIView, properties: [String: Any], owner: Component? = nil) {
     self.builtView = view
+    self.properties = properties
   }
 
   init(properties: [String: Any], children: [Node]? = nil, owner: Component? = nil) {

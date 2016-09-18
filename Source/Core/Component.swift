@@ -99,14 +99,13 @@ public extension Component {
   }
 
   func performUpdate(shouldUpdate: Bool, nextState: State) {
-    if shouldUpdate {
-      self.componentState = nextState
-      self.update(with: self.element!)
-    } else {
-      self.componentState = nextState
+    self.componentState = nextState
+
+    if !shouldUpdate {
       return
     }
 
+    self.update(with: self.element!)
     let layout = self.computeLayout()
 
     DispatchQueue.main.async {

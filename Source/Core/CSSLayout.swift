@@ -69,7 +69,7 @@ public struct CSSLayout {
   }
 }
 
-public struct CSSNode {
+public class CSSNode {
   var direction: CSSDirection {
     set {
       if newValue != direction {
@@ -343,6 +343,10 @@ public struct CSSNode {
     self.children = children
   }
 
+  deinit {
+    CSSNodeFree(nodeRef)
+  }
+
   func insertChild(child: CSSNode, at index: Int) {
     CSSNodeInsertChild(nodeRef, child.nodeRef, UInt32(index))
   }
@@ -357,7 +361,12 @@ public struct CSSNode {
 
   func layout(availableWidth: Float = Float.nan, availableHeight: Float = Float.nan) -> CSSLayout {
     CSSNodeCalculateLayout(nodeRef, availableWidth, availableHeight, CSSDirectionLTR)
-
+    debugPrint()
     return CSSLayout(nodeRef: nodeRef)
+  }
+
+  func debugPrint() {
+    let options = CSSPrintOptionsLayout.rawValue | CSSPrintOptionsStyle.rawValue | CSSPrintOptionsChildren.rawValue
+    CSSNodePrint(nodeRef, CSSPrintOptions(options))
   }
 }
