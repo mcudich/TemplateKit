@@ -104,9 +104,10 @@ public extension Component {
     if !shouldUpdate {
       return
     }
+    let prevInstance = instance
     self.update(with: self.element!)
 
-    let layout = self.computeLayout()
+    var layout = self.computeLayout()
 
     DispatchQueue.main.async {
       let _ = self.build()
@@ -123,13 +124,13 @@ public extension Component {
   }
 
   func performDiff() {
-//    let rendered = render()
-//    // The case where the root node changes type.
-//    if shouldReplace(instance, with: rendered) {
-//      instance = rendered.build(with: self, context: context)
-//    } else {
-    instance.update(with: render())
-//    }
+    let rendered = render()
+    // The case where the root node changes type.
+    if shouldReplace(instance, with: rendered) {
+      instance = rendered.build(with: self, context: context)
+    } else {
+      instance.update(with: render())
+    }
   }
 
   func getContext() -> Context {

@@ -69,7 +69,7 @@ public struct CSSLayout {
   }
 }
 
-public struct CSSNode {
+public class CSSNode {
   var direction: CSSDirection {
     set {
       if newValue != direction {
@@ -274,9 +274,7 @@ public struct CSSNode {
 
   var measure: CSSMeasureFunc? {
     set {
-      if let newValue = newValue {
-        CSSNodeSetMeasureFunc(nodeRef, newValue)
-      }
+      CSSNodeSetMeasureFunc(nodeRef, newValue)
     }
     get {
       return CSSNodeGetMeasureFunc(nodeRef)
@@ -285,9 +283,7 @@ public struct CSSNode {
 
   var context: UnsafeMutableRawPointer? {
     set {
-      if let newValue = newValue {
-        CSSNodeSetContext(nodeRef, newValue)
-      }
+      CSSNodeSetContext(nodeRef, newValue)
     }
     get {
       return CSSNodeGetContext(nodeRef)
@@ -341,6 +337,10 @@ public struct CSSNode {
     self.measure = measure
     self.context = context
     self.children = children
+  }
+
+  deinit {
+    CSSNodeFree(nodeRef)
   }
 
   func insertChild(child: CSSNode, at index: Int) {

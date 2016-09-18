@@ -43,7 +43,6 @@ public extension Node {
 
   func insert(child: Node, at index: Int) {
     children?.insert(child, at: index)
-    let _ = child.maybeBuildCSSNode()
     cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index)
   }
 
@@ -105,17 +104,28 @@ public extension Node {
 
     for (index, element) in newChildren.enumerated() {
       let key = computeKey(index, element)
-      guard let instance = currentChildren[key] else {
+      guard let currentChild = currentChildren[key] else {
         append(element)
         continue
       }
       currentChildren.removeValue(forKey: key)
 
-      if shouldReplace(instance, with: element) {
-        replace(instance, with: element)
+      if shouldReplace(currentChild, with: element) {
+        replace(currentChild, with: element)
       } else {
-        move(child: instance, to: index)
-        instance.update(with: element)
+        move(child: currentChild, to: index)
+
+        let prevInstance = currentChild.instance
+        let prevCSSNode = prevInstance.cssNode!
+        currentChild.update(with: element)
+
+        // This is a composite component whose underlying instance was swapped out.
+        if prevInstance !== currentChild.instance {
+          children!.remove(at: index)
+          cssNode!.removeChild(child: prevCSSNode)
+          children!.insert(currentChild, at: index)
+          cssNode!.insertChild(child: currentChild.instance.maybeBuildCSSNode(), at: index)
+        }
       }
     }
 
