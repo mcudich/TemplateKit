@@ -43,7 +43,6 @@ public extension Node {
 
   func insert(child: Node, at index: Int) {
     children?.insert(child, at: index)
-    let _ = child.maybeBuildCSSNode()
     cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index)
   }
 
@@ -88,7 +87,7 @@ public extension Node {
       var node = self
       node.willUpdate()
       node.properties = newElement.properties
-      node.updateCSSNode()
+      node.instance.updateCSSNode()
     }
 
     performDiff()
@@ -105,17 +104,17 @@ public extension Node {
 
     for (index, element) in newChildren.enumerated() {
       let key = computeKey(index, element)
-      guard let instance = currentChildren[key] else {
+      guard let currentChild = currentChildren[key] else {
         append(element)
         continue
       }
       currentChildren.removeValue(forKey: key)
 
-      if shouldReplace(instance, with: element) {
-        replace(instance, with: element)
+      if shouldReplace(currentChild, with: element) {
+        replace(currentChild, with: element)
       } else {
-        move(child: instance, to: index)
-        instance.update(with: element)
+        move(child: currentChild, to: index)
+        currentChild.update(with: element)
       }
     }
 
@@ -144,7 +143,9 @@ public extension Node {
   }
 
   func append(_ element: Element) {
-    insert(child: element.build(with: owner), at: children!.endIndex)
+    let child = element.build(with: owner)
+    children?.insert(child, at: children!.endIndex)
+    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: children!.count - 1)
   }
 
   func computeKey(_ index: Int, _ keyable: Keyable) -> String {

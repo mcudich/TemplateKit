@@ -27,7 +27,7 @@ public enum ElementType: ElementRepresentable {
     case .image:
       return NativeNode<Image>(properties: properties, owner: owner)
     case .view(let view):
-      return ViewNode(view: view)
+      return ViewNode(view: view, properties: properties, owner: owner)
     case .component(let componentClass as Component.Type):
       return componentClass.init(properties: properties, owner: owner)
     default:
@@ -62,6 +62,8 @@ public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
   case (.box, .box), (.text, .text), (.image, .image), (.textField, .textField):
     return true
+  case (.view(let lhsView), .view(let rhsView)):
+    return lhsView === rhsView
   case (.component(let lhsClass), .component(let rhsClass)):
     return lhsClass == rhsClass
   default:

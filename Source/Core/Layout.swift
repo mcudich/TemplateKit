@@ -113,8 +113,13 @@ extension Node {
   func updateCSSNode() {
     cssNode?.alignSelf = alignSelf
     cssNode?.flexGrow = flexGrow
+    cssNode?.flexShrink = flexShrink
     cssNode?.margin = margin
     cssNode?.size = size
+    cssNode?.minSize = minSize
+    cssNode?.maxSize = maxSize
+    cssNode?.position = position
+    cssNode?.positionType = positionType
 
     switch self.element!.type {
     case ElementType.box:
@@ -123,14 +128,9 @@ extension Node {
       cssNode?.justifyContent = justifyContent
       cssNode?.alignContent = alignContent
       cssNode?.alignItems = alignItems
-      cssNode?.positionType = positionType
       cssNode?.flexWrap = flexWrap
       cssNode?.overflow = overflow
-      cssNode?.flexShrink = flexShrink
-      cssNode?.position = position
       cssNode?.padding = padding
-      cssNode?.minSize = minSize
-      cssNode?.maxSize = maxSize
     case ElementType.text:
       let textLayout = TextLayout()
       textLayout.properties = properties

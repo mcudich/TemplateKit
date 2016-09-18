@@ -30,11 +30,11 @@ class Details: CompositeComponent<DetailsState> {
 //      Element(ElementType.text, ["text": "\(state.text) blah"]),
 //      Element(ElementType.text, ["text": "there", "onTap": #selector(Details.flipText)])
 //    ])
-    if state.text == "hi" {
-      return Element(ElementType.text, ["text": "foo", "onTap": #selector(Details.flipText)])
-    } else {
-      return Element(ElementType.image, ["url": "https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg", "width": Float(100), "height": Float(100), "onTap": #selector(Details.flipText)])
-    }
+//    if state.text == "hi" {
+//      return Element(ElementType.text, ["text": "foo", "onTap": #selector(Details.flipText)])
+//    } else {
+      return Element(ElementType.image, ["url": URL(string: "https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg")!, "width": Float(100), "height": Float(100), "onTap": #selector(Details.flipText)])
+//    }
   }
 
   @objc func flipText() {
