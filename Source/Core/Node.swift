@@ -87,7 +87,7 @@ public extension Node {
       var node = self
       node.willUpdate()
       node.properties = newElement.properties
-      node.updateCSSNode()
+      node.instance.updateCSSNode()
     }
 
     performDiff()
@@ -114,18 +114,7 @@ public extension Node {
         replace(currentChild, with: element)
       } else {
         move(child: currentChild, to: index)
-
-        let prevInstance = currentChild.instance
-        let prevCSSNode = prevInstance.cssNode!
         currentChild.update(with: element)
-
-        // This is a composite component whose underlying instance was swapped out.
-        if prevInstance !== currentChild.instance {
-          children!.remove(at: index)
-          cssNode!.removeChild(child: prevCSSNode)
-          children!.insert(currentChild, at: index)
-          cssNode!.insertChild(child: currentChild.instance.maybeBuildCSSNode(), at: index)
-        }
       }
     }
 
@@ -154,7 +143,9 @@ public extension Node {
   }
 
   func append(_ element: Element) {
-    insert(child: element.build(with: owner), at: children!.endIndex)
+    let child = element.build(with: owner)
+    children?.insert(child, at: children!.endIndex)
+    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: children!.count - 1)
   }
 
   func computeKey(_ index: Int, _ keyable: Keyable) -> String {

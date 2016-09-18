@@ -104,10 +104,9 @@ public extension Component {
     if !shouldUpdate {
       return
     }
-    let prevInstance = instance
-    self.update(with: self.element!)
 
-    var layout = self.computeLayout()
+    self.update(with: self.element!)
+    let layout = self.computeLayout()
 
     DispatchQueue.main.async {
       let _ = self.build()

@@ -27,7 +27,7 @@ extension NativeView {
       "marginLeft": Validation.float,
       "marginRight": Validation.float,
       "selfAlignment": FlexboxValidation.selfAlignment,
-      "flex": Validation.float,
+      "flexGrow": Validation.float,
       "onTap": Validation.any,
       "backgroundColor": Validation.color
     ]
