@@ -7,7 +7,6 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
 
   var children: [Node]? { get set }
   var element: Element? { get set }
-  var builtView: View? { get }
   var cssNode: CSSNode? { get set }
   var properties: [String: Any] { get set }
 
@@ -32,14 +31,6 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
 }
 
 public extension Node {
-  var root: Node? {
-    var current = owner ?? self
-    while let currentOwner = current.owner {
-      current = currentOwner
-    }
-    return current
-  }
-
   func insert(child: Node, at index: Int) {
     children?.insert(child, at: index)
     cssNode?.insertChild(child: child.buildCSSNode(), at: index)
@@ -72,11 +63,7 @@ public extension Node {
   }
 
   func computeLayout() -> CSSLayout {
-    guard let root = root else {
-      fatalError("Can't compute layout without a valid root component")
-    }
-
-    return root.buildCSSNode().layout()
+    return buildCSSNode().layout()
   }
 
   func update(with newElement: Element) {
@@ -125,18 +112,18 @@ public extension Node {
     return properties != nextProperties
   }
 
-  func shouldReplace(_ instance: Node, with element: Element) -> Bool {
+  func shouldReplace(_ node: Node, with element: Element) -> Bool {
     if case ElementType.component(let classType) = element.type {
-      return classType != type(of: instance)
+      return classType != type(of: node)
     }
 
-    return !element.type.equals(instance.element!.type)
+    return !element.type.equals(node.element!.type)
   }
 
-  func replace(_ instance: Node, with element: Element) {
+  func replace(_ node: Node, with element: Element) {
     let replacement = element.build(with: owner)
-    let index = self.index(of: instance)!
-    remove(child: instance)
+    let index = self.index(of: node)!
+    remove(child: node)
     insert(child: replacement, at: index)
   }
 

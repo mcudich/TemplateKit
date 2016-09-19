@@ -28,7 +28,9 @@ public extension State where Self: Equatable {
 
 public protocol Component: Node, Updateable {
   var componentState: State { get set }
-  var instance: Node { get set}
+  var instance: Node { get set }
+  var builtView: View? { get set }
+  var root: Component { get }
 
   init(properties: [String: Any], owner: Node?)
 
@@ -38,8 +40,12 @@ public protocol Component: Node, Updateable {
 }
 
 public extension Component {
-  public var builtView: View? {
-    return instance.builtView
+  public var root: Component {
+    var current = owner ?? self
+    while let currentOwner = current.owner {
+      current = currentOwner
+    }
+    return current as! Component
   }
 
   public var cssNode: CSSNode? {
@@ -61,13 +67,13 @@ public extension Component {
   }
 
   public func build<V: View>() -> V {
-    let isNew = instance.builtView == nil
+    let isNew = builtView == nil
 
     if isNew {
       willBuild()
     }
 
-    let newBuild: V = instance.build()
+    builtView = instance.build() as! V
 
     if isNew {
       didBuild()
@@ -75,7 +81,7 @@ public extension Component {
       didUpdate()
     }
 
-    return newBuild
+    return builtView as! V
   }
 
   func update() {
@@ -106,11 +112,11 @@ public extension Component {
     }
 
     let previousInstance = instance
-    let previousParentView = instance.builtView?.superview
-    let previousView = instance.builtView
+    let previousParentView = builtView?.superview
+    let previousView = builtView
 
     self.update(with: self.element!)
-    let layout = self.computeLayout()
+    let layout = self.root.computeLayout()
 
     DispatchQueue.main.async {
       if previousInstance !== self.instance {
@@ -127,7 +133,7 @@ public extension Component {
         // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.
         let _: UIView = self.build()
       }
-      self.root?.builtView?.applyLayout(layout: layout)
+      self.root.builtView?.applyLayout(layout: layout)
     }
   }
 
@@ -144,7 +150,7 @@ public extension Component {
     // The case where the root node changes type.
     if shouldReplace(instance, with: rendered) {
       instance = rendered.build(with: self, context: context)
-      root?.cssNode = nil
+      root.cssNode = nil
     } else {
       instance.update(with: rendered)
     }

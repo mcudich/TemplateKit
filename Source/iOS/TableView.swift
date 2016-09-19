@@ -90,7 +90,7 @@ class TableViewCell: UITableViewCell {
         view.removeFromSuperview()
       }
       if let node = node {
-        contentView.addSubview(node.builtView as! UIView)
+        contentView.addSubview(node.build())
       }
     }
   }
@@ -269,7 +269,12 @@ public class TableView: UITableView, AsyncDataListView {
   }
 
   func heightForNode(_ node: Node?) -> CGFloat {
-    return node?.builtView?.frame.height ?? 0
+    guard let node = node else {
+      return 0
+    }
+
+    let view: UIView = node.build()
+    return view.frame.size.height
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

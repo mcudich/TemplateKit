@@ -21,6 +21,7 @@ open class CompositeComponent<StateType: State>: Component where StateType: Equa
   public weak var owner: Node?
 
   public var element: Element?
+  public var builtView: View?
   public var context: Context?
   public lazy var componentState: State = self.getInitialState()
 
