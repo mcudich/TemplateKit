@@ -17,7 +17,7 @@ func ==(lhs: TodoState, rhs: TodoState) -> Bool {
   return lhs.text == rhs.text
 }
 
-class Todo: CompositeComponent<TodoState> {
+class Todo: CompositeComponent<TodoState, UIView> {
   static let location = URL(string: "http://localhost:8000/Todo.xml")!
 
   override func render() -> Element {

@@ -60,11 +60,11 @@ public struct CSSLayout {
     self.children = children
   }
 
-  func apply(to view: UIView) {
+  func apply(to view: View) {
     view.frame = frame
 
     for (index, child) in children.enumerated() {
-      child.apply(to: view.subviews[index])
+      child.apply(to: view.children[index])
     }
   }
 }

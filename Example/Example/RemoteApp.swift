@@ -17,7 +17,7 @@ func ==(lhs: RemoteAppState, rhs: RemoteAppState) -> Bool {
   return lhs.counter == rhs.counter
 }
 
-class RemoteApp: CompositeComponent<RemoteAppState> {
+class RemoteApp: CompositeComponent<RemoteAppState, UIView> {
   static let location = URL(string: "http://localhost:8000/App.xml")!
 
   override func render() -> Element {

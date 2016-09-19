@@ -27,10 +27,8 @@ public extension Renderer {
 
     DispatchQueue.main.async {
       let builtView: ViewType = component.build()
-      builtView.applyLayout(layout: layout)
-      if let container = container {
-        container.addSubview(builtView)
-      }
+      layout.apply(to: builtView)
+      container?.add(builtView)
       completion(component)
     }
   }

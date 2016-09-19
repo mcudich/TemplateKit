@@ -18,11 +18,12 @@ public protocol State: Equatable {
 
 public protocol Component: Node, Updateable {
   associatedtype StateType: State
+  associatedtype ViewType: View
 
   var state: StateType { get set }
   var instance: Node { get set }
   var root: Node { get }
-  var builtView: View? { get set }
+  var builtView: ViewType? { get set }
 
   init(properties: [String: Any], owner: Node?)
 
@@ -65,7 +66,7 @@ public extension Component {
       willBuild()
     }
 
-    builtView = instance.build() as V
+    builtView = instance.build() as ViewType
 
     if isNew {
       didBuild()
@@ -104,7 +105,7 @@ public extension Component {
     }
 
     let previousInstance = instance
-    let previousParentView = builtView?.superview
+    let previousParentView = builtView?.parent
     let previousView = builtView
 
     self.update(with: self.element!)
@@ -115,17 +116,17 @@ public extension Component {
         // We've changed instances in a component that is nested in another. Just ask the parent to
         // rebuild. This will pick up the new instance and rebuild it.
         if let parent = self.parent {
-          let _: UIView = parent.build()
+          let _: ViewType = parent.build()
         } else {
           // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
-          let view: UIView = self.build()
+          let view: ViewType = self.build()
           previousParentView!.replace(previousView!, with: view)
         }
       } else {
         // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.
-        let _: UIView = self.build()
+        let _: ViewType = self.build()
       }
-      layout.apply(to: self.root.build())
+      layout.apply(to: self.root.build() as ViewType)
     }
   }
 

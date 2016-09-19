@@ -9,10 +9,6 @@
 import Foundation
 import CSSLayout
 
-public protocol Layoutable {
-  func applyLayout(layout: CSSLayout)
-}
-
 extension Node {
   public var flexDirection: CSSFlexDirection {
     return get("flexDirection") ?? CSSFlexDirectionColumn

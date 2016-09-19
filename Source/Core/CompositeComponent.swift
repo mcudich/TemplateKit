@@ -16,12 +16,12 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
   return true
 }
 
-open class CompositeComponent<StateType: State>: Component {
+open class CompositeComponent<StateType: State, ViewType: View>: Component {
   public weak var parent: Node?
   public weak var owner: Node?
 
   public var element: Element?
-  public var builtView: View?
+  public var builtView: ViewType?
   public var context: Context?
   public lazy var state: StateType = {
     return self.getInitialState()

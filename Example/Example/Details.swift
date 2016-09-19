@@ -18,7 +18,7 @@ func ==(lhs: DetailsState, rhs: DetailsState) -> Bool {
   return lhs.text == rhs.text && lhs.bg == rhs.bg
 }
 
-class Details: CompositeComponent<DetailsState> {
+class Details: CompositeComponent<DetailsState, UIView> {
   public override var properties: [String : Any] {
     didSet {
       state.text = get("message") ?? "hi"

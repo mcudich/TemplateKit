@@ -40,7 +40,7 @@ class NativeNode<T: NativeView>: Node {
 
     view.eventTarget = owner
     view.properties = properties
-    view.children = children?.map { $0.build() as V }
+    view.children = children?.map { $0.build() as V } ?? []
 
     return view as! V
   }
