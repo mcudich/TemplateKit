@@ -13,10 +13,6 @@ public protocol Layoutable {
   func applyLayout(layout: CSSLayout)
 }
 
-public protocol View: Layoutable {
-  var frame: CGRect { get set }
-}
-
 extension Node {
   public var flexDirection: CSSFlexDirection {
     return get("flexDirection") ?? CSSFlexDirectionColumn
