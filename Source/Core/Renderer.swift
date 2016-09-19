@@ -8,18 +8,13 @@
 
 import Foundation
 
-public protocol Container: Layoutable {
-  associatedtype ViewType: Layoutable
-  func addSubview(_ view: Self)
-}
-
 public protocol Context {
   var templateService: TemplateService { get }
   var updateQueue: DispatchQueue { get }
 }
 
 public protocol Renderer {
-  associatedtype ViewType: Container
+  associatedtype ViewType: View
   static func render(_ element: Element, container: ViewType?, context: Context?, completion: @escaping (Component) -> Void)
   static var defaultContext: Context { get }
 }
@@ -31,7 +26,7 @@ public extension Renderer {
     let layout = component.computeLayout()
 
     DispatchQueue.main.async {
-      let builtView = component.build() as! ViewType
+      let builtView: ViewType = component.build()
       builtView.applyLayout(layout: layout)
       if let container = container {
         container.addSubview(builtView)

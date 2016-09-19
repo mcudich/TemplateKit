@@ -87,7 +87,7 @@ extension Node {
       return cssNode
     }
 
-    var newNode = CSSNode()
+    let newNode = CSSNode()
 
     switch self.element!.type {
     case ElementType.box:

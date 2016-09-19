@@ -35,10 +35,10 @@ class ViewNode: Node {
     updateParent()
   }
 
-  func build() -> View {
+  func build<V: View>() -> V {
     if let updateableView = builtView as? Updateable, builtView != nil {
       updateableView.update()
     }
-    return builtView!
+    return builtView as! V
   }
 }

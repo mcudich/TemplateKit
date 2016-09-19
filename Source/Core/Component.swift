@@ -60,14 +60,14 @@ public extension Component {
     }
   }
 
-  public func build() -> View {
+  public func build<V: View>() -> V {
     let isNew = instance.builtView == nil
 
     if isNew {
       willBuild()
     }
 
-    let newBuild = instance.build()
+    let newBuild: V = instance.build()
 
     if isNew {
       didBuild()
@@ -117,14 +117,15 @@ public extension Component {
         // We've changed instances in a component that is nested in another. Just ask the parent to
         // rebuild. This will pick up the new instance and rebuild it.
         if let parent = self.parent {
-          let _ = parent.build()
+          let _: UIView = parent.build()
         } else {
           // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
-          previousParentView!.replace(previousView!, with: self.build())
+          let view: UIView = self.build()
+          previousParentView!.replace(previousView!, with: view)
         }
       } else {
         // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.
-        let _ = self.build()
+        let _: UIView = self.build()
       }
       self.root?.builtView?.applyLayout(layout: layout)
     }

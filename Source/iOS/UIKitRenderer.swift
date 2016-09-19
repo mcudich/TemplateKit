@@ -76,10 +76,6 @@ class DefaultContext: Context {
   var updateQueue: DispatchQueue = DispatchQueue(label: "UIKitRenderer")
 }
 
-extension UIView: Container {
-  public typealias ViewType = UIView
-}
-
 public class UIKitRenderer: Renderer {
   public typealias ViewType = UIView
 

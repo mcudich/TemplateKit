@@ -15,6 +15,10 @@ extension UIView: Layoutable {
 }
 
 extension UIView: View {
+  public func addSubview(_ view: View) {
+    addSubview(view as! UIView)
+  }
+
   public func replace(_ view: View, with newView: View) {
     let currentIndex = subviews.index(of: view as! UIView)!
     (view as! UIView).removeFromSuperview()

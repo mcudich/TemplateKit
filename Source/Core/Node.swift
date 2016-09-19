@@ -11,7 +11,7 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   var cssNode: CSSNode? { get set }
   var properties: [String: Any] { get set }
 
-  func build() -> View
+  func build<V: View>() -> V
   func shouldUpdate(nextProperties: [String: Any]) -> Bool
   func update(with newElement: Element)
   func computeLayout() -> CSSLayout

@@ -30,7 +30,7 @@ class NativeNode<T: NativeView>: Node {
     updateParent()
   }
 
-  func build() -> View {
+  func build<V: View>() -> V {
     if builtView == nil {
       builtView = T()
     }
@@ -39,8 +39,8 @@ class NativeNode<T: NativeView>: Node {
 
     view.eventTarget = owner
     view.properties = properties
-    view.children = children?.map { $0.build() }
+    view.children = children?.map { $0.build() as V }
 
-    return view
+    return view as! V
   }
 }

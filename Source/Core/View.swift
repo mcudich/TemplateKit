@@ -12,5 +12,6 @@ public protocol View: Layoutable {
   var frame: CGRect { get set }
   var superview: UIView? { get }
 
+  func addSubview(_ view: View)
   func replace(_ view: View, with newView: View)
 }
