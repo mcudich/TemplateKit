@@ -82,7 +82,7 @@ extension Node {
     return CSSSize(width: get("maxWidth") ?? Float.greatestFiniteMagnitude, height: get("maxHeight") ?? Float.greatestFiniteMagnitude)
   }
 
-  func maybeBuildCSSNode() -> CSSNode {
+  public func buildCSSNode() -> CSSNode {
     if let cssNode = cssNode {
       return cssNode
     }
@@ -92,7 +92,7 @@ extension Node {
     switch self.element!.type {
     case ElementType.box:
       let childNodes: [CSSNode] = children?.map {
-        return $0.instance.maybeBuildCSSNode()
+        return $0.buildCSSNode()
       } ?? []
       newNode.children = childNodes
     default:
@@ -106,7 +106,7 @@ extension Node {
     return cssNode!
   }
 
-  func updateCSSNode() {
+  public func updateCSSNode() {
     cssNode?.alignSelf = alignSelf
     cssNode?.flexGrow = flexGrow
     cssNode?.flexShrink = flexShrink
@@ -149,5 +149,15 @@ extension Node {
     default:
       break
     }
+  }
+}
+
+extension Component {
+  public func buildCSSNode() -> CSSNode {
+    return instance.buildCSSNode()
+  }
+
+  public func updateCSSNode() {
+    instance.updateCSSNode()
   }
 }

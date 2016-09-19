@@ -28,6 +28,7 @@ public extension State where Self: Equatable {
 
 public protocol Component: Node, Updateable {
   var componentState: State { get set }
+  var instance: Node { get set}
 
   init(properties: [String: Any], owner: Node?)
 

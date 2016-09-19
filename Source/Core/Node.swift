@@ -7,7 +7,6 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
 
   var children: [Node]? { get set }
   var element: Element? { get set }
-  var instance: Node { get set}
   var builtView: View? { get }
   var cssNode: CSSNode? { get set }
   var properties: [String: Any] { get set }
@@ -28,14 +27,11 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   func willDetach()
 
   func performDiff()
+  func buildCSSNode() -> CSSNode
+  func updateCSSNode()
 }
 
 public extension Node {
-  public var instance: Node {
-    set {}
-    get { return self }
-  }
-
   var root: Node? {
     var current = owner ?? self
     while let currentOwner = current.owner {
@@ -46,7 +42,7 @@ public extension Node {
 
   func insert(child: Node, at index: Int) {
     children?.insert(child, at: index)
-    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index)
+    cssNode?.insertChild(child: child.buildCSSNode(), at: index)
   }
 
   func remove(child: Node) {
@@ -80,7 +76,7 @@ public extension Node {
       fatalError("Can't compute layout without a valid root component")
     }
 
-    return root.instance.maybeBuildCSSNode().layout()
+    return root.buildCSSNode().layout()
   }
 
   func update(with newElement: Element) {
@@ -89,7 +85,7 @@ public extension Node {
     if shouldUpdate(nextProperties: newElement.properties) {
       willUpdate()
       properties = newElement.properties
-      instance.updateCSSNode()
+      updateCSSNode()
     }
 
     performDiff()
@@ -147,7 +143,7 @@ public extension Node {
   func append(_ element: Element) {
     let child = element.build(with: owner)
     children?.insert(child, at: children!.endIndex)
-    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: children!.count - 1)
+    cssNode?.insertChild(child: child.buildCSSNode(), at: children!.count - 1)
   }
 
   func computeKey(_ index: Int, _ keyable: Keyable) -> String {
