@@ -1,8 +1,9 @@
 import UIKit
 
 public protocol Node: class, MutablePropertyHolder, Keyable {
-  weak var owner: Component? { get set }
+  weak var owner: Node? { get set }
   weak var parent: Node? { get set }
+  var context: Context? { get set }
 
   var children: [Node]? { get set }
   var element: Element? { get set }
@@ -36,8 +37,8 @@ public extension Node {
   }
 
   var root: Node? {
-    var current: Component? = owner ?? (self as? Component)
-    while let currentOwner = current?.owner {
+    var current = owner ?? self
+    while let currentOwner = current.owner {
       current = currentOwner
     }
     return current

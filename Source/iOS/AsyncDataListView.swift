@@ -11,7 +11,7 @@ import Foundation
 protocol AsyncDataListView: class {
   var operationQueue: AsyncQueue<AsyncOperation> { get }
   var context: Context { get set }
-  var componentCache: [Int: Component] { get set }
+  var nodeCache: [Int: Node] { get set }
 
   func insertItems(at indexPaths: [IndexPath], completion: @escaping () -> Void)
   func deleteItems(at indexPaths: [IndexPath], completion: @escaping () -> Void)
@@ -25,14 +25,14 @@ protocol AsyncDataListView: class {
 
   func cacheKey(for indexPath: IndexPath) -> Int?
   func element(at indexPath: IndexPath) -> Element?
-  func component(at indexPath: IndexPath) -> Component?
+  func node(at indexPath: IndexPath) -> Node?
   func totalNumberOfSections() -> Int
   func totalNumberOfRows(in section: Int) -> Int?
 }
 
 extension AsyncDataListView {
   func insertItems(at indexPaths: [IndexPath], completion: @escaping () -> Void) {
-    precacheComponents(at: indexPaths)
+    precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -42,7 +42,7 @@ extension AsyncDataListView {
   }
 
   func deleteItems(at indexPaths: [IndexPath], completion: @escaping () -> Void) {
-    purgeComponents(at: indexPaths)
+    purgeNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -52,7 +52,7 @@ extension AsyncDataListView {
   }
 
   func insertSections(_ sections: IndexSet, completion: @escaping () -> Void) {
-    precacheComponents(in: sections)
+    precacheNodes(in: sections)
     operationQueue.enqueueOperation { done in
       completion()
       done()
@@ -60,7 +60,7 @@ extension AsyncDataListView {
   }
 
   func deleteSections(_ sections: IndexSet, completion: @escaping () -> Void) {
-    purgeComponents(in: sections)
+    purgeNodes(in: sections)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -88,7 +88,7 @@ extension AsyncDataListView {
   }
 
   func reloadItems(at indexPaths: [IndexPath], completion: @escaping () -> Void) {
-    precacheComponents(at: indexPaths)
+    precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -98,7 +98,7 @@ extension AsyncDataListView {
   }
 
   func reloadSections(_ sections: IndexSet, completion: @escaping () -> Void) {
-    precacheComponents(in: sections)
+    precacheNodes(in: sections)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -113,7 +113,7 @@ extension AsyncDataListView {
       return previous + self.indexPaths(forSection: section)
     }
 
-    precacheComponents(at: indexPaths)
+    precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -122,11 +122,11 @@ extension AsyncDataListView {
     }
   }
 
-  func component(at indexPath: IndexPath) -> Component? {
+  func node(at indexPath: IndexPath) -> Node? {
     guard let cacheKey = self.cacheKey(for: indexPath) else {
       return nil
     }
-    return componentCache[cacheKey]
+    return nodeCache[cacheKey]
   }
 
   private func indexPaths(forSection section: Int) -> [IndexPath] {
@@ -136,13 +136,13 @@ extension AsyncDataListView {
     }
   }
 
-  private func precacheComponents(at indexPaths: [IndexPath]) {
+  private func precacheNodes(at indexPaths: [IndexPath]) {
     operationQueue.enqueueOperation { done in
       self.performPrecache(for: indexPaths, done: done)
     }
   }
 
-  private func precacheComponents(in sections: IndexSet) {
+  private func precacheNodes(in sections: IndexSet) {
     operationQueue.enqueueOperation { done in
       let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
         return previous + self.indexPaths(forSection: section)
@@ -161,8 +161,8 @@ extension AsyncDataListView {
       guard let cacheKey = self.cacheKey(for: indexPath), let element = self.element(at: indexPath) else {
         continue
       }
-      UIKitRenderer.render(element, container: nil, context: context as Context) { [weak self] component in
-        self?.componentCache[cacheKey] = component
+      UIKitRenderer.render(element, container: nil, context: context as Context) { [weak self] node in
+        self?.nodeCache[cacheKey] = node
         pending -= 1
         if pending == 0 {
           done()
@@ -171,13 +171,13 @@ extension AsyncDataListView {
     }
   }
 
-  private func purgeComponents(at indexPaths: [IndexPath]) {
+  private func purgeNodes(at indexPaths: [IndexPath]) {
     operationQueue.enqueueOperation { done in
       self.performPurge(for: indexPaths, done: done)
     }
   }
 
-  private func purgeComponents(in sections: IndexSet) {
+  private func purgeNodes(in sections: IndexSet) {
     operationQueue.enqueueOperation { done in
       let indexPaths: [IndexPath] = sections.reduce([]) { previous, section in
         return previous + self.indexPaths(forSection: section)
@@ -193,7 +193,7 @@ extension AsyncDataListView {
 
     for indexPath in indexPaths {
       if let cacheKey = self.cacheKey(for: indexPath) {
-        self.componentCache.removeValue(forKey: cacheKey)
+        self.nodeCache.removeValue(forKey: cacheKey)
       }
     }
 

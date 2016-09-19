@@ -28,9 +28,8 @@ public extension State where Self: Equatable {
 
 public protocol Component: Node, Updateable {
   var componentState: State { get set }
-  var context: Context? { get set }
 
-  init(properties: [String: Any], owner: Component?)
+  init(properties: [String: Any], owner: Node?)
 
   func render() -> Element
   func shouldUpdate(nextProperties: [String: Any], nextState: State) -> Bool
@@ -151,12 +150,9 @@ public extension Component {
   }
 
   func getContext() -> Context {
-    if let context = context {
-      return context
+    guard let context = context ?? owner?.context else {
+      fatalError("No context available")
     }
-    if let owner = owner {
-      return owner.getContext()
-    }
-    fatalError("No context available")
+    return context
   }
 }

@@ -84,13 +84,13 @@ public extension TableViewDataSource {
 }
 
 class TableViewCell: UITableViewCell {
-  var component: Component? {
+  var node: Node? {
     didSet {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-      if let component = component {
-        contentView.addSubview(component.builtView as! UIView)
+      if let node = node {
+        contentView.addSubview(node.builtView as! UIView)
       }
     }
   }
@@ -133,7 +133,7 @@ public class TableView: UITableView, AsyncDataListView {
     }
   }
 
-  lazy var componentCache = [Int: Component]()
+  lazy var nodeCache = [Int: Node]()
   var context: Context
   lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
 
@@ -265,21 +265,21 @@ public class TableView: UITableView, AsyncDataListView {
   }
 
   func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
-    return heightForComponent(component(at: indexPath))
+    return heightForNode(node(at: indexPath))
   }
 
-  func heightForComponent(_ component: Component?) -> CGFloat {
-    return component?.builtView?.frame.height ?? 0
+  func heightForNode(_ node: Node?) -> CGFloat {
+    return node?.builtView?.frame.height ?? 0
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return componentCache.count
+    return nodeCache.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
     let cell = dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! TableViewCell
-    if let component = component(at: indexPath) {
-      cell.component = component
+    if let node = node(at: indexPath) {
+      cell.node = node
     }
     return cell
   }

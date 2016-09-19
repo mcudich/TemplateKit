@@ -10,7 +10,8 @@ import Foundation
 
 class NativeNode<T: NativeView>: Node {
   weak var parent: Node?
-  weak var owner: Component?
+  weak var owner: Node?
+  var context: Context?
 
   var properties: [String: Any]
   var children: [Node]? {
@@ -22,7 +23,7 @@ class NativeNode<T: NativeView>: Node {
   var builtView: View?
   var cssNode: CSSNode?
 
-  init(properties: [String: Any], children: [Node]? = nil, owner: Component? = nil) {
+  init(properties: [String: Any], children: [Node]? = nil, owner: Node? = nil) {
     self.properties = properties
     self.children = children
     self.owner = owner

@@ -43,13 +43,13 @@ public extension CollectionViewDataSource {
 }
 
 class CollectionViewCell: UICollectionViewCell {
-  var component: Component? {
+  var node: Node? {
     didSet {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-      if let component = component {
-        contentView.addSubview(component.builtView as! UIView)
+      if let node = node {
+        contentView.addSubview(node.builtView as! UIView)
       }
     }
   }
@@ -92,7 +92,7 @@ public class CollectionView: UICollectionView, AsyncDataListView {
     }
   }
 
-  lazy var componentCache = [Int: Component]()
+  lazy var nodeCache = [Int: Node]()
   var context: Context
   lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
 
@@ -214,27 +214,27 @@ public class CollectionView: UICollectionView, AsyncDataListView {
     return delegateProxy
   }
 
-  private func sizeForComponent(_ component: Component?) -> CGSize {
-    return component?.builtView?.frame.size ?? CGSize.zero
+  private func sizeForNode(_ node: Node?) -> CGSize {
+    return node?.builtView?.frame.size ?? CGSize.zero
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return componentCache.count
+    return nodeCache.count
   }
 
   // There's some weirdness going on here. The Objective-C runtime requires this method to be named a bit differently
   // so that it will respond to the selector. This will likely need fixing down the road.
   func collectionView(_ collectionView: UICollectionView, cellForItemAtIndexPath indexPath: IndexPath) -> UICollectionViewCell {
     let cell = dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! CollectionViewCell
-    if let component = component(at: indexPath) {
-      cell.component = component
+    if let node = node(at: indexPath) {
+      cell.node = node
     }
     return cell
   }
 
   // Here too.
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-    return sizeForComponent(component(at: indexPath))
+    return sizeForNode(node(at: indexPath))
   }
 }
 

@@ -18,7 +18,7 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
 
 open class CompositeComponent<StateType: State>: Component where StateType: Equatable {
   public weak var parent: Node?
-  public weak var owner: Component?
+  public weak var owner: Node?
 
   public var element: Element?
   public var context: Context?
@@ -48,7 +48,7 @@ open class CompositeComponent<StateType: State>: Component where StateType: Equa
     }
   }
 
-  public required init(properties: [String : Any], owner: Component?) {
+  public required init(properties: [String : Any], owner: Node?) {
     self.properties = properties
     self.owner = owner
   }

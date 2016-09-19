@@ -15,12 +15,12 @@ public protocol Context {
 
 public protocol Renderer {
   associatedtype ViewType: View
-  static func render(_ element: Element, container: ViewType?, context: Context?, completion: @escaping (Component) -> Void)
+  static func render(_ element: Element, container: ViewType?, context: Context?, completion: @escaping (Node) -> Void)
   static var defaultContext: Context { get }
 }
 
 public extension Renderer {
-  static func render(_ element: Element, container: ViewType? = nil, context: Context? = nil, completion: @escaping (Component) -> Void) {
+  static func render(_ element: Element, container: ViewType? = nil, context: Context? = nil, completion: @escaping (Node) -> Void) {
     let context = context ?? defaultContext
     let component = element.build(with: nil, context: context) as! Component
     let layout = component.computeLayout()

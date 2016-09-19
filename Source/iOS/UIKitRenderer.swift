@@ -16,7 +16,7 @@ public enum ElementType: ElementRepresentable {
   case view(UIView)
   case component(AnyClass)
 
-  public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Component?) -> Node {
+  public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> Node {
     switch self {
     case .box:
       return NativeNode<Box>(properties: properties, children: children?.map { $0.build(with: owner) }, owner: owner)
