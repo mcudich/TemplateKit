@@ -22,7 +22,7 @@ public protocol Renderer {
 public extension Renderer {
   static func render(_ element: Element, container: ViewType? = nil, context: Context? = nil, completion: @escaping (Node) -> Void) {
     let context = context ?? defaultContext
-    let component = element.build(with: nil, context: context) as! Component
+    let component = element.build(with: nil, context: context)
     let layout = component.computeLayout()
 
     DispatchQueue.main.async {

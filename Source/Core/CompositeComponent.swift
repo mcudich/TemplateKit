@@ -16,14 +16,16 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
   return true
 }
 
-open class CompositeComponent<StateType: State>: Component where StateType: Equatable {
+open class CompositeComponent<StateType: State>: Component {
   public weak var parent: Node?
   public weak var owner: Node?
 
   public var element: Element?
   public var builtView: View?
   public var context: Context?
-  public lazy var componentState: State = self.getInitialState()
+  public lazy var state: StateType = {
+    return self.getInitialState()
+  }()
 
   open var properties: [String : Any]
 
@@ -40,15 +42,6 @@ open class CompositeComponent<StateType: State>: Component where StateType: Equa
     }
   }
 
-  public var state: StateType {
-    set {
-      componentState = newValue
-    }
-    get {
-      return componentState as! StateType
-    }
-  }
-
   public required init(properties: [String : Any], owner: Node?) {
     self.properties = properties
     self.owner = owner
@@ -62,16 +55,16 @@ open class CompositeComponent<StateType: State>: Component where StateType: Equa
     return try! getContext().templateService.element(withLocation: location, properties: properties)
   }
 
-  // FIXME: For some reason, implementing this as a default in the Component protocol extension
-  // causes subclasses of this class to not receive calls to this function.
-  open func shouldUpdate(nextProperties: [String : Any], nextState: State) -> Bool {
-    return properties != nextProperties || !componentState.equals(other: nextState)
-  }
-
   public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void) {
     updateState { (state: inout StateType) in
       stateMutation(&state)
     }
+  }
+
+  // FIXME: For some reason, implementing this as a default in the Component protocol extension
+  // causes subclasses of this class to not receive calls to this function.
+  open func shouldUpdate(nextProperties: [String : Any], nextState: StateType) -> Bool {
+    return properties != nextProperties || state != nextState
   }
 
   open func getInitialState() -> StateType {

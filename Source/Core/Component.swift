@@ -12,40 +12,32 @@ public protocol Updateable {
   func update()
 }
 
-public protocol State {
+public protocol State: Equatable {
   init()
-  func equals(other: State) -> Bool
-}
-
-public extension State where Self: Equatable {
-  func equals(other: State) -> Bool {
-    guard let other = other as? Self else {
-      return false
-    }
-    return self == other
-  }
 }
 
 public protocol Component: Node, Updateable {
-  var componentState: State { get set }
+  associatedtype StateType: State
+
+  var state: StateType { get set }
   var instance: Node { get set }
+  var root: Node { get }
   var builtView: View? { get set }
-  var root: Component { get }
 
   init(properties: [String: Any], owner: Node?)
 
   func render() -> Element
-  func shouldUpdate(nextProperties: [String: Any], nextState: State) -> Bool
-  func updateState<T: State>(stateMutation: @escaping (inout T) -> Void)
+  func shouldUpdate(nextProperties: [String: Any], nextState: StateType) -> Bool
+  func updateState(stateMutation: @escaping (inout StateType) -> Void)
 }
 
 public extension Component {
-  public var root: Component {
+  public var root: Node {
     var current = owner ?? self
     while let currentOwner = current.owner {
       current = currentOwner
     }
-    return current as! Component
+    return current
   }
 
   public var cssNode: CSSNode? {
@@ -73,7 +65,7 @@ public extension Component {
       willBuild()
     }
 
-    builtView = instance.build() as! V
+    builtView = instance.build() as V
 
     if isNew {
       didBuild()
@@ -85,18 +77,18 @@ public extension Component {
   }
 
   func update() {
-    performUpdate(shouldUpdate: true, nextState: componentState)
+    performUpdate(shouldUpdate: true, nextState: state)
   }
 
-  public func updateState<T: State>(stateMutation: @escaping (inout T) -> Void) {
+  public func updateState(stateMutation: @escaping (inout StateType) -> Void) {
     willUpdate()
     update(stateMutation: stateMutation)
   }
 
-  func update<T: State>(stateMutation: @escaping (inout T) -> Void) {
+  func update(stateMutation: @escaping (inout StateType) -> Void) {
     getContext().updateQueue.async {
       let nextProperties = self.properties
-      var nextState = self.componentState as! T
+      var nextState = self.state
       stateMutation(&nextState)
       let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
 
@@ -104,8 +96,8 @@ public extension Component {
     }
   }
 
-  func performUpdate(shouldUpdate: Bool, nextState: State) {
-    self.componentState = nextState
+  func performUpdate(shouldUpdate: Bool, nextState: StateType) {
+    self.state = nextState
 
     if !shouldUpdate {
       return
@@ -133,15 +125,15 @@ public extension Component {
         // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.
         let _: UIView = self.build()
       }
-      self.root.builtView?.applyLayout(layout: layout)
+      layout.apply(to: self.root.build())
     }
   }
 
   func shouldUpdate(nextProperties: [String : Any]) -> Bool {
-    return shouldUpdate(nextProperties: nextProperties, nextState: componentState)
+    return shouldUpdate(nextProperties: nextProperties, nextState: state)
   }
 
-  func shouldUpdate(nextProperties: [String : Any], nextState: State) -> Bool {
+  func shouldUpdate(nextProperties: [String : Any], nextState: StateType) -> Bool {
     return true
   }
 
