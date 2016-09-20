@@ -27,7 +27,7 @@ public enum ElementType: ElementRepresentable {
     case .image:
       return NativeNode<Image>(element: element, properties: ImageProperties(element.properties), owner: owner)
     case .view(let view):
-      return ViewNode(view: view, element: element, properties: BaseProperties([:]), owner: owner)
+      return ViewNode(view: view, element: element, properties: BaseProperties(element.properties), owner: owner)
     case .component(let ComponentType as Node.Type):
       return ComponentType.init(element: element, properties: element.properties, children: nil, owner: owner)
     default:
