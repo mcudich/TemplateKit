@@ -8,15 +8,11 @@
 
 import Foundation
 
-public protocol Updateable {
-  func update()
-}
-
 public protocol State: Equatable {
   init()
 }
 
-public protocol Component: PropertyNode, Updateable {
+public protocol Component: PropertyNode {
   associatedtype StateType: State
   associatedtype ViewType: View
 
@@ -75,7 +71,7 @@ public extension Component {
     return builtView as! V
   }
 
-  func update() {
+  func forceUpdate() {
     performUpdate(shouldUpdate: true, nextState: state)
   }
 

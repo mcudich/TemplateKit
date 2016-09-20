@@ -9,30 +9,29 @@
 import UIKit
 import TemplateKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, Context {
   var appComponent: App?
-  var templateService: XMLTemplateService? {
-    return UIKitRenderer.defaultContext.templateService as? XMLTemplateService
+
+  lazy var templateService: TemplateService = {
+    let templateService = XMLTemplateService(liveReload: true)
+    templateService.cachePolicy = .never
+    templateService.liveReloadInterval = .seconds(1)
+    return templateService
+  }()
+
+  var updateQueue: DispatchQueue {
+    return UIKitRenderer.defaultContext.updateQueue
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    templateService?.cachePolicy = .never
-
-//    templateService?.fetchTemplates(withURLs: [Todo.location]) { result in
-//      DispatchQueue.global(qos: .background).async {
-        UIKitRenderer.render(Element(ElementType.component(App.self)), container: self.view) { component in
+    templateService.fetchTemplates(withURLs: [Todo.location]) { result in
+      DispatchQueue.global(qos: .background).async {
+        UIKitRenderer.render(Element(ElementType.component(App.self)), container: self.view, context: self) { component in
           self.appComponent = component as? App
         }
-//        self.watchTemplates()
-//      }
-//    }
-  }
-
-  func watchTemplates() {
-    templateService?.watchTemplates(withURLs: [Todo.location]) { result in
-      self.appComponent?.update()
+      }
     }
   }
 }

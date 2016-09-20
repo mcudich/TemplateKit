@@ -21,7 +21,7 @@ class Todo: CompositeComponent<TodoState, BaseProperties, UIView> {
   static let location = URL(string: "http://localhost:8000/Todo.xml")!
 
   override func render() -> Element {
-    return render(withLocation: Todo.location, properties: ["todoText": state.text, "size": properties.layout?.size])
+    return render(withLocation: Todo.location, properties: ["todoText": state.text, "width": properties.layout?.size?.width])
   }
 
   @objc func random() {

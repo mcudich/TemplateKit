@@ -1,7 +1,7 @@
-<box flexDirection="row" paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" backgroundColor="#ffffff" width="$width">
-  <image url="https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg" width="24" height="24" />
-  <box marginLeft="10">
-    <text text="this is a title 2" fontSize="11" />
-    <text text="this is a description" />
+<box flexDirection="row" paddingTop="20" paddingBottom="10" paddingLeft="10" paddingRight="10" backgroundColor="#ff0000">
+  <box marginLeft="20">
+    <text text="this is a description or something" />
+    <text text="this is a title 1234" fontSize="11" />
   </box>
+  <image url="https://farm9.staticflickr.com/8520/28696528773_0d0e2f08fb_m_d.jpg" width="48" height="48" />
 </box>

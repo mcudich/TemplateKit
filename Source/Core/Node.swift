@@ -14,6 +14,7 @@ public protocol Node: class, Keyable {
 
   func build<V: View>() -> V
   func update(with newElement: Element)
+  func forceUpdate()
   func computeLayout() -> CSSLayout
   func buildCSSNode() -> CSSNode
   func updateCSSNode()
@@ -123,6 +124,11 @@ public extension PropertyNode {
       updateCSSNode()
       performDiff()
     }
+  }
+
+  func forceUpdate() {
+    updateCSSNode()
+    performDiff()
   }
 
   func performDiff() {
