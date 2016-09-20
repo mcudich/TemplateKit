@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Dictionary {
+public extension Dictionary {
   mutating func merge(with dictionary: Dictionary) {
     for (key, value) in dictionary {
       self[key] = value
@@ -19,5 +19,13 @@ extension Dictionary {
     var copy = self
     copy.merge(with: dictionary)
     return copy
+  }
+
+  func get<T>(_ key: Key) -> T? {
+    return self[key] as? T
+  }
+
+  func get<T>(_ key: Key, defaultValue: T) -> T {
+    return get(key) ?? defaultValue
   }
 }

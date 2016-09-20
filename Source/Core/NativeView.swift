@@ -8,7 +8,10 @@
 
 import Foundation
 
-public protocol NativeView: View, MutablePropertyHolder, PropertyTypeProvider {
+public protocol NativeView: View {
+  associatedtype PropertiesType: ViewProperties
+
+  var properties: PropertiesType { get set }
   var eventTarget: AnyObject? { get set }
 
   init()

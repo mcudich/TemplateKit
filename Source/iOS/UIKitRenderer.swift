@@ -19,17 +19,17 @@ public enum ElementType: ElementRepresentable {
   public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> Node {
     switch self {
     case .box:
-      return NativeNode<Box>(properties: properties, children: children?.map { $0.build(with: owner) }, owner: owner)
+      return NativeNode<Box>(properties: BaseProperties(properties), children: children?.map { $0.build(with: owner) }, owner: owner)
     case .text:
-      return NativeNode<Text>(properties: properties, owner: owner)
+      return NativeNode<Text>(properties: TextProperties(properties), owner: owner)
     case .textField:
-      return NativeNode<TextField>(properties: properties, owner: owner)
+      return NativeNode<TextField>(properties: TextFieldProperties(properties), owner: owner)
     case .image:
-      return NativeNode<Image>(properties: properties, owner: owner)
+      return NativeNode<Image>(properties: ImageProperties(properties), owner: owner)
     case .view(let view):
-      return ViewNode(view: view, properties: properties, owner: owner)
-    case .component(let componentClass as Component.Type):
-      return componentClass.init(properties: properties, owner: owner)
+      return ViewNode(view: view, properties: BaseProperties([:]), owner: owner)
+    case .component(let ComponentType as Node.Type):
+      return ComponentType.init(properties: properties, children: nil, owner: owner)
     default:
       fatalError("Unknown element type")
     }

@@ -16,7 +16,7 @@ public protocol State: Equatable {
   init()
 }
 
-public protocol Component: Node, Updateable {
+public protocol Component: PropertyNode, Updateable {
   associatedtype StateType: State
   associatedtype ViewType: View
 
@@ -25,10 +25,8 @@ public protocol Component: Node, Updateable {
   var root: Node { get }
   var builtView: ViewType? { get set }
 
-  init(properties: [String: Any], owner: Node?)
-
   func render() -> Element
-  func shouldUpdate(nextProperties: [String: Any], nextState: StateType) -> Bool
+  func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool
   func updateState(stateMutation: @escaping (inout StateType) -> Void)
 }
 

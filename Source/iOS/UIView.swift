@@ -16,7 +16,7 @@ extension UIView: View {
     set {
       var pendingViews = Set(subviews)
 
-      for (index, child) in (newValue ?? []).enumerated() {
+      for (index, child) in newValue.enumerated() {
         let childView = child as! UIView
         insertSubview(childView, at: index)
         pendingViews.remove(childView)
@@ -42,20 +42,20 @@ extension UIView: View {
 }
 
 extension NativeView where Self: UIView {
-  func applyCommonProperties(properties: [String: Any]) {
+  func applyCommonProperties(properties: PropertiesType) {
     applyBackgroundColor(properties)
     applyTapHandler(properties)
   }
 
-  private func applyBackgroundColor(_ properties: [String: Any]) {
-    guard let backgroundColor: UIColor = get("backgroundColor") else {
+  private func applyBackgroundColor(_ properties: PropertiesType) {
+    guard let backgroundColor = properties.style?.backgroundColor else {
       return
     }
     self.backgroundColor = backgroundColor
   }
 
-  private func applyTapHandler(_ properties: [String: Any]) {
-    guard let onTap: Selector = get("onTap") else {
+  private func applyTapHandler(_ properties: PropertiesType) {
+    guard let onTap = properties.gestures?.onTap else {
       return
     }
     let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)

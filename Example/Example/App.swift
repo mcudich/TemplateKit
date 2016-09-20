@@ -44,7 +44,7 @@ func ==(lhs: AppState, rhs: AppState) -> Bool {
   return lhs.counter == rhs.counter && lhs.showCounter == rhs.showCounter && lhs.flipped == rhs.flipped && lhs.inputText == rhs.inputText
 }
 
-class App: CompositeComponent<AppState, UIView> {
+class App: CompositeComponent<AppState, BaseProperties, UIView> {
   private lazy var tableDataSource = TableDataSource()
   private lazy var collectionViewDataSource = CollectionDataSource()
 

@@ -1,6 +1,6 @@
 import UIKit
 
-public protocol Node: class, MutablePropertyHolder, Keyable {
+public protocol Node: class, Keyable {
   weak var owner: Node? { get set }
   weak var parent: Node? { get set }
   var context: Context? { get set }
@@ -8,12 +8,15 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   var children: [Node]? { get set }
   var element: Element? { get set }
   var cssNode: CSSNode? { get set }
-  var properties: [String: Any] { get set }
+  var key: String? { get }
+
+  init(properties: [String: Any], children: [Node]?, owner: Node?)
 
   func build<V: View>() -> V
-  func shouldUpdate(nextProperties: [String: Any]) -> Bool
   func update(with newElement: Element)
   func computeLayout() -> CSSLayout
+  func buildCSSNode() -> CSSNode
+  func updateCSSNode()
 
   func insert(child: Node, at index: Int)
   func remove(child: Node)
@@ -24,10 +27,15 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   func willUpdate()
   func didUpdate()
   func willDetach()
+}
 
+public protocol PropertyNode: Node {
+  associatedtype PropertiesType: Properties
+
+  var properties: PropertiesType { get set }
+
+  func shouldUpdate(nextProperties: PropertiesType) -> Bool
   func performDiff()
-  func buildCSSNode() -> CSSNode
-  func updateCSSNode()
 }
 
 public extension Node {
@@ -66,12 +74,52 @@ public extension Node {
     return buildCSSNode().layout()
   }
 
+  func shouldReplace(_ node: Node, with element: Element) -> Bool {
+    return !element.type.equals(node.element!.type)
+  }
+
+  func replace(_ node: Node, with element: Element) {
+    let replacement = element.build(with: owner)
+    let index = self.index(of: node)!
+    remove(child: node)
+    insert(child: replacement, at: index)
+  }
+
+  func append(_ element: Element) {
+    let child = element.build(with: owner)
+    children?.insert(child, at: children!.endIndex)
+    cssNode?.insertChild(child: child.buildCSSNode(), at: children!.count - 1)
+  }
+
+  func computeKey(_ index: Int, _ keyable: Keyable) -> String {
+    return keyable.key ?? "\(index)"
+  }
+
+  func updateParent() {
+    for child in (children ?? []) {
+      child.parent = self
+    }
+  }
+
+  func willBuild() {}
+  func didBuild() {}
+  func willUpdate() {}
+  func didUpdate() {}
+  func willDetach() {}
+}
+
+public extension PropertyNode {
+  var key: String? {
+    return properties.key
+  }
+
   func update(with newElement: Element) {
     element = newElement
 
-    if shouldUpdate(nextProperties: newElement.properties) {
+    let nextProperties = PropertiesType(newElement.properties)
+    if shouldUpdate(nextProperties: nextProperties) {
       willUpdate()
-      properties = newElement.properties
+      properties = nextProperties
       updateCSSNode()
     }
 
@@ -108,46 +156,9 @@ public extension Node {
     }
   }
 
-  func shouldUpdate(nextProperties: [String: Any]) -> Bool {
+  func shouldUpdate(nextProperties: PropertiesType) -> Bool {
     return properties != nextProperties
   }
-
-  func shouldReplace(_ node: Node, with element: Element) -> Bool {
-    if case ElementType.component(let classType) = element.type {
-      return classType != type(of: node)
-    }
-
-    return !element.type.equals(node.element!.type)
-  }
-
-  func replace(_ node: Node, with element: Element) {
-    let replacement = element.build(with: owner)
-    let index = self.index(of: node)!
-    remove(child: node)
-    insert(child: replacement, at: index)
-  }
-
-  func append(_ element: Element) {
-    let child = element.build(with: owner)
-    children?.insert(child, at: children!.endIndex)
-    cssNode?.insertChild(child: child.buildCSSNode(), at: children!.count - 1)
-  }
-
-  func computeKey(_ index: Int, _ keyable: Keyable) -> String {
-    return keyable.key ?? "\(index)"
-  }
-
-  func updateParent() {
-    for child in (children ?? []) {
-      child.parent = self
-    }
-  }
-
-  func willBuild() {}
-  func didBuild() {}
-  func willUpdate() {}
-  func didUpdate() {}
-  func willDetach() {}
 }
 
 func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {

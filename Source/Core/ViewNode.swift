@@ -8,12 +8,12 @@
 
 import Foundation
 
-class ViewNode: Node {
+class ViewNode: PropertyNode {
   weak var owner: Node?
   weak var parent: Node?
   var context: Context?
 
-  var properties = [String: Any]()
+  var properties: BaseProperties
   var children: [Node]? {
     didSet {
       updateParent()
@@ -23,12 +23,20 @@ class ViewNode: Node {
   var cssNode: CSSNode?
   var builtView: View?
 
-  init(view: UIView, properties: [String: Any], owner: Node? = nil) {
+  required init(properties: [String: Any], children: [Node]?, owner: Node?) {
+    self.properties = BaseProperties(properties)
+    self.children = children
+    self.owner = owner
+
+    updateParent()
+  }
+
+  init(view: UIView, properties: BaseProperties, owner: Node? = nil) {
     self.builtView = view
     self.properties = properties
   }
 
-  init(properties: [String: Any], children: [Node]? = nil, owner: Node? = nil) {
+  init(properties: BaseProperties, children: [Node]? = nil, owner: Node? = nil) {
     self.properties = properties
     self.children = children
     self.owner = owner

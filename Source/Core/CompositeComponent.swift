@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct EmptyState: State, Equatable {
+public struct EmptyState: State {
   public init() {}
 }
 
@@ -16,7 +16,7 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
   return true
 }
 
-open class CompositeComponent<StateType: State, ViewType: View>: Component {
+open class CompositeComponent<StateType: State, PropertiesType: Properties, ViewType: View>: Component {
   public weak var parent: Node?
   public weak var owner: Node?
 
@@ -27,7 +27,7 @@ open class CompositeComponent<StateType: State, ViewType: View>: Component {
     return self.getInitialState()
   }()
 
-  open var properties: [String : Any]
+  open var properties: PropertiesType
 
   private var _instance: Node?
   public var instance: Node {
@@ -42,8 +42,8 @@ open class CompositeComponent<StateType: State, ViewType: View>: Component {
     }
   }
 
-  public required init(properties: [String : Any], owner: Node?) {
-    self.properties = properties
+  public required init(properties: [String: Any], children: [Node]?, owner: Node?) {
+    self.properties = PropertiesType(properties)
     self.owner = owner
   }
 
@@ -63,7 +63,7 @@ open class CompositeComponent<StateType: State, ViewType: View>: Component {
 
   // FIXME: For some reason, implementing this as a default in the Component protocol extension
   // causes subclasses of this class to not receive calls to this function.
-  open func shouldUpdate(nextProperties: [String : Any], nextState: StateType) -> Bool {
+  open func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
     return properties != nextProperties || state != nextState
   }
 

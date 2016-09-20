@@ -9,6 +9,23 @@
 import Foundation
 import TemplateKit
 
+struct DetailsProperties: ViewProperties {
+  public var key: String?
+  public var layout: LayoutProperties?
+  public var style: StyleProperties?
+  public var gestures: GestureProperties?
+
+  public var message: String?
+
+  public init(_ properties: [String : Any]) {
+    message = properties.get("message")
+  }
+}
+
+func ==(lhs: DetailsProperties, rhs: DetailsProperties) -> Bool {
+  return lhs.message == rhs.message && lhs.equals(otherViewProperties: rhs)
+}
+
 struct DetailsState: State, Equatable {
   var text = "hi"
   var bg = UIColor.red
@@ -18,10 +35,10 @@ func ==(lhs: DetailsState, rhs: DetailsState) -> Bool {
   return lhs.text == rhs.text && lhs.bg == rhs.bg
 }
 
-class Details: CompositeComponent<DetailsState, UIView> {
-  public override var properties: [String : Any] {
+class Details: CompositeComponent<DetailsState, DetailsProperties, UIView> {
+  public override var properties: DetailsProperties {
     didSet {
-      state.text = get("message") ?? "hi"
+      state.text = properties.message ?? "hi"
     }
   }
 

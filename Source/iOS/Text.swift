@@ -9,18 +9,7 @@
 import Foundation
 
 class TextLayout {
-  var text = ""
-  var fontName = UIFont.systemFont(ofSize: UIFont.systemFontSize).fontName
-  var fontSize = UIFont.systemFontSize
-  var color = UIColor.black
-  var lineBreakMode = NSLineBreakMode.byTruncatingTail
-  var textAlignment = NSTextAlignment.natural
-
-  var properties = [String: Any]() {
-    didSet {
-      transferProperties()
-    }
-  }
+  var properties: TextProperties
 
   fileprivate lazy var layoutManager: NSLayoutManager = {
     let layoutManager = NSLayoutManager()
@@ -41,7 +30,9 @@ class TextLayout {
     return textContainer
   }()
 
-  init() {}
+  init(properties: TextProperties) {
+    self.properties = properties
+  }
 
   func sizeThatFits(_ size: CGSize) -> CGSize {
     applyProperties()
@@ -61,37 +52,74 @@ class TextLayout {
     layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: CGPoint.zero);
   }
 
-  private func transferProperties() {
-    if let text = properties["text"] as? String {
-      self.text = text
-    }
-    if let fontName = properties["fontName"] as? String {
-      self.fontName = fontName
-    }
-    if let fontSize = properties["fontSize"] as? Float {
-      self.fontSize = CGFloat(fontSize)
-    }
-    if let lineBreakMode = properties["lineBreakMode"] as? NSLineBreakMode {
-      self.lineBreakMode = lineBreakMode
-    }
-    if let textAlignment = properties["textAlignment"] as? NSTextAlignment {
-      self.textAlignment = textAlignment
-    }
-  }
-
   private func applyProperties() {
-    guard let fontValue = UIFont(name: fontName, size: fontSize) else {
+    guard let fontValue = UIFont(name: properties.textStyle.fontName, size: properties.textStyle.fontSize) else {
       fatalError("Attempting to use unknown font")
     }
     let attributes: [String : Any] = [
       NSFontAttributeName: fontValue,
-      NSForegroundColorAttributeName: color
+      NSForegroundColorAttributeName: properties.textStyle.color
     ]
 
-    textStorage.setAttributedString(NSAttributedString(string: text, attributes: attributes))
+    textStorage.setAttributedString(NSAttributedString(string: properties.textStyle.text, attributes: attributes))
 
-    textContainer.lineBreakMode = lineBreakMode
+    textContainer.lineBreakMode = properties.textStyle.lineBreakMode
   }
+}
+
+public struct TextStyleProperties: RawPropertiesReceiver, Equatable {
+  public var text = ""
+  public var fontName = UIFont.systemFont(ofSize: UIFont.systemFontSize).fontName
+  public var fontSize = UIFont.systemFontSize
+  public var color = UIColor.black
+  public var lineBreakMode = NSLineBreakMode.byTruncatingTail
+  public var textAlignment = NSTextAlignment.natural
+
+  public init(_ properties: [String : Any]) {
+    if let text: String = properties.get("text") {
+      self.text = text
+    }
+    if let fontName: String = properties.get("fontName") {
+      self.fontName = fontName
+    }
+    if let fontSize: CGFloat = properties.get("fontSize") {
+      self.fontSize = fontSize
+    }
+    if let color: UIColor = properties.get("color") {
+      self.color = color
+    }
+    if let lineBreakMode: NSLineBreakMode = properties.get("lineBreakMode") {
+      self.lineBreakMode = lineBreakMode
+    }
+    if let textAlignment: NSTextAlignment = properties.get("textAlignment") {
+      self.textAlignment = textAlignment
+    }
+  }
+}
+
+public func ==(lhs: TextStyleProperties, rhs: TextStyleProperties) -> Bool {
+  return lhs.text == rhs.text && lhs.fontName == rhs.fontName && lhs.fontSize == rhs.fontSize && lhs.color == rhs.color && lhs.lineBreakMode == rhs.lineBreakMode && lhs.textAlignment == rhs.textAlignment
+}
+
+public struct TextProperties: ViewProperties {
+  public var key: String?
+  public var layout: LayoutProperties?
+  public var style: StyleProperties?
+  public var gestures: GestureProperties?
+
+  public var textStyle = TextStyleProperties([:])
+
+  public init(_ properties: [String : Any]) {
+    key = properties.get("key")
+    layout = LayoutProperties(properties)
+    style = StyleProperties(properties)
+    gestures = GestureProperties(properties)
+    textStyle = TextStyleProperties(properties)
+  }
+}
+
+public func ==(lhs: TextProperties, rhs: TextProperties) -> Bool {
+  return lhs.textStyle == rhs.textStyle && lhs.equals(otherViewProperties: rhs)
 }
 
 public class Text: UILabel, NativeView {
@@ -108,7 +136,7 @@ public class Text: UILabel, NativeView {
 
   public var eventTarget: AnyObject?
 
-  public var properties = [String : Any]() {
+  public var properties = TextProperties([:]) {
     didSet {
       applyCommonProperties(properties: properties)
       textLayout.properties = properties
@@ -116,7 +144,9 @@ public class Text: UILabel, NativeView {
     }
   }
 
-  private lazy var textLayout = TextLayout()
+  private lazy var textLayout: TextLayout = {
+    return TextLayout(properties: self.properties)
+  }()
 
   public required init() {
     super.init(frame: CGRect.zero)

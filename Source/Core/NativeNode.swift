@@ -8,22 +8,30 @@
 
 import Foundation
 
-class NativeNode<T: NativeView>: Node {
+class NativeNode<T: NativeView>: PropertyNode {
   weak var parent: Node?
   weak var owner: Node?
   var context: Context?
 
-  var properties: [String: Any]
+  var properties: T.PropertiesType
   var children: [Node]? {
     didSet {
       updateParent()
     }
   }
   var element: Element?
-  var builtView: View?
+  var builtView: T?
   var cssNode: CSSNode?
 
-  init(properties: [String: Any], children: [Node]? = nil, owner: Node? = nil) {
+  required init(properties: [String: Any], children: [Node]?, owner: Node?) {
+    self.properties = T.PropertiesType(properties)
+    self.children = children
+    self.owner = owner
+
+    updateParent()
+  }
+
+  init(properties: T.PropertiesType, children: [Node]? = nil, owner: Node? = nil) {
     self.properties = properties
     self.children = children
     self.owner = owner
@@ -36,11 +44,11 @@ class NativeNode<T: NativeView>: Node {
       builtView = T()
     }
 
-    var view = builtView as! NativeView
+    let view = builtView
 
-    view.eventTarget = owner
-    view.properties = properties
-    view.children = children?.map { $0.build() as V } ?? []
+    view?.eventTarget = owner
+    view?.properties = properties
+    view?.children = children?.map { $0.build() as V } ?? []
 
     return view as! V
   }

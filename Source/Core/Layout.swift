@@ -9,73 +9,116 @@
 import Foundation
 import CSSLayout
 
-extension Node {
+public struct LayoutProperties: RawPropertiesReceiver, Equatable {
+  public var flexDirection: CSSFlexDirection?
+  public var direction: CSSDirection?
+  public var justifyContent: CSSJustify?
+  public var alignContent: CSSAlign?
+  public var alignItems: CSSAlign?
+  public var alignSelf: CSSAlign?
+  public var positionType: CSSPositionType?
+  public var flexWrap: CSSWrapType?
+  public var overflow: CSSOverflow?
+  public var flexGrow: Float?
+  public var flexShrink: Float?
+  public var margin: CSSEdges?
+  public var position: CSSEdges?
+  public var padding: CSSEdges?
+  public var size: CSSSize?
+  public var minSize: CSSSize?
+  public var maxSize: CSSSize?
+
+  public init(_ properties: [String : Any]) {
+    flexDirection = properties.get("flexDirection")
+    direction = properties.get("direction")
+    justifyContent = properties.get("justifyContent")
+    alignContent = properties.get("alignContent")
+    alignItems = properties.get("alignItems")
+    alignSelf = properties.get("alignSelf")
+    positionType = properties.get("positionType")
+    flexWrap = properties.get("flexWrap")
+    overflow = properties.get("overflow")
+    flexGrow = properties.get("flexGrow")
+    flexShrink = properties.get("flexShrink")
+    margin = properties.get("margin")
+    padding = properties.get("padding")
+    size = properties.get("size") ?? CSSSize(width: properties.get("width") ?? Float.nan, height: properties.get("height") ?? Float.nan)
+    minSize = properties.get("minSize")
+    maxSize = properties.get("maxSize") ?? CSSSize(width: properties.get("maxWidth") ?? Float.greatestFiniteMagnitude, height: properties.get("maxHeight") ?? Float.greatestFiniteMagnitude)
+  }
+}
+
+public func ==(lhs: LayoutProperties, rhs: LayoutProperties) -> Bool {
+  return lhs.flexDirection == rhs.flexDirection && lhs.direction == rhs.direction && lhs.justifyContent == rhs.justifyContent && lhs.alignContent == rhs.alignContent && lhs.alignItems == rhs.alignItems && lhs.alignSelf == rhs.alignSelf && lhs.positionType == rhs.positionType && lhs.flexWrap == rhs.flexWrap && lhs.overflow == rhs.overflow && lhs.flexGrow == rhs.flexGrow && lhs.flexShrink == rhs.flexShrink && lhs.margin == rhs.margin && (lhs.padding == rhs.padding) && lhs.size == rhs.size && lhs.minSize == rhs.minSize && lhs.maxSize == rhs.maxSize
+}
+
+extension PropertyNode where Self.PropertiesType: ViewProperties {
   public var flexDirection: CSSFlexDirection {
-    return get("flexDirection") ?? CSSFlexDirectionColumn
+    return properties.layout?.flexDirection ?? CSSFlexDirectionColumn
   }
 
   public var direction: CSSDirection {
-    return get("direction") ?? CSSDirectionLTR
+    return properties.layout?.direction ?? CSSDirectionLTR
   }
 
   public var justifyContent: CSSJustify {
-    return get("justifyContent") ?? CSSJustifyFlexStart
+    return properties.layout?.justifyContent ?? CSSJustifyFlexStart
   }
 
   public var alignContent: CSSAlign {
-    return get("alignContent") ?? CSSAlignStretch
+    return properties.layout?.alignContent ?? CSSAlignStretch
   }
 
   public var alignItems: CSSAlign {
-    return get("alignItems") ?? CSSAlignStretch
+    return properties.layout?.alignItems ?? CSSAlignStretch
   }
 
   public var alignSelf: CSSAlign {
-    return get("alignSelf") ?? CSSAlignAuto
+    return properties.layout?.alignSelf ?? CSSAlignAuto
   }
 
   public var positionType: CSSPositionType {
-    return get("positionType") ?? CSSPositionTypeRelative
+    return properties.layout?.positionType ?? CSSPositionTypeRelative
   }
 
   public var flexWrap: CSSWrapType {
-    return get("flexWrap") ?? CSSWrapTypeNoWrap
+    return properties.layout?.flexWrap ?? CSSWrapTypeNoWrap
   }
 
   public var overflow: CSSOverflow {
-    return get("overflow") ?? CSSOverflowVisible
+    return properties.layout?.overflow ?? CSSOverflowVisible
   }
 
   public var flexGrow: Float {
-    return get("flexGrow") ?? 0
+    return properties.layout?.flexGrow ?? 0
   }
 
   public var flexShrink: Float {
-    return get("flexShrink") ?? 0
+    return properties.layout?.flexShrink ?? 0
   }
 
   public var margin: CSSEdges {
-    return CSSEdges(left: get("marginLeft") ?? 0, right: get("marginRight") ?? 0, bottom: get("marginBottom") ?? 0, top: get("marginTop") ?? 0)
+    return properties.layout?.margin ?? CSSEdges()
   }
 
   public var position: CSSEdges {
-    return CSSEdges(left: get("left") ?? 0, right: get("right") ?? 0, bottom: get("bottom") ?? 0, top: get("top") ?? 0)
+    return properties.layout?.position ?? CSSEdges()
   }
 
   public var padding: CSSEdges {
-    return CSSEdges(left: get("paddingLeft") ?? 0, right: get("paddingRight") ?? 0, bottom: get("paddingBottom") ?? 0, top: get("paddingTop") ?? 0)
+    return properties.layout?.padding ?? CSSEdges()
   }
 
   public var size: CSSSize {
-    return CSSSize(width: get("width") ?? Float.nan, height: get("height") ?? Float.nan)
+    return properties.layout?.size ?? CSSSize()
   }
 
   public var minSize: CSSSize {
-    return CSSSize(width: get("minWidth") ?? 0, height: get("minHeight") ?? 0)
+    return properties.layout?.minSize ?? CSSSize()
   }
 
   public var maxSize: CSSSize {
-    return CSSSize(width: get("maxWidth") ?? Float.greatestFiniteMagnitude, height: get("maxHeight") ?? Float.greatestFiniteMagnitude)
+    return properties.layout?.maxSize ?? CSSSize()
   }
 
   public func buildCSSNode() -> CSSNode {
@@ -124,8 +167,7 @@ extension Node {
       cssNode?.overflow = overflow
       cssNode?.padding = padding
     case ElementType.text:
-      let textLayout = TextLayout()
-      textLayout.properties = properties
+      let textLayout = TextLayout(properties: properties as! TextProperties)
       let context = UnsafeMutableRawPointer(Unmanaged.passRetained(textLayout).toOpaque())
 
       let measure: CSSMeasureFunc = { context, width, widthMode, height, heightMode in
