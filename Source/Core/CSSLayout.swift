@@ -75,7 +75,7 @@ public struct CSSLayout {
   }
 }
 
-public class CSSNode {
+public class CSSNode: Hashable {
   var direction: CSSDirection {
     set {
       if newValue != direction {
@@ -298,8 +298,20 @@ public class CSSNode {
 
   var children: [CSSNode] {
     set {
+      var remainingChildren = Set(children)
       for (index, child) in newValue.enumerated() {
-        CSSNodeInsertChild(nodeRef, child.nodeRef, UInt32(index))
+        if index < children.count && child != children[index] {
+          remainingChildren.remove(children[index])
+          removeChild(child: children[index])
+          insertChild(child: child, at: index)
+        } else if index >= children.count {
+          insertChild(child: child, at: index)
+        } else {
+          remainingChildren.remove(children[index])
+        }
+      }
+      for child in remainingChildren {
+        removeChild(child: child)
       }
     }
     get {
@@ -308,6 +320,10 @@ public class CSSNode {
         return CSSNode(nodeRef: CSSNodeGetChild(nodeRef, $0))
       }
     }
+  }
+
+  public var hashValue: Int {
+    return nodeRef.hashValue
   }
 
   let nodeRef: CSSNodeRef
@@ -345,10 +361,6 @@ public class CSSNode {
     self.children = children
   }
 
-  deinit {
-    CSSNodeFree(nodeRef)
-  }
-
   func insertChild(child: CSSNode, at index: Int) {
     CSSNodeInsertChild(nodeRef, child.nodeRef, UInt32(index))
   }
@@ -363,7 +375,6 @@ public class CSSNode {
 
   func layout(availableWidth: Float = Float.nan, availableHeight: Float = Float.nan) -> CSSLayout {
     CSSNodeCalculateLayout(nodeRef, availableWidth, availableHeight, CSSDirectionLTR)
-    debugPrint()
     return CSSLayout(nodeRef: nodeRef)
   }
 
@@ -371,4 +382,8 @@ public class CSSNode {
     let options = CSSPrintOptionsLayout.rawValue | CSSPrintOptionsStyle.rawValue | CSSPrintOptionsChildren.rawValue
     CSSNodePrint(nodeRef, CSSPrintOptions(options))
   }
+}
+
+public func ==(lhs: CSSNode, rhs: CSSNode) -> Bool {
+  return lhs.nodeRef == rhs.nodeRef
 }

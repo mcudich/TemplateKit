@@ -138,10 +138,10 @@ public extension Component {
 
   func performDiff() {
     let rendered = render()
-    // The case where the root node changes type.
+
     if shouldReplace(instance, with: rendered) {
       instance = rendered.build(with: self, context: context)
-      root.cssNode = nil
+      cssNode = nil
     } else {
       instance.update(with: rendered)
     }

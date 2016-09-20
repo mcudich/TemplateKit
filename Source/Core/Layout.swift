@@ -130,23 +130,19 @@ extension PropertyNode where Self.PropertiesType: ViewProperties {
   }
 
   public func buildCSSNode() -> CSSNode {
-    if let cssNode = cssNode {
-      return cssNode
+    if cssNode == nil {
+      cssNode = CSSNode()
     }
-
-    let newNode = CSSNode()
 
     switch self.element.type {
     case ElementType.box:
       let childNodes: [CSSNode] = children?.map {
         return $0.buildCSSNode()
       } ?? []
-      newNode.children = childNodes
+      cssNode?.children = childNodes
     default:
       break
     }
-
-    cssNode = newNode
 
     updateCSSNode()
 
