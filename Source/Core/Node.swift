@@ -6,11 +6,11 @@ public protocol Node: class, Keyable {
   var context: Context? { get set }
 
   var children: [Node]? { get set }
-  var element: Element? { get set }
+  var element: Element { get set }
   var cssNode: CSSNode? { get set }
   var key: String? { get }
 
-  init(properties: [String: Any], children: [Node]?, owner: Node?)
+  init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?)
 
   func build<V: View>() -> V
   func update(with newElement: Element)
@@ -75,7 +75,7 @@ public extension Node {
   }
 
   func shouldReplace(_ node: Node, with element: Element) -> Bool {
-    return !element.type.equals(node.element!.type)
+    return !element.type.equals(node.element.type)
   }
 
   func replace(_ node: Node, with element: Element) {
@@ -121,13 +121,12 @@ public extension PropertyNode {
       willUpdate()
       properties = nextProperties
       updateCSSNode()
+      performDiff()
     }
-
-    performDiff()
   }
 
   func performDiff() {
-    diffChildren(newChildren: element?.children ?? [])
+    diffChildren(newChildren: element.children ?? [])
   }
 
   func diffChildren(newChildren: [Element]) {

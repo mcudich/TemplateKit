@@ -136,7 +136,7 @@ extension PropertyNode where Self.PropertiesType: ViewProperties {
 
     let newNode = CSSNode()
 
-    switch self.element!.type {
+    switch self.element.type {
     case ElementType.box:
       let childNodes: [CSSNode] = children?.map {
         return $0.buildCSSNode()
@@ -164,7 +164,7 @@ extension PropertyNode where Self.PropertiesType: ViewProperties {
     cssNode?.position = position
     cssNode?.positionType = positionType
 
-    switch self.element!.type {
+    switch self.element.type {
     case ElementType.box:
       cssNode?.flexDirection = flexDirection
       cssNode?.direction = direction

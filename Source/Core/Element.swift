@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol ElementRepresentable {
-  func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> Node
+  func make(_ element: Element, _ owner: Node?) -> Node
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
@@ -29,9 +29,8 @@ public struct Element: Keyable, Equatable {
   }
 
   public func build(with owner: Node?, context: Context? = nil) -> Node {
-    let made = type.make(properties, children, owner)
+    let made = type.make(self, owner)
 
-    made.element = self
     made.context = context
 
     return made

@@ -19,11 +19,12 @@ class ViewNode: PropertyNode {
       updateParent()
     }
   }
-  var element: Element?
+  var element: Element
   var cssNode: CSSNode?
   var builtView: View?
 
-  required init(properties: [String: Any], children: [Node]?, owner: Node?) {
+  required init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?) {
+    self.element = element
     self.properties = BaseProperties(properties)
     self.children = children
     self.owner = owner
@@ -31,12 +32,14 @@ class ViewNode: PropertyNode {
     updateParent()
   }
 
-  init(view: UIView, properties: BaseProperties, owner: Node? = nil) {
+  init(view: UIView, element: Element, properties: BaseProperties, owner: Node? = nil) {
+    self.element = element
     self.builtView = view
     self.properties = properties
   }
 
-  init(properties: BaseProperties, children: [Node]? = nil, owner: Node? = nil) {
+  init(element: Element, properties: BaseProperties, children: [Node]? = nil, owner: Node? = nil) {
+    self.element = element
     self.properties = properties
     self.children = children
     self.owner = owner

@@ -96,7 +96,7 @@ public extension Component {
   }
 
   func performUpdate(shouldUpdate: Bool, nextState: StateType) {
-    self.state = nextState
+    state = nextState
 
     if !shouldUpdate {
       return
@@ -106,8 +106,8 @@ public extension Component {
     let previousParentView = builtView?.parent
     let previousView = builtView
 
-    self.update(with: self.element!)
-    let layout = self.root.computeLayout()
+    update(with: element)
+    let layout = root.computeLayout()
 
     DispatchQueue.main.async {
       if previousInstance !== self.instance {
@@ -128,11 +128,11 @@ public extension Component {
     }
   }
 
-  func shouldUpdate(nextProperties: [String : Any]) -> Bool {
+  func shouldUpdate(nextProperties: PropertiesType) -> Bool {
     return shouldUpdate(nextProperties: nextProperties, nextState: state)
   }
 
-  func shouldUpdate(nextProperties: [String : Any], nextState: StateType) -> Bool {
+  func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
     return true
   }
 

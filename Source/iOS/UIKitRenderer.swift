@@ -16,20 +16,20 @@ public enum ElementType: ElementRepresentable {
   case view(UIView)
   case component(AnyClass)
 
-  public func make(_ properties: [String: Any], _ children: [Element]?, _ owner: Node?) -> Node {
+  public func make(_ element: Element, _ owner: Node?) -> Node {
     switch self {
     case .box:
-      return NativeNode<Box>(properties: BaseProperties(properties), children: children?.map { $0.build(with: owner) }, owner: owner)
+      return NativeNode<Box>(element: element, properties: BaseProperties(element.properties), children: element.children?.map { $0.build(with: owner) }, owner: owner)
     case .text:
-      return NativeNode<Text>(properties: TextProperties(properties), owner: owner)
+      return NativeNode<Text>(element: element, properties: TextProperties(element.properties), owner: owner)
     case .textField:
-      return NativeNode<TextField>(properties: TextFieldProperties(properties), owner: owner)
+      return NativeNode<TextField>(element: element, properties: TextFieldProperties(element.properties), owner: owner)
     case .image:
-      return NativeNode<Image>(properties: ImageProperties(properties), owner: owner)
+      return NativeNode<Image>(element: element, properties: ImageProperties(element.properties), owner: owner)
     case .view(let view):
-      return ViewNode(view: view, properties: BaseProperties([:]), owner: owner)
+      return ViewNode(view: view, element: element, properties: BaseProperties([:]), owner: owner)
     case .component(let ComponentType as Node.Type):
-      return ComponentType.init(properties: properties, children: nil, owner: owner)
+      return ComponentType.init(element: element, properties: element.properties, children: nil, owner: owner)
     default:
       fatalError("Unknown element type")
     }

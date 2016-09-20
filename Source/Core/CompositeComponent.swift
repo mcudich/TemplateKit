@@ -20,7 +20,7 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
   public weak var parent: Node?
   public weak var owner: Node?
 
-  public var element: Element?
+  public var element: Element
   public var builtView: ViewType?
   public var context: Context?
   public lazy var state: StateType = {
@@ -42,7 +42,8 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     }
   }
 
-  public required init(properties: [String: Any], children: [Node]?, owner: Node?) {
+  public required init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?) {
+    self.element = element
     self.properties = PropertiesType(properties)
     self.owner = owner
   }
