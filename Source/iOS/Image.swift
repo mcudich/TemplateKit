@@ -14,20 +14,23 @@ public struct ImageProperties: ViewProperties {
   public var style: StyleProperties?
   public var gestures: GestureProperties?
 
-  public var contentMode = UIViewContentMode.scaleToFill
+  public var contentMode = UIViewContentMode.scaleAspectFit
   public var url: URL?
   public var name: String?
 
-  public init(_ dictionary: [String : Any]) {
-  }
+  public init(_ properties: [String : Any]) {
+    applyProperties(properties)
 
-  public func toDictionary() -> [String : Any] {
-    return [:]
+    if let contentMode: UIViewContentMode = properties.get("contentMode") {
+      self.contentMode = contentMode
+    }
+    url = properties.get("url")
+    name = properties.get("name")
   }
 }
 
 public func ==(lhs: ImageProperties, rhs: ImageProperties) -> Bool {
-  return true
+  return lhs.contentMode == rhs.contentMode && lhs.url == rhs.url && lhs.name == rhs.name && lhs.equals(otherViewProperties: rhs)
 }
 
 public class Image: UIImageView, NativeView {
@@ -64,7 +67,7 @@ public class Image: UIImageView, NativeView {
   func applyImageProperties(properties: ImageProperties) {
     contentMode = properties.contentMode
 
-    if let url: URL = properties.url {
+    if let url = properties.url {
       ImageService.shared.load(url) { [weak self] result in
         switch result {
         case .success(let image):
@@ -76,7 +79,7 @@ public class Image: UIImageView, NativeView {
           break
         }
       }
-    } else if let name: String = properties.name {
+    } else if let name = properties.name {
       image = UIImage(named: name)
     }
   }

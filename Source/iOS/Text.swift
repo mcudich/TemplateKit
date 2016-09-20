@@ -110,10 +110,7 @@ public struct TextProperties: ViewProperties {
   public var textStyle = TextStyleProperties([:])
 
   public init(_ properties: [String : Any]) {
-    key = properties.get("key")
-    layout = LayoutProperties(properties)
-    style = StyleProperties(properties)
-    gestures = GestureProperties(properties)
+    applyProperties(properties)
     textStyle = TextStyleProperties(properties)
   }
 }

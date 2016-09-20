@@ -40,11 +40,19 @@ public struct LayoutProperties: RawPropertiesReceiver, Equatable {
     overflow = properties.get("overflow")
     flexGrow = properties.get("flexGrow")
     flexShrink = properties.get("flexShrink")
-    margin = properties.get("margin")
-    padding = properties.get("padding")
-    size = properties.get("size") ?? CSSSize(width: properties.get("width") ?? Float.nan, height: properties.get("height") ?? Float.nan)
-    minSize = properties.get("minSize")
-    maxSize = properties.get("maxSize") ?? CSSSize(width: properties.get("maxWidth") ?? Float.greatestFiniteMagnitude, height: properties.get("maxHeight") ?? Float.greatestFiniteMagnitude)
+    margin = getEdges(properties: properties, prefix: "margin")
+    padding = getEdges(properties: properties, prefix: "padding")
+    size = getSize(properties: properties, widthKey: "width", heightKey: "height", defaultValue: Float.nan)
+    minSize = getSize(properties: properties, widthKey: "minWidth", heightKey: "minHeight", defaultValue: Float.nan)
+    maxSize = getSize(properties: properties, widthKey: "maxWidth", heightKey: "maxHeight", defaultValue: Float.greatestFiniteMagnitude)
+  }
+
+  private func getEdges(properties: [String: Any], prefix: String) -> CSSEdges {
+    return CSSEdges(left: properties.get(prefix + "Left") ?? 0, right: properties.get(prefix + "Right") ?? 0, bottom: properties.get(prefix + "Bottom") ?? 0, top: properties.get(prefix + "Top") ?? 0)
+  }
+
+  private func getSize(properties: [String: Any], widthKey: String, heightKey: String, defaultValue: Float) -> CSSSize {
+    return CSSSize(width: properties.get(widthKey) ?? defaultValue, height: properties.get(heightKey) ?? defaultValue)
   }
 }
 

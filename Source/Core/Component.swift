@@ -115,10 +115,10 @@ public extension Component {
         // rebuild. This will pick up the new instance and rebuild it.
         if let parent = self.parent {
           let _: ViewType = parent.build()
-        } else {
+        } else if let previousParentView = previousParentView {
           // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
           let view: ViewType = self.build()
-          previousParentView!.replace(previousView!, with: view)
+          previousParentView.replace(previousView!, with: view)
         }
       } else {
         // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.

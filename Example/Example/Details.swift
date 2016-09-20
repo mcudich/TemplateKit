@@ -18,6 +18,7 @@ struct DetailsProperties: ViewProperties {
   public var message: String?
 
   public init(_ properties: [String : Any]) {
+    applyProperties(properties)
     message = properties.get("message")
   }
 }

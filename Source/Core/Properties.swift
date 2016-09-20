@@ -41,15 +41,23 @@ public func ==(lhs: GestureProperties, rhs: GestureProperties) -> Bool {
 }
 
 public protocol ViewProperties: Properties {
-  var key: String? { get }
-  var layout: LayoutProperties? { get }
-  var style: StyleProperties? { get }
-  var gestures: GestureProperties? { get }
+  var key: String? { get set }
+  var layout: LayoutProperties? { get set }
+  var style: StyleProperties? { get set }
+  var gestures: GestureProperties? { get set }
 
+  mutating func applyProperties(_ properties: [String: Any])
   func equals<T: ViewProperties>(otherViewProperties: T) -> Bool
 }
 
 public extension ViewProperties {
+  public mutating func applyProperties(_ properties: [String: Any]) {
+    key = properties.get("key")
+    layout = LayoutProperties(properties)
+    style = StyleProperties(properties)
+    gestures = GestureProperties(properties)
+  }
+
   public func equals<T: ViewProperties>(otherViewProperties: T) -> Bool {
     return key == otherViewProperties.key && layout == otherViewProperties.layout && style == otherViewProperties.style && gestures == otherViewProperties.gestures
   }

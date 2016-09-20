@@ -17,16 +17,15 @@ public struct TextFieldProperties: ViewProperties {
   public var textStyle = TextStyleProperties([:])
   public var onChange: Selector?
 
-  public init(_ dictionary: [String : Any]) {
-  }
-
-  public func toDictionary() -> [String : Any] {
-    return [:]
+  public init(_ properties: [String : Any]) {
+    applyProperties(properties)
+    textStyle = TextStyleProperties(properties)
+    onChange = properties.get("onChange")
   }
 }
 
 public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
-  return true
+  return lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.equals(otherViewProperties: rhs)
 }
 
 public class TextField: UITextField, NativeView {
