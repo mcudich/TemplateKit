@@ -23,30 +23,16 @@ public class Box: UIView, NativeView {
 
   public var eventTarget: AnyObject?
 
-  public var properties = [String : Any]() {
+  public var properties = BaseProperties([:]) {
     didSet {
       applyCommonProperties(properties: properties)
-    }
-  }
-
-  public var children: [View]? {
-    didSet {
-      var pendingViews = Set(subviews)
-
-      for (index, child) in (children ?? []).enumerated() {
-        let childView = child as! UIView
-        insertSubview(childView, at: index)
-        pendingViews.remove(childView)
-      }
-
-      pendingViews.forEach { $0.removeFromSuperview() }
     }
   }
 
   public required init() {
     super.init(frame: CGRect.zero)
   }
-  
+
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }

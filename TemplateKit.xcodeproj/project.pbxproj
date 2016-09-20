@@ -12,7 +12,6 @@
 		D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936941D8348C5008CA7F1 /* Keyable.swift */; };
 		D83936BA1D8348C5008CA7F1 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936951D8348C5008CA7F1 /* Layout.swift */; };
 		D83936BB1D8348C5008CA7F1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936961D8348C5008CA7F1 /* Node.swift */; };
-		D83936BC1D8348C5008CA7F1 /* PropertyHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936971D8348C5008CA7F1 /* PropertyHolder.swift */; };
 		D83936BD1D8348C5008CA7F1 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936981D8348C5008CA7F1 /* Renderer.swift */; };
 		D83936BE1D8348C5008CA7F1 /* ViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936991D8348C5008CA7F1 /* ViewNode.swift */; };
 		D83936BF1D8348C5008CA7F1 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839369B1D8348C5008CA7F1 /* Box.swift */; };
@@ -62,6 +61,7 @@
 		D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194431D57F24F0049991F /* SimpleTemplate.xml */; };
 		D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194441D57F24F0049991F /* TemplateWithModel.xml */; };
 		D891944C1D57F7280049991F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891944B1D57F7280049991F /* AEXML.framework */; };
+		D893AC501D908AA90078DAD9 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D893AC4F1D908AA90078DAD9 /* Properties.swift */; };
 		D8E661571D8A1226005D8C4F /* DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E661561D8A1226005D8C4F /* DiffTests.swift */; };
 		D8E6615B1D8E754D005D8C4F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615A1D8E754D005D8C4F /* View.swift */; };
 /* End PBXBuildFile section */
@@ -89,7 +89,6 @@
 		D83936941D8348C5008CA7F1 /* Keyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyable.swift; sourceTree = "<group>"; };
 		D83936951D8348C5008CA7F1 /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		D83936961D8348C5008CA7F1 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Node.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		D83936971D8348C5008CA7F1 /* PropertyHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyHolder.swift; sourceTree = "<group>"; };
 		D83936981D8348C5008CA7F1 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		D83936991D8348C5008CA7F1 /* ViewNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewNode.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D839369B1D8348C5008CA7F1 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
@@ -145,6 +144,7 @@
 		D89194431D57F24F0049991F /* SimpleTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SimpleTemplate.xml; sourceTree = "<group>"; };
 		D89194441D57F24F0049991F /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
 		D891944B1D57F7280049991F /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
+		D893AC4F1D908AA90078DAD9 /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		D8E661561D8A1226005D8C4F /* DiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffTests.swift; sourceTree = "<group>"; };
 		D8E6615A1D8E754D005D8C4F /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,17 +183,17 @@
 			children = (
 				D83936921D8348C5008CA7F1 /* Component.swift */,
 				D85B43951D86627100DDC9A2 /* CompositeComponent.swift */,
+				D83937071D835207008CA7F1 /* CSSLayout.swift */,
 				D83936931D8348C5008CA7F1 /* Element.swift */,
 				D83936941D8348C5008CA7F1 /* Keyable.swift */,
 				D83936951D8348C5008CA7F1 /* Layout.swift */,
 				D839369F1D8348C5008CA7F1 /* NativeNode.swift */,
 				D83936A01D8348C5008CA7F1 /* NativeView.swift */,
 				D83936961D8348C5008CA7F1 /* Node.swift */,
-				D83936971D8348C5008CA7F1 /* PropertyHolder.swift */,
+				D893AC4F1D908AA90078DAD9 /* Properties.swift */,
 				D83936981D8348C5008CA7F1 /* Renderer.swift */,
-				D83936991D8348C5008CA7F1 /* ViewNode.swift */,
-				D83937071D835207008CA7F1 /* CSSLayout.swift */,
 				D8E6615A1D8E754D005D8C4F /* View.swift */,
+				D83936991D8348C5008CA7F1 /* ViewNode.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -513,9 +513,9 @@
 				D83936C31D8348C5008CA7F1 /* NativeNode.swift in Sources */,
 				D83936C51D8348C5008CA7F1 /* TableView.swift in Sources */,
 				D83936BF1D8348C5008CA7F1 /* Box.swift in Sources */,
-				D83936BC1D8348C5008CA7F1 /* PropertyHolder.swift in Sources */,
 				D83936B81D8348C5008CA7F1 /* Element.swift in Sources */,
 				D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */,
+				D893AC501D908AA90078DAD9 /* Properties.swift in Sources */,
 				D83936D41D8348C5008CA7F1 /* FlexboxValidation.swift in Sources */,
 				D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */,
 				D83936D11D8348C5008CA7F1 /* Dictionary.swift in Sources */,

@@ -1,20 +1,22 @@
 import UIKit
 
-public protocol Node: class, MutablePropertyHolder, Keyable {
-  weak var owner: Component? { get set }
+public protocol Node: class, Keyable {
+  weak var owner: Node? { get set }
   weak var parent: Node? { get set }
+  var context: Context? { get set }
 
   var children: [Node]? { get set }
   var element: Element? { get set }
-  var instance: Node { get set}
-  var builtView: View? { get }
   var cssNode: CSSNode? { get set }
-  var properties: [String: Any] { get set }
+  var key: String? { get }
 
-  func build() -> View
-  func shouldUpdate(nextProperties: [String: Any]) -> Bool
+  init(properties: [String: Any], children: [Node]?, owner: Node?)
+
+  func build<V: View>() -> V
   func update(with newElement: Element)
   func computeLayout() -> CSSLayout
+  func buildCSSNode() -> CSSNode
+  func updateCSSNode()
 
   func insert(child: Node, at index: Int)
   func remove(child: Node)
@@ -25,27 +27,21 @@ public protocol Node: class, MutablePropertyHolder, Keyable {
   func willUpdate()
   func didUpdate()
   func willDetach()
+}
 
+public protocol PropertyNode: Node {
+  associatedtype PropertiesType: Properties
+
+  var properties: PropertiesType { get set }
+
+  func shouldUpdate(nextProperties: PropertiesType) -> Bool
   func performDiff()
 }
 
 public extension Node {
-  public var instance: Node {
-    set {}
-    get { return self }
-  }
-
-  var root: Node? {
-    var current: Component? = owner ?? (self as? Component)
-    while let currentOwner = current?.owner {
-      current = currentOwner
-    }
-    return current
-  }
-
   func insert(child: Node, at index: Int) {
     children?.insert(child, at: index)
-    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: index)
+    cssNode?.insertChild(child: child.buildCSSNode(), at: index)
   }
 
   func remove(child: Node) {
@@ -75,20 +71,56 @@ public extension Node {
   }
 
   func computeLayout() -> CSSLayout {
-    guard let root = root else {
-      fatalError("Can't compute layout without a valid root component")
-    }
+    return buildCSSNode().layout()
+  }
 
-    return root.instance.maybeBuildCSSNode().layout()
+  func shouldReplace(_ node: Node, with element: Element) -> Bool {
+    return !element.type.equals(node.element!.type)
+  }
+
+  func replace(_ node: Node, with element: Element) {
+    let replacement = element.build(with: owner)
+    let index = self.index(of: node)!
+    remove(child: node)
+    insert(child: replacement, at: index)
+  }
+
+  func append(_ element: Element) {
+    let child = element.build(with: owner)
+    children?.insert(child, at: children!.endIndex)
+    cssNode?.insertChild(child: child.buildCSSNode(), at: children!.count - 1)
+  }
+
+  func computeKey(_ index: Int, _ keyable: Keyable) -> String {
+    return keyable.key ?? "\(index)"
+  }
+
+  func updateParent() {
+    for child in (children ?? []) {
+      child.parent = self
+    }
+  }
+
+  func willBuild() {}
+  func didBuild() {}
+  func willUpdate() {}
+  func didUpdate() {}
+  func willDetach() {}
+}
+
+public extension PropertyNode {
+  var key: String? {
+    return properties.key
   }
 
   func update(with newElement: Element) {
     element = newElement
 
-    if shouldUpdate(nextProperties: newElement.properties) {
+    let nextProperties = PropertiesType(newElement.properties)
+    if shouldUpdate(nextProperties: nextProperties) {
       willUpdate()
-      properties = newElement.properties
-      instance.updateCSSNode()
+      properties = nextProperties
+      updateCSSNode()
     }
 
     performDiff()
@@ -124,46 +156,9 @@ public extension Node {
     }
   }
 
-  func shouldUpdate(nextProperties: [String: Any]) -> Bool {
+  func shouldUpdate(nextProperties: PropertiesType) -> Bool {
     return properties != nextProperties
   }
-
-  func shouldReplace(_ instance: Node, with element: Element) -> Bool {
-    if case ElementType.component(let classType) = element.type {
-      return classType != type(of: instance)
-    }
-
-    return !element.type.equals(instance.element!.type)
-  }
-
-  func replace(_ instance: Node, with element: Element) {
-    let replacement = element.build(with: owner)
-    let index = self.index(of: instance)!
-    remove(child: instance)
-    insert(child: replacement, at: index)
-  }
-
-  func append(_ element: Element) {
-    let child = element.build(with: owner)
-    children?.insert(child, at: children!.endIndex)
-    cssNode?.insertChild(child: child.maybeBuildCSSNode(), at: children!.count - 1)
-  }
-
-  func computeKey(_ index: Int, _ keyable: Keyable) -> String {
-    return keyable.key ?? "\(index)"
-  }
-
-  func updateParent() {
-    for child in (children ?? []) {
-      child.parent = self
-    }
-  }
-
-  func willBuild() {}
-  func didBuild() {}
-  func willUpdate() {}
-  func didUpdate() {}
-  func willDetach() {}
 }
 
 func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct EmptyState: State, Equatable {
+public struct EmptyState: State {
   public init() {}
 }
 
@@ -16,15 +16,18 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
   return true
 }
 
-open class CompositeComponent<StateType: State>: Component where StateType: Equatable {
+open class CompositeComponent<StateType: State, PropertiesType: Properties, ViewType: View>: Component {
   public weak var parent: Node?
-  public weak var owner: Component?
+  public weak var owner: Node?
 
   public var element: Element?
+  public var builtView: ViewType?
   public var context: Context?
-  public lazy var componentState: State = self.getInitialState()
+  public lazy var state: StateType = {
+    return self.getInitialState()
+  }()
 
-  open var properties: [String : Any]
+  open var properties: PropertiesType
 
   private var _instance: Node?
   public var instance: Node {
@@ -39,17 +42,8 @@ open class CompositeComponent<StateType: State>: Component where StateType: Equa
     }
   }
 
-  public var state: StateType {
-    set {
-      componentState = newValue
-    }
-    get {
-      return componentState as! StateType
-    }
-  }
-
-  public required init(properties: [String : Any], owner: Component?) {
-    self.properties = properties
+  public required init(properties: [String: Any], children: [Node]?, owner: Node?) {
+    self.properties = PropertiesType(properties)
     self.owner = owner
   }
 
@@ -61,16 +55,16 @@ open class CompositeComponent<StateType: State>: Component where StateType: Equa
     return try! getContext().templateService.element(withLocation: location, properties: properties)
   }
 
-  // FIXME: For some reason, implementing this as a default in the Component protocol extension
-  // causes subclasses of this class to not receive calls to this function.
-  open func shouldUpdate(nextProperties: [String : Any], nextState: State) -> Bool {
-    return properties != nextProperties || !componentState.equals(other: nextState)
-  }
-
   public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void) {
     updateState { (state: inout StateType) in
       stateMutation(&state)
     }
+  }
+
+  // FIXME: For some reason, implementing this as a default in the Component protocol extension
+  // causes subclasses of this class to not receive calls to this function.
+  open func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
+    return properties != nextProperties || state != nextState
   }
 
   open func getInitialState() -> StateType {

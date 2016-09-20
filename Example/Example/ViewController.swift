@@ -20,14 +20,14 @@ class ViewController: UIViewController {
 
     templateService?.cachePolicy = .never
 
-    templateService?.fetchTemplates(withURLs: [Todo.location]) { result in
-      DispatchQueue.global(qos: .background).async {
-        UIKitRenderer.render(Element(ElementType.component(App.self)), container: self.view) { [weak self] component in
-          self?.appComponent = component as? App
+//    templateService?.fetchTemplates(withURLs: [Todo.location]) { result in
+//      DispatchQueue.global(qos: .background).async {
+        UIKitRenderer.render(Element(ElementType.component(App.self)), container: self.view) { component in
+          self.appComponent = component as? App
         }
 //        self.watchTemplates()
-      }
-    }
+//      }
+//    }
   }
 
   func watchTemplates() {

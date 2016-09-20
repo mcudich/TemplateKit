@@ -41,6 +41,12 @@ public func ==(lhs: CSSEdges, rhs: CSSEdges) -> Bool {
   return lhs.left == rhs.left && lhs.right == rhs.right && lhs.top == rhs.top && lhs.bottom == rhs.bottom
 }
 
+extension CSSSize: Equatable {}
+
+public func ==(lhs: CSSSize, rhs: CSSSize) -> Bool {
+  return lhs.height == rhs.height && lhs.width == rhs.width
+}
+
 public struct CSSLayout {
   let frame: CGRect
   let children: [CSSLayout]
@@ -60,11 +66,11 @@ public struct CSSLayout {
     self.children = children
   }
 
-  func apply(to view: UIView) {
+  func apply(to view: View) {
     view.frame = frame
 
     for (index, child) in children.enumerated() {
-      child.apply(to: view.subviews[index])
+      child.apply(to: view.children[index])
     }
   }
 }
@@ -357,7 +363,7 @@ public class CSSNode {
 
   func layout(availableWidth: Float = Float.nan, availableHeight: Float = Float.nan) -> CSSLayout {
     CSSNodeCalculateLayout(nodeRef, availableWidth, availableHeight, CSSDirectionLTR)
-//    debugPrint()
+    debugPrint()
     return CSSLayout(nodeRef: nodeRef)
   }
 

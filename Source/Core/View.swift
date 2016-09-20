@@ -8,9 +8,11 @@
 
 import Foundation
 
-public protocol View: Layoutable {
+public protocol View: class {
   var frame: CGRect { get set }
-  var superview: UIView? { get }
+  var parent: View? { get }
+  var children: [View] { get set }
 
+  func add(_ view: View)
   func replace(_ view: View, with newView: View)
 }

@@ -8,6 +8,26 @@
 
 import Foundation
 
+public struct TextFieldProperties: ViewProperties {
+  public var key: String?
+  public var layout: LayoutProperties?
+  public var style: StyleProperties?
+  public var gestures: GestureProperties?
+
+  public var textStyle = TextStyleProperties([:])
+  public var onChange: Selector?
+
+  public init(_ properties: [String : Any]) {
+    applyProperties(properties)
+    textStyle = TextStyleProperties(properties)
+    onChange = properties.get("onChange")
+  }
+}
+
+public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
+  return lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.equals(otherViewProperties: rhs)
+}
+
 public class TextField: UITextField, NativeView {
   public static var propertyTypes: [String: ValidationType] {
     return commonPropertyTypes.merged(with: [
@@ -22,7 +42,7 @@ public class TextField: UITextField, NativeView {
 
   public var eventTarget: AnyObject?
 
-  public var properties = [String : Any]() {
+  public var properties = TextFieldProperties([:]) {
     didSet {
       applyProperties(properties: properties)
     }
@@ -40,27 +60,28 @@ public class TextField: UITextField, NativeView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func applyProperties(properties: [String: Any]) {
+  func applyProperties(properties: TextFieldProperties) {
     applyCommonProperties(properties: properties)
     applyTextFieldProperties(properties: properties)
   }
 
-  func applyTextFieldProperties(properties: [String: Any]) {
-    let defaultFontName = UIFont.systemFont(ofSize: UIFont.systemFontSize).fontName
-    let fontValue = UIFont(name: get("fontName") ?? defaultFontName, size: get("fontSize") ?? UIFont.systemFontSize)
-    let attributes: [String: Any] = [
-      NSFontAttributeName: fontValue!,
-      NSForegroundColorAttributeName: get("textColor") ?? UIColor.black
+  func applyTextFieldProperties(properties: TextFieldProperties) {
+    guard let fontValue = UIFont(name: properties.textStyle.fontName, size: properties.textStyle.fontSize) else {
+      fatalError("Attempting to use unknown font")
+    }
+    let attributes: [String : Any] = [
+      NSFontAttributeName: fontValue,
+      NSForegroundColorAttributeName: properties.textStyle.color
     ]
-    attributedText = NSAttributedString(string: get("text") ?? "", attributes: attributes)
-    textAlignment = get("textAlignment") ?? .natural
+    attributedText = NSAttributedString(string: properties.textStyle.text, attributes: attributes)
+    textAlignment = properties.textStyle.textAlignment
 
     selectedTextRange = lastSelectedRange
   }
 
   func onChange() {
     lastSelectedRange = selectedTextRange
-    if let onChange: Selector = get("onChange") {
+    if let onChange = properties.onChange {
       let _ = eventTarget?.perform(onChange, with: self)
     }
   }

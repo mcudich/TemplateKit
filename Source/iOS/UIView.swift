@@ -8,13 +8,32 @@
 
 import Foundation
 
-extension UIView: Layoutable {
-  public func applyLayout(layout: CSSLayout) {
-    layout.apply(to: self)
-  }
-}
-
 extension UIView: View {
+  public var children: [View] {
+    get {
+      return subviews.map { $0 as View }
+    }
+    set {
+      var pendingViews = Set(subviews)
+
+      for (index, child) in newValue.enumerated() {
+        let childView = child as! UIView
+        insertSubview(childView, at: index)
+        pendingViews.remove(childView)
+      }
+
+      pendingViews.forEach { $0.removeFromSuperview() }
+    }
+  }
+
+  public var parent: View? {
+    return superview as? View
+  }
+
+  public func add(_ view: View) {
+    addSubview(view as! UIView)
+  }
+
   public func replace(_ view: View, with newView: View) {
     let currentIndex = subviews.index(of: view as! UIView)!
     (view as! UIView).removeFromSuperview()
@@ -23,26 +42,20 @@ extension UIView: View {
 }
 
 extension NativeView where Self: UIView {
-  public var children: [View]? {
-    set {
-    }
-    get { return nil }
-  }
-
-  func applyCommonProperties(properties: [String: Any]) {
+  func applyCommonProperties(properties: PropertiesType) {
     applyBackgroundColor(properties)
     applyTapHandler(properties)
   }
 
-  private func applyBackgroundColor(_ properties: [String: Any]) {
-    guard let backgroundColor: UIColor = get("backgroundColor") else {
+  private func applyBackgroundColor(_ properties: PropertiesType) {
+    guard let backgroundColor = properties.style?.backgroundColor else {
       return
     }
     self.backgroundColor = backgroundColor
   }
 
-  private func applyTapHandler(_ properties: [String: Any]) {
-    guard let onTap: Selector = get("onTap") else {
+  private func applyTapHandler(_ properties: PropertiesType) {
+    guard let onTap = properties.gestures?.onTap else {
       return
     }
     let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)

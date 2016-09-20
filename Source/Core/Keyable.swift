@@ -11,9 +11,3 @@ import Foundation
 public protocol Keyable {
   var key: String? { get }
 }
-
-public extension Keyable where Self: PropertyHolder {
-  public var key: String? {
-    return get("key")
-  }
-}

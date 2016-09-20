@@ -8,6 +8,31 @@
 
 import Foundation
 
+public struct ImageProperties: ViewProperties {
+  public var key: String?
+  public var layout: LayoutProperties?
+  public var style: StyleProperties?
+  public var gestures: GestureProperties?
+
+  public var contentMode = UIViewContentMode.scaleAspectFit
+  public var url: URL?
+  public var name: String?
+
+  public init(_ properties: [String : Any]) {
+    applyProperties(properties)
+
+    if let contentMode: UIViewContentMode = properties.get("contentMode") {
+      self.contentMode = contentMode
+    }
+    url = properties.get("url")
+    name = properties.get("name")
+  }
+}
+
+public func ==(lhs: ImageProperties, rhs: ImageProperties) -> Bool {
+  return lhs.contentMode == rhs.contentMode && lhs.url == rhs.url && lhs.name == rhs.name && lhs.equals(otherViewProperties: rhs)
+}
+
 public class Image: UIImageView, NativeView {
   public static var propertyTypes: [String: ValidationType] {
     return commonPropertyTypes.merged(with: [
@@ -19,7 +44,7 @@ public class Image: UIImageView, NativeView {
 
   public var eventTarget: AnyObject?
 
-  public var properties = [String : Any]() {
+  public var properties = ImageProperties([:]) {
     didSet {
       applyCommonProperties(properties: properties)
       applyImageProperties(properties: properties)
@@ -34,15 +59,15 @@ public class Image: UIImageView, NativeView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func applyProperties(properties: [String: Any]) {
+  func applyProperties(properties: ImageProperties) {
     applyCommonProperties(properties: properties)
     applyImageProperties(properties: properties)
   }
 
-  func applyImageProperties(properties: [String: Any]) {
-    contentMode = get("contentMode") ?? .scaleToFill
+  func applyImageProperties(properties: ImageProperties) {
+    contentMode = properties.contentMode
 
-    if let url: URL = get("url") {
+    if let url = properties.url {
       ImageService.shared.load(url) { [weak self] result in
         switch result {
         case .success(let image):
@@ -54,7 +79,7 @@ public class Image: UIImageView, NativeView {
           break
         }
       }
-    } else if let name: String = get("name") {
+    } else if let name = properties.name {
       image = UIImage(named: name)
     }
   }
