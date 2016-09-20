@@ -1,8 +1,8 @@
 import Foundation
 import AEXML
 
-struct Template {
-  private let document: AEXMLDocument
+public struct Template: Equatable {
+  fileprivate let document: AEXMLDocument
 
   init(xml: Data) throws {
     self.document = try AEXMLDocument(xml: xml)
@@ -11,6 +11,10 @@ struct Template {
   func makeElement(with properties: [String: Any]) throws -> Element {
     return try document.root.makeElement(with: properties)
   }
+}
+
+public func ==(lhs: Template, rhs: Template) -> Bool {
+  return lhs.document.xml == rhs.document.xml
 }
 
 extension AEXMLElement {

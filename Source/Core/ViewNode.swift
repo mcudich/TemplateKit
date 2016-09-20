@@ -8,6 +8,10 @@
 
 import Foundation
 
+public protocol Updateable {
+  func update()
+}
+
 class ViewNode: PropertyNode {
   weak var owner: Node?
   weak var parent: Node?

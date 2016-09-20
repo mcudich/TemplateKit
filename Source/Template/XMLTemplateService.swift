@@ -27,11 +27,17 @@ public class XMLTemplateService: TemplateService {
       return resourceService.cachePolicy
     }
   }
+
+  public var liveReloadInterval = DispatchTimeInterval.seconds(5)
+
   let resourceService = ResourceService<XMLTemplateParser>()
 
+  private let liveReload: Bool
   private lazy var cache = [URL: Template]()
+  private lazy var observers = [URL: NSHashTable<AnyObject>]()
 
-  public init() {
+  public init(liveReload: Bool = false) {
+    self.liveReload = liveReload
   }
 
   public func element(withLocation location: URL, properties: [String: Any] = [:]) throws -> Element {
@@ -54,6 +60,9 @@ public class XMLTemplateService: TemplateService {
           self?.cache[url] = template
           if expectedCount == 0 {
             completion(.success())
+            if self?.liveReload ?? false {
+              self?.watchTemplates(withURLs: urls)
+            }
           }
         case .failure(_):
           completion(.failure(TemplateKitError.missingTemplate("Template not found at \(url)")))
@@ -62,12 +71,32 @@ public class XMLTemplateService: TemplateService {
     }
   }
 
-  public func watchTemplates(withURLs urls: [URL], completion: @escaping (Result<Void>) -> Void) {
-    let time = DispatchTime.now() + DispatchTimeInterval.seconds(5)
+  public func addObserver(observer: Node, forLocation location: URL) {
+    if !liveReload {
+      return
+    }
+    let observers = self.observers[location] ?? NSHashTable.weakObjects()
+
+    observers.add(observer as AnyObject)
+    self.observers[location] = observers
+  }
+
+  public func removeObserver(observer: Node, forLocation location: URL) {
+    observers[location]?.remove(observer as AnyObject)
+  }
+
+  private func watchTemplates(withURLs urls: [URL]) {
+    let time = DispatchTime.now() + liveReloadInterval
     DispatchQueue.main.asyncAfter(deadline: time) {
-      self.fetchTemplates(withURLs: urls) { result in
-        completion(result)
-        self.watchTemplates(withURLs: urls, completion: completion)
+      let cachedCopies = self.cache
+      self.fetchTemplates(withURLs: urls) { [weak self] result in
+        for url in urls {
+          if self?.cache[url] != cachedCopies[url], let observers = self?.observers[url] {
+            for observer in observers.allObjects {
+              (observer as! Node).forceUpdate()
+            }
+          }
+        }
       }
     }
   }

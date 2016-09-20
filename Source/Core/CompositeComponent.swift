@@ -53,6 +53,8 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
   }
 
   public func render(withLocation location: URL, properties: [String: Any]) -> Element {
+    getContext().templateService.addObserver(observer: self, forLocation: location)
+
     return try! getContext().templateService.element(withLocation: location, properties: properties)
   }
 

@@ -298,16 +298,17 @@ public class CSSNode: Hashable {
 
   var children: [CSSNode] {
     set {
-      var remainingChildren = Set(children)
+      var oldValue = children
+      var remainingChildren = Set(oldValue)
       for (index, child) in newValue.enumerated() {
-        if index < children.count && child != children[index] {
-          remainingChildren.remove(children[index])
-          removeChild(child: children[index])
+        if index < children.count && child != oldValue[index] {
+          remainingChildren.remove(oldValue[index])
+          removeChild(child: oldValue[index])
           insertChild(child: child, at: index)
-        } else if index >= children.count {
+        } else if index >= oldValue.count {
           insertChild(child: child, at: index)
         } else {
-          remainingChildren.remove(children[index])
+          remainingChildren.remove(oldValue[index])
         }
       }
       for child in remainingChildren {
