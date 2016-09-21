@@ -42,19 +42,19 @@ extension UIView: View {
 }
 
 extension NativeView where Self: UIView {
-  func applyCommonProperties(properties: PropertiesType) {
-    applyBackgroundColor(properties)
-    applyTapHandler(properties)
+  func applyCommonProperties() {
+    applyBackgroundColor()
+    applyTapHandler()
   }
 
-  private func applyBackgroundColor(_ properties: PropertiesType) {
+  private func applyBackgroundColor() {
     guard let backgroundColor = properties.style?.backgroundColor else {
       return
     }
     self.backgroundColor = backgroundColor
   }
 
-  private func applyTapHandler(_ properties: PropertiesType) {
+  private func applyTapHandler() {
     guard let onTap = properties.gestures?.onTap else {
       return
     }

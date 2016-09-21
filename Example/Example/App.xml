@@ -1,7 +1,0 @@
-<box width="$width" height="$height" paddingTop="20">
-  <text text="Increment" onTap="$incrementCounter" />
-  <text text="$count" />
-  <text text="test 1234" />
-  <details backgroundColor="#ff00" />
-</box>
-

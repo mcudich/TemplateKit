@@ -1,4 +1,0 @@
-<Box paddingTop="20" paddingBottom="10" paddingLeft="10" flexDirection="row">
-  <Text text="$text" fontSize="20" />
-</Box>
-

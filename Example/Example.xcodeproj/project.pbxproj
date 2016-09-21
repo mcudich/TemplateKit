@@ -7,25 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D83936821D820C33008CA7F1 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936811D820C33008CA7F1 /* Todo.swift */; };
-		D83936861D823052008CA7F1 /* RemoteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936851D823052008CA7F1 /* RemoteApp.swift */; };
-		D85B43941D860B7D00DDC9A2 /* Todo.xml in Resources */ = {isa = PBXBuildFile; fileRef = D85B43931D860B7D00DDC9A2 /* Todo.xml */; };
+		D856A0571D91C1540049467E /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D856A0561D91C1540049467E /* App.swift */; };
+		D856A0591D91C7180049467E /* Todos.swift in Sources */ = {isa = PBXBuildFile; fileRef = D856A0581D91C7180049467E /* Todos.swift */; };
+		D856A05B1D91D8A60049467E /* Header.xml in Resources */ = {isa = PBXBuildFile; fileRef = D856A05A1D91D8A60049467E /* Header.xml */; };
+		D856A0601D91FBC00049467E /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D856A05F1D91FBC00049467E /* TemplateKit.framework */; };
+		D856A0611D91FBC00049467E /* TemplateKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D856A05F1D91FBC00049467E /* TemplateKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D89194C31D57FD6F0049991F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194C21D57FD6F0049991F /* AppDelegate.swift */; };
 		D89194C51D57FD6F0049991F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89194C41D57FD6F0049991F /* ViewController.swift */; };
 		D89194C81D57FD6F0049991F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D89194C61D57FD6F0049991F /* Main.storyboard */; };
 		D89194CA1D57FD6F0049991F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D89194C91D57FD6F0049991F /* Assets.xcassets */; };
 		D89194CD1D57FD6F0049991F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D89194CB1D57FD6F0049991F /* LaunchScreen.storyboard */; };
-		D89194D51D57FDFD0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89194D41D57FDFD0049991F /* TemplateKit.framework */; };
-		D89194D71D57FF2A0049991F /* Message.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194D61D57FF2A0049991F /* Message.xml */; };
-		D8CB3E1E1D76630F003274AD /* App.xml in Resources */ = {isa = PBXBuildFile; fileRef = D8CB3E1D1D76630F003274AD /* App.xml */; };
-		D8CB3E531D77FDBA003274AD /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CB3E521D77FDBA003274AD /* App.swift */; };
-		D8EB96421D7C9FF6003E15D3 /* Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EB96411D7C9FF6003E15D3 /* Details.swift */; };
+		D8C9FFE71D91FCEA00C7E59E /* CSSLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C9FFE61D91FCEA00C7E59E /* CSSLayout.framework */; };
+		D8C9FFE81D91FCFB00C7E59E /* CSSLayout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D8C9FFE61D91FCEA00C7E59E /* CSSLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D8D7D19D1D9204E200A745D8 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D7D19C1D9204E200A745D8 /* Todo.swift */; };
+		D8D7D19F1D92072D00A745D8 /* Todo.xml in Resources */ = {isa = PBXBuildFile; fileRef = D8D7D19E1D92072D00A745D8 /* Todo.xml */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D856A0621D91FBC00049467E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D8C9FFE81D91FCFB00C7E59E /* CSSLayout.framework in Embed Frameworks */,
+				D856A0611D91FBC00049467E /* TemplateKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		D83936811D820C33008CA7F1 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
-		D83936851D823052008CA7F1 /* RemoteApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteApp.swift; sourceTree = "<group>"; };
-		D85B43931D860B7D00DDC9A2 /* Todo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Todo.xml; sourceTree = "<group>"; };
+		D856A0561D91C1540049467E /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		D856A0581D91C7180049467E /* Todos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todos.swift; sourceTree = "<group>"; };
+		D856A05A1D91D8A60049467E /* Header.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Header.xml; sourceTree = "<group>"; };
+		D856A05F1D91FBC00049467E /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194BF1D57FD6F0049991F /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194C21D57FD6F0049991F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D89194C41D57FD6F0049991F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,11 +50,9 @@
 		D89194C91D57FD6F0049991F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D89194CC1D57FD6F0049991F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D89194CE1D57FD6F0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D89194D41D57FDFD0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TemplateKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/TemplateKit-dlothccfmiiohthdoibxrmvczhby/Build/Products/Debug-iphonesimulator/TemplateKit.framework"; sourceTree = "<group>"; };
-		D89194D61D57FF2A0049991F /* Message.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Message.xml; sourceTree = "<group>"; };
-		D8CB3E1D1D76630F003274AD /* App.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = App.xml; sourceTree = "<group>"; };
-		D8CB3E521D77FDBA003274AD /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-		D8EB96411D7C9FF6003E15D3 /* Details.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Details.swift; sourceTree = "<group>"; };
+		D8C9FFE61D91FCEA00C7E59E /* CSSLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSSLayout.framework; path = "../../../Library/Developer/Xcode/DerivedData/TemplateKit-dlothccfmiiohthdoibxrmvczhby/Build/Products/Debug-iphoneos/CSSLayout.framework"; sourceTree = "<group>"; };
+		D8D7D19C1D9204E200A745D8 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		D8D7D19E1D92072D00A745D8 /* Todo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Todo.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D89194D51D57FDFD0049991F /* TemplateKit.framework in Frameworks */,
+				D8C9FFE71D91FCEA00C7E59E /* CSSLayout.framework in Frameworks */,
+				D856A0601D91FBC00049467E /* TemplateKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,9 +71,10 @@
 		D89194B61D57FD6F0049991F = {
 			isa = PBXGroup;
 			children = (
-				D89194D41D57FDFD0049991F /* TemplateKit.framework */,
+				D856A05F1D91FBC00049467E /* TemplateKit.framework */,
 				D89194C11D57FD6F0049991F /* Example */,
 				D89194C01D57FD6F0049991F /* Products */,
+				D8C9FFE51D91FCEA00C7E59E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,19 +91,25 @@
 			children = (
 				D89194C21D57FD6F0049991F /* AppDelegate.swift */,
 				D89194C41D57FD6F0049991F /* ViewController.swift */,
-				D8CB3E521D77FDBA003274AD /* App.swift */,
-				D83936851D823052008CA7F1 /* RemoteApp.swift */,
-				D8EB96411D7C9FF6003E15D3 /* Details.swift */,
-				D83936811D820C33008CA7F1 /* Todo.swift */,
+				D856A0561D91C1540049467E /* App.swift */,
+				D856A0581D91C7180049467E /* Todos.swift */,
+				D856A05A1D91D8A60049467E /* Header.xml */,
 				D89194C61D57FD6F0049991F /* Main.storyboard */,
 				D89194C91D57FD6F0049991F /* Assets.xcassets */,
 				D89194CB1D57FD6F0049991F /* LaunchScreen.storyboard */,
 				D89194CE1D57FD6F0049991F /* Info.plist */,
-				D85B43931D860B7D00DDC9A2 /* Todo.xml */,
-				D89194D61D57FF2A0049991F /* Message.xml */,
-				D8CB3E1D1D76630F003274AD /* App.xml */,
+				D8D7D19C1D9204E200A745D8 /* Todo.swift */,
+				D8D7D19E1D92072D00A745D8 /* Todo.xml */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		D8C9FFE51D91FCEA00C7E59E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D8C9FFE61D91FCEA00C7E59E /* CSSLayout.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -99,6 +122,8 @@
 				D89194BB1D57FD6F0049991F /* Sources */,
 				D89194BC1D57FD6F0049991F /* Frameworks */,
 				D89194BD1D57FD6F0049991F /* Resources */,
+				D856A0621D91FBC00049467E /* Embed Frameworks */,
+				D8C9FFE91D91FD1F00C7E59E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -121,7 +146,9 @@
 				TargetAttributes = {
 					D89194BE1D57FD6F0049991F = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 46UKZ786J3;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -149,27 +176,43 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89194CD1D57FD6F0049991F /* LaunchScreen.storyboard in Resources */,
-				D85B43941D860B7D00DDC9A2 /* Todo.xml in Resources */,
 				D89194CA1D57FD6F0049991F /* Assets.xcassets in Resources */,
-				D8CB3E1E1D76630F003274AD /* App.xml in Resources */,
+				D8D7D19F1D92072D00A745D8 /* Todo.xml in Resources */,
+				D856A05B1D91D8A60049467E /* Header.xml in Resources */,
 				D89194C81D57FD6F0049991F /* Main.storyboard in Resources */,
-				D89194D71D57FF2A0049991F /* Message.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D8C9FFE91D91FD1F00C7E59E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/AEXML.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D89194BB1D57FD6F0049991F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8CB3E531D77FDBA003274AD /* App.swift in Sources */,
+				D8D7D19D1D9204E200A745D8 /* Todo.swift in Sources */,
+				D856A0571D91C1540049467E /* App.swift in Sources */,
+				D856A0591D91C7180049467E /* Todos.swift in Sources */,
 				D89194C51D57FD6F0049991F /* ViewController.swift in Sources */,
-				D8EB96421D7C9FF6003E15D3 /* Details.swift in Sources */,
 				D89194C31D57FD6F0049991F /* AppDelegate.swift in Sources */,
-				D83936821D820C33008CA7F1 /* Todo.swift in Sources */,
-				D83936861D823052008CA7F1 /* RemoteApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +328,10 @@
 		D89194D21D57FD6F0049991F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 46UKZ786J3;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.Example;
@@ -297,7 +343,10 @@
 		D89194D31D57FD6F0049991F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 46UKZ786J3;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.Example;

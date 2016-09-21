@@ -13,6 +13,7 @@ public protocol Node: class, Keyable {
   init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?)
 
   func build<V: View>() -> V
+  func getBuiltView<V>() -> V?
   func update(with newElement: Element)
   func forceUpdate()
   func computeLayout() -> CSSLayout
@@ -115,20 +116,25 @@ public extension PropertyNode {
   }
 
   func update(with newElement: Element) {
-    element = newElement
-
     let nextProperties = PropertiesType(newElement.properties)
-    if shouldUpdate(nextProperties: nextProperties) {
-      willUpdate()
-      properties = nextProperties
-      updateCSSNode()
-      performDiff()
-    }
+    let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties)
+    performUpdate(with: newElement, nextProperties: nextProperties, shouldUpdate: shouldUpdate)
   }
 
   func forceUpdate() {
     updateCSSNode()
     performDiff()
+  }
+
+  func performUpdate(with newElement: Element, nextProperties: PropertiesType, shouldUpdate: Bool) {
+    element = newElement
+
+    if shouldUpdate {
+      willUpdate()
+      properties = PropertiesType(newElement.properties)
+      updateCSSNode()
+      performDiff()
+    }
   }
 
   func performDiff() {

@@ -1,0 +1,4 @@
+<box paddingTop="40">
+  <text text="todos" textAlignment="center" />
+  <textfield text="$text" placeholder="What needs to be done?" height="24" onSubmit="$onSubmit" onChange="$onChange" />
+</box>

@@ -71,6 +71,10 @@ public extension Component {
     return builtView as! V
   }
 
+  func getBuiltView<V>() -> V? {
+    return instance.getBuiltView()
+  }
+
   func forceUpdate() {
     performUpdate(shouldUpdate: true, nextState: state)
   }
@@ -86,7 +90,6 @@ public extension Component {
       var nextState = self.state
       stateMutation(&nextState)
       let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
-
       self.performUpdate(shouldUpdate: shouldUpdate, nextState: nextState)
     }
   }
@@ -102,7 +105,7 @@ public extension Component {
     let previousParentView = builtView?.parent
     let previousView = builtView
 
-    update(with: element)
+    performUpdate(with: element, nextProperties: properties, shouldUpdate: shouldUpdate)
     let layout = root.computeLayout()
 
     DispatchQueue.main.async {
@@ -115,12 +118,11 @@ public extension Component {
           // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
           let view: ViewType = self.build()
           previousParentView.replace(previousView!, with: view)
+        } else {
+          let _: ViewType = self.build()
         }
-      } else {
-        // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.
-        let _: ViewType = self.build()
       }
-      layout.apply(to: self.root.build() as ViewType)
+      layout.apply(to: self.root.getBuiltView()! as ViewType)
     }
   }
 

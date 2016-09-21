@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol NativeView: View {
+public protocol NativeView: View, PropertyTypeProvider {
   associatedtype PropertiesType: ViewProperties
 
   var properties: PropertiesType { get set }

@@ -57,4 +57,8 @@ class ViewNode: PropertyNode {
     }
     return builtView as! V
   }
+
+  func getBuiltView<V>() -> V? {
+    return builtView as? V
+  }
 }

@@ -25,7 +25,7 @@ public class Box: UIView, NativeView {
 
   public var properties = BaseProperties([:]) {
     didSet {
-      applyCommonProperties(properties: properties)
+      applyCommonProperties()
     }
   }
 

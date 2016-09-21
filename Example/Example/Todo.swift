@@ -1,32 +1,79 @@
 //
-//  Todo.swift
+//  TodoItem.swift
 //  Example
 //
-//  Created by Matias Cudich on 9/8/16.
+//  Created by Matias Cudich on 9/20/16.
 //  Copyright © 2016 Matias Cudich. All rights reserved.
 //
 
 import Foundation
 import TemplateKit
 
-struct TodoState: State, Equatable {
-  var text = "blah"
+struct TodoItemState: State {
+  var editText = ""
+
+  init() {}
+
+  init(editText: String) {
+    self.editText = editText
+  }
 }
 
-func ==(lhs: TodoState, rhs: TodoState) -> Bool {
-  return lhs.text == rhs.text
+func ==(lhs: TodoItemState, rhs: TodoItemState) -> Bool {
+  return false
 }
 
-class Todo: CompositeComponent<TodoState, BaseProperties, UIView> {
-  static let location = URL(string: "http://localhost:8000/Todo.xml")!
+struct TodoItemProperties: ViewProperties {
+  var key: String?
+  var layout: LayoutProperties?
+  var style: StyleProperties?
+  var gestures: GestureProperties?
 
-  override func render() -> Element {
-    return render(withLocation: Todo.location, properties: ["todoText": state.text, "width": properties.layout?.size?.width])
+  var todo: TodoItem?
+  var editing: Bool?
+  var onToggle: Selector?
+  var onDestroy: Selector?
+  var onEdit: Selector?
+  var onSave: Selector?
+  var onCancel: Selector?
+
+  public init(_ properties: [String : Any]) {
+    applyProperties(properties)
+
+    todo = properties.get("todo")
+    editing = properties.get("editing")
+    onToggle = properties.get("onToggle")
+    onDestroy = properties.get("onDestroy")
+    onEdit = properties.get("onEdit")
+    onSave = properties.get("onSave")
+    onCancel = properties.get("onCancel")
+  }
+}
+
+func ==(lhs: TodoItemProperties, rhs: TodoItemProperties) -> Bool {
+  return false
+}
+
+class Todo: CompositeComponent<TodoItemState, TodoItemProperties, UIView> {
+  func handleSubmit() {
+
   }
 
-  @objc func random() {
-    updateComponentState { state in
-      state.text = "\(Int(arc4random()))"
-    }
+  func handleEdit() {
+
+  }
+
+  func handleChange() {
+
+  }
+
+  override func render() -> Element {
+    let properties: [String: Any] = [:]
+
+    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: properties)
+  }
+
+  override func getInitialState() -> TodoItemState {
+    return TodoItemState(editText: properties.todo?.title ?? "")
   }
 }
