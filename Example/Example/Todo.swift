@@ -68,7 +68,10 @@ class Todo: CompositeComponent<TodoItemState, TodoItemProperties, UIView> {
   }
 
   override func render() -> Element {
-    let properties: [String: Any] = [:]
+    let properties: [String: Any] = [
+      "buttonBackgroundColor": (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red,
+      "onToggle": self.properties.onToggle
+    ]
 
     return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: properties)
   }

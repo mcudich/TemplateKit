@@ -26,8 +26,16 @@ class ViewController: UIViewController, Context {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let appProperties = ["width": Float(view.bounds.size.width), "height": Float(view.bounds.size.height)]
-    templateService.fetchTemplates(withURLs: [Bundle.main.url(forResource: "Header", withExtension: "xml")!]) { result in
+    let appProperties: [String: Any] = [
+      "width": Float(view.bounds.size.width),
+      "height": Float(view.bounds.size.height),
+      "model": Todos()
+    ]
+    let templateURLs = [
+      Bundle.main.url(forResource: "Header", withExtension: "xml")!,
+      Bundle.main.url(forResource: "Todo", withExtension: "xml")!
+    ]
+    templateService.fetchTemplates(withURLs: templateURLs) { result in
       DispatchQueue.global(qos: .background).async {
         UIKitRenderer.render(Element(ElementType.component(App.self), appProperties), container: self.view, context: self) { component in
           self.app = component as? App

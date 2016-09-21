@@ -66,6 +66,8 @@ public struct ButtonProperties: ViewProperties {
   public var gestures: GestureProperties?
 
   public var buttonStyle = [UIControlState: ButtonStyleProperties]()
+  public var selected: Bool?
+  public var onTouchUpInside: Selector?
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
@@ -73,17 +75,37 @@ public struct ButtonProperties: ViewProperties {
     for state in UIControlState.buttonStates {
       buttonStyle[state] = ButtonStyleProperties(properties, statePrefix: state.stringValue)
     }
+
+    selected = properties.get("selected")
+    onTouchUpInside = properties.get("onTouchUpInside")
   }
 }
 
 public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
-  return lhs.equals(otherViewProperties: rhs)
+  return lhs.buttonStyle == rhs.buttonStyle && lhs.equals(otherViewProperties: rhs)
 }
 
 public class Button: UIButton, NativeView {
   public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [:
-    ])
+    return commonPropertyTypes.merged(with: buildPropertyTypes())
+  }
+
+  static func buildPropertyTypes() -> [String: ValidationType] {
+    var propertyTypes = [String: ValidationType]()
+    for state in UIControlState.buttonStates {
+      let buildKey = { (prefix: String, key: String) in
+        return prefix.isEmpty ? key : prefix + key.capitalized
+      }
+      propertyTypes[buildKey(state.stringValue, "title")] = Validation.string
+      propertyTypes[buildKey(state.stringValue, "titleColor")] = Validation.color
+      propertyTypes[buildKey(state.stringValue, "titleShadowColor")] = Validation.color
+      propertyTypes[buildKey(state.stringValue, "backgroundImage")] = Validation.string
+      propertyTypes[buildKey(state.stringValue, "image")] = Validation.string
+    }
+    propertyTypes["selected"] = Validation.boolean
+    propertyTypes["onTouchUpInside"] = Validation.selector
+    
+    return propertyTypes
   }
 
   public var eventTarget: AnyObject?
@@ -112,6 +134,14 @@ public class Button: UIButton, NativeView {
       let stateProperties = properties.buttonStyle[state]
 
       setTitle(stateProperties?.title, for: state)
+      setTitleColor(stateProperties?.titleColor, for: state)
+      setTitleShadowColor(stateProperties?.titleShadowColor, for: state)
+      setBackgroundImage(stateProperties?.backgroundImage, for: state)
+      setImage(stateProperties?.image, for: state)
     }
+    if let onTouchUpInside = properties.onTouchUpInside {
+      addTarget(eventTarget, action: onTouchUpInside, for: .touchUpInside)
+    }
+    isSelected = properties.selected ?? false
   }
 }

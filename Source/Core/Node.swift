@@ -133,8 +133,9 @@ public extension PropertyNode {
       willUpdate()
       properties = PropertiesType(newElement.properties)
       updateCSSNode()
-      performDiff()
     }
+
+    performDiff()
   }
 
   func performDiff() {

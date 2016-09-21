@@ -41,18 +41,18 @@ struct AppProperties: ViewProperties {
 }
 
 func ==(lhs: AppProperties, rhs: AppProperties) -> Bool {
-  return false
+  return lhs.model == rhs.model && lhs.equals(otherViewProperties: rhs)
 }
 
 class DataSource: NSObject, TableViewDataSource {
-  var todos: [TodoItem]?
+  var model: Todos?
 
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
-    return Element(ElementType.box)
+    return Element(ElementType.component(Todo.self), ["width": Float(tableView.bounds.size.width)])
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return todos?.count ?? 0
+    return model?.todos?.count ?? 0
   }
 }
 
@@ -77,6 +77,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
 
   @objc func handleNewTodoSubmit(target: UITextField) {
     properties.model?.addTodo(title: target.text!)
+    todosDataSource.model = properties.model
     updateComponentState { state in
       state.newTodo = ""
     }
@@ -116,8 +117,6 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   override func render() -> Element {
-    todosDataSource.todos = properties.model?.todos
-
     let _ = properties.model?.todos.filter { todoItem in
       switch state.nowShowing {
       case .active:

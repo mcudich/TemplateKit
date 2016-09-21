@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TodoItem {
+struct TodoItem: Equatable {
   var id: String = UUID().uuidString
   var title: String = ""
   var completed: Bool = false
@@ -18,11 +18,17 @@ struct TodoItem {
   }
 }
 
+func ==(lhs: TodoItem, rhs: TodoItem) -> Bool {
+  return lhs.id == rhs.id && lhs.title == rhs.title && lhs.completed == rhs.completed
+}
+
 typealias ChangeHandler = () -> Void
 
-struct Todos {
-  var todos: [TodoItem]
-  var changes: [ChangeHandler]
+struct Todos: Equatable {
+  var todos = [TodoItem]()
+  var changes = [ChangeHandler]()
+
+  init() {}
 
   mutating func subscribe(handler: @escaping ChangeHandler) {
     changes.append(handler)
@@ -77,4 +83,8 @@ struct Todos {
     todos = todos.filter { !$0.completed }
     inform()
   }
+}
+
+func ==(lhs: Todos, rhs: Todos) -> Bool {
+  return lhs.todos == rhs.todos
 }

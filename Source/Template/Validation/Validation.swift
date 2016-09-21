@@ -16,6 +16,7 @@ public enum Validation: String, ValidationType {
   case string
   case float
   case integer
+  case boolean
   case url
   case color
   case selector
@@ -40,6 +41,13 @@ public enum Validation: String, ValidationType {
       }
       if let stringValue = value as? String {
         return stringValue.integer
+      }
+    case .boolean:
+      if value is Bool {
+        return value
+      }
+      if let stringValue = value as? String {
+        return stringValue.boolean
       }
     case .url:
       if value is URL {

@@ -118,9 +118,9 @@ public extension Component {
           // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
           let view: ViewType = self.build()
           previousParentView.replace(previousView!, with: view)
-        } else {
-          let _: ViewType = self.build()
         }
+      } else {
+        let _: ViewType = self.build()
       }
       layout.apply(to: self.root.getBuiltView()! as ViewType)
     }
