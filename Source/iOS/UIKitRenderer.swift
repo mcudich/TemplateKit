@@ -10,6 +10,7 @@ import Foundation
 
 public enum ElementType: ElementRepresentable {
   case box
+  case button
   case text
   case textField
   case image
@@ -20,6 +21,8 @@ public enum ElementType: ElementRepresentable {
     switch self {
     case .box:
       return NativeNode<Box>(element: element, properties: BaseProperties(element.properties), children: element.children?.map { $0.build(with: owner) }, owner: owner)
+    case .button:
+      return NativeNode<Button>(element: element, properties: ButtonProperties(element.properties), owner: owner)
     case .text:
       return NativeNode<Text>(element: element, properties: TextProperties(element.properties), owner: owner)
     case .textField:
@@ -46,6 +49,8 @@ public enum ElementType: ElementRepresentable {
     switch rawValue {
     case "box":
       return .box
+    case "button":
+      return .button
     case "text":
       return .text
     case "textfield":
@@ -60,7 +65,7 @@ public enum ElementType: ElementRepresentable {
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
-  case (.box, .box), (.text, .text), (.image, .image), (.textField, .textField):
+  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textField, .textField):
     return true
   case (.view(let lhsView), .view(let rhsView)):
     return lhsView === rhsView
