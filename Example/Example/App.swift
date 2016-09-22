@@ -74,10 +74,10 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   required init(element: Element, properties: [String : Any], children: [Node]?, owner: Node?) {
     super.init(element: element, properties: properties, children: children, owner: owner)
 
-    self.properties.model?.subscribe {
+    self.properties.model?.subscribe { [weak self] in
       // Properties have changed, but have not gotten re-set on this component. Force an update.
-      self.forceUpdate()
-      self.todosList.reloadData()
+      self?.forceUpdate()
+      self?.todosList.reloadData()
     }
   }
 

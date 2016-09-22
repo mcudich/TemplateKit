@@ -108,7 +108,7 @@ public class Button: UIButton, NativeView {
     return propertyTypes
   }
 
-  public var eventTarget: AnyObject?
+  public weak var eventTarget: AnyObject?
 
   public var properties = ButtonProperties([:]) {
     didSet {

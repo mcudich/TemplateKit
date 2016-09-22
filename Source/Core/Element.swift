@@ -13,7 +13,7 @@ public protocol ElementRepresentable {
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
-public struct Element: Keyable, Equatable {
+public struct Element: Keyable {
   public let type: ElementRepresentable
   public let children: [Element]?
   public let properties: [String: Any]
@@ -35,10 +35,6 @@ public struct Element: Keyable, Equatable {
 
     return made
   }
-}
-
-public func ==(lhs: Element, rhs: Element) -> Bool {
-  return lhs.properties == rhs.properties && lhs.type.equals(rhs.type) && (lhs.children ?? []) == (rhs.children ?? [])
 }
 
 extension Element {

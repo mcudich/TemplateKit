@@ -59,7 +59,7 @@ public class TextField: UITextField, NativeView {
     ])
   }
 
-  public var eventTarget: AnyObject?
+  public weak var eventTarget: AnyObject?
 
   public var properties = TextFieldProperties([:]) {
     didSet {

@@ -136,7 +136,7 @@ public class Text: UILabel, NativeView {
     ])
   }
 
-  public var eventTarget: AnyObject?
+  public weak var eventTarget: AnyObject?
 
   public var properties = TextProperties([:]) {
     didSet {

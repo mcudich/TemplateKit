@@ -11,7 +11,7 @@ import Foundation
 protocol AsyncDataListView: class {
   var operationQueue: AsyncQueue<AsyncOperation> { get }
   var context: Context { get set }
-  var eventTarget: Node? { get set }
+  weak var eventTarget: Node? { get set }
   var nodeCache: [Int: Node] { get set }
 
   func insertItems(at indexPaths: [IndexPath], completion: @escaping () -> Void)

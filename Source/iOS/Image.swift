@@ -42,7 +42,7 @@ public class Image: UIImageView, NativeView {
     ])
   }
 
-  public var eventTarget: AnyObject?
+  public weak var eventTarget: AnyObject?
 
   public var properties = ImageProperties([:]) {
     didSet {

@@ -9,13 +9,6 @@
 import Foundation
 import TemplateKit
 
-struct FooterState: State {
-}
-
-func ==(lhs: FooterState, rhs: FooterState) -> Bool {
-  return false
-}
-
 struct FooterProperties: ViewProperties {
   var key: String?
   var layout: LayoutProperties?
@@ -40,10 +33,10 @@ struct FooterProperties: ViewProperties {
 }
 
 func ==(lhs: FooterProperties, rhs: FooterProperties) -> Bool {
-  return false
+  return lhs.count == rhs.count && lhs.completedCount == rhs.completedCount && lhs.onClearCompleted == rhs.onClearCompleted && lhs.nowShowing == rhs.nowShowing && lhs.onUpdateFilter == rhs.onUpdateFilter
 }
 
-class Footer: CompositeComponent<FooterState, FooterProperties, UIView> {
+class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
   @objc func handleSelectAll() {
     if let onUpdateFilter = properties.onUpdateFilter {
       performSelector(onUpdateFilter, with: Filter.all.rawValue)

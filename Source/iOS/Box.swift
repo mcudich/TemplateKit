@@ -21,7 +21,7 @@ public class Box: UIView, NativeView, ContainerView {
     ])
   }
 
-  public var eventTarget: AnyObject?
+  public weak var eventTarget: AnyObject?
 
   public var children: [View] {
     get {
