@@ -56,9 +56,14 @@ class TextLayout {
     guard let fontValue = UIFont(name: properties.textStyle.fontName, size: properties.textStyle.fontSize) else {
       fatalError("Attempting to use unknown font")
     }
+
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.alignment = properties.textStyle.textAlignment
+
     let attributes: [String : Any] = [
       NSFontAttributeName: fontValue,
-      NSForegroundColorAttributeName: properties.textStyle.color
+      NSForegroundColorAttributeName: properties.textStyle.color,
+      NSParagraphStyleAttributeName: paragraphStyle
     ]
 
     textStorage.setAttributedString(NSAttributedString(string: properties.textStyle.text, attributes: attributes))
@@ -135,7 +140,7 @@ public class Text: UILabel, NativeView {
 
   public var properties = TextProperties([:]) {
     didSet {
-      applyCommonProperties(properties: properties)
+      applyCommonProperties()
       textLayout.properties = properties
       setNeedsDisplay()
     }
@@ -150,7 +155,7 @@ public class Text: UILabel, NativeView {
 
     isUserInteractionEnabled = true
 
-    applyCommonProperties(properties: properties)
+    applyCommonProperties()
   }
 
   public required init?(coder aDecoder: NSCoder) {

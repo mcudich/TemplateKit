@@ -59,9 +59,15 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
   }
 
   public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void) {
-    updateState { (state: inout StateType) in
+    updateState(stateMutation: { (state: inout StateType) in
       stateMutation(&state)
-    }
+    })
+  }
+
+  public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)?) {
+    updateState(stateMutation: { (state: inout StateType) in
+      stateMutation(&state)
+    }, completion: completion)
   }
 
   // FIXME: For some reason, implementing this as a default in the Component protocol extension

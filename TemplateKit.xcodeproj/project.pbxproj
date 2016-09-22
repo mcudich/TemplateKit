@@ -64,6 +64,7 @@
 		D893AC501D908AA90078DAD9 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D893AC4F1D908AA90078DAD9 /* Properties.swift */; };
 		D8E661571D8A1226005D8C4F /* DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E661561D8A1226005D8C4F /* DiffTests.swift */; };
 		D8E6615B1D8E754D005D8C4F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615A1D8E754D005D8C4F /* View.swift */; };
+		D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615E1D923D0B005D8C4F /* Button.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +148,7 @@
 		D893AC4F1D908AA90078DAD9 /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		D8E661561D8A1226005D8C4F /* DiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffTests.swift; sourceTree = "<group>"; };
 		D8E6615A1D8E754D005D8C4F /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		D8E6615E1D923D0B005D8C4F /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,7 +203,9 @@
 		D839369A1D8348C5008CA7F1 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */,
 				D839369B1D8348C5008CA7F1 /* Box.swift */,
+				D8E6615E1D923D0B005D8C4F /* Button.swift */,
 				D83937161D872BDE008CA7F1 /* CollectionView.swift */,
 				D839369C1D8348C5008CA7F1 /* DelegateProxy.swift */,
 				D839369D1D8348C5008CA7F1 /* Image.swift */,
@@ -211,7 +215,6 @@
 				D83936A31D8348C5008CA7F1 /* TextField.swift */,
 				D83936A41D8348C5008CA7F1 /* UIKitRenderer.swift */,
 				D83936DA1D83497C008CA7F1 /* UIView.swift */,
-				D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */,
 				D893AC501D908AA90078DAD9 /* Properties.swift in Sources */,
 				D83936D41D8348C5008CA7F1 /* FlexboxValidation.swift in Sources */,
+				D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */,
 				D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */,
 				D83936D11D8348C5008CA7F1 /* Dictionary.swift in Sources */,
 				D83936BE1D8348C5008CA7F1 /* ViewNode.swift in Sources */,

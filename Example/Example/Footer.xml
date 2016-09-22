@@ -1,0 +1,9 @@
+<box flexDirection="row">
+  <text text="$todoCountText" />
+  <box flexDirection="row" flexGrow="1">
+    <button title="all" titleColor="#000000" width="48" height="24" onTouchUpInside="$onSelectAll" />
+    <button title="active" titleColor="#000000" width="48" height="24" onTouchUpInside="$onSelectActive" />
+    <button title="completed" titleColor="#000000" width="48" height="24" onTouchUpInside="$onSelectCompleted" />
+  </box>
+  <button title="clear all" titleColor="#000000" width="48" height="24" onTouchUpInside="$onClearCompleted" />
+</box>

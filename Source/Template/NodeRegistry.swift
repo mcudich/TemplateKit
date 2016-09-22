@@ -34,8 +34,10 @@ public class NodeRegistry {
   }
 
   private func registerDefaultProviders() {
-    register(Box.propertyTypes, for: "box")
-    register(Text.propertyTypes, for: "text")
-    register(Image.propertyTypes, for: "image")
+    register(Box.self, for: "box")
+    register(Button.self, for: "button")
+    register(Text.self, for: "text")
+    register(TextField.self, for: "textfield")
+    register(Image.self, for: "image")
   }
 }

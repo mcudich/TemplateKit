@@ -46,8 +46,7 @@ public class Image: UIImageView, NativeView {
 
   public var properties = ImageProperties([:]) {
     didSet {
-      applyCommonProperties(properties: properties)
-      applyImageProperties(properties: properties)
+      applyProperties()
     }
   }
 
@@ -59,12 +58,12 @@ public class Image: UIImageView, NativeView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func applyProperties(properties: ImageProperties) {
-    applyCommonProperties(properties: properties)
-    applyImageProperties(properties: properties)
+  func applyProperties() {
+    applyCommonProperties()
+    applyImageProperties()
   }
 
-  func applyImageProperties(properties: ImageProperties) {
+  func applyImageProperties() {
     contentMode = properties.contentMode
 
     if let url = properties.url {

@@ -13,17 +13,20 @@ public protocol State: Equatable {
 }
 
 public protocol Component: PropertyNode {
+  associatedtype PropertiesType: Properties
   associatedtype StateType: State
   associatedtype ViewType: View
 
   var state: StateType { get set }
+  var properties: PropertiesType { get set }
   var instance: Node { get set }
   var root: Node { get }
   var builtView: ViewType? { get set }
 
   func render() -> Element
   func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool
-  func updateState(stateMutation: @escaping (inout StateType) -> Void)
+  func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)?)
+  func performSelector(_ selector: Selector, with value: Any?, with otherValue: Any?)
 }
 
 public extension Component {
@@ -71,23 +74,29 @@ public extension Component {
     return builtView as! V
   }
 
+  func getBuiltView<V>() -> V? {
+    return instance.getBuiltView()
+  }
+
   func forceUpdate() {
-    performUpdate(shouldUpdate: true, nextState: state)
+    getContext().updateQueue.async {
+      self.performUpdate(shouldUpdate: true, nextState: self.state)
+    }
   }
 
-  public func updateState(stateMutation: @escaping (inout StateType) -> Void) {
+  public func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     willUpdate()
-    update(stateMutation: stateMutation)
+    update(stateMutation: stateMutation, completion: completion)
   }
 
-  func update(stateMutation: @escaping (inout StateType) -> Void) {
+  func update(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     getContext().updateQueue.async {
       let nextProperties = self.properties
       var nextState = self.state
       stateMutation(&nextState)
       let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
-
       self.performUpdate(shouldUpdate: shouldUpdate, nextState: nextState)
+      completion?()
     }
   }
 
@@ -102,7 +111,7 @@ public extension Component {
     let previousParentView = builtView?.parent
     let previousView = builtView
 
-    update(with: element)
+    performUpdate(with: element, nextProperties: properties, shouldUpdate: shouldUpdate)
     let layout = root.computeLayout()
 
     DispatchQueue.main.async {
@@ -117,10 +126,9 @@ public extension Component {
           previousParentView.replace(previousView!, with: view)
         }
       } else {
-        // We've modified state, but have not changed the root instance. Flush all node changes to the view layer.
         let _: ViewType = self.build()
       }
-      layout.apply(to: self.root.build() as ViewType)
+      layout.apply(to: self.root.getBuiltView()! as ViewType)
     }
   }
 
@@ -148,5 +156,11 @@ public extension Component {
       fatalError("No context available")
     }
     return context
+  }
+
+  func performSelector(_ selector: Selector, with value: Any? = nil, with otherValue: Any? = nil) {
+    if let target = owner! as? AnyObject {
+      target.perform(selector, with: value, with: otherValue)
+    }
   }
 }

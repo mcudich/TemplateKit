@@ -9,6 +9,16 @@ extension String {
     return NumberFormatter().number(from: self)?.floatValue
   }
 
+  var boolean: Bool? {
+    if self == "true" {
+      return true
+    }
+    if self == "false" {
+      return false
+    }
+    return nil
+  }
+
   var url: URL? {
     return URL(string: self)
   }

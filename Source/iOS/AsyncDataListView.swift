@@ -11,6 +11,7 @@ import Foundation
 protocol AsyncDataListView: class {
   var operationQueue: AsyncQueue<AsyncOperation> { get }
   var context: Context { get set }
+  var eventTarget: Node? { get set }
   var nodeCache: [Int: Node] { get set }
 
   func insertItems(at indexPaths: [IndexPath], completion: @escaping () -> Void)
@@ -113,6 +114,7 @@ extension AsyncDataListView {
       return previous + self.indexPaths(forSection: section)
     }
 
+    nodeCache.removeAll()
     precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
@@ -161,7 +163,8 @@ extension AsyncDataListView {
       guard let cacheKey = self.cacheKey(for: indexPath), let element = self.element(at: indexPath) else {
         continue
       }
-      UIKitRenderer.render(element, container: nil, context: context as Context) { [weak self] node in
+      UIKitRenderer.render(element, context: context as Context) { [weak self] node in
+        node.owner = self?.eventTarget
         self?.nodeCache[cacheKey] = node
         pending -= 1
         if pending == 0 {

@@ -9,23 +9,6 @@
 import Foundation
 
 extension UIView: View {
-  public var children: [View] {
-    get {
-      return subviews.map { $0 as View }
-    }
-    set {
-      var pendingViews = Set(subviews)
-
-      for (index, child) in newValue.enumerated() {
-        let childView = child as! UIView
-        insertSubview(childView, at: index)
-        pendingViews.remove(childView)
-      }
-
-      pendingViews.forEach { $0.removeFromSuperview() }
-    }
-  }
-
   public var parent: View? {
     return superview as? View
   }
@@ -42,23 +25,26 @@ extension UIView: View {
 }
 
 extension NativeView where Self: UIView {
-  func applyCommonProperties(properties: PropertiesType) {
-    applyBackgroundColor(properties)
-    applyTapHandler(properties)
+  func applyCommonProperties() {
+    applyBackgroundColor()
+    applyTapHandler()
   }
 
-  private func applyBackgroundColor(_ properties: PropertiesType) {
+  private func applyBackgroundColor() {
     guard let backgroundColor = properties.style?.backgroundColor else {
       return
     }
     self.backgroundColor = backgroundColor
   }
 
-  private func applyTapHandler(_ properties: PropertiesType) {
-    guard let onTap = properties.gestures?.onTap else {
-      return
+  private func applyTapHandler() {
+    if let onTap = properties.gestures?.onTap {
+      let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
+      addGestureRecognizer(recognizer)
+    } else if let onDoubleTap = properties.gestures?.onDoubleTap {
+      let recognizer = UITapGestureRecognizer(target: eventTarget, action: onDoubleTap)
+      recognizer.numberOfTapsRequired = 2
+      addGestureRecognizer(recognizer)
     }
-    let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
-    addGestureRecognizer(recognizer)
   }
 }

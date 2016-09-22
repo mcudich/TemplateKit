@@ -92,6 +92,8 @@ public class CollectionView: UICollectionView, AsyncDataListView {
     }
   }
 
+  public weak var eventTarget: Node?
+
   lazy var nodeCache = [Int: Node]()
   var context: Context
   lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
@@ -240,11 +242,5 @@ public class CollectionView: UICollectionView, AsyncDataListView {
   // Here too.
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
     return sizeForNode(node(at: indexPath))
-  }
-}
-
-extension CollectionView: Updateable {
-  public func update() {
-    reloadData()
   }
 }

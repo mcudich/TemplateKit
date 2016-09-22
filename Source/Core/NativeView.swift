@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol NativeView: View {
+public protocol NativeView: View, PropertyTypeProvider {
   associatedtype PropertiesType: ViewProperties
 
   var properties: PropertiesType { get set }
@@ -30,7 +30,8 @@ extension NativeView {
       "marginRight": Validation.float,
       "selfAlignment": FlexboxValidation.selfAlignment,
       "flexGrow": Validation.float,
-      "onTap": Validation.any,
+      "onTap": Validation.selector,
+      "onDoubleTap": Validation.selector,
       "backgroundColor": Validation.color
     ]
   }

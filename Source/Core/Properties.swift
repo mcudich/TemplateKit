@@ -30,9 +30,11 @@ public func ==(lhs: StyleProperties, rhs: StyleProperties) -> Bool {
 
 public struct GestureProperties: RawPropertiesReceiver, Equatable {
   var onTap: Selector?
+  var onDoubleTap: Selector?
 
   public init(_ properties: [String : Any]) {
     onTap = properties.get("onTap")
+    onDoubleTap = properties.get("onDoubleTap")
   }
 }
 

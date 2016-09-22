@@ -11,8 +11,11 @@ import Foundation
 public protocol View: class {
   var frame: CGRect { get set }
   var parent: View? { get }
-  var children: [View] { get set }
 
   func add(_ view: View)
   func replace(_ view: View, with newView: View)
+}
+
+public protocol ContainerView: class {
+  var children: [View] { get set }
 }
