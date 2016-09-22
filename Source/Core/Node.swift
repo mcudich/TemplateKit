@@ -37,7 +37,7 @@ public protocol PropertyNode: Node {
   var properties: PropertiesType { get set }
 
   func shouldUpdate(nextProperties: PropertiesType) -> Bool
-  func performDiff()
+  func performDiff(shouldUpdate: Bool)
 }
 
 public extension Node {
@@ -123,22 +123,24 @@ public extension PropertyNode {
 
   func forceUpdate() {
     updateCSSNode()
-    performDiff()
+    performDiff(shouldUpdate: true)
   }
 
   func performUpdate(with newElement: Element, nextProperties: PropertiesType, shouldUpdate: Bool) {
     element = newElement
 
     if shouldUpdate {
-      willUpdate()
-      properties = PropertiesType(newElement.properties)
-      updateCSSNode()
+      let nextProperties = PropertiesType(newElement.properties)
+      if nextProperties != properties {
+        properties = nextProperties
+        updateCSSNode()
+      }
     }
 
-    performDiff()
+    performDiff(shouldUpdate: shouldUpdate)
   }
 
-  func performDiff() {
+  func performDiff(shouldUpdate: Bool) {
     diffChildren(newChildren: element.children ?? [])
   }
 

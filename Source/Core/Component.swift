@@ -140,7 +140,11 @@ public extension Component {
     return true
   }
 
-  func performDiff() {
+  func performDiff(shouldUpdate: Bool) {
+    if !shouldUpdate {
+      return
+    }
+    willUpdate()
     let rendered = render()
 
     if shouldReplace(instance, with: rendered) {
