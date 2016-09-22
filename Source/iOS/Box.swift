@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Box: UIView, NativeView {
+public class Box: UIView, NativeView, ContainerView {
   public static var propertyTypes: [String: ValidationType] {
     return commonPropertyTypes.merged(with: [
       "flexDirection": FlexboxValidation.flexDirection,
@@ -22,6 +22,23 @@ public class Box: UIView, NativeView {
   }
 
   public var eventTarget: AnyObject?
+
+  public var children: [View] {
+    get {
+      return subviews
+    }
+    set {
+      var viewsToRemove = Set(subviews)
+
+      for (index, child) in newValue.enumerated() {
+        let childView = child as! UIView
+        insertSubview(childView, at: index)
+        viewsToRemove.remove(childView)
+      }
+
+      viewsToRemove.forEach { $0.removeFromSuperview() }
+    }
+  }
 
   public var properties = BaseProperties([:]) {
     didSet {

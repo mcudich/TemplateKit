@@ -9,23 +9,6 @@
 import Foundation
 
 extension UIView: View {
-  public var children: [View] {
-    get {
-      return subviews.map { $0 as View }
-    }
-    set {
-      var pendingViews = Set(subviews)
-
-      for (index, child) in newValue.enumerated() {
-        let childView = child as! UIView
-        insertSubview(childView, at: index)
-        pendingViews.remove(childView)
-      }
-
-      pendingViews.forEach { $0.removeFromSuperview() }
-    }
-  }
-
   public var parent: View? {
     return superview as? View
   }

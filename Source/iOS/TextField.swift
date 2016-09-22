@@ -70,7 +70,7 @@ public class TextField: UITextField, NativeView {
 
   func applyProperties() {
     applyCommonProperties()
-    applyTextFieldProperties()
+//    applyTextFieldProperties()
   }
 
   func applyTextFieldProperties() {

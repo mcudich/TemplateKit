@@ -60,8 +60,36 @@ public struct LayoutProperties: RawPropertiesReceiver, Equatable {
   }
 }
 
+extension Float {
+  func equals(_ other: Float?) -> Bool {
+    guard let other = other else {
+      return false
+    }
+    if isNaN && other.isNaN {
+      return true
+    }
+    if self >= Float.greatestFiniteMagnitude && other >= Float.greatestFiniteMagnitude {
+      return true
+    }
+    return self == other
+  }
+}
+
+extension CSSSize {
+  static func compare(_ lhs: CSSSize?, _ rhs: CSSSize?) -> Bool {
+    if lhs == nil && rhs == nil {
+      return true
+    }
+    guard let lhs = lhs, let rhs = rhs else {
+      return false
+    }
+
+    return lhs.width.equals(rhs.width) && lhs.height.equals(rhs.height)
+  }
+}
+
 public func ==(lhs: LayoutProperties, rhs: LayoutProperties) -> Bool {
-  return lhs.flexDirection == rhs.flexDirection && lhs.direction == rhs.direction && lhs.justifyContent == rhs.justifyContent && lhs.alignContent == rhs.alignContent && lhs.alignItems == rhs.alignItems && lhs.alignSelf == rhs.alignSelf && lhs.positionType == rhs.positionType && lhs.flexWrap == rhs.flexWrap && lhs.overflow == rhs.overflow && lhs.flexGrow == rhs.flexGrow && lhs.flexShrink == rhs.flexShrink && lhs.margin == rhs.margin && lhs.padding == rhs.padding && lhs.size == rhs.size && lhs.minSize == rhs.minSize && lhs.maxSize == rhs.maxSize
+  return lhs.flexDirection == rhs.flexDirection && lhs.direction == rhs.direction && lhs.justifyContent == rhs.justifyContent && lhs.alignContent == rhs.alignContent && lhs.alignItems == rhs.alignItems && lhs.alignSelf == rhs.alignSelf && lhs.positionType == rhs.positionType && lhs.flexWrap == rhs.flexWrap && lhs.overflow == rhs.overflow && lhs.flexGrow == rhs.flexGrow && lhs.flexShrink == rhs.flexShrink && lhs.margin == rhs.margin && lhs.padding == rhs.padding && CSSSize.compare(lhs.size, rhs.size) && lhs.minSize == rhs.minSize && lhs.maxSize == rhs.maxSize
 }
 
 extension PropertyNode where Self.PropertiesType: ViewProperties {

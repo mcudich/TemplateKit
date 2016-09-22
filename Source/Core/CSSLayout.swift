@@ -69,8 +69,12 @@ public struct CSSLayout {
   func apply(to view: View) {
     view.frame = frame
 
+    guard let containerView = view as? ContainerView else {
+      return
+    }
+
     for (index, child) in children.enumerated() {
-      child.apply(to: view.children[index])
+      child.apply(to: containerView.children[index])
     }
   }
 }

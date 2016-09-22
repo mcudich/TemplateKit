@@ -52,7 +52,7 @@ class DataSource: NSObject, TableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return model?.todos?.count ?? 0
+    return model?.todos.count ?? 0
   }
 }
 

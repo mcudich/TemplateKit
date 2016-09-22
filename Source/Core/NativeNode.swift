@@ -50,7 +50,9 @@ class NativeNode<T: NativeView>: PropertyNode {
     if builtView?.properties != properties {
       builtView?.properties = properties
     }
-    builtView?.children = children?.map { $0.build() as V } ?? []
+    if let containerView = builtView as? ContainerView {
+      containerView.children = children?.map { $0.build() as V } ?? []
+    }
 
     return builtView as! V
   }
