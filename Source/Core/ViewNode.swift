@@ -8,10 +8,6 @@
 
 import Foundation
 
-public protocol Updateable {
-  func update()
-}
-
 class ViewNode: PropertyNode {
   weak var owner: Node?
   weak var parent: Node?
@@ -52,9 +48,6 @@ class ViewNode: PropertyNode {
   }
 
   func build<V: View>() -> V {
-    if let updateableView = builtView as? Updateable, builtView != nil {
-      updateableView.update()
-    }
     return builtView as! V
   }
 

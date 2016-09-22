@@ -13,10 +13,12 @@ public protocol State: Equatable {
 }
 
 public protocol Component: PropertyNode {
+  associatedtype PropertiesType: Properties
   associatedtype StateType: State
   associatedtype ViewType: View
 
   var state: StateType { get set }
+  var properties: PropertiesType { get set }
   var instance: Node { get set }
   var root: Node { get }
   var builtView: ViewType? { get set }

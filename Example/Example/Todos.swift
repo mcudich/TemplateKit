@@ -24,13 +24,13 @@ func ==(lhs: TodoItem, rhs: TodoItem) -> Bool {
 
 typealias ChangeHandler = () -> Void
 
-struct Todos: Equatable {
+class Todos: Equatable {
   var todos = [TodoItem]()
   var changes = [ChangeHandler]()
 
   init() {}
 
-  mutating func subscribe(handler: @escaping ChangeHandler) {
+  func subscribe(handler: @escaping ChangeHandler) {
     changes.append(handler)
   }
 
@@ -40,19 +40,19 @@ struct Todos: Equatable {
     }
   }
 
-  mutating func addTodo(title: String) {
+  func addTodo(title: String) {
     todos.append(TodoItem(title: title))
     inform()
   }
 
-  mutating func toggleAll(checked: Bool) {
+  func toggleAll(checked: Bool) {
     for var todo in todos {
       todo.completed = checked
     }
     inform()
   }
 
-  mutating func toggle(id: String) {
+  func toggle(id: String) {
     for var todo in todos {
       if todo.id == id {
         todo.completed = !todo.completed
@@ -62,14 +62,14 @@ struct Todos: Equatable {
     inform()
   }
 
-  mutating func destroy(id: String) {
+  func destroy(id: String) {
     todos = todos.filter { todoItem in
       todoItem.id != id
     }
     inform()
   }
 
-  mutating func save(id: String, title: String) {
+  func save(id: String, title: String) {
     for var todo in todos {
       if todo.id == id {
         todo.title = title
@@ -79,7 +79,7 @@ struct Todos: Equatable {
     inform()
   }
 
-  mutating func clearCompleted() {
+  func clearCompleted() {
     todos = todos.filter { !$0.completed }
     inform()
   }

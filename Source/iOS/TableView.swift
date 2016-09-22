@@ -36,7 +36,7 @@ import UIKit
 }
 
 // This is a sub-set of UITableViewDataSource.
-public protocol TableViewDataSource: NSObjectProtocol {
+public protocol TableViewDataSource: class {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element
   func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int
 
@@ -133,6 +133,8 @@ public class TableView: UITableView, AsyncDataListView {
     }
   }
 
+  public weak var eventTarget: Node?
+
   lazy var nodeCache = [Int: Node]()
   var context: Context
   lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
@@ -166,7 +168,7 @@ public class TableView: UITableView, AsyncDataListView {
     delegate = delegateProxy
   }
 
-  private func configureProxy(withTarget target: NSObjectProtocol?) -> DelegateProxyProtocol {
+  private func configureProxy(withTarget target: AnyObject?) -> DelegateProxyProtocol {
     let delegateProxy = DelegateProxy(target: target, interceptor: self)
 
     delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:heightForRowAt:)))
@@ -287,11 +289,5 @@ public class TableView: UITableView, AsyncDataListView {
       cell.node = node
     }
     return cell
-  }
-}
-
-extension TableView: Updateable {
-  public func update() {
-    reloadData()
   }
 }

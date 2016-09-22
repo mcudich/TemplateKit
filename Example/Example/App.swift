@@ -44,24 +44,26 @@ func ==(lhs: AppProperties, rhs: AppProperties) -> Bool {
   return lhs.model == rhs.model && lhs.equals(otherViewProperties: rhs)
 }
 
-class DataSource: NSObject, TableViewDataSource {
-  var model: Todos?
-
+extension App: TableViewDataSource {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
-    return Element(ElementType.component(Todo.self), ["width": Float(tableView.bounds.size.width)])
+    let properties: [String: Any] = [
+      "todo": self.properties.model?.todos[indexPath.row],
+      "width": Float(tableView.bounds.size.width),
+      "onToggle": #selector(App.toggle(id:))
+    ]
+    return Element(ElementType.component(Todo.self), properties)
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return model?.todos.count ?? 0
+    return properties.model?.todos.count ?? 0
   }
 }
 
 class App: CompositeComponent<AppState, AppProperties, UIView> {
-  private var todosDataSource = DataSource()
-
   private lazy var todosList: TableView = {
     let todosList = TableView(frame: CGRect.zero, style: .plain, context: self.getContext())
-    todosList.tableViewDataSource = self.todosDataSource
+    todosList.tableViewDataSource = self
+    todosList.eventTarget = self
     return todosList
   }()
 
@@ -77,7 +79,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
 
   @objc func handleNewTodoSubmit(target: UITextField) {
     properties.model?.addTodo(title: target.text!)
-    todosDataSource.model = properties.model
+    todosList.reloadData()
     updateComponentState { state in
       state.newTodo = ""
     }
@@ -87,8 +89,9 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     properties.model?.toggleAll(checked: target.state == .selected)
   }
 
-  func toggle(todo: TodoItem) {
-    properties.model?.toggle(id: todo.id)
+  @objc func toggle(id: String) {
+    properties.model?.toggle(id: id)
+    todosList.reloadData()
   }
 
   func destroy(todo: TodoItem) {
@@ -117,16 +120,16 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   override func render() -> Element {
-    let _ = properties.model?.todos.filter { todoItem in
-      switch state.nowShowing {
-      case .active:
-        return !todoItem.completed
-      case .completed:
-        return todoItem.completed
-      default:
-        return true
-      }
-    }
+//    let _ = properties.model?.todos.filter { todoItem in
+//      switch state.nowShowing {
+//      case .active:
+//        return !todoItem.completed
+//      case .completed:
+//        return todoItem.completed
+//      default:
+//        return true
+//      }
+//    }
 
     return Element(ElementType.box, ["width": properties.layout?.size?.width, "height": properties.layout?.size?.height], [
       renderHeader(),
