@@ -17,7 +17,11 @@ public struct TextFieldProperties: ViewProperties {
   public var textStyle = TextStyleProperties([:])
   public var onChange: Selector?
   public var onSubmit: Selector?
+  public var onBlur: Selector?
+  public var onFocus: Selector?
   public var placeholder: String?
+  public var enabled = true
+  public var focused = false
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
@@ -25,12 +29,16 @@ public struct TextFieldProperties: ViewProperties {
 
     onChange = properties.get("onChange")
     onSubmit = properties.get("onSubmit")
+    onBlur = properties.get("onBlur")
+    onFocus = properties.get("onFocus")
     placeholder = properties.get("placeholder")
+    enabled = properties.get("enabled") ?? true
+    focused = properties.get("focused") ?? false
   }
 }
 
 public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
-  return lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.placeholder == rhs.placeholder && lhs.equals(otherViewProperties: rhs)
+  return lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.placeholder == rhs.placeholder && lhs.enabled == rhs.enabled && lhs.equals(otherViewProperties: rhs)
 }
 
 public class TextField: UITextField, NativeView {
@@ -43,7 +51,11 @@ public class TextField: UITextField, NativeView {
       "textAlignment": TextValidation.textAlignment,
       "onChange": Validation.selector,
       "onSubmit": Validation.selector,
-      "placeholder": Validation.string
+      "onBlur": Validation.selector,
+      "onFocus": Validation.selector,
+      "placeholder": Validation.string,
+      "enabled": Validation.boolean,
+      "focused": Validation.boolean
     ])
   }
 
@@ -81,14 +93,17 @@ public class TextField: UITextField, NativeView {
       NSFontAttributeName: fontValue,
       NSForegroundColorAttributeName: properties.textStyle.color
     ]
-    borderStyle = .line
+
     selectedTextRange = lastSelectedRange
     tintColor = .black
 
     attributedText = NSAttributedString(string: properties.textStyle.text, attributes: attributes)
     textAlignment = properties.textStyle.textAlignment
-
     placeholder = properties.placeholder
+    isEnabled = properties.enabled
+    if properties.focused {
+      becomeFirstResponder()
+    }
   }
 
   func onChange() {
@@ -102,5 +117,19 @@ public class TextField: UITextField, NativeView {
     if let onSubmit = properties.onSubmit {
       let _ = eventTarget?.perform(onSubmit, with: self)
     }
+  }
+
+  public override func becomeFirstResponder() -> Bool {
+    if let onFocus = properties.onFocus {
+      let _ = eventTarget?.perform(onFocus, with: self)
+    }
+    return super.becomeFirstResponder()
+  }
+
+  public override func resignFirstResponder() -> Bool {
+    if let onBlur = properties.onBlur {
+      let _ = eventTarget?.perform(onBlur, with: self)
+    }
+    return super.resignFirstResponder()
   }
 }

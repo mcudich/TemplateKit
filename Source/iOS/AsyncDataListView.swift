@@ -114,6 +114,7 @@ extension AsyncDataListView {
       return previous + self.indexPaths(forSection: section)
     }
 
+    nodeCache.removeAll()
     precacheNodes(at: indexPaths)
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {

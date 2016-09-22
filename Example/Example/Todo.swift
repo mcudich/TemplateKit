@@ -10,17 +10,11 @@ import Foundation
 import TemplateKit
 
 struct TodoItemState: State {
-  var editText = ""
-
-  init() {}
-
-  init(editText: String) {
-    self.editText = editText
-  }
+  var editText: String?
 }
 
 func ==(lhs: TodoItemState, rhs: TodoItemState) -> Bool {
-  return false
+  return lhs.editText == rhs.editText
 }
 
 struct TodoItemProperties: ViewProperties {
@@ -30,7 +24,7 @@ struct TodoItemProperties: ViewProperties {
   var gestures: GestureProperties?
 
   var todo: TodoItem?
-  var editing: Bool?
+  var editing = false
   var onToggle: Selector?
   var onDestroy: Selector?
   var onEdit: Selector?
@@ -41,7 +35,7 @@ struct TodoItemProperties: ViewProperties {
     applyProperties(properties)
 
     todo = properties.get("todo")
-    editing = properties.get("editing")
+    editing = properties.get("editing") ?? false
     onToggle = properties.get("onToggle")
     onDestroy = properties.get("onDestroy")
     onEdit = properties.get("onEdit")
@@ -51,38 +45,67 @@ struct TodoItemProperties: ViewProperties {
 }
 
 func ==(lhs: TodoItemProperties, rhs: TodoItemProperties) -> Bool {
-  return false
+  return lhs.todo == rhs.todo && lhs.editing == rhs.editing && lhs.onToggle == rhs.onToggle && lhs.onDestroy == rhs.onDestroy && lhs.onEdit == rhs.onEdit && lhs.onSave == rhs.onSave && lhs.onCancel == rhs.onCancel
 }
 
 class Todo: CompositeComponent<TodoItemState, TodoItemProperties, UIView> {
-  func handleSubmit() {
+  @objc func handleSubmit(target: UITextField) {
+    guard let todo = properties.todo else { return }
 
+    if let onSave = properties.onSave, let text = target.text, !text.isEmpty {
+      performSelector(onSave, with: todo.id, with: text)
+      updateComponentState { state in
+        state.editText = nil
+      }
+    } else if let onDestroy = properties.onDestroy {
+      performSelector(onDestroy, with: todo.id)
+    }
   }
 
-  func handleEdit() {
+  @objc func handleEdit() {
+    guard let onEdit = properties.onEdit, let todo = properties.todo else { return }
 
+    performSelector(onEdit, with: todo.id)
+    updateComponentState { state in
+      state.editText = todo.title
+    }
   }
 
-  func handleChange() {
-
+  @objc func handleChange(target: UITextField) {
+    if self.properties.editing {
+      updateComponentState { state in
+        state.editText = target.text
+      }
+    }
   }
 
   @objc func handleToggle() {
     if let onToggle = properties.onToggle {
-      let _ = (owner! as AnyObject).perform(onToggle, with: properties.todo!.id)
+      performSelector(onToggle, with: properties.todo?.id)
+    }
+  }
+
+  @objc func handleDestroy() {
+    if let onDestroy = properties.onDestroy {
+      performSelector(onDestroy, with: properties.todo?.id)
     }
   }
 
   override func render() -> Element {
     let properties: [String: Any] = [
       "buttonBackgroundColor": (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red,
-      "onToggle": #selector(Todo.handleToggle)
+      "onToggle": #selector(Todo.handleToggle),
+      "text": state.editText ?? self.properties.todo?.title,
+      "onChange": #selector(Todo.handleChange(target:)),
+      "onSubmit": #selector(Todo.handleSubmit(target:)),
+      "onBlur": #selector(Todo.handleSubmit(target:)),
+      "width": self.properties.layout?.size?.width,
+      "enabled": state.editText != nil,
+      "focused": state.editText != nil,
+      "onEdit": #selector(Todo.handleEdit),
+      "onDestroy": #selector(Todo.handleDestroy)
     ]
 
     return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: properties)
-  }
-
-  override func getInitialState() -> TodoItemState {
-    return TodoItemState(editText: properties.todo?.title ?? "")
   }
 }

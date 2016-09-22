@@ -129,6 +129,13 @@ public class Button: UIButton, NativeView {
     applyButtonProperties()
   }
 
+  func handleTouchUpInside() {
+    isSelected = !isSelected
+    if let onTouchUpInside = properties.onTouchUpInside {
+      let _ = eventTarget?.perform(onTouchUpInside, with: self)
+    }
+  }
+
   func applyButtonProperties() {
     for state in UIControlState.buttonStates {
       let stateProperties = properties.buttonStyle[state]
@@ -139,8 +146,8 @@ public class Button: UIButton, NativeView {
       setBackgroundImage(stateProperties?.backgroundImage, for: state)
       setImage(stateProperties?.image, for: state)
     }
-    if let onTouchUpInside = properties.onTouchUpInside {
-      addTarget(eventTarget, action: onTouchUpInside, for: .touchUpInside)
+    if let _ = properties.onTouchUpInside {
+      addTarget(self, action: #selector(Button.handleTouchUpInside), for: .touchUpInside)
     }
     isSelected = properties.selected ?? false
   }

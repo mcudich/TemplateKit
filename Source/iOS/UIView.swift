@@ -38,10 +38,13 @@ extension NativeView where Self: UIView {
   }
 
   private func applyTapHandler() {
-    guard let onTap = properties.gestures?.onTap else {
-      return
+    if let onTap = properties.gestures?.onTap {
+      let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
+      addGestureRecognizer(recognizer)
+    } else if let onDoubleTap = properties.gestures?.onDoubleTap {
+      let recognizer = UITapGestureRecognizer(target: eventTarget, action: onDoubleTap)
+      recognizer.numberOfTapsRequired = 2
+      addGestureRecognizer(recognizer)
     }
-    let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
-    addGestureRecognizer(recognizer)
   }
 }

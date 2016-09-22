@@ -46,16 +46,16 @@ class Todos: Equatable {
   }
 
   func toggleAll(checked: Bool) {
-    for var todo in todos {
-      todo.completed = checked
+    for (index, _) in todos.enumerated() {
+      todos[index].completed = checked
     }
     inform()
   }
 
   func toggle(id: String) {
-    for var todo in todos {
+    for (index, todo) in todos.enumerated() {
       if todo.id == id {
-        todo.completed = !todo.completed
+        todos[index].completed = !todo.completed
         break
       }
     }
@@ -70,9 +70,9 @@ class Todos: Equatable {
   }
 
   func save(id: String, title: String) {
-    for var todo in todos {
+    for (index, todo) in todos.enumerated() {
       if todo.id == id {
-        todo.title = title
+        todos[index].title = title
         break
       }
     }

@@ -1,4 +1,7 @@
 <box paddingTop="40">
   <text text="todos" textAlignment="center" />
-  <textfield text="$text" placeholder="What needs to be done?" height="24" onSubmit="$onSubmit" onChange="$onChange" />
+  <box flexDirection="row">
+    <button backgroundColor="#eeeeee" onTouchUpInside="$onToggleAll" width="24" height="24" />
+    <textfield text="$text" placeholder="What needs to be done?" height="24" onSubmit="$onSubmit" onChange="$onChange" flexGrow="1" />
+  </box>
 </box>

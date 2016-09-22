@@ -13,7 +13,6 @@ class ViewController: UIViewController, Context {
   lazy var templateService: TemplateService = {
     let templateService = XMLTemplateService(liveReload: false)
     templateService.cachePolicy = .never
-    templateService.liveReloadInterval = .seconds(1)
     return templateService
   }()
 
@@ -33,6 +32,7 @@ class ViewController: UIViewController, Context {
     ]
     let templateURLs = [
       Bundle.main.url(forResource: "Header", withExtension: "xml")!,
+      Bundle.main.url(forResource: "Footer", withExtension: "xml")!,
       Bundle.main.url(forResource: "Todo", withExtension: "xml")!
     ]
     templateService.fetchTemplates(withURLs: templateURLs) { result in

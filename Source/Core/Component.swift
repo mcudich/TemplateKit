@@ -25,7 +25,8 @@ public protocol Component: PropertyNode {
 
   func render() -> Element
   func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool
-  func updateState(stateMutation: @escaping (inout StateType) -> Void)
+  func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)?)
+  func performSelector(_ selector: Selector, with value: Any?, with otherValue: Any?)
 }
 
 public extension Component {
@@ -78,21 +79,24 @@ public extension Component {
   }
 
   func forceUpdate() {
-    performUpdate(shouldUpdate: true, nextState: state)
+    getContext().updateQueue.async {
+      self.performUpdate(shouldUpdate: true, nextState: self.state)
+    }
   }
 
-  public func updateState(stateMutation: @escaping (inout StateType) -> Void) {
+  public func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     willUpdate()
-    update(stateMutation: stateMutation)
+    update(stateMutation: stateMutation, completion: completion)
   }
 
-  func update(stateMutation: @escaping (inout StateType) -> Void) {
+  func update(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     getContext().updateQueue.async {
       let nextProperties = self.properties
       var nextState = self.state
       stateMutation(&nextState)
       let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
       self.performUpdate(shouldUpdate: shouldUpdate, nextState: nextState)
+      completion?()
     }
   }
 
@@ -152,5 +156,11 @@ public extension Component {
       fatalError("No context available")
     }
     return context
+  }
+
+  func performSelector(_ selector: Selector, with value: Any? = nil, with otherValue: Any? = nil) {
+    if let target = owner! as? AnyObject {
+      target.perform(selector, with: value, with: otherValue)
+    }
   }
 }

@@ -17,6 +17,8 @@
 		D89194CD1D57FD6F0049991F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D89194CB1D57FD6F0049991F /* LaunchScreen.storyboard */; };
 		D8D7D19D1D9204E200A745D8 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D7D19C1D9204E200A745D8 /* Todo.swift */; };
 		D8D7D19F1D92072D00A745D8 /* Todo.xml in Resources */ = {isa = PBXBuildFile; fileRef = D8D7D19E1D92072D00A745D8 /* Todo.xml */; };
+		D8D7D1A11D946F9600A745D8 /* Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D7D1A01D946F9600A745D8 /* Footer.swift */; };
+		D8D7D1A31D94704200A745D8 /* Footer.xml in Resources */ = {isa = PBXBuildFile; fileRef = D8D7D1A21D94704200A745D8 /* Footer.xml */; };
 		D8E6615D1D923C25005D8C4F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E6615C1D923C25005D8C4F /* TemplateKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +36,8 @@
 		D8C9FFE61D91FCEA00C7E59E /* CSSLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSSLayout.framework; path = "../../../Library/Developer/Xcode/DerivedData/TemplateKit-dlothccfmiiohthdoibxrmvczhby/Build/Products/Debug-iphoneos/CSSLayout.framework"; sourceTree = "<group>"; };
 		D8D7D19C1D9204E200A745D8 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		D8D7D19E1D92072D00A745D8 /* Todo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Todo.xml; sourceTree = "<group>"; };
+		D8D7D1A01D946F9600A745D8 /* Footer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Footer.swift; sourceTree = "<group>"; };
+		D8D7D1A21D94704200A745D8 /* Footer.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Footer.xml; sourceTree = "<group>"; };
 		D8E6615C1D923C25005D8C4F /* TemplateKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TemplateKit.framework; path = "../build/Debug-iphoneos/TemplateKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,9 +75,11 @@
 			children = (
 				D856A0561D91C1540049467E /* App.swift */,
 				D89194C21D57FD6F0049991F /* AppDelegate.swift */,
+				D8D7D1A01D946F9600A745D8 /* Footer.swift */,
 				D8D7D19C1D9204E200A745D8 /* Todo.swift */,
 				D856A0581D91C7180049467E /* Todos.swift */,
 				D89194C41D57FD6F0049991F /* ViewController.swift */,
+				D8D7D1A21D94704200A745D8 /* Footer.xml */,
 				D856A05A1D91D8A60049467E /* Header.xml */,
 				D8D7D19E1D92072D00A745D8 /* Todo.xml */,
 				D89194C91D57FD6F0049991F /* Assets.xcassets */,
@@ -155,6 +161,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D7D1A31D94704200A745D8 /* Footer.xml in Resources */,
 				D89194CD1D57FD6F0049991F /* LaunchScreen.storyboard in Resources */,
 				D89194CA1D57FD6F0049991F /* Assets.xcassets in Resources */,
 				D8D7D19F1D92072D00A745D8 /* Todo.xml in Resources */,
@@ -188,6 +195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D7D1A11D946F9600A745D8 /* Footer.swift in Sources */,
 				D8D7D19D1D9204E200A745D8 /* Todo.swift in Sources */,
 				D856A0571D91C1540049467E /* App.swift in Sources */,
 				D856A0591D91C7180049467E /* Todos.swift in Sources */,
