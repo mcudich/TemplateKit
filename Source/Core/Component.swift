@@ -78,18 +78,52 @@ public extension Component {
     return instance.getBuiltView()
   }
 
+  func shouldUpdate(nextProperties: PropertiesType) -> Bool {
+    return shouldUpdate(nextProperties: nextProperties, nextState: state)
+  }
+
+  func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
+    return true
+  }
+
+  func performDiff() {
+    willUpdate()
+
+    let rendered = render()
+
+    if shouldReplace(instance, with: rendered) {
+      instance = rendered.build(with: self, context: context)
+      cssNode = nil
+    } else {
+      instance.update(with: rendered)
+    }
+  }
+
+  func getContext() -> Context {
+    guard let context = context ?? owner?.context else {
+      fatalError("No context available")
+    }
+    return context
+  }
+
+  func performSelector(_ selector: Selector, with value: Any? = nil, with otherValue: Any? = nil) {
+    if let target = owner! as? AnyObject {
+      target.perform(selector, with: value, with: otherValue)
+    }
+  }
+
   func forceUpdate() {
     getContext().updateQueue.async {
       self.performUpdate(shouldUpdate: true, nextState: self.state)
     }
   }
 
-  public func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
+  func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     willUpdate()
     update(stateMutation: stateMutation, completion: completion)
   }
 
-  func update(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
+  private func update(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     getContext().updateQueue.async {
       let nextProperties = self.properties
       var nextState = self.state
@@ -100,7 +134,7 @@ public extension Component {
     }
   }
 
-  func performUpdate(shouldUpdate: Bool, nextState: StateType) {
+  private func performUpdate(shouldUpdate: Bool, nextState: StateType) {
     state = nextState
 
     if !shouldUpdate {
@@ -129,42 +163,6 @@ public extension Component {
         let _: ViewType = self.build()
       }
       layout.apply(to: self.root.getBuiltView()! as ViewType)
-    }
-  }
-
-  func shouldUpdate(nextProperties: PropertiesType) -> Bool {
-    return shouldUpdate(nextProperties: nextProperties, nextState: state)
-  }
-
-  func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
-    return true
-  }
-
-  func performDiff(shouldUpdate: Bool) {
-    if !shouldUpdate {
-      return
-    }
-    willUpdate()
-    let rendered = render()
-
-    if shouldReplace(instance, with: rendered) {
-      instance = rendered.build(with: self, context: context)
-      cssNode = nil
-    } else {
-      instance.update(with: rendered)
-    }
-  }
-
-  func getContext() -> Context {
-    guard let context = context ?? owner?.context else {
-      fatalError("No context available")
-    }
-    return context
-  }
-
-  func performSelector(_ selector: Selector, with value: Any? = nil, with otherValue: Any? = nil) {
-    if let target = owner! as? AnyObject {
-      target.perform(selector, with: value, with: otherValue)
     }
   }
 }
