@@ -20,7 +20,7 @@ public struct StyleProperties: RawPropertiesReceiver, Equatable {
   public var backgroundColor: UIColor?
 
   public init(_ properties: [String : Any]) {
-//    backgroundColor = properties.color("backgroundColor")
+    backgroundColor = properties.color("backgroundColor")
   }
 }
 
@@ -33,8 +33,8 @@ public struct GestureProperties: RawPropertiesReceiver, Equatable {
   var onDoubleTap: Selector?
 
   public init(_ properties: [String : Any]) {
-    onTap = properties.get("onTap")
-    onDoubleTap = properties.get("onDoubleTap")
+    onTap = properties.cast("onTap")
+    onDoubleTap = properties.cast("onDoubleTap")
   }
 }
 
@@ -54,7 +54,7 @@ public protocol ViewProperties: Properties, Equatable {
 
 public extension ViewProperties {
   public mutating func applyProperties(_ properties: [String: Any]) {
-    key = properties.get("key")
+    key = properties.cast("key")
     layout = LayoutProperties(properties)
     style = StyleProperties(properties)
     gestures = GestureProperties(properties)

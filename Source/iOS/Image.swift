@@ -21,11 +21,11 @@ public struct ImageProperties: ViewProperties {
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
 
-    if let contentMode: UIViewContentMode = properties.get("contentMode") {
+    if let contentMode: UIViewContentMode = properties.cast("contentMode") {
       self.contentMode = contentMode
     }
-    url = properties.get("url")
-    name = properties.get("name")
+    url = properties.cast("url")
+    name = properties.cast("name")
   }
 }
 
@@ -34,14 +34,6 @@ public func ==(lhs: ImageProperties, rhs: ImageProperties) -> Bool {
 }
 
 public class Image: UIImageView, NativeView {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [
-      "url": Validation.url,
-      "name": Validation.string,
-      "contentMode": ImageValidation.contentMode
-    ])
-  }
-
   public weak var eventTarget: AnyObject?
 
   public var properties = ImageProperties([:]) {

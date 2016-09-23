@@ -41,11 +41,11 @@ public struct ButtonStyleProperties: Equatable {
   var image: UIImage?
 
   init(_ properties: [String : Any], statePrefix: String) {
-    title = properties.get(key(statePrefix, "title"))
-    titleColor = properties.get(key(statePrefix, "titleColor"))
-    titleShadowColor = properties.get(key(statePrefix, "titleShadowColor"))
-    backgroundImage = properties.get(key(statePrefix, "backgroundImage"))
-    image = properties.get(key(statePrefix, "image"))
+    title = properties.cast(key(statePrefix, "title"))
+    titleColor = properties.color(key(statePrefix, "titleColor"))
+    titleShadowColor = properties.color(key(statePrefix, "titleShadowColor"))
+    backgroundImage = properties.image(key(statePrefix, "backgroundImage"))
+    image = properties.image(key(statePrefix, "image"))
   }
 
   private func key(_ prefix: String, _ propertyKey: String) -> String {
@@ -76,8 +76,8 @@ public struct ButtonProperties: ViewProperties {
       buttonStyle[state] = ButtonStyleProperties(properties, statePrefix: state.stringValue)
     }
 
-    selected = properties.get("selected")
-    onTouchUpInside = properties.get("onTouchUpInside")
+    selected = properties.cast("selected")
+    onTouchUpInside = properties.cast("onTouchUpInside")
   }
 }
 
@@ -86,28 +86,6 @@ public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
 }
 
 public class Button: UIButton, NativeView {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: buildPropertyTypes())
-  }
-
-  static func buildPropertyTypes() -> [String: ValidationType] {
-    var propertyTypes = [String: ValidationType]()
-    for state in UIControlState.buttonStates {
-      let buildKey = { (prefix: String, key: String) in
-        return prefix.isEmpty ? key : prefix + key.capitalized
-      }
-      propertyTypes[buildKey(state.stringValue, "title")] = Validation.string
-      propertyTypes[buildKey(state.stringValue, "titleColor")] = Validation.color
-      propertyTypes[buildKey(state.stringValue, "titleShadowColor")] = Validation.color
-      propertyTypes[buildKey(state.stringValue, "backgroundImage")] = Validation.string
-      propertyTypes[buildKey(state.stringValue, "image")] = Validation.string
-    }
-    propertyTypes["selected"] = Validation.boolean
-    propertyTypes["onTouchUpInside"] = Validation.selector
-    
-    return propertyTypes
-  }
-
   public weak var eventTarget: AnyObject?
 
   public var properties = ButtonProperties([:]) {

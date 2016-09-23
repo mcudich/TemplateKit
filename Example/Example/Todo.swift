@@ -35,12 +35,12 @@ struct TodoProperties: ViewProperties {
     applyProperties(properties)
 
     todo = properties.get("todo")
-    editing = properties.get("editing") ?? false
-    onToggle = properties.get("onToggle")
-    onDestroy = properties.get("onDestroy")
-    onEdit = properties.get("onEdit")
-    onSave = properties.get("onSave")
-    onCancel = properties.get("onCancel")
+    editing = properties.cast("editing") ?? false
+    onToggle = properties.cast("onToggle")
+    onDestroy = properties.cast("onDestroy")
+    onEdit = properties.cast("onEdit(")
+    onSave = properties.cast("onSave")
+    onCancel = properties.cast("onCancel")
   }
 }
 
@@ -95,14 +95,14 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
     let properties: [String: Any] = [
       "buttonBackgroundColor": (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red,
       "onToggle": #selector(Todo.handleToggle),
-      "text": state.editText ?? self.properties.todo?.title,
+      "text(": state.editText ?? self.properties.todo?.title,
       "onChange": #selector(Todo.handleChange(target:)),
-      "onSubmit": #selector(Todo.handleSubmit(target:)),
+      "onSubmit(": #selector(Todo.handleSubmit(target:)),
       "onBlur": #selector(Todo.handleSubmit(target:)),
       "width": self.properties.layout?.size?.width,
       "enabled": state.editText != nil,
       "focused": state.editText != nil,
-      "onEdit": #selector(Todo.handleEdit),
+      "onEdit(": #selector(Todo.handleEdit),
       "onDestroy": #selector(Todo.handleDestroy)
     ]
 

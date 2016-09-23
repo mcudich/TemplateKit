@@ -29,17 +29,17 @@ public struct LayoutProperties: RawPropertiesReceiver, Equatable {
   public var maxSize: CSSSize?
 
   public init(_ properties: [String : Any]) {
-    flexDirection = properties.get("flexDirection")
-    direction = properties.get("direction")
-    justifyContent = properties.get("justifyContent")
-    alignContent = properties.get("alignContent")
-    alignItems = properties.get("alignItems")
-    alignSelf = properties.get("alignSelf")
-    positionType = properties.get("positionType")
-    flexWrap = properties.get("flexWrap")
-    overflow = properties.get("overflow")
-    flexGrow = properties.get("flexGrow")
-    flexShrink = properties.get("flexShrink")
+    flexDirection = properties.cast("flexDirection")
+    direction = properties.cast("direction")
+    justifyContent = properties.cast("justifyContent")
+    alignContent = properties.cast("alignContent")
+    alignItems = properties.cast("alignItems")
+    alignSelf = properties.cast("alignSelf")
+    positionType = properties.cast("positionType")
+    flexWrap = properties.cast("flexWrap")
+    overflow = properties.cast("overflow")
+    flexGrow = properties.cast("flexGrow")
+    flexShrink = properties.cast("flexShrink")
     margin = getEdges(properties: properties, prefix: "margin")
     padding = getEdges(properties: properties, prefix: "padding")
     size = getSize(properties: properties, widthKey: "width", heightKey: "height", defaultValue: Float.nan)
@@ -52,11 +52,11 @@ public struct LayoutProperties: RawPropertiesReceiver, Equatable {
   }
 
   private func getEdges(properties: [String: Any], prefix: String) -> CSSEdges {
-    return CSSEdges(left: properties.get(prefix + "Left") ?? 0, right: properties.get(prefix + "Right") ?? 0, bottom: properties.get(prefix + "Bottom") ?? 0, top: properties.get(prefix + "Top") ?? 0)
+    return CSSEdges(left: properties.cast(prefix + "Left") ?? 0, right: properties.cast(prefix + "Right") ?? 0, bottom: properties.cast(prefix + "Bottom") ?? 0, top: properties.cast(prefix + "Top") ?? 0)
   }
 
   private func getSize(properties: [String: Any], widthKey: String, heightKey: String, defaultValue: Float) -> CSSSize {
-    return CSSSize(width: properties.get(widthKey) ?? defaultValue, height: properties.get(heightKey) ?? defaultValue)
+    return CSSSize(width: properties.cast(widthKey) ?? defaultValue, height: properties.cast(heightKey) ?? defaultValue)
   }
 }
 

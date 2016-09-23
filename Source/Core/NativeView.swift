@@ -8,35 +8,11 @@
 
 import Foundation
 
-public protocol NativeView: View, PropertyTypeProvider {
+public protocol NativeView: View {
   associatedtype PropertiesType: ViewProperties
 
   var properties: PropertiesType { get set }
   weak var eventTarget: AnyObject? { get set }
 
   init()
-}
-
-extension NativeView {
-  static var commonPropertyTypes: [String: ValidationType] {
-    return [
-      "x": Validation.float,
-      "y": Validation.float,
-      "width": Validation.float,
-      "height": Validation.float,
-      "marginTop": Validation.float,
-      "marginBottom": Validation.float,
-      "marginLeft": Validation.float,
-      "marginRight": Validation.float,
-      "selfAlignment": FlexboxValidation.selfAlignment,
-      "flexGrow": Validation.float,
-      "onTap": Validation.selector,
-      "onDoubleTap": Validation.selector,
-      "backgroundColor": Validation.color
-    ]
-  }
-
-  static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes
-  }
 }

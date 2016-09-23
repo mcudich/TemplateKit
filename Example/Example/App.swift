@@ -58,10 +58,10 @@ struct HeaderProperties: ViewProperties {
   public init(_ properties: [String: Any]) {
     applyProperties(properties)
 
-    text = properties.get("text")
-    onChange = properties.get("onChange")
-    onSubmit = properties.get("onSubmit")
-    onToggleAll = properties.get("onToggleAll")
+    text = properties.cast("text")
+    onChange = properties.cast("onChange")
+    onSubmit = properties.cast("onSubmit")
+    onToggleAll = properties.cast("onToggleAll")
   }
 }
 

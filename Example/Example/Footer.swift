@@ -24,11 +24,11 @@ struct FooterProperties: ViewProperties {
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
 
-    count = properties.get("count") ?? 0
-    completedCount = properties.get("completedCount") ?? 0
-    onClearCompleted = properties.get("onClearCompleted")
+    count = properties.cast("count") ?? 0
+    completedCount = properties.cast("completedCount") ?? 0
+    onClearCompleted = properties.cast("onClearCompleted")
     nowShowing = properties.get("nowShowing")
-    onUpdateFilter = properties.get("onUpdateFilter")
+    onUpdateFilter = properties.cast("onUpdateFilter")
   }
 }
 

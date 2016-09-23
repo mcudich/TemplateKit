@@ -27,13 +27,13 @@ public struct TextFieldProperties: ViewProperties {
     applyProperties(properties)
     textStyle = TextStyleProperties(properties)
 
-    onChange = properties.get("onChange")
-    onSubmit = properties.get("onSubmit")
-    onBlur = properties.get("onBlur")
-    onFocus = properties.get("onFocus")
-    placeholder = properties.get("placeholder")
-    enabled = properties.get("enabled") ?? true
-    focused = properties.get("focused") ?? false
+    onChange = properties.cast("onChange")
+    onSubmit = properties.cast("onSubmit")
+    onBlur = properties.cast("onBlur")
+    onFocus = properties.cast("onFocus")
+    placeholder = properties.cast("placeholder")
+    enabled = properties.cast("enabled") ?? true
+    focused = properties.cast("focused") ?? false
   }
 }
 
@@ -42,23 +42,6 @@ public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
 }
 
 public class TextField: UITextField, NativeView {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [
-      "text": Validation.string,
-      "fontName": Validation.string,
-      "fontSize": Validation.float,
-      "textColor": Validation.color,
-      "textAlignment": TextValidation.textAlignment,
-      "onChange": Validation.selector,
-      "onSubmit": Validation.selector,
-      "onBlur": Validation.selector,
-      "onFocus": Validation.selector,
-      "placeholder": Validation.string,
-      "enabled": Validation.boolean,
-      "focused": Validation.boolean
-    ])
-  }
-
   public weak var eventTarget: AnyObject?
 
   public var properties = TextFieldProperties([:]) {

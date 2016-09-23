@@ -81,22 +81,22 @@ public struct TextStyleProperties: RawPropertiesReceiver, Equatable {
   public var textAlignment = NSTextAlignment.natural
 
   public init(_ properties: [String : Any]) {
-    if let text: String = properties.get("text") {
+    if let text: String = properties.cast("text") {
       self.text = text
     }
-    if let fontName: String = properties.get("fontName") {
+    if let fontName: String = properties.cast("fontName") {
       self.fontName = fontName
     }
-    if let fontSize: CGFloat = properties.get("fontSize") {
+    if let fontSize: CGFloat = properties.cast("fontSize") {
       self.fontSize = fontSize
     }
-    if let color: UIColor = properties.get("color") {
+    if let color: UIColor = properties.color("color") {
       self.color = color
     }
-    if let lineBreakMode: NSLineBreakMode = properties.get("lineBreakMode") {
+    if let lineBreakMode: NSLineBreakMode = properties.cast("lineBreakMode") {
       self.lineBreakMode = lineBreakMode
     }
-    if let textAlignment: NSTextAlignment = properties.get("textAlignment") {
+    if let textAlignment: NSTextAlignment = properties.cast("textAlignment") {
       self.textAlignment = textAlignment
     }
   }
@@ -125,17 +125,6 @@ public func ==(lhs: TextProperties, rhs: TextProperties) -> Bool {
 }
 
 public class Text: UILabel, NativeView {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [
-      "text": Validation.string,
-      "fontName": Validation.string,
-      "fontSize": Validation.float,
-      "textColor": Validation.color,
-      "textAlignment": TextValidation.textAlignment,
-      "lineBreakMode": TextValidation.lineBreakMode
-    ])
-  }
-
   public weak var eventTarget: AnyObject?
 
   public var properties = TextProperties([:]) {
