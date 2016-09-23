@@ -8,8 +8,24 @@
 
 import Foundation
 
+extension Dictionary {
+  func float(_ key: Key) -> Float? {
+    return safeCast(self[key])
+  }
+
+  func safeCast<T: StringRepresentable>(_ value: Any?) -> T? {
+    if let value = value as? T {
+      return value
+    }
+    if let value = value as? String {
+      return T.fromString(value)
+    }
+    return nil
+  }
+}
+
 public protocol ValidationType {
-  func validate(value: Any?) -> Any?
+  func validate(_ value: Any?) -> Any?
 }
 
 public enum Validation: String, ValidationType {
@@ -22,70 +38,60 @@ public enum Validation: String, ValidationType {
   case selector
   case any
 
-  public func validate(value: Any?) -> Any? {
+  public func validate<T>(_ value: Any?) -> T? {
+    var validatedValue: Any?
+
     switch self {
     case .string:
       if value is String {
-        return value
+        validatedValue = value
       }
     case .float:
       if value is CGFloat || value is Float {
-        return value
+        validatedValue = value
       }
       if let stringValue = value as? String {
-        return stringValue.float
+        validatedValue = stringValue.float
       }
     case .integer:
       if value is Integer {
-        return value
+        validatedValue = value
       }
       if let stringValue = value as? String {
-        return stringValue.integer
+        validatedValue = stringValue.integer
       }
     case .boolean:
       if value is Bool {
-        return value
+        validatedValue = value
       }
       if let stringValue = value as? String {
-        return stringValue.boolean
+        validatedValue = stringValue.boolean
       }
     case .url:
       if value is URL {
-        return value
+        validatedValue = value
       }
       if let stringValue = value as? String {
-        return stringValue.url
+        validatedValue = stringValue.url
       }
     case .color:
       if value is UIColor {
-        return value
+        validatedValue = value
       }
       if let stringValue = value as? String {
-        return stringValue.color
+        validatedValue = stringValue.color
       }
     case .selector:
       if value is Selector {
-        return value
+        validatedValue = value
       }
       if let stringValue = value as? String {
-        return Selector(stringValue)
+        validatedValue = Selector(stringValue)
       }
     case .any:
-      return value
+      validatedValue = value
     }
 
-    if value != nil {
-      fatalError("Unhandled type!")
-    }
-
-    return nil
-  }
-
-  static func validate(propertyTypes: [String: ValidationType], properties: [String: Any]) -> [String: Any] {
-    var sanitized = [String: Any]()
-    for (key, rule) in propertyTypes {
-      sanitized[key] = rule.validate(value: properties[key])
-    }
-    return sanitized
+    return validatedValue as? T
   }
 }

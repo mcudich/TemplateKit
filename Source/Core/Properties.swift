@@ -12,7 +12,7 @@ public protocol RawPropertiesReceiver {
   init(_ properties: [String: Any])
 }
 
-public protocol Properties: RawPropertiesReceiver, Equatable {
+public protocol Properties: RawPropertiesReceiver, Model {
   var key: String? { get }
 }
 
@@ -20,7 +20,7 @@ public struct StyleProperties: RawPropertiesReceiver, Equatable {
   public var backgroundColor: UIColor?
 
   public init(_ properties: [String : Any]) {
-    backgroundColor = properties.get("backgroundColor")
+//    backgroundColor = properties.color("backgroundColor")
   }
 }
 
@@ -42,7 +42,7 @@ public func ==(lhs: GestureProperties, rhs: GestureProperties) -> Bool {
   return lhs.onTap == rhs.onTap
 }
 
-public protocol ViewProperties: Properties {
+public protocol ViewProperties: Properties, Equatable {
   var key: String? { get set }
   var layout: LayoutProperties? { get set }
   var style: StyleProperties? { get set }
@@ -72,10 +72,7 @@ public struct BaseProperties: ViewProperties {
   public var gestures: GestureProperties?
 
   public init(_ properties: [String: Any]) {
-    key = properties.get("key")
-    layout = LayoutProperties(properties)
-    style = StyleProperties(properties)
-    gestures = GestureProperties(properties)
+    applyProperties(properties)
   }
 }
 

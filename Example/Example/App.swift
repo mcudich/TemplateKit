@@ -44,6 +44,31 @@ func ==(lhs: AppProperties, rhs: AppProperties) -> Bool {
   return lhs.model == rhs.model && lhs.equals(otherViewProperties: rhs)
 }
 
+struct HeaderProperties: ViewProperties {
+  var key: String?
+  var layout: LayoutProperties?
+  var style: StyleProperties?
+  var gestures: GestureProperties?
+
+  var text: String?
+  var onChange: Selector?
+  var onSubmit: Selector?
+  var onToggleAll: Selector?
+
+  public init(_ properties: [String: Any]) {
+    applyProperties(properties)
+
+    text = properties.get("text")
+    onChange = properties.get("onChange")
+    onSubmit = properties.get("onSubmit")
+    onToggleAll = properties.get("onToggleAll")
+  }
+}
+
+func ==(lhs: HeaderProperties, rhs: HeaderProperties) -> Bool {
+  return lhs.text == rhs.text && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.onToggleAll == rhs.onToggleAll
+}
+
 extension App: TableViewDataSource {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
     let properties: [String: Any] = [
@@ -54,7 +79,7 @@ extension App: TableViewDataSource {
       "onEdit": #selector(App.handleEdit(id:)),
       "onDestroy": #selector(App.handleDestroy(id:))
     ]
-    return Element(ElementType.component(Todo.self), properties)
+    return ElementData(ElementType.component(Todo.self), TodoProperties(properties))
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,8 +96,8 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     return todosList
   }()
 
-  required init(element: Element, properties: [String : Any], children: [Node]?, owner: Node?) {
-    super.init(element: element, properties: properties, children: children, owner: owner)
+  required init(element: Element, children: [Node]?, owner: Node?) {
+    super.init(element: element, children: children, owner: owner)
 
     self.properties.model?.subscribe { [weak self] in
       // Properties have changed, but have not gotten re-set on this component. Force an update.
@@ -171,7 +196,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
       children.append(renderFooter(activeCount: activeCount, completedCount: completedCount))
     }
 
-    return Element(ElementType.box, ["width": properties.layout?.size?.width, "height": properties.layout?.size?.height], children)
+    return ElementData(ElementType.box, BaseProperties(["width": properties.layout?.size?.width, "height": properties.layout?.size?.height]), children)
   }
 
   private func renderHeader() -> Element {
@@ -181,11 +206,11 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
       "onSubmit": #selector(App.handleNewTodoSubmit(target:)),
       "onToggleAll": #selector(App.handleToggleAll(target:))
     ]
-    return render(withLocation: Bundle.main.url(forResource: "Header", withExtension: "xml")!, properties: properties)
+    return render(withLocation: Bundle.main.url(forResource: "Header", withExtension: "xml")!, properties: HeaderProperties(properties))
   }
 
   private func renderMain() -> Element {
-    return Element(ElementType.view(todosList), ["flexGrow": Float(1)])
+    return ElementData(ElementType.view(todosList), BaseProperties(["flexGrow": Float(1)]))
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {
@@ -196,6 +221,6 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
       "onUpdateFilter": #selector(App.handleUpdateFilter(filter:)),
       "nowShowing": state.nowShowing
     ]
-    return Element(ElementType.component(Footer.self), properties)
+    return ElementData(ElementType.component(Footer.self), FooterProperties(properties))
   }
 }

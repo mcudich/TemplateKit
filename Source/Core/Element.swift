@@ -13,16 +13,23 @@ public protocol ElementRepresentable {
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
-public struct Element: Keyable {
+public protocol Element: Keyable {
+  var type: ElementRepresentable { get }
+  var children: [Element]? { get }
+
+  func build(with owner: Node?, context: Context?) -> Node
+}
+
+public struct ElementData<PropertiesType: Properties>: Element {
   public let type: ElementRepresentable
   public let children: [Element]?
-  public let properties: [String: Any]
+  public let properties: PropertiesType
 
   public var key: String? {
-    return properties["key"] as? String
+    return properties.key
   }
 
-  public init(_ type: ElementRepresentable, _ properties: [String: Any] = [:], _ children: [Element]? = nil) {
+  public init(_ type: ElementRepresentable, _ properties: PropertiesType, _ children: [Element]? = nil) {
     self.type = type
     self.properties = properties
     self.children = children
@@ -34,18 +41,5 @@ public struct Element: Keyable {
     made.context = context
 
     return made
-  }
-}
-
-extension Element {
-  public var recursiveDescription: String {
-    return description(forDepth: 0)
-  }
-
-  private func description(forDepth depth: Int) -> String {
-    let depthPadding = (0...depth).reduce("") { accum, _ in accum + " " }
-    let childrenDescription = (children?.map { "\(depthPadding)  \($0.description(forDepth: depth + 1))" } ?? []).joined()
-    let propertiesDescription = properties.map { entry in " \(entry.key)=\(entry.value)" }.joined()
-    return "\(depthPadding)<\(type)\(propertiesDescription)>\n\(childrenDescription)"
   }
 }

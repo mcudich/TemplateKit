@@ -20,19 +20,19 @@ public enum ElementType: ElementRepresentable {
   public func make(_ element: Element, _ owner: Node?) -> Node {
     switch self {
     case .box:
-      return NativeNode<Box>(element: element, properties: BaseProperties(element.properties), children: element.children?.map { $0.build(with: owner) }, owner: owner)
+      return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(with: owner, context: nil) }, owner: owner)
     case .button:
-      return NativeNode<Button>(element: element, properties: ButtonProperties(element.properties), owner: owner)
+      return NativeNode<Button>(element: element as! ElementData<Button.PropertiesType>, owner: owner)
     case .text:
-      return NativeNode<Text>(element: element, properties: TextProperties(element.properties), owner: owner)
+      return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner)
     case .textField:
-      return NativeNode<TextField>(element: element, properties: TextFieldProperties(element.properties), owner: owner)
+      return NativeNode<TextField>(element: element as! ElementData<TextField.PropertiesType>, owner: owner)
     case .image:
-      return NativeNode<Image>(element: element, properties: ImageProperties(element.properties), owner: owner)
+      return NativeNode<Image>(element: element as! ElementData<Image.PropertiesType>, owner: owner)
     case .view(let view):
-      return ViewNode(view: view, element: element, properties: BaseProperties(element.properties), owner: owner)
-    case .component(let ComponentType as Node.Type):
-      return ComponentType.init(element: element, properties: element.properties, children: nil, owner: owner)
+      return ViewNode(view: view, element: element as! ElementData<BaseProperties>, owner: owner)
+    case .component(let ComponentType as ComponentCreation.Type):
+      return ComponentType.init(element: element, children: nil, owner: owner)
     default:
       fatalError("Unknown element type")
     }
@@ -43,23 +43,6 @@ public enum ElementType: ElementRepresentable {
       return false
     }
     return self == otherType
-  }
-
-  static func fromRaw(_ rawValue: String) throws -> ElementType {
-    switch rawValue {
-    case "box":
-      return .box
-    case "button":
-      return .button
-    case "text":
-      return .text
-    case "textfield":
-      return .textField
-    case "image":
-      return .image
-    default:
-      return try .component(NodeRegistry.shared.componentType(for: rawValue))
-    }
   }
 }
 

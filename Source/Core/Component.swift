@@ -12,7 +12,12 @@ public protocol State: Equatable {
   init()
 }
 
-public protocol Component: PropertyNode {
+// Type-agnostic protocol, so we can dynamically create components as needed.
+public protocol ComponentCreation: Node {
+  init(element: Element, children: [Node]?, owner: Node?)
+}
+
+public protocol Component: PropertyNode, ComponentCreation {
   associatedtype PropertiesType: Properties
   associatedtype StateType: State
   associatedtype ViewType: View
@@ -91,7 +96,7 @@ public extension Component {
 
     let rendered = render()
 
-    if shouldReplace(instance, with: rendered) {
+    if shouldReplace(type: instance.type, with: rendered.type) {
       instance = rendered.build(with: self, context: context)
       cssNode = nil
     } else {
@@ -107,9 +112,8 @@ public extension Component {
   }
 
   func performSelector(_ selector: Selector, with value: Any? = nil, with otherValue: Any? = nil) {
-    if let target = owner! as? AnyObject {
-      target.perform(selector, with: value, with: otherValue)
-    }
+    guard let owner = owner else { return }
+    let _ = (owner as AnyObject).perform(selector, with: value, with: otherValue)
   }
 
   func forceUpdate() {

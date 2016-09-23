@@ -8,7 +8,7 @@ public struct Template: Equatable {
     self.document = try AEXMLDocument(xml: xml)
   }
 
-  func makeElement(with properties: [String: Any]) throws -> Element {
+  func makeElement(with properties: Properties) throws -> Element {
     return try document.root.makeElement(with: properties)
   }
 }
@@ -18,15 +18,12 @@ public func ==(lhs: Template, rhs: Template) -> Bool {
 }
 
 extension AEXMLElement {
-  func makeElement(with properties: [String: Any]) throws -> Element {
+  func makeElement(with properties: Properties) throws -> Element {
     let resolvedProperties = resolve(properties: attributes, withContextProperties: properties)
-    let propertyTypes = NodeRegistry.shared.propertyTypes(for: name)
-    let validatedProperties = Validation.validate(propertyTypes: propertyTypes, properties: resolvedProperties)
-
-    return Element(try ElementType.fromRaw(name), validatedProperties, try children.map { try $0.makeElement(with: properties) })
+    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: properties) })
   }
 
-  private func resolve(properties: [String: String], withContextProperties contextProperties: [String: Any]?) -> [String: Any] {
+  private func resolve(properties: [String: String], withContextProperties contextProperties: Properties?) -> [String: Any] {
     var resolvedProperties = [String: Any]()
     for (key, value) in properties {
       resolvedProperties[key] = resolve(value, properties: contextProperties)
@@ -35,7 +32,7 @@ extension AEXMLElement {
     return resolvedProperties
   }
 
-  private func resolve(_ value: Any, properties: [String: Any]?) -> Any? {
+  private func resolve(_ value: Any, properties: Properties?) -> Any? {
     guard let expression = value as? String, expression.hasPrefix("$") else {
       return value
     }

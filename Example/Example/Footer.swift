@@ -70,6 +70,6 @@ class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
       "onClearCompleted": #selector(Footer.handleClearCompleted)
     ]
 
-    return render(withLocation: Bundle.main.url(forResource: "Footer", withExtension: "xml")!, properties: properties)
+    return render(withLocation: Bundle.main.url(forResource: "Footer", withExtension: "xml")!, properties: FooterProperties(properties))
   }
 }

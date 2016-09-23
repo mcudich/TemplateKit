@@ -9,15 +9,15 @@
 import Foundation
 import TemplateKit
 
-struct TodoItemState: State {
+struct TodoState: State {
   var editText: String?
 }
 
-func ==(lhs: TodoItemState, rhs: TodoItemState) -> Bool {
+func ==(lhs: TodoState, rhs: TodoState) -> Bool {
   return lhs.editText == rhs.editText
 }
 
-struct TodoItemProperties: ViewProperties {
+struct TodoProperties: ViewProperties {
   var key: String?
   var layout: LayoutProperties?
   var style: StyleProperties?
@@ -44,11 +44,11 @@ struct TodoItemProperties: ViewProperties {
   }
 }
 
-func ==(lhs: TodoItemProperties, rhs: TodoItemProperties) -> Bool {
+func ==(lhs: TodoProperties, rhs: TodoProperties) -> Bool {
   return lhs.todo == rhs.todo && lhs.editing == rhs.editing && lhs.onToggle == rhs.onToggle && lhs.onDestroy == rhs.onDestroy && lhs.onEdit == rhs.onEdit && lhs.onSave == rhs.onSave && lhs.onCancel == rhs.onCancel
 }
 
-class Todo: CompositeComponent<TodoItemState, TodoItemProperties, UIView> {
+class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
   @objc func handleSubmit(target: UITextField) {
     guard let todo = properties.todo else { return }
 
@@ -106,6 +106,6 @@ class Todo: CompositeComponent<TodoItemState, TodoItemProperties, UIView> {
       "onDestroy": #selector(Todo.handleDestroy)
     ]
 
-    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: properties)
+    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: TodoProperties(properties))
   }
 }

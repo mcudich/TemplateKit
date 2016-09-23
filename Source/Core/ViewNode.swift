@@ -19,27 +19,27 @@ class ViewNode: PropertyNode {
       updateParent()
     }
   }
-  var element: Element
+  var element: ElementData<BaseProperties>
   var cssNode: CSSNode?
   var builtView: View?
 
-  required init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?) {
-    self.element = element
-    self.properties = BaseProperties(properties)
+  required init(element: Element, children: [Node]?, owner: Node?) {
+    self.element = element as! ElementData<BaseProperties>
+    self.properties = self.element.properties
     self.children = children
     self.owner = owner
 
     updateParent()
   }
 
-  init(view: UIView, element: Element, properties: BaseProperties, owner: Node? = nil) {
-    self.element = element
+  init(view: UIView, element: Element, owner: Node? = nil) {
+    self.element = element as! ElementData<BaseProperties>
     self.builtView = view
-    self.properties = properties
+    self.properties = self.element.properties
   }
 
   init(element: Element, properties: BaseProperties, children: [Node]? = nil, owner: Node? = nil) {
-    self.element = element
+    self.element = element as! ElementData<BaseProperties>
     self.properties = properties
     self.children = children
     self.owner = owner

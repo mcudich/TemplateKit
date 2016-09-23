@@ -6,11 +6,9 @@ public protocol Node: class, Keyable {
   var context: Context? { get set }
 
   var children: [Node]? { get set }
-  var element: Element { get set }
   var cssNode: CSSNode? { get set }
   var key: String? { get }
-
-  init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?)
+  var type: ElementRepresentable { get }
 
   func build<V: View>() -> V
   func getBuiltView<V>() -> V?
@@ -32,8 +30,8 @@ public extension Node {
     return buildCSSNode().layout()
   }
 
-  func shouldReplace(_ node: Node, with element: Element) -> Bool {
-    return !element.type.equals(node.element.type)
+  func shouldReplace(type: ElementRepresentable, with otherType: ElementRepresentable) -> Bool {
+    return !type.equals(otherType)
   }
 
   func updateParent() {
@@ -50,8 +48,9 @@ public extension Node {
 }
 
 public protocol PropertyNode: Node {
-  associatedtype PropertiesType: Properties
+  associatedtype PropertiesType: ViewProperties
 
+  var element: ElementData<PropertiesType> { get set }
   var properties: PropertiesType { get set }
 
   func shouldUpdate(nextProperties: PropertiesType) -> Bool
@@ -63,8 +62,13 @@ public extension PropertyNode {
     return properties.key
   }
 
+  var type: ElementRepresentable {
+    return element.type
+  }
+
   func update(with newElement: Element) {
-    let nextProperties = PropertiesType(newElement.properties)
+    let newElement = newElement as! ElementData<PropertiesType>
+    let nextProperties = newElement.properties
     let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties)
     performUpdate(with: newElement, nextProperties: nextProperties, shouldUpdate: shouldUpdate)
   }
@@ -73,7 +77,7 @@ public extension PropertyNode {
     performUpdate(with: element, nextProperties: properties, shouldUpdate: true)
   }
 
-  func performUpdate(with newElement: Element, nextProperties: PropertiesType, shouldUpdate: Bool) {
+  func performUpdate(with newElement: ElementData<PropertiesType>, nextProperties: PropertiesType, shouldUpdate: Bool) {
     element = newElement
 
     if properties != nextProperties {
@@ -111,7 +115,7 @@ public extension PropertyNode {
       }
       currentChildren.removeValue(forKey: key)
 
-      if shouldReplace(currentChild, with: element) {
+      if shouldReplace(type: currentChild.type, with: element.type) {
         replace(currentChild, with: element)
       } else {
         move(child: currentChild, to: index)
@@ -160,14 +164,14 @@ public extension PropertyNode {
   }
 
   private func replace(_ node: Node, with element: Element) {
-    let replacement = element.build(with: owner)
+    let replacement = element.build(with: owner, context: nil)
     let index = self.index(of: node)!
     remove(child: node)
     insert(child: replacement, at: index)
   }
 
   private func append(_ element: Element) {
-    let child = element.build(with: owner)
+    let child = element.build(with: owner, context: nil)
     children?.insert(child, at: children!.endIndex)
     cssNode?.insertChild(child: child.buildCSSNode(), at: children!.count - 1)
   }

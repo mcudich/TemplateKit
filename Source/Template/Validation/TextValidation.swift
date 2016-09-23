@@ -50,7 +50,7 @@ enum TextValidation: String, ValidationType {
   case textAlignment
   case lineBreakMode
 
-  func validate(value: Any?) -> Any? {
+  func validate(_ value: Any?) -> Any? {
     switch self {
     case .textAlignment:
       if value is NSTextAlignment {

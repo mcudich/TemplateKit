@@ -102,7 +102,7 @@ public class TextField: UITextField, NativeView {
     placeholder = properties.placeholder
     isEnabled = properties.enabled
     if properties.focused {
-      becomeFirstResponder()
+      let _ = becomeFirstResponder()
     }
   }
 

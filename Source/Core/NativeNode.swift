@@ -19,22 +19,13 @@ class NativeNode<T: NativeView>: PropertyNode {
       updateParent()
     }
   }
-  var element: Element
+  var element: ElementData<T.PropertiesType>
   var builtView: T?
   var cssNode: CSSNode?
 
-  required init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?) {
+  required init(element: ElementData<T.PropertiesType>, children: [Node]? = nil, owner: Node? = nil) {
     self.element = element
-    self.properties = T.PropertiesType(properties)
-    self.children = children
-    self.owner = owner
-
-    updateParent()
-  }
-
-  init(element: Element, properties: T.PropertiesType, children: [Node]? = nil, owner: Node? = nil) {
-    self.element = element
-    self.properties = properties
+    self.properties = self.element.properties
     self.children = children
     self.owner = owner
 

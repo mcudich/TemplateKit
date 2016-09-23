@@ -1,5 +1,15 @@
 import UIKit
 
+protocol StringRepresentable {
+  static func fromString(_ value: String) -> Self
+}
+
+extension Float: StringRepresentable {
+  static func fromString(_ value: String) -> Float {
+    return 1
+  }
+}
+
 extension String {
   var integer: Int? {
     return NumberFormatter().number(from: self)?.intValue

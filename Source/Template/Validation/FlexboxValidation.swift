@@ -77,7 +77,7 @@ enum FlexboxValidation: String, ValidationType {
   case selfAlignment
   case childAlignment
 
-  func validate(value: Any?) -> Any? {
+  func validate(_ value: Any?) -> Any? {
     switch self {
     case .flexDirection:
       if value is CSSFlexDirection {

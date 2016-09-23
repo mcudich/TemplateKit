@@ -26,7 +26,7 @@ extension String {
 enum ImageValidation: String, ValidationType {
   case contentMode
 
-  func validate(value: Any?) -> Any? {
+  func validate(_ value: Any?) -> Any? {
     switch self {
     case .contentMode:
       if value is UIViewContentMode {
