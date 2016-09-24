@@ -1,43 +1,36 @@
 public class NodeRegistry {
+  public typealias ElementBuilder = ([String: Any], [Element]?) -> Element
   public static let shared = NodeRegistry()
 
-  private lazy var propertyTypes = [String: [String: ValidationType]]()
-  private lazy var componentTypes = [String: AnyClass]()
+  private lazy var elementBuilders = [String: ElementBuilder]()
 
   init() {
     registerDefaultProviders()
   }
 
-  public func register(_ propertyTypes: [String: ValidationType], for name: String) {
-    self.propertyTypes[name] = propertyTypes
+  public func registerElementBuilder(_ name: String, builder: @escaping ElementBuilder) {
+    self.elementBuilders[name] = builder
   }
 
-  public func register(_ classType: AnyClass, for name: String) {
-    componentTypes[name] = classType
-    if let propertyTypeProvider = classType as? PropertyTypeProvider.Type {
-      register(propertyTypeProvider.propertyTypes, for: name)
-    }
-  }
-
-  func propertyTypes(for name: String) -> [String: ValidationType] {
-    guard let propertyTypes = propertyTypes[name] else {
-      return [:]
-    }
-    return propertyTypes
-  }
-
-  func componentType(for name: String) throws -> AnyClass {
-    guard let nodeType = componentTypes[name] else {
-      throw TemplateKitError.missingNodeType("Node type not found for \(name)")
-    }
-    return nodeType
+  func buildElement(with name: String, properties: [String: Any], children: [Element]?) -> Element {
+    return elementBuilders[name]!(properties, children)
   }
 
   private func registerDefaultProviders() {
-    register(Box.self, for: "box")
-    register(Button.self, for: "button")
-    register(Text.self, for: "text")
-    register(TextField.self, for: "textfield")
-    register(Image.self, for: "image")
+    registerElementBuilder("box") { properties, children in
+      return ElementData(ElementType.box, BaseProperties(properties), children)
+    }
+    registerElementBuilder("text") { properties, children in
+      return ElementData(ElementType.text, TextProperties(properties))
+    }
+    registerElementBuilder("textfield") { properties, children in
+      return ElementData(ElementType.textField, TextFieldProperties(properties))
+    }
+    registerElementBuilder("image") { properties, children in
+      return ElementData(ElementType.image, ImageProperties(properties))
+    }
+    registerElementBuilder("button") { properties, children in
+      return ElementData(ElementType.button, ButtonProperties(properties))
+    }
   }
 }

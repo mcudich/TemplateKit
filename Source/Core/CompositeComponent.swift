@@ -16,11 +16,11 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
   return true
 }
 
-open class CompositeComponent<StateType: State, PropertiesType: Properties, ViewType: View>: Component {
+open class CompositeComponent<StateType: State, PropertiesType: ViewProperties, ViewType: View>: Component {
   public weak var parent: Node?
   public weak var owner: Node?
 
-  public var element: Element
+  public var element: ElementData<PropertiesType>
   public var builtView: ViewType?
   public var context: Context?
   public lazy var state: StateType = {
@@ -33,7 +33,7 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
   public var instance: Node {
     get {
       if _instance == nil {
-        _instance =  self.render().build(with: self)
+        _instance =  self.render().build(with: self, context: nil)
       }
       return _instance!
     }
@@ -42,9 +42,9 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     }
   }
 
-  public required init(element: Element, properties: [String: Any], children: [Node]?, owner: Node?) {
-    self.element = element
-    self.properties = PropertiesType(properties)
+  public required init(element: Element, children: [Node]?, owner: Node?) {
+    self.element = element as! ElementData<PropertiesType>
+    self.properties = self.element.properties
     self.owner = owner
   }
 
@@ -52,7 +52,7 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     fatalError("Must be implemented by subclasses")
   }
 
-  public func render(withLocation location: URL, properties: [String: Any]) -> Element {
+  public func render(withLocation location: URL, properties: Properties) -> Element {
     getContext().templateService.addObserver(observer: self, forLocation: location)
 
     return try! getContext().templateService.element(withLocation: location, properties: properties)

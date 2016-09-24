@@ -9,18 +9,6 @@
 import Foundation
 
 public class Box: UIView, NativeView, ContainerView {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [
-      "flexDirection": FlexboxValidation.flexDirection,
-      "paddingTop": Validation.float,
-      "paddingBottom": Validation.float,
-      "paddingLeft": Validation.float,
-      "paddingRight": Validation.float,
-      "justification": FlexboxValidation.justification,
-      "childAlignment": FlexboxValidation.childAlignment
-    ])
-  }
-
   public weak var eventTarget: AnyObject?
 
   public var children: [View] {

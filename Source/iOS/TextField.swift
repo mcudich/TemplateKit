@@ -10,11 +10,11 @@ import Foundation
 
 public struct TextFieldProperties: ViewProperties {
   public var key: String?
-  public var layout: LayoutProperties?
-  public var style: StyleProperties?
-  public var gestures: GestureProperties?
+  public var layout = LayoutProperties()
+  public var style = StyleProperties()
+  public var gestures = GestureProperties()
 
-  public var textStyle = TextStyleProperties([:])
+  public var textStyle = TextStyleProperties()
   public var onChange: Selector?
   public var onSubmit: Selector?
   public var onBlur: Selector?
@@ -23,17 +23,19 @@ public struct TextFieldProperties: ViewProperties {
   public var enabled = true
   public var focused = false
 
+  public init() {}
+
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
     textStyle = TextStyleProperties(properties)
 
-    onChange = properties.get("onChange")
-    onSubmit = properties.get("onSubmit")
-    onBlur = properties.get("onBlur")
-    onFocus = properties.get("onFocus")
-    placeholder = properties.get("placeholder")
-    enabled = properties.get("enabled") ?? true
-    focused = properties.get("focused") ?? false
+    onChange = properties.cast("onChange")
+    onSubmit = properties.cast("onSubmit")
+    onBlur = properties.cast("onBlur")
+    onFocus = properties.cast("onFocus")
+    placeholder = properties.cast("placeholder")
+    enabled = properties.cast("enabled") ?? true
+    focused = properties.cast("focused") ?? false
   }
 }
 
@@ -42,23 +44,6 @@ public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
 }
 
 public class TextField: UITextField, NativeView {
-  public static var propertyTypes: [String: ValidationType] {
-    return commonPropertyTypes.merged(with: [
-      "text": Validation.string,
-      "fontName": Validation.string,
-      "fontSize": Validation.float,
-      "textColor": Validation.color,
-      "textAlignment": TextValidation.textAlignment,
-      "onChange": Validation.selector,
-      "onSubmit": Validation.selector,
-      "onBlur": Validation.selector,
-      "onFocus": Validation.selector,
-      "placeholder": Validation.string,
-      "enabled": Validation.boolean,
-      "focused": Validation.boolean
-    ])
-  }
-
   public weak var eventTarget: AnyObject?
 
   public var properties = TextFieldProperties([:]) {
@@ -102,7 +87,7 @@ public class TextField: UITextField, NativeView {
     placeholder = properties.placeholder
     isEnabled = properties.enabled
     if properties.focused {
-      becomeFirstResponder()
+      let _ = becomeFirstResponder()
     }
   }
 

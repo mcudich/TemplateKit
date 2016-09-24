@@ -1,4 +1,4 @@
-<box flexDirection="row" width="$width" onDoubleTap="$onEdit">
+<box flexDirection="row" width="$layout.width" onDoubleTap="$onEdit">
   <button backgroundColor="$buttonBackgroundColor" width="24" height="24" onTouchUpInside="$onToggle" />
   <textfield text="$text" onChange="$onChange" onSubmit="$onSubmit" onBlur="$onBlur" flexGrow="1" enabled="$enabled" focused="$focused" />
   <button backgroundColor="#ff0000" width="24" height="24" onTouchUpInside="$onDestroy" />

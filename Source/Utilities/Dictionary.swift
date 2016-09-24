@@ -20,12 +20,4 @@ public extension Dictionary {
     copy.merge(with: dictionary)
     return copy
   }
-
-  func get<T>(_ key: Key) -> T? {
-    return self[key] as? T
-  }
-
-  func get<T>(_ key: Key, defaultValue: T) -> T {
-    return get(key) ?? defaultValue
-  }
 }

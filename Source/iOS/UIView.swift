@@ -31,17 +31,17 @@ extension NativeView where Self: UIView {
   }
 
   private func applyBackgroundColor() {
-    guard let backgroundColor = properties.style?.backgroundColor else {
+    guard let backgroundColor = properties.style.backgroundColor else {
       return
     }
     self.backgroundColor = backgroundColor
   }
 
   private func applyTapHandler() {
-    if let onTap = properties.gestures?.onTap {
+    if let onTap = properties.gestures.onTap {
       let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
       addGestureRecognizer(recognizer)
-    } else if let onDoubleTap = properties.gestures?.onDoubleTap {
+    } else if let onDoubleTap = properties.gestures.onDoubleTap {
       let recognizer = UITapGestureRecognizer(target: eventTarget, action: onDoubleTap)
       recognizer.numberOfTapsRequired = 2
       addGestureRecognizer(recognizer)

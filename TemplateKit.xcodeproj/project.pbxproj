@@ -35,11 +35,6 @@
 		D83936D11D8348C5008CA7F1 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936AF1D8348C5008CA7F1 /* Dictionary.swift */; };
 		D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B01D8348C5008CA7F1 /* ResourceService.swift */; };
 		D83936D31D8348C5008CA7F1 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B11D8348C5008CA7F1 /* Result.swift */; };
-		D83936D41D8348C5008CA7F1 /* FlexboxValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B31D8348C5008CA7F1 /* FlexboxValidation.swift */; };
-		D83936D51D8348C5008CA7F1 /* ImageValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B41D8348C5008CA7F1 /* ImageValidation.swift */; };
-		D83936D61D8348C5008CA7F1 /* StringRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B51D8348C5008CA7F1 /* StringRepresentable.swift */; };
-		D83936D71D8348C5008CA7F1 /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B61D8348C5008CA7F1 /* TextValidation.swift */; };
-		D83936D91D834919008CA7F1 /* PropertyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936D81D834919008CA7F1 /* PropertyType.swift */; };
 		D83936DB1D83497C008CA7F1 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936DA1D83497C008CA7F1 /* UIView.swift */; };
 		D83936FE1D83504C008CA7F1 /* CSSLayout-internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936F81D83504C008CA7F1 /* CSSLayout-internal.h */; };
 		D83936FF1D83504C008CA7F1 /* CSSLayout.c in Sources */ = {isa = PBXBuildFile; fileRef = D83936F91D83504C008CA7F1 /* CSSLayout.c */; };
@@ -113,11 +108,6 @@
 		D83936AF1D8348C5008CA7F1 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		D83936B01D8348C5008CA7F1 /* ResourceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceService.swift; sourceTree = "<group>"; };
 		D83936B11D8348C5008CA7F1 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		D83936B31D8348C5008CA7F1 /* FlexboxValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexboxValidation.swift; sourceTree = "<group>"; };
-		D83936B41D8348C5008CA7F1 /* ImageValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageValidation.swift; sourceTree = "<group>"; };
-		D83936B51D8348C5008CA7F1 /* StringRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringRepresentable.swift; sourceTree = "<group>"; };
-		D83936B61D8348C5008CA7F1 /* TextValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
-		D83936D81D834919008CA7F1 /* PropertyType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyType.swift; sourceTree = "<group>"; };
 		D83936DA1D83497C008CA7F1 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CSSLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D83936F11D834EAE008CA7F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -226,7 +216,6 @@
 				D83936A61D8348C5008CA7F1 /* Error.swift */,
 				D83936A71D8348C5008CA7F1 /* Model.swift */,
 				D83936A81D8348C5008CA7F1 /* NodeRegistry.swift */,
-				D83936D81D834919008CA7F1 /* PropertyType.swift */,
 				D83936A91D8348C5008CA7F1 /* Template.swift */,
 				D83936AA1D8348C5008CA7F1 /* TemplateService.swift */,
 				D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */,
@@ -249,10 +238,6 @@
 		D83936B21D8348C5008CA7F1 /* Validation */ = {
 			isa = PBXGroup;
 			children = (
-				D83936B31D8348C5008CA7F1 /* FlexboxValidation.swift */,
-				D83936B41D8348C5008CA7F1 /* ImageValidation.swift */,
-				D83936B51D8348C5008CA7F1 /* StringRepresentable.swift */,
-				D83936B61D8348C5008CA7F1 /* TextValidation.swift */,
 				D83936AB1D8348C5008CA7F1 /* Validation.swift */,
 			);
 			path = Validation;
@@ -519,7 +504,6 @@
 				D83936B81D8348C5008CA7F1 /* Element.swift in Sources */,
 				D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */,
 				D893AC501D908AA90078DAD9 /* Properties.swift in Sources */,
-				D83936D41D8348C5008CA7F1 /* FlexboxValidation.swift in Sources */,
 				D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */,
 				D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */,
 				D83936D11D8348C5008CA7F1 /* Dictionary.swift in Sources */,
@@ -534,22 +518,18 @@
 				D83936BB1D8348C5008CA7F1 /* Node.swift in Sources */,
 				D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */,
 				D8E6615B1D8E754D005D8C4F /* View.swift in Sources */,
-				D83936D91D834919008CA7F1 /* PropertyType.swift in Sources */,
 				D83936C61D8348C5008CA7F1 /* Text.swift in Sources */,
 				D83936BA1D8348C5008CA7F1 /* Layout.swift in Sources */,
 				D83936CB1D8348C5008CA7F1 /* NodeRegistry.swift in Sources */,
 				D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */,
-				D83936D51D8348C5008CA7F1 /* ImageValidation.swift in Sources */,
 				D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */,
 				D83936C11D8348C5008CA7F1 /* Image.swift in Sources */,
 				D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */,
 				D83936CA1D8348C5008CA7F1 /* Model.swift in Sources */,
-				D83936D61D8348C5008CA7F1 /* StringRepresentable.swift in Sources */,
 				D83936B71D8348C5008CA7F1 /* Component.swift in Sources */,
 				D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */,
 				D83936C41D8348C5008CA7F1 /* NativeView.swift in Sources */,
 				D83936CD1D8348C5008CA7F1 /* TemplateService.swift in Sources */,
-				D83936D71D8348C5008CA7F1 /* TextValidation.swift in Sources */,
 				D83936D31D8348C5008CA7F1 /* Result.swift in Sources */,
 				D83936CF1D8348C5008CA7F1 /* Array.swift in Sources */,
 				D83936C81D8348C5008CA7F1 /* UIKitRenderer.swift in Sources */,
