@@ -27,11 +27,13 @@ func ==(lhs: AppState, rhs: AppState) -> Bool {
 
 struct AppProperties: ViewProperties {
   var key: String?
-  var layout: LayoutProperties?
-  var style: StyleProperties?
-  var gestures: GestureProperties?
+  var layout = LayoutProperties()
+  var style = StyleProperties()
+  var gestures = GestureProperties()
 
   var model: Todos?
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
@@ -46,14 +48,16 @@ func ==(lhs: AppProperties, rhs: AppProperties) -> Bool {
 
 struct HeaderProperties: ViewProperties {
   var key: String?
-  var layout: LayoutProperties?
-  var style: StyleProperties?
-  var gestures: GestureProperties?
+  var layout = LayoutProperties()
+  var style = StyleProperties()
+  var gestures = GestureProperties()
 
   var text: String?
   var onChange: Selector?
   var onSubmit: Selector?
   var onToggleAll: Selector?
+
+  public init() {}
 
   public init(_ properties: [String: Any]) {
     applyProperties(properties)
@@ -71,15 +75,16 @@ func ==(lhs: HeaderProperties, rhs: HeaderProperties) -> Bool {
 
 extension App: TableViewDataSource {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
-    let properties: [String: Any] = [
-      "todo": getFilteredTodos()[indexPath.row],
-      "width": Float(320),
-      "onToggle": #selector(App.handleToggle(id:)),
-      "onSave": #selector(App.handleSave(id:text:)),
-      "onEdit": #selector(App.handleEdit(id:)),
-      "onDestroy": #selector(App.handleDestroy(id:))
-    ]
-    return ElementData(ElementType.component(Todo.self), TodoProperties(properties))
+    var properties = TodoProperties()
+
+    properties.todo = getFilteredTodos()[indexPath.row]
+    properties.layout.width = 321
+    properties.onToggle = #selector(App.handleToggle(id:))
+    properties.onSave = #selector(App.handleSave(id:text:))
+    properties.onEdit = #selector(App.handleEdit(id:))
+    properties.onDestroy = #selector(App.handleDestroy(id:))
+
+    return ElementData(ElementType.component(Todo.self), properties)
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -191,22 +196,25 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
       children.append(renderMain())
     }
     let activeCount = getActiveTodosCount()
-    let completedCount = (properties.model?.todos.count ?? 0) - activeCount
+    let completedCount = (self.properties.model?.todos.count ?? 0) - activeCount
     if activeCount > 0 || completedCount > 0 {
       children.append(renderFooter(activeCount: activeCount, completedCount: completedCount))
     }
 
-    return ElementData(ElementType.box, BaseProperties(["width": properties.layout?.size?.width, "height": properties.layout?.size?.height]), children)
+    var properties = BaseProperties()
+    properties.layout = self.properties.layout
+
+    return ElementData(ElementType.box, properties, children)
   }
 
   private func renderHeader() -> Element {
-    let properties: [String: Any] = [
-      "text": state.newTodo,
-      "onChange": #selector(App.handleChange(target:)),
-      "onSubmit": #selector(App.handleNewTodoSubmit(target:)),
-      "onToggleAll": #selector(App.handleToggleAll(target:))
-    ]
-    return render(withLocation: Bundle.main.url(forResource: "Header", withExtension: "xml")!, properties: HeaderProperties(properties))
+    var properties = HeaderProperties()
+    properties.text = state.newTodo
+    properties.onChange = #selector(App.handleChange(target:))
+    properties.onSubmit = #selector(App.handleNewTodoSubmit(target:))
+    properties.onToggleAll = #selector(App.handleToggleAll(target:))
+
+    return render(withLocation: Bundle.main.url(forResource: "Header", withExtension: "xml")!, properties: properties)
   }
 
   private func renderMain() -> Element {
@@ -214,13 +222,12 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {
-    let properties: [String: Any] = [
-      "count": activeCount,
-      "completedCount": completedCount,
-      "onClearCompleted": #selector(App.handleClearCompleted),
-      "onUpdateFilter": #selector(App.handleUpdateFilter(filter:)),
-      "nowShowing": state.nowShowing
-    ]
-    return ElementData(ElementType.component(Footer.self), FooterProperties(properties))
+    var properties = FooterProperties()
+    properties.count = activeCount
+    properties.completedCount = completedCount
+    properties.onClearCompleted = #selector(App.handleClearCompleted)
+    properties.onUpdateFilter = #selector(App.handleUpdateFilter(filter:))
+    properties.nowShowing = state.nowShowing
+    return ElementData(ElementType.component(Footer.self), properties)
   }
 }

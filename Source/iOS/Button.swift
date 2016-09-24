@@ -61,13 +61,15 @@ public func ==(lhs: ButtonStyleProperties, rhs: ButtonStyleProperties) -> Bool {
 
 public struct ButtonProperties: ViewProperties {
   public var key: String?
-  public var layout: LayoutProperties?
-  public var style: StyleProperties?
-  public var gestures: GestureProperties?
+  public var layout = LayoutProperties()
+  public var style = StyleProperties()
+  public var gestures = GestureProperties()
 
   public var buttonStyle = [UIControlState: ButtonStyleProperties]()
   public var selected: Bool?
   public var onTouchUpInside: Selector?
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)

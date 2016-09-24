@@ -19,9 +19,9 @@ func ==(lhs: TodoState, rhs: TodoState) -> Bool {
 
 struct TodoProperties: ViewProperties {
   var key: String?
-  var layout: LayoutProperties?
-  var style: StyleProperties?
-  var gestures: GestureProperties?
+  var layout = LayoutProperties()
+  var style = StyleProperties()
+  var gestures = GestureProperties()
 
   var todo: TodoItem?
   var editing = false
@@ -30,6 +30,8 @@ struct TodoProperties: ViewProperties {
   var onEdit: Selector?
   var onSave: Selector?
   var onCancel: Selector?
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
@@ -46,6 +48,31 @@ struct TodoProperties: ViewProperties {
 
 func ==(lhs: TodoProperties, rhs: TodoProperties) -> Bool {
   return lhs.todo == rhs.todo && lhs.editing == rhs.editing && lhs.onToggle == rhs.onToggle && lhs.onDestroy == rhs.onDestroy && lhs.onEdit == rhs.onEdit && lhs.onSave == rhs.onSave && lhs.onCancel == rhs.onCancel
+}
+
+struct TodoTemplateProperties: ViewProperties {
+  var key: String?
+  var layout = LayoutProperties()
+  var style = StyleProperties()
+  var gestures = GestureProperties()
+
+  var buttonBackgroundColor: UIColor?
+  var onToggle: Selector?
+  var text: String?
+  var onChange: Selector?
+  var onSubmit: Selector?
+  var onBlur: Selector?
+  var onEdit: Selector?
+  var onDestroy: Selector?
+  var enabled: Bool?
+  var focused: Bool?
+
+  public init() {}
+  public init(_ properties: [String: Any]) {}
+}
+
+func ==(lhs: TodoTemplateProperties, rhs: TodoTemplateProperties) -> Bool {
+  return false
 }
 
 class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
@@ -92,20 +119,18 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
   }
 
   override func render() -> Element {
-    let properties: [String: Any] = [
-      "buttonBackgroundColor": (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red,
-      "onToggle": #selector(Todo.handleToggle),
-      "text(": state.editText ?? self.properties.todo?.title,
-      "onChange": #selector(Todo.handleChange(target:)),
-      "onSubmit(": #selector(Todo.handleSubmit(target:)),
-      "onBlur": #selector(Todo.handleSubmit(target:)),
-      "width": self.properties.layout?.size?.width,
-      "enabled": state.editText != nil,
-      "focused": state.editText != nil,
-      "onEdit(": #selector(Todo.handleEdit),
-      "onDestroy": #selector(Todo.handleDestroy)
-    ]
-
-    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: TodoProperties(properties))
+    var properties = TodoTemplateProperties()
+    properties.buttonBackgroundColor = (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red
+    properties.onToggle = #selector(Todo.handleToggle)
+    properties.text = state.editText ?? self.properties.todo?.title
+    properties.onChange = #selector(Todo.handleChange(target:))
+    properties.onSubmit = #selector(Todo.handleSubmit(target:))
+    properties.onBlur = #selector(Todo.handleSubmit(target:))
+    properties.layout = self.properties.layout
+    properties.enabled = state.editText != nil
+    properties.focused = properties.enabled
+    properties.onEdit = #selector(Todo.handleEdit)
+    properties.onDestroy = #selector(Todo.handleDestroy)
+    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: properties)
   }
 }

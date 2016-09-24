@@ -10,11 +10,11 @@ import Foundation
 
 public struct TextFieldProperties: ViewProperties {
   public var key: String?
-  public var layout: LayoutProperties?
-  public var style: StyleProperties?
-  public var gestures: GestureProperties?
+  public var layout = LayoutProperties()
+  public var style = StyleProperties()
+  public var gestures = GestureProperties()
 
-  public var textStyle = TextStyleProperties([:])
+  public var textStyle = TextStyleProperties()
   public var onChange: Selector?
   public var onSubmit: Selector?
   public var onBlur: Selector?
@@ -22,6 +22,8 @@ public struct TextFieldProperties: ViewProperties {
   public var placeholder: String?
   public var enabled = true
   public var focused = false
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)

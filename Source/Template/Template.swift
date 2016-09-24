@@ -40,6 +40,6 @@ extension AEXMLElement {
     let startIndex = expression.characters.index(expression.startIndex, offsetBy: 1)
     let keyPath = expression.substring(from: startIndex)
 
-    return properties?.value(forKey: keyPath)
+    return properties?.value(forKeyPath: keyPath)
   }
 }

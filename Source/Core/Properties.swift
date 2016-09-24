@@ -14,10 +14,14 @@ public protocol RawPropertiesReceiver {
 
 public protocol Properties: RawPropertiesReceiver, Model {
   var key: String? { get }
+
+  init()
 }
 
-public struct StyleProperties: RawPropertiesReceiver, Equatable {
+public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {
   public var backgroundColor: UIColor?
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     backgroundColor = properties.color("backgroundColor")
@@ -28,9 +32,11 @@ public func ==(lhs: StyleProperties, rhs: StyleProperties) -> Bool {
   return lhs.backgroundColor == rhs.backgroundColor
 }
 
-public struct GestureProperties: RawPropertiesReceiver, Equatable {
+public struct GestureProperties: RawPropertiesReceiver, Model, Equatable {
   var onTap: Selector?
   var onDoubleTap: Selector?
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     onTap = properties.cast("onTap")
@@ -44,9 +50,9 @@ public func ==(lhs: GestureProperties, rhs: GestureProperties) -> Bool {
 
 public protocol ViewProperties: Properties, Equatable {
   var key: String? { get set }
-  var layout: LayoutProperties? { get set }
-  var style: StyleProperties? { get set }
-  var gestures: GestureProperties? { get set }
+  var layout: LayoutProperties { get set }
+  var style: StyleProperties { get set }
+  var gestures: GestureProperties { get set }
 
   mutating func applyProperties(_ properties: [String: Any])
   func equals<T: ViewProperties>(otherViewProperties: T) -> Bool
@@ -67,9 +73,11 @@ public extension ViewProperties {
 
 public struct BaseProperties: ViewProperties {
   public var key: String?
-  public var layout: LayoutProperties?
-  public var style: StyleProperties?
-  public var gestures: GestureProperties?
+  public var layout = LayoutProperties()
+  public var style = StyleProperties()
+  public var gestures = GestureProperties()
+
+  public init() {}
 
   public init(_ properties: [String: Any]) {
     applyProperties(properties)

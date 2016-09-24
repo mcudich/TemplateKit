@@ -80,6 +80,8 @@ public struct TextStyleProperties: RawPropertiesReceiver, Equatable {
   public var lineBreakMode = NSLineBreakMode.byTruncatingTail
   public var textAlignment = NSTextAlignment.natural
 
+  public init() {}
+
   public init(_ properties: [String : Any]) {
     if let text: String = properties.cast("text") {
       self.text = text
@@ -108,11 +110,13 @@ public func ==(lhs: TextStyleProperties, rhs: TextStyleProperties) -> Bool {
 
 public struct TextProperties: ViewProperties {
   public var key: String?
-  public var layout: LayoutProperties?
-  public var style: StyleProperties?
-  public var gestures: GestureProperties?
+  public var layout = LayoutProperties()
+  public var style = StyleProperties()
+  public var gestures = GestureProperties()
 
   public var textStyle = TextStyleProperties([:])
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)

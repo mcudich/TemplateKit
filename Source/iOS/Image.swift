@@ -10,13 +10,15 @@ import Foundation
 
 public struct ImageProperties: ViewProperties {
   public var key: String?
-  public var layout: LayoutProperties?
-  public var style: StyleProperties?
-  public var gestures: GestureProperties?
+  public var layout = LayoutProperties()
+  public var style = StyleProperties()
+  public var gestures = GestureProperties()
 
   public var contentMode = UIViewContentMode.scaleAspectFit
   public var url: URL?
   public var name: String?
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     applyProperties(properties)

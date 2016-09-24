@@ -9,7 +9,7 @@
 import Foundation
 import CSSLayout
 
-public struct LayoutProperties: RawPropertiesReceiver, Equatable {
+public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
   public var flexDirection: CSSFlexDirection?
   public var direction: CSSDirection?
   public var justifyContent: CSSJustify?
@@ -21,12 +21,56 @@ public struct LayoutProperties: RawPropertiesReceiver, Equatable {
   public var overflow: CSSOverflow?
   public var flexGrow: Float?
   public var flexShrink: Float?
-  public var margin: CSSEdges?
-  public var position: CSSEdges?
-  public var padding: CSSEdges?
-  public var size: CSSSize?
-  public var minSize: CSSSize?
-  public var maxSize: CSSSize?
+  public var marginTop: Float?
+  public var marginBottom: Float?
+  public var marginLeft: Float?
+  public var marginRight: Float?
+  public var paddingTop: Float?
+  public var paddingBottom: Float?
+  public var paddingLeft: Float?
+  public var paddingRight: Float?
+  public var top: Float?
+  public var bottom: Float?
+  public var left: Float?
+  public var right: Float?
+  public var width: Float?
+  public var height: Float?
+  public var minWidth: Float?
+  public var minHeight: Float?
+  public var maxWidth: Float?
+  public var maxHeight: Float?
+
+  public var margin: CSSEdges {
+    return CSSEdges(left: marginLeft ?? 0, right: marginRight ?? 0, bottom: marginBottom ?? 0, top: marginTop ?? 0)
+  }
+
+  public var padding: CSSEdges {
+    return CSSEdges(left: paddingLeft ?? 0, right: paddingRight ?? 0, bottom: paddingBottom ?? 0, top: paddingTop ?? 0)
+  }
+
+  public var position: CSSEdges {
+    return CSSEdges(left: left ?? 0, right: right ?? 0, bottom: bottom ?? 0, top: top ?? 0)
+  }
+
+  public var size: CSSSize {
+    return CSSSize(width: width ?? .nan, height: height ?? .nan)
+  }
+
+  public var minSize: CSSSize? {
+    if minWidth != nil || minHeight != nil {
+      return CSSSize(width: minWidth ?? 0, height: minHeight ?? 0)
+    }
+    return nil
+  }
+
+  public var maxSize: CSSSize? {
+    if maxWidth != nil || maxHeight != nil {
+      return CSSSize(width: maxWidth ?? .greatestFiniteMagnitude, height: maxHeight ?? .greatestFiniteMagnitude)
+    }
+    return nil
+  }
+
+  public init() {}
 
   public init(_ properties: [String : Any]) {
     flexDirection = properties.cast("flexDirection")
@@ -40,23 +84,24 @@ public struct LayoutProperties: RawPropertiesReceiver, Equatable {
     overflow = properties.cast("overflow")
     flexGrow = properties.cast("flexGrow")
     flexShrink = properties.cast("flexShrink")
-    margin = getEdges(properties: properties, prefix: "margin")
-    padding = getEdges(properties: properties, prefix: "padding")
-    size = getSize(properties: properties, widthKey: "width", heightKey: "height", defaultValue: Float.nan)
-    if properties["minWidth"] != nil || properties["minHeight"] != nil {
-      minSize = getSize(properties: properties, widthKey: "minWidth", heightKey: "minHeight", defaultValue: 0)
-    }
-    if properties["maxWidth"] != nil || properties["maxHeight"] != nil {
-      maxSize = getSize(properties: properties, widthKey: "maxWidth", heightKey: "maxHeight", defaultValue: Float.greatestFiniteMagnitude)
-    }
-  }
-
-  private func getEdges(properties: [String: Any], prefix: String) -> CSSEdges {
-    return CSSEdges(left: properties.cast(prefix + "Left") ?? 0, right: properties.cast(prefix + "Right") ?? 0, bottom: properties.cast(prefix + "Bottom") ?? 0, top: properties.cast(prefix + "Top") ?? 0)
-  }
-
-  private func getSize(properties: [String: Any], widthKey: String, heightKey: String, defaultValue: Float) -> CSSSize {
-    return CSSSize(width: properties.cast(widthKey) ?? defaultValue, height: properties.cast(heightKey) ?? defaultValue)
+    marginTop = properties.cast("marginTop")
+    marginBottom = properties.cast("marginBottom")
+    marginLeft = properties.cast("marginLeft")
+    marginRight = properties.cast("marginRight")
+    paddingTop = properties.cast("paddingTop")
+    paddingBottom = properties.cast("paddingBottom")
+    paddingLeft = properties.cast("paddingLeft")
+    paddingRight = properties.cast("paddingRight")
+    top = properties.cast("top")
+    bottom = properties.cast("bottom")
+    left = properties.cast("left")
+    right = properties.cast("right")
+    width = properties.cast("width")
+    height = properties.cast("height")
+    minWidth = properties.cast("minWidth")
+    minHeight = properties.cast("minHeight")
+    maxWidth = properties.cast("maxWidth")
+    maxHeight = properties.cast("maxHeight")
   }
 }
 
@@ -94,71 +139,71 @@ public func ==(lhs: LayoutProperties, rhs: LayoutProperties) -> Bool {
 
 extension PropertyNode where Self.PropertiesType: ViewProperties {
   public var flexDirection: CSSFlexDirection {
-    return properties.layout?.flexDirection ?? CSSFlexDirectionColumn
+    return properties.layout.flexDirection ?? CSSFlexDirectionColumn
   }
 
   public var direction: CSSDirection {
-    return properties.layout?.direction ?? CSSDirectionLTR
+    return properties.layout.direction ?? CSSDirectionLTR
   }
 
   public var justifyContent: CSSJustify {
-    return properties.layout?.justifyContent ?? CSSJustifyFlexStart
+    return properties.layout.justifyContent ?? CSSJustifyFlexStart
   }
 
   public var alignContent: CSSAlign {
-    return properties.layout?.alignContent ?? CSSAlignStretch
+    return properties.layout.alignContent ?? CSSAlignStretch
   }
 
   public var alignItems: CSSAlign {
-    return properties.layout?.alignItems ?? CSSAlignStretch
+    return properties.layout.alignItems ?? CSSAlignStretch
   }
 
   public var alignSelf: CSSAlign {
-    return properties.layout?.alignSelf ?? CSSAlignAuto
+    return properties.layout.alignSelf ?? CSSAlignAuto
   }
 
   public var positionType: CSSPositionType {
-    return properties.layout?.positionType ?? CSSPositionTypeRelative
+    return properties.layout.positionType ?? CSSPositionTypeRelative
   }
 
   public var flexWrap: CSSWrapType {
-    return properties.layout?.flexWrap ?? CSSWrapTypeNoWrap
+    return properties.layout.flexWrap ?? CSSWrapTypeNoWrap
   }
 
   public var overflow: CSSOverflow {
-    return properties.layout?.overflow ?? CSSOverflowVisible
+    return properties.layout.overflow ?? CSSOverflowVisible
   }
 
   public var flexGrow: Float {
-    return properties.layout?.flexGrow ?? 0
+    return properties.layout.flexGrow ?? 0
   }
 
   public var flexShrink: Float {
-    return properties.layout?.flexShrink ?? 0
+    return properties.layout.flexShrink ?? 0
   }
 
   public var margin: CSSEdges {
-    return properties.layout?.margin ?? CSSEdges()
+    return properties.layout.margin ?? CSSEdges()
   }
 
   public var position: CSSEdges {
-    return properties.layout?.position ?? CSSEdges()
+    return properties.layout.position ?? CSSEdges()
   }
 
   public var padding: CSSEdges {
-    return properties.layout?.padding ?? CSSEdges()
+    return properties.layout.padding ?? CSSEdges()
   }
 
   public var size: CSSSize {
-    return properties.layout?.size ?? CSSSize()
+    return properties.layout.size ?? CSSSize()
   }
 
   public var minSize: CSSSize? {
-    return properties.layout?.minSize
+    return properties.layout.minSize
   }
 
   public var maxSize: CSSSize? {
-    return properties.layout?.maxSize
+    return properties.layout.maxSize
   }
 
   public func buildCSSNode() -> CSSNode {
