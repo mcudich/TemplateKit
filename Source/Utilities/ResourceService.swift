@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 typealias CompletionHandler<T> = (Result<T>) -> Void
 
@@ -28,6 +27,7 @@ class ResourceService<ParserType: Parser> {
 
   public var cachePolicy: CachePolicy = .always
 
+  private lazy var defaultSession = URLSession(configuration: .default)
   private lazy var requestQueue: DispatchQueue = DispatchQueue(label: "requestQueue")
   private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 8)
 
@@ -52,17 +52,18 @@ class ResourceService<ParserType: Parser> {
 
     pendingOperations[url] = [completion]
 
-    operationQueue.enqueueOperation { done in
-      Alamofire.request(url, method: .get).responseData(queue: self.requestQueue) { [weak self] response in
-        switch response.result {
-        case .failure(let error):
-          self?.fail(forURL: url, withError: error)
-        case .success(let value):
-          self?.processResponse(forURL: url, withData: value)
+    operationQueue.enqueueOperation { [weak self] done in
+      self?.defaultSession.dataTask(with: url) { [weak self] data, response, error in
+        self?.requestQueue.async {
+          if let data = data {
+            self?.processResponse(forURL: url, withData: data)
+          } else if let error = error {
+            self?.fail(forURL: url, withError: error)
+          }
+          let _ = self?.pendingOperations.removeValue(forKey: url)
+          done()
         }
-        let _ = self?.pendingOperations.removeValue(forKey: url)
-        done()
-      }
+      }.resume()
     }
   }
 

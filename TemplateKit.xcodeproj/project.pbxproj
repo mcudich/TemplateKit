@@ -84,7 +84,7 @@
 		D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CSSNodeList.c; path = "ThirdParty/css-layout/CSSLayout/CSSNodeList.c"; sourceTree = "<group>"; };
 		D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSNodeList.h; path = "ThirdParty/css-layout/CSSLayout/CSSNodeList.h"; sourceTree = "<group>"; };
 		D8325ED11D986D9200F3EC95 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = "ThirdParty/css-layout/swift/Config.xcconfig"; sourceTree = "<group>"; };
-		D8325ED21D986DBB00F3EC95 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		D8325ED21D986DBB00F3EC95 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = "ThirdParty/css-layout/swift/module.modulemap"; sourceTree = "<group>"; };
 		D8325ED81D986E0000F3EC95 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "ThirdParty/css-layout/swift/Info.plist"; sourceTree = "<group>"; };
 		D83936921D8348C5008CA7F1 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Component.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D83936931D8348C5008CA7F1 /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Element.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -716,7 +716,7 @@
 		D89194231D57F1FB0049991F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -745,7 +745,7 @@
 		D89194241D57F1FB0049991F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
