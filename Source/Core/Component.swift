@@ -31,7 +31,7 @@ public protocol Component: PropertyNode, ComponentCreation {
   func render() -> Element
   func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool
   func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)?)
-  func performSelector(_ selector: Selector, with value: Any?, with otherValue: Any?)
+  func performSelector(_ selector: Selector?, with value: Any?, with otherValue: Any?)
 }
 
 public extension Component {
@@ -111,8 +111,8 @@ public extension Component {
     return context
   }
 
-  func performSelector(_ selector: Selector, with value: Any? = nil, with otherValue: Any? = nil) {
-    guard let owner = owner else { return }
+  func performSelector(_ selector: Selector?, with value: Any? = nil, with otherValue: Any? = nil) {
+    guard let owner = owner, let selector = selector else { return }
     let _ = (owner as AnyObject).perform(selector, with: value, with: otherValue)
   }
 
