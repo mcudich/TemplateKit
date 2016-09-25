@@ -181,6 +181,14 @@
 			name = CSSLayout;
 			sourceTree = "<group>";
 		};
+		D8325EDA1D98731500F3EC95 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				D8325EC61D986D4100F3EC95 /* CSSLayout */,
+			);
+			name = ThirdParty;
+			sourceTree = "<group>";
+		};
 		D83936911D8348C5008CA7F1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,7 +265,7 @@
 		D89194041D57F1FB0049991F = {
 			isa = PBXGroup;
 			children = (
-				D8325EC61D986D4100F3EC95 /* CSSLayout */,
+				D8325EDA1D98731500F3EC95 /* ThirdParty */,
 				D8811CD41D5D85540098624B /* Alamofire.framework */,
 				D891944B1D57F7280049991F /* AEXML.framework */,
 				D89194101D57F1FB0049991F /* Source */,
