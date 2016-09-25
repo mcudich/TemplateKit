@@ -46,6 +46,7 @@ class TextLayout {
 
   fileprivate func drawText(in rect: CGRect) {
     applyProperties()
+    textContainer.size = rect.size
     let glyphRange = layoutManager.glyphRange(for: textContainer);
 
     layoutManager.drawBackground(forGlyphRange: glyphRange, at: CGPoint.zero);
@@ -131,11 +132,10 @@ public func ==(lhs: TextProperties, rhs: TextProperties) -> Bool {
 public class Text: UILabel, NativeView {
   public weak var eventTarget: AnyObject?
 
-  public var properties = TextProperties([:]) {
+  public var properties = TextProperties() {
     didSet {
       applyCommonProperties()
       textLayout.properties = properties
-      setNeedsDisplay()
     }
   }
 
