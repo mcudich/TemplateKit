@@ -7,185 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D8325E131D986B9600F3EC95 /* .buckconfig in Resources */ = {isa = PBXBuildFile; fileRef = D8325D3E1D986B9500F3EC95 /* .buckconfig */; };
-		D8325E141D986B9600F3EC95 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D8325D3F1D986B9500F3EC95 /* .gitignore */; };
-		D8325E151D986B9600F3EC95 /* .hgignore in Resources */ = {isa = PBXBuildFile; fileRef = D8325D401D986B9500F3EC95 /* .hgignore */; };
-		D8325E161D986B9600F3EC95 /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = D8325D411D986B9500F3EC95 /* .travis.yml */; };
-		D8325E171D986B9600F3EC95 /* .buckconfig in Resources */ = {isa = PBXBuildFile; fileRef = D8325D431D986B9500F3EC95 /* .buckconfig */; };
-		D8325E181D986B9600F3EC95 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D8325D441D986B9500F3EC95 /* .gitignore */; };
-		D8325E191D986B9600F3EC95 /* .hgignore in Resources */ = {isa = PBXBuildFile; fileRef = D8325D451D986B9500F3EC95 /* .hgignore */; };
-		D8325E1A1D986B9600F3EC95 /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = D8325D461D986B9500F3EC95 /* .travis.yml */; };
-		D8325E1B1D986B9600F3EC95 /* CSSBenchmark.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325D481D986B9500F3EC95 /* CSSBenchmark.c */; };
-		D8325E1C1D986B9600F3EC95 /* CSSBenchmark.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325D491D986B9500F3EC95 /* CSSBenchmark.h */; };
-		D8325E1D1D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325D4A1D986B9500F3EC95 /* BUCK */; };
-		D8325E1E1D986B9600F3EC95 /* CONTRIBUTING in Resources */ = {isa = PBXBuildFile; fileRef = D8325D4B1D986B9500F3EC95 /* CONTRIBUTING */; };
-		D8325E1F1D986B9600F3EC95 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D8325D4D1D986B9500F3EC95 /* .gitignore */; };
-		D8325E201D986B9600F3EC95 /* .hgignore in Resources */ = {isa = PBXBuildFile; fileRef = D8325D4E1D986B9500F3EC95 /* .hgignore */; };
-		D8325E211D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325D4F1D986B9500F3EC95 /* BUCK */; };
-		D8325E221D986B9600F3EC95 /* CSSLayout.vcxproj in Resources */ = {isa = PBXBuildFile; fileRef = D8325D511D986B9500F3EC95 /* CSSLayout.vcxproj */; };
-		D8325E231D986B9600F3EC95 /* CSSLayout.vcxproj.filters in Resources */ = {isa = PBXBuildFile; fileRef = D8325D521D986B9500F3EC95 /* CSSLayout.vcxproj.filters */; };
-		D8325E241D986B9600F3EC95 /* dllmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325D531D986B9500F3EC95 /* dllmain.cpp */; };
-		D8325E251D986B9600F3EC95 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325D541D986B9500F3EC95 /* stdafx.cpp */; };
-		D8325E261D986B9600F3EC95 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325D551D986B9500F3EC95 /* stdafx.h */; };
-		D8325E271D986B9600F3EC95 /* targetver.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325D561D986B9500F3EC95 /* targetver.h */; };
-		D8325E281D986B9600F3EC95 /* CSSAlign.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D581D986B9500F3EC95 /* CSSAlign.cs */; };
-		D8325E291D986B9600F3EC95 /* CSSConstants.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D591D986B9500F3EC95 /* CSSConstants.cs */; };
-		D8325E2A1D986B9600F3EC95 /* CSSDimension.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D5A1D986B9500F3EC95 /* CSSDimension.cs */; };
-		D8325E2B1D986B9600F3EC95 /* CSSDIrection.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D5B1D986B9500F3EC95 /* CSSDIrection.cs */; };
-		D8325E2C1D986B9600F3EC95 /* CSSEdge.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D5C1D986B9500F3EC95 /* CSSEdge.cs */; };
-		D8325E2D1D986B9600F3EC95 /* CSSFlexDirection.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D5D1D986B9500F3EC95 /* CSSFlexDirection.cs */; };
-		D8325E2E1D986B9600F3EC95 /* CSSJustify.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D5E1D986B9500F3EC95 /* CSSJustify.cs */; };
-		D8325E2F1D986B9600F3EC95 /* CSSLayoutContext.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D5F1D986B9500F3EC95 /* CSSLayoutContext.cs */; };
-		D8325E301D986B9600F3EC95 /* CSSMeasureFunc.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D601D986B9500F3EC95 /* CSSMeasureFunc.cs */; };
-		D8325E311D986B9600F3EC95 /* CSSMeasureMode.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D611D986B9500F3EC95 /* CSSMeasureMode.cs */; };
-		D8325E321D986B9600F3EC95 /* CSSNode.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D621D986B9500F3EC95 /* CSSNode.cs */; };
-		D8325E331D986B9600F3EC95 /* CSSOverflow.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D631D986B9500F3EC95 /* CSSOverflow.cs */; };
-		D8325E341D986B9600F3EC95 /* CSSPositionType.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D641D986B9500F3EC95 /* CSSPositionType.cs */; };
-		D8325E351D986B9600F3EC95 /* CSSPrintFunc.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D651D986B9500F3EC95 /* CSSPrintFunc.cs */; };
-		D8325E361D986B9600F3EC95 /* CSSPrintOptions.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D661D986B9500F3EC95 /* CSSPrintOptions.cs */; };
-		D8325E371D986B9600F3EC95 /* CSSSize.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D671D986B9500F3EC95 /* CSSSize.cs */; };
-		D8325E381D986B9600F3EC95 /* CSSWrap.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D681D986B9500F3EC95 /* CSSWrap.cs */; };
-		D8325E391D986B9600F3EC95 /* Facebook.CSSLayout.xproj in Resources */ = {isa = PBXBuildFile; fileRef = D8325D691D986B9500F3EC95 /* Facebook.CSSLayout.xproj */; };
-		D8325E3A1D986B9600F3EC95 /* MeasureFunction.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D6A1D986B9500F3EC95 /* MeasureFunction.cs */; };
-		D8325E3B1D986B9600F3EC95 /* MeasureOutput.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D6B1D986B9500F3EC95 /* MeasureOutput.cs */; };
-		D8325E3C1D986B9600F3EC95 /* Native.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D6C1D986B9500F3EC95 /* Native.cs */; };
-		D8325E3D1D986B9600F3EC95 /* project.json in Resources */ = {isa = PBXBuildFile; fileRef = D8325D6D1D986B9500F3EC95 /* project.json */; };
-		D8325E3E1D986B9600F3EC95 /* AssemblyInfo.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D6F1D986B9500F3EC95 /* AssemblyInfo.cs */; };
-		D8325E3F1D986B9600F3EC95 /* Spacing.cs in Resources */ = {isa = PBXBuildFile; fileRef = D8325D701D986B9500F3EC95 /* Spacing.cs */; };
-		D8325E401D986B9600F3EC95 /* Facebook.CSSLayout.sln in Resources */ = {isa = PBXBuildFile; fileRef = D8325D711D986B9500F3EC95 /* Facebook.CSSLayout.sln */; };
-		D8325E411D986B9600F3EC95 /* CSSLayout.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325D731D986B9500F3EC95 /* CSSLayout.c */; };
-		D8325E421D986B9600F3EC95 /* CSSLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325D741D986B9500F3EC95 /* CSSLayout.h */; };
-		D8325E431D986B9600F3EC95 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325D751D986B9500F3EC95 /* CSSMacros.h */; };
-		D8325E441D986B9600F3EC95 /* CSSNodeList.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325D761D986B9500F3EC95 /* CSSNodeList.c */; };
-		D8325E451D986B9600F3EC95 /* CSSNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325D771D986B9500F3EC95 /* CSSNodeList.h */; };
-		D8325E461D986B9600F3EC95 /* CSSLAYOUT_DEFS in Resources */ = {isa = PBXBuildFile; fileRef = D8325D781D986B9500F3EC95 /* CSSLAYOUT_DEFS */; };
-		D8325E471D986B9600F3EC95 /* format.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8325D791D986B9500F3EC95 /* format.sh */; };
-		D8325E481D986B9600F3EC95 /* gentest.js in Resources */ = {isa = PBXBuildFile; fileRef = D8325D7B1D986B9500F3EC95 /* gentest.js */; };
-		D8325E491D986B9600F3EC95 /* gentest.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8325D7C1D986B9500F3EC95 /* gentest.sh */; };
-		D8325E4A1D986B9600F3EC95 /* test-template.html in Resources */ = {isa = PBXBuildFile; fileRef = D8325D7D1D986B9500F3EC95 /* test-template.html */; };
-		D8325E4B1D986B9600F3EC95 /* CachedCSSLayout.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D821D986B9500F3EC95 /* CachedCSSLayout.java */; };
-		D8325E4C1D986B9600F3EC95 /* CSSAlign.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D831D986B9500F3EC95 /* CSSAlign.java */; };
-		D8325E4D1D986B9600F3EC95 /* CSSCachedMeasurement.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D841D986B9500F3EC95 /* CSSCachedMeasurement.java */; };
-		D8325E4E1D986B9600F3EC95 /* CSSConstants.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D851D986B9500F3EC95 /* CSSConstants.java */; };
-		D8325E4F1D986B9600F3EC95 /* CSSDirection.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D861D986B9500F3EC95 /* CSSDirection.java */; };
-		D8325E501D986B9600F3EC95 /* CSSFlexDirection.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D871D986B9500F3EC95 /* CSSFlexDirection.java */; };
-		D8325E511D986B9600F3EC95 /* CSSJustify.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D881D986B9500F3EC95 /* CSSJustify.java */; };
-		D8325E521D986B9600F3EC95 /* CSSLayout.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D891D986B9500F3EC95 /* CSSLayout.java */; };
-		D8325E531D986B9600F3EC95 /* CSSLayoutContext.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D8A1D986B9500F3EC95 /* CSSLayoutContext.java */; };
-		D8325E541D986B9600F3EC95 /* CSSMeasureMode.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D8B1D986B9500F3EC95 /* CSSMeasureMode.java */; };
-		D8325E551D986B9600F3EC95 /* CSSNode.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D8C1D986B9500F3EC95 /* CSSNode.java */; };
-		D8325E561D986B9600F3EC95 /* CSSNodeAPI.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D8D1D986B9500F3EC95 /* CSSNodeAPI.java */; };
-		D8325E571D986B9600F3EC95 /* CSSNodeJNI.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D8E1D986B9500F3EC95 /* CSSNodeJNI.java */; };
-		D8325E581D986B9600F3EC95 /* CSSOverflow.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D8F1D986B9500F3EC95 /* CSSOverflow.java */; };
-		D8325E591D986B9600F3EC95 /* CSSPositionType.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D901D986B9500F3EC95 /* CSSPositionType.java */; };
-		D8325E5A1D986B9600F3EC95 /* CSSStyle.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D911D986B9500F3EC95 /* CSSStyle.java */; };
-		D8325E5B1D986B9600F3EC95 /* CSSWrap.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D921D986B9500F3EC95 /* CSSWrap.java */; };
-		D8325E5C1D986B9600F3EC95 /* FloatUtil.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D931D986B9500F3EC95 /* FloatUtil.java */; };
-		D8325E5D1D986B9600F3EC95 /* LayoutEngine.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D941D986B9500F3EC95 /* LayoutEngine.java */; };
-		D8325E5E1D986B9600F3EC95 /* MeasureOutput.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D951D986B9500F3EC95 /* MeasureOutput.java */; };
-		D8325E5F1D986B9600F3EC95 /* Spacing.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D961D986B9500F3EC95 /* Spacing.java */; };
-		D8325E601D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325D991D986B9500F3EC95 /* BUCK */; };
-		D8325E611D986B9600F3EC95 /* DoNotStrip.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325D9A1D986B9500F3EC95 /* DoNotStrip.java */; };
-		D8325E621D986B9600F3EC95 /* CSSJNI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325D9C1D986B9500F3EC95 /* CSSJNI.cpp */; };
-		D8325E631D986B9600F3EC95 /* assert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325D9F1D986B9600F3EC95 /* assert.cpp */; };
-		D8325E641D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325DA01D986B9600F3EC95 /* BUCK */; };
-		D8325E651D986B9600F3EC95 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = D8325DA11D986B9600F3EC95 /* Doxyfile */; };
-		D8325E661D986B9600F3EC95 /* ALog.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DA41D986B9600F3EC95 /* ALog.h */; };
-		D8325E671D986B9600F3EC95 /* assert.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DA51D986B9600F3EC95 /* assert.h */; };
-		D8325E681D986B9600F3EC95 /* Countable.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DA61D986B9600F3EC95 /* Countable.h */; };
-		D8325E691D986B9600F3EC95 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = D8325DA71D986B9600F3EC95 /* Doxyfile */; };
-		D8325E6A1D986B9600F3EC95 /* Environment.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DA81D986B9600F3EC95 /* Environment.h */; };
-		D8325E6B1D986B9600F3EC95 /* Boxed.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DAA1D986B9600F3EC95 /* Boxed.h */; };
-		D8325E6C1D986B9600F3EC95 /* ByteBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DAB1D986B9600F3EC95 /* ByteBuffer.h */; };
-		D8325E6D1D986B9600F3EC95 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DAC1D986B9600F3EC95 /* Common.h */; };
-		D8325E6E1D986B9600F3EC95 /* Context.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DAD1D986B9600F3EC95 /* Context.h */; };
-		D8325E6F1D986B9600F3EC95 /* CoreClasses-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DAE1D986B9600F3EC95 /* CoreClasses-inl.h */; };
-		D8325E701D986B9600F3EC95 /* CoreClasses.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DAF1D986B9600F3EC95 /* CoreClasses.h */; };
-		D8325E711D986B9600F3EC95 /* Exceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB01D986B9600F3EC95 /* Exceptions.h */; };
-		D8325E721D986B9600F3EC95 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB11D986B9600F3EC95 /* File.h */; };
-		D8325E731D986B9600F3EC95 /* Hybrid.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB21D986B9600F3EC95 /* Hybrid.h */; };
-		D8325E741D986B9600F3EC95 /* Iterator-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB31D986B9600F3EC95 /* Iterator-inl.h */; };
-		D8325E751D986B9600F3EC95 /* Iterator.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB41D986B9600F3EC95 /* Iterator.h */; };
-		D8325E761D986B9600F3EC95 /* JThread.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB51D986B9600F3EC95 /* JThread.h */; };
-		D8325E771D986B9600F3EC95 /* Meta-forward.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB61D986B9600F3EC95 /* Meta-forward.h */; };
-		D8325E781D986B9600F3EC95 /* Meta-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB71D986B9600F3EC95 /* Meta-inl.h */; };
-		D8325E791D986B9600F3EC95 /* Meta.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB81D986B9600F3EC95 /* Meta.h */; };
-		D8325E7A1D986B9600F3EC95 /* MetaConvert.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DB91D986B9600F3EC95 /* MetaConvert.h */; };
-		D8325E7B1D986B9600F3EC95 /* NativeRunnable.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DBA1D986B9600F3EC95 /* NativeRunnable.h */; };
-		D8325E7C1D986B9600F3EC95 /* ReferenceAllocators-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DBB1D986B9600F3EC95 /* ReferenceAllocators-inl.h */; };
-		D8325E7D1D986B9600F3EC95 /* ReferenceAllocators.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DBC1D986B9600F3EC95 /* ReferenceAllocators.h */; };
-		D8325E7E1D986B9600F3EC95 /* References-forward.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DBD1D986B9600F3EC95 /* References-forward.h */; };
-		D8325E7F1D986B9600F3EC95 /* References-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DBE1D986B9600F3EC95 /* References-inl.h */; };
-		D8325E801D986B9600F3EC95 /* References.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DBF1D986B9600F3EC95 /* References.h */; };
-		D8325E811D986B9600F3EC95 /* Registration-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC01D986B9600F3EC95 /* Registration-inl.h */; };
-		D8325E821D986B9600F3EC95 /* Registration.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC11D986B9600F3EC95 /* Registration.h */; };
-		D8325E831D986B9600F3EC95 /* TypeTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC21D986B9600F3EC95 /* TypeTraits.h */; };
-		D8325E841D986B9600F3EC95 /* fbjni.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC31D986B9600F3EC95 /* fbjni.h */; };
-		D8325E851D986B9600F3EC95 /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC41D986B9600F3EC95 /* log.h */; };
-		D8325E861D986B9600F3EC95 /* lyra.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC51D986B9600F3EC95 /* lyra.h */; };
-		D8325E871D986B9600F3EC95 /* noncopyable.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC61D986B9600F3EC95 /* noncopyable.h */; };
-		D8325E881D986B9600F3EC95 /* nonmovable.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC71D986B9600F3EC95 /* nonmovable.h */; };
-		D8325E891D986B9600F3EC95 /* ProgramLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC81D986B9600F3EC95 /* ProgramLocation.h */; };
-		D8325E8A1D986B9600F3EC95 /* RefPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DC91D986B9600F3EC95 /* RefPtr.h */; };
-		D8325E8B1D986B9600F3EC95 /* StaticInitialized.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DCA1D986B9600F3EC95 /* StaticInitialized.h */; };
-		D8325E8C1D986B9600F3EC95 /* ThreadLocal.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DCB1D986B9600F3EC95 /* ThreadLocal.h */; };
-		D8325E8D1D986B9600F3EC95 /* visibility.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DCC1D986B9600F3EC95 /* visibility.h */; };
-		D8325E8E1D986B9600F3EC95 /* Countable.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DCE1D986B9600F3EC95 /* Countable.h */; };
-		D8325E8F1D986B9600F3EC95 /* GlobalReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DCF1D986B9600F3EC95 /* GlobalReference.h */; };
-		D8325E901D986B9600F3EC95 /* jni_helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DD01D986B9600F3EC95 /* jni_helpers.h */; };
-		D8325E911D986B9600F3EC95 /* LocalReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DD11D986B9600F3EC95 /* LocalReference.h */; };
-		D8325E921D986B9600F3EC95 /* LocalString.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DD21D986B9600F3EC95 /* LocalString.h */; };
-		D8325E931D986B9600F3EC95 /* Registration.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DD31D986B9600F3EC95 /* Registration.h */; };
-		D8325E941D986B9600F3EC95 /* WeakReference.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325DD41D986B9600F3EC95 /* WeakReference.h */; };
-		D8325E951D986B9600F3EC95 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DD61D986B9600F3EC95 /* ByteBuffer.cpp */; };
-		D8325E961D986B9600F3EC95 /* Countable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DD71D986B9600F3EC95 /* Countable.cpp */; };
-		D8325E971D986B9600F3EC95 /* Environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DD81D986B9600F3EC95 /* Environment.cpp */; };
-		D8325E981D986B9600F3EC95 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DD91D986B9600F3EC95 /* Exceptions.cpp */; };
-		D8325E991D986B9600F3EC95 /* fbjni.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DDA1D986B9600F3EC95 /* fbjni.cpp */; };
-		D8325E9A1D986B9600F3EC95 /* Hybrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DDB1D986B9600F3EC95 /* Hybrid.cpp */; };
-		D8325E9B1D986B9600F3EC95 /* CppException.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325DDD1D986B9600F3EC95 /* CppException.java */; };
-		D8325E9C1D986B9600F3EC95 /* CppSystemErrorException.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325DDE1D986B9600F3EC95 /* CppSystemErrorException.java */; };
-		D8325E9D1D986B9600F3EC95 /* UnknownCppException.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325DDF1D986B9600F3EC95 /* UnknownCppException.java */; };
-		D8325E9E1D986B9600F3EC95 /* jni_helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE01D986B9600F3EC95 /* jni_helpers.cpp */; };
-		D8325E9F1D986B9600F3EC95 /* LocalString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE11D986B9600F3EC95 /* LocalString.cpp */; };
-		D8325EA01D986B9600F3EC95 /* OnLoad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE21D986B9600F3EC95 /* OnLoad.cpp */; };
-		D8325EA11D986B9600F3EC95 /* References.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE31D986B9600F3EC95 /* References.cpp */; };
-		D8325EA21D986B9600F3EC95 /* WeakReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE41D986B9600F3EC95 /* WeakReference.cpp */; };
-		D8325EA31D986B9600F3EC95 /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE51D986B9600F3EC95 /* log.cpp */; };
-		D8325EA41D986B9600F3EC95 /* lyra.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE71D986B9600F3EC95 /* lyra.cpp */; };
-		D8325EA51D986B9600F3EC95 /* onload.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DE81D986B9600F3EC95 /* onload.cpp */; };
-		D8325EA61D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325DEA1D986B9600F3EC95 /* BUCK */; };
-		D8325EA71D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325DEC1D986B9600F3EC95 /* BUCK */; };
-		D8325EA81D986B9600F3EC95 /* infer-annotations-1.4.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = D8325DED1D986B9600F3EC95 /* infer-annotations-1.4.jar */; };
-		D8325EA91D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325DEF1D986B9600F3EC95 /* BUCK */; };
-		D8325EAA1D986B9600F3EC95 /* jsr305.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = D8325DF01D986B9600F3EC95 /* jsr305.jar */; };
-		D8325EAB1D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325DF21D986B9600F3EC95 /* BUCK */; };
-		D8325EAC1D986B9600F3EC95 /* junit4.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = D8325DF31D986B9600F3EC95 /* junit4.jar */; };
-		D8325EAD1D986B9600F3EC95 /* BUCK in Resources */ = {isa = PBXBuildFile; fileRef = D8325DF51D986B9600F3EC95 /* BUCK */; };
-		D8325EAE1D986B9600F3EC95 /* soloader-0.1.0.aar in Resources */ = {isa = PBXBuildFile; fileRef = D8325DF61D986B9600F3EC95 /* soloader-0.1.0.aar */; };
-		D8325EAF1D986B9600F3EC95 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D8325DF71D986B9600F3EC95 /* LICENSE */; };
-		D8325EB01D986B9600F3EC95 /* PATENTS in Resources */ = {isa = PBXBuildFile; fileRef = D8325DF81D986B9600F3EC95 /* PATENTS */; };
-		D8325EB11D986B9600F3EC95 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D8325DF91D986B9600F3EC95 /* README.md */; };
-		D8325EB21D986B9600F3EC95 /* CSSLayoutAbsolutePositionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DFB1D986B9600F3EC95 /* CSSLayoutAbsolutePositionTest.cpp */; };
-		D8325EB31D986B9600F3EC95 /* CSSLayoutAlignContentTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DFC1D986B9600F3EC95 /* CSSLayoutAlignContentTest.cpp */; };
-		D8325EB41D986B9600F3EC95 /* CSSLayoutAlignItemsTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DFD1D986B9600F3EC95 /* CSSLayoutAlignItemsTest.cpp */; };
-		D8325EB51D986B9600F3EC95 /* CSSLayoutAlignSelfTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DFE1D986B9600F3EC95 /* CSSLayoutAlignSelfTest.cpp */; };
-		D8325EB61D986B9600F3EC95 /* CSSLayoutBorderTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325DFF1D986B9600F3EC95 /* CSSLayoutBorderTest.cpp */; };
-		D8325EB71D986B9600F3EC95 /* CSSLayoutDirtyMarkingTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E001D986B9600F3EC95 /* CSSLayoutDirtyMarkingTest.cpp */; };
-		D8325EB81D986B9600F3EC95 /* CSSLayoutEdgeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E011D986B9600F3EC95 /* CSSLayoutEdgeTest.cpp */; };
-		D8325EB91D986B9600F3EC95 /* CSSLayoutFlexDirectionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E021D986B9600F3EC95 /* CSSLayoutFlexDirectionTest.cpp */; };
-		D8325EBA1D986B9600F3EC95 /* CSSLayoutFlexTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E031D986B9600F3EC95 /* CSSLayoutFlexTest.cpp */; };
-		D8325EBB1D986B9600F3EC95 /* CSSLayoutFlexWrapTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E041D986B9600F3EC95 /* CSSLayoutFlexWrapTest.cpp */; };
-		D8325EBC1D986B9600F3EC95 /* CSSLayoutJustifyContentTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E051D986B9600F3EC95 /* CSSLayoutJustifyContentTest.cpp */; };
-		D8325EBD1D986B9600F3EC95 /* CSSLayoutMarginTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E061D986B9600F3EC95 /* CSSLayoutMarginTest.cpp */; };
-		D8325EBE1D986B9600F3EC95 /* CSSLayoutMeasureCacheTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E071D986B9600F3EC95 /* CSSLayoutMeasureCacheTest.cpp */; };
-		D8325EBF1D986B9600F3EC95 /* CSSLayoutMinMaxDimensionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E081D986B9600F3EC95 /* CSSLayoutMinMaxDimensionTest.cpp */; };
-		D8325EC01D986B9600F3EC95 /* CSSLayoutPaddingTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8325E091D986B9600F3EC95 /* CSSLayoutPaddingTest.cpp */; };
-		D8325EC11D986B9600F3EC95 /* CSSLayoutFlexBasisTest.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325E0E1D986B9600F3EC95 /* CSSLayoutFlexBasisTest.java */; };
-		D8325EC21D986B9600F3EC95 /* CSSNodeTest.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325E0F1D986B9600F3EC95 /* CSSNodeTest.java */; };
-		D8325EC31D986B9600F3EC95 /* LayoutCachingTest.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325E101D986B9600F3EC95 /* LayoutCachingTest.java */; };
-		D8325EC41D986B9600F3EC95 /* LayoutEngineTest.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325E111D986B9600F3EC95 /* LayoutEngineTest.java */; };
-		D8325EC51D986B9600F3EC95 /* TestConstants.java in Sources */ = {isa = PBXBuildFile; fileRef = D8325E121D986B9600F3EC95 /* TestConstants.java */; };
+		D8325ED31D986DC800F3EC95 /* CSSLayout.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325EC71D986D5000F3EC95 /* CSSLayout.c */; };
+		D8325ED41D986DC800F3EC95 /* CSSLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325EC81D986D5000F3EC95 /* CSSLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8325ED51D986DC800F3EC95 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325EC91D986D5000F3EC95 /* CSSMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8325ED61D986DC800F3EC95 /* CSSNodeList.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */; };
+		D8325ED71D986DC800F3EC95 /* CSSNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */; };
 		D83936B71D8348C5008CA7F1 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936921D8348C5008CA7F1 /* Component.swift */; };
 		D83936B81D8348C5008CA7F1 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936931D8348C5008CA7F1 /* Element.swift */; };
 		D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936941D8348C5008CA7F1 /* Keyable.swift */; };
@@ -215,7 +41,6 @@
 		D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B01D8348C5008CA7F1 /* ResourceService.swift */; };
 		D83936D31D8348C5008CA7F1 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B11D8348C5008CA7F1 /* Result.swift */; };
 		D83936DB1D83497C008CA7F1 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936DA1D83497C008CA7F1 /* UIView.swift */; };
-		D83937011D83504C008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936FB1D83504C008CA7F1 /* CSSMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937071D835207008CA7F1 /* CSSLayout.swift */; };
 		D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937161D872BDE008CA7F1 /* CollectionView.swift */; };
@@ -253,185 +78,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D8325D3E1D986B9500F3EC95 /* .buckconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .buckconfig; sourceTree = "<group>"; };
-		D8325D3F1D986B9500F3EC95 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D8325D401D986B9500F3EC95 /* .hgignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hgignore; sourceTree = "<group>"; };
-		D8325D411D986B9500F3EC95 /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
-		D8325D431D986B9500F3EC95 /* .buckconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .buckconfig; sourceTree = "<group>"; };
-		D8325D441D986B9500F3EC95 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D8325D451D986B9500F3EC95 /* .hgignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hgignore; sourceTree = "<group>"; };
-		D8325D461D986B9500F3EC95 /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
-		D8325D481D986B9500F3EC95 /* CSSBenchmark.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSBenchmark.c; sourceTree = "<group>"; };
-		D8325D491D986B9500F3EC95 /* CSSBenchmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSBenchmark.h; sourceTree = "<group>"; };
-		D8325D4A1D986B9500F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325D4B1D986B9500F3EC95 /* CONTRIBUTING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CONTRIBUTING; sourceTree = "<group>"; };
-		D8325D4D1D986B9500F3EC95 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D8325D4E1D986B9500F3EC95 /* .hgignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hgignore; sourceTree = "<group>"; };
-		D8325D4F1D986B9500F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325D511D986B9500F3EC95 /* CSSLayout.vcxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = CSSLayout.vcxproj; sourceTree = "<group>"; };
-		D8325D521D986B9500F3EC95 /* CSSLayout.vcxproj.filters */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = CSSLayout.vcxproj.filters; sourceTree = "<group>"; };
-		D8325D531D986B9500F3EC95 /* dllmain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dllmain.cpp; sourceTree = "<group>"; };
-		D8325D541D986B9500F3EC95 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
-		D8325D551D986B9500F3EC95 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
-		D8325D561D986B9500F3EC95 /* targetver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = targetver.h; sourceTree = "<group>"; };
-		D8325D581D986B9500F3EC95 /* CSSAlign.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSAlign.cs; sourceTree = "<group>"; };
-		D8325D591D986B9500F3EC95 /* CSSConstants.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSConstants.cs; sourceTree = "<group>"; };
-		D8325D5A1D986B9500F3EC95 /* CSSDimension.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSDimension.cs; sourceTree = "<group>"; };
-		D8325D5B1D986B9500F3EC95 /* CSSDIrection.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSDIrection.cs; sourceTree = "<group>"; };
-		D8325D5C1D986B9500F3EC95 /* CSSEdge.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSEdge.cs; sourceTree = "<group>"; };
-		D8325D5D1D986B9500F3EC95 /* CSSFlexDirection.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSFlexDirection.cs; sourceTree = "<group>"; };
-		D8325D5E1D986B9500F3EC95 /* CSSJustify.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSJustify.cs; sourceTree = "<group>"; };
-		D8325D5F1D986B9500F3EC95 /* CSSLayoutContext.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSLayoutContext.cs; sourceTree = "<group>"; };
-		D8325D601D986B9500F3EC95 /* CSSMeasureFunc.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSMeasureFunc.cs; sourceTree = "<group>"; };
-		D8325D611D986B9500F3EC95 /* CSSMeasureMode.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSMeasureMode.cs; sourceTree = "<group>"; };
-		D8325D621D986B9500F3EC95 /* CSSNode.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSNode.cs; sourceTree = "<group>"; };
-		D8325D631D986B9500F3EC95 /* CSSOverflow.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSOverflow.cs; sourceTree = "<group>"; };
-		D8325D641D986B9500F3EC95 /* CSSPositionType.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSPositionType.cs; sourceTree = "<group>"; };
-		D8325D651D986B9500F3EC95 /* CSSPrintFunc.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSPrintFunc.cs; sourceTree = "<group>"; };
-		D8325D661D986B9500F3EC95 /* CSSPrintOptions.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSPrintOptions.cs; sourceTree = "<group>"; };
-		D8325D671D986B9500F3EC95 /* CSSSize.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSSize.cs; sourceTree = "<group>"; };
-		D8325D681D986B9500F3EC95 /* CSSWrap.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSWrap.cs; sourceTree = "<group>"; };
-		D8325D691D986B9500F3EC95 /* Facebook.CSSLayout.xproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Facebook.CSSLayout.xproj; sourceTree = "<group>"; };
-		D8325D6A1D986B9500F3EC95 /* MeasureFunction.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MeasureFunction.cs; sourceTree = "<group>"; };
-		D8325D6B1D986B9500F3EC95 /* MeasureOutput.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MeasureOutput.cs; sourceTree = "<group>"; };
-		D8325D6C1D986B9500F3EC95 /* Native.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Native.cs; sourceTree = "<group>"; };
-		D8325D6D1D986B9500F3EC95 /* project.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = project.json; sourceTree = "<group>"; };
-		D8325D6F1D986B9500F3EC95 /* AssemblyInfo.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AssemblyInfo.cs; sourceTree = "<group>"; };
-		D8325D701D986B9500F3EC95 /* Spacing.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spacing.cs; sourceTree = "<group>"; };
-		D8325D711D986B9500F3EC95 /* Facebook.CSSLayout.sln */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Facebook.CSSLayout.sln; sourceTree = "<group>"; };
-		D8325D731D986B9500F3EC95 /* CSSLayout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSLayout.c; sourceTree = "<group>"; };
-		D8325D741D986B9500F3EC95 /* CSSLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSLayout.h; sourceTree = "<group>"; };
-		D8325D751D986B9500F3EC95 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSMacros.h; sourceTree = "<group>"; };
-		D8325D761D986B9500F3EC95 /* CSSNodeList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSNodeList.c; sourceTree = "<group>"; };
-		D8325D771D986B9500F3EC95 /* CSSNodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSNodeList.h; sourceTree = "<group>"; };
-		D8325D781D986B9500F3EC95 /* CSSLAYOUT_DEFS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CSSLAYOUT_DEFS; sourceTree = "<group>"; };
-		D8325D791D986B9500F3EC95 /* format.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = format.sh; sourceTree = "<group>"; };
-		D8325D7B1D986B9500F3EC95 /* gentest.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = gentest.js; sourceTree = "<group>"; };
-		D8325D7C1D986B9500F3EC95 /* gentest.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = gentest.sh; sourceTree = "<group>"; };
-		D8325D7D1D986B9500F3EC95 /* test-template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "test-template.html"; sourceTree = "<group>"; };
-		D8325D821D986B9500F3EC95 /* CachedCSSLayout.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CachedCSSLayout.java; sourceTree = "<group>"; };
-		D8325D831D986B9500F3EC95 /* CSSAlign.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSAlign.java; sourceTree = "<group>"; };
-		D8325D841D986B9500F3EC95 /* CSSCachedMeasurement.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSCachedMeasurement.java; sourceTree = "<group>"; };
-		D8325D851D986B9500F3EC95 /* CSSConstants.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSConstants.java; sourceTree = "<group>"; };
-		D8325D861D986B9500F3EC95 /* CSSDirection.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSDirection.java; sourceTree = "<group>"; };
-		D8325D871D986B9500F3EC95 /* CSSFlexDirection.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSFlexDirection.java; sourceTree = "<group>"; };
-		D8325D881D986B9500F3EC95 /* CSSJustify.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSJustify.java; sourceTree = "<group>"; };
-		D8325D891D986B9500F3EC95 /* CSSLayout.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSLayout.java; sourceTree = "<group>"; };
-		D8325D8A1D986B9500F3EC95 /* CSSLayoutContext.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSLayoutContext.java; sourceTree = "<group>"; };
-		D8325D8B1D986B9500F3EC95 /* CSSMeasureMode.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSMeasureMode.java; sourceTree = "<group>"; };
-		D8325D8C1D986B9500F3EC95 /* CSSNode.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSNode.java; sourceTree = "<group>"; };
-		D8325D8D1D986B9500F3EC95 /* CSSNodeAPI.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSNodeAPI.java; sourceTree = "<group>"; };
-		D8325D8E1D986B9500F3EC95 /* CSSNodeJNI.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSNodeJNI.java; sourceTree = "<group>"; };
-		D8325D8F1D986B9500F3EC95 /* CSSOverflow.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSOverflow.java; sourceTree = "<group>"; };
-		D8325D901D986B9500F3EC95 /* CSSPositionType.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSPositionType.java; sourceTree = "<group>"; };
-		D8325D911D986B9500F3EC95 /* CSSStyle.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSStyle.java; sourceTree = "<group>"; };
-		D8325D921D986B9500F3EC95 /* CSSWrap.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSWrap.java; sourceTree = "<group>"; };
-		D8325D931D986B9500F3EC95 /* FloatUtil.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = FloatUtil.java; sourceTree = "<group>"; };
-		D8325D941D986B9500F3EC95 /* LayoutEngine.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = LayoutEngine.java; sourceTree = "<group>"; };
-		D8325D951D986B9500F3EC95 /* MeasureOutput.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = MeasureOutput.java; sourceTree = "<group>"; };
-		D8325D961D986B9500F3EC95 /* Spacing.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = Spacing.java; sourceTree = "<group>"; };
-		D8325D991D986B9500F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325D9A1D986B9500F3EC95 /* DoNotStrip.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = DoNotStrip.java; sourceTree = "<group>"; };
-		D8325D9C1D986B9500F3EC95 /* CSSJNI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSJNI.cpp; sourceTree = "<group>"; };
-		D8325D9F1D986B9600F3EC95 /* assert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assert.cpp; sourceTree = "<group>"; };
-		D8325DA01D986B9600F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325DA11D986B9600F3EC95 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
-		D8325DA41D986B9600F3EC95 /* ALog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALog.h; sourceTree = "<group>"; };
-		D8325DA51D986B9600F3EC95 /* assert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assert.h; sourceTree = "<group>"; };
-		D8325DA61D986B9600F3EC95 /* Countable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Countable.h; sourceTree = "<group>"; };
-		D8325DA71D986B9600F3EC95 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
-		D8325DA81D986B9600F3EC95 /* Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Environment.h; sourceTree = "<group>"; };
-		D8325DAA1D986B9600F3EC95 /* Boxed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Boxed.h; sourceTree = "<group>"; };
-		D8325DAB1D986B9600F3EC95 /* ByteBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteBuffer.h; sourceTree = "<group>"; };
-		D8325DAC1D986B9600F3EC95 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		D8325DAD1D986B9600F3EC95 /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Context.h; sourceTree = "<group>"; };
-		D8325DAE1D986B9600F3EC95 /* CoreClasses-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoreClasses-inl.h"; sourceTree = "<group>"; };
-		D8325DAF1D986B9600F3EC95 /* CoreClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreClasses.h; sourceTree = "<group>"; };
-		D8325DB01D986B9600F3EC95 /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exceptions.h; sourceTree = "<group>"; };
-		D8325DB11D986B9600F3EC95 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
-		D8325DB21D986B9600F3EC95 /* Hybrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hybrid.h; sourceTree = "<group>"; };
-		D8325DB31D986B9600F3EC95 /* Iterator-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Iterator-inl.h"; sourceTree = "<group>"; };
-		D8325DB41D986B9600F3EC95 /* Iterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Iterator.h; sourceTree = "<group>"; };
-		D8325DB51D986B9600F3EC95 /* JThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JThread.h; sourceTree = "<group>"; };
-		D8325DB61D986B9600F3EC95 /* Meta-forward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Meta-forward.h"; sourceTree = "<group>"; };
-		D8325DB71D986B9600F3EC95 /* Meta-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Meta-inl.h"; sourceTree = "<group>"; };
-		D8325DB81D986B9600F3EC95 /* Meta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meta.h; sourceTree = "<group>"; };
-		D8325DB91D986B9600F3EC95 /* MetaConvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetaConvert.h; sourceTree = "<group>"; };
-		D8325DBA1D986B9600F3EC95 /* NativeRunnable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeRunnable.h; sourceTree = "<group>"; };
-		D8325DBB1D986B9600F3EC95 /* ReferenceAllocators-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ReferenceAllocators-inl.h"; sourceTree = "<group>"; };
-		D8325DBC1D986B9600F3EC95 /* ReferenceAllocators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferenceAllocators.h; sourceTree = "<group>"; };
-		D8325DBD1D986B9600F3EC95 /* References-forward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "References-forward.h"; sourceTree = "<group>"; };
-		D8325DBE1D986B9600F3EC95 /* References-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "References-inl.h"; sourceTree = "<group>"; };
-		D8325DBF1D986B9600F3EC95 /* References.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = References.h; sourceTree = "<group>"; };
-		D8325DC01D986B9600F3EC95 /* Registration-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Registration-inl.h"; sourceTree = "<group>"; };
-		D8325DC11D986B9600F3EC95 /* Registration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Registration.h; sourceTree = "<group>"; };
-		D8325DC21D986B9600F3EC95 /* TypeTraits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeTraits.h; sourceTree = "<group>"; };
-		D8325DC31D986B9600F3EC95 /* fbjni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fbjni.h; sourceTree = "<group>"; };
-		D8325DC41D986B9600F3EC95 /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
-		D8325DC51D986B9600F3EC95 /* lyra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lyra.h; sourceTree = "<group>"; };
-		D8325DC61D986B9600F3EC95 /* noncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noncopyable.h; sourceTree = "<group>"; };
-		D8325DC71D986B9600F3EC95 /* nonmovable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nonmovable.h; sourceTree = "<group>"; };
-		D8325DC81D986B9600F3EC95 /* ProgramLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramLocation.h; sourceTree = "<group>"; };
-		D8325DC91D986B9600F3EC95 /* RefPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefPtr.h; sourceTree = "<group>"; };
-		D8325DCA1D986B9600F3EC95 /* StaticInitialized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticInitialized.h; sourceTree = "<group>"; };
-		D8325DCB1D986B9600F3EC95 /* ThreadLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadLocal.h; sourceTree = "<group>"; };
-		D8325DCC1D986B9600F3EC95 /* visibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = visibility.h; sourceTree = "<group>"; };
-		D8325DCE1D986B9600F3EC95 /* Countable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Countable.h; sourceTree = "<group>"; };
-		D8325DCF1D986B9600F3EC95 /* GlobalReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalReference.h; sourceTree = "<group>"; };
-		D8325DD01D986B9600F3EC95 /* jni_helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jni_helpers.h; sourceTree = "<group>"; };
-		D8325DD11D986B9600F3EC95 /* LocalReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalReference.h; sourceTree = "<group>"; };
-		D8325DD21D986B9600F3EC95 /* LocalString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalString.h; sourceTree = "<group>"; };
-		D8325DD31D986B9600F3EC95 /* Registration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Registration.h; sourceTree = "<group>"; };
-		D8325DD41D986B9600F3EC95 /* WeakReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeakReference.h; sourceTree = "<group>"; };
-		D8325DD61D986B9600F3EC95 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteBuffer.cpp; sourceTree = "<group>"; };
-		D8325DD71D986B9600F3EC95 /* Countable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Countable.cpp; sourceTree = "<group>"; };
-		D8325DD81D986B9600F3EC95 /* Environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Environment.cpp; sourceTree = "<group>"; };
-		D8325DD91D986B9600F3EC95 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exceptions.cpp; sourceTree = "<group>"; };
-		D8325DDA1D986B9600F3EC95 /* fbjni.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fbjni.cpp; sourceTree = "<group>"; };
-		D8325DDB1D986B9600F3EC95 /* Hybrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hybrid.cpp; sourceTree = "<group>"; };
-		D8325DDD1D986B9600F3EC95 /* CppException.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CppException.java; sourceTree = "<group>"; };
-		D8325DDE1D986B9600F3EC95 /* CppSystemErrorException.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CppSystemErrorException.java; sourceTree = "<group>"; };
-		D8325DDF1D986B9600F3EC95 /* UnknownCppException.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = UnknownCppException.java; sourceTree = "<group>"; };
-		D8325DE01D986B9600F3EC95 /* jni_helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jni_helpers.cpp; sourceTree = "<group>"; };
-		D8325DE11D986B9600F3EC95 /* LocalString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalString.cpp; sourceTree = "<group>"; };
-		D8325DE21D986B9600F3EC95 /* OnLoad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnLoad.cpp; sourceTree = "<group>"; };
-		D8325DE31D986B9600F3EC95 /* References.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = References.cpp; sourceTree = "<group>"; };
-		D8325DE41D986B9600F3EC95 /* WeakReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WeakReference.cpp; sourceTree = "<group>"; };
-		D8325DE51D986B9600F3EC95 /* log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = log.cpp; sourceTree = "<group>"; };
-		D8325DE71D986B9600F3EC95 /* lyra.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lyra.cpp; sourceTree = "<group>"; };
-		D8325DE81D986B9600F3EC95 /* onload.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = onload.cpp; sourceTree = "<group>"; };
-		D8325DEA1D986B9600F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325DEC1D986B9600F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325DED1D986B9600F3EC95 /* infer-annotations-1.4.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "infer-annotations-1.4.jar"; sourceTree = "<group>"; };
-		D8325DEF1D986B9600F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325DF01D986B9600F3EC95 /* jsr305.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = jsr305.jar; sourceTree = "<group>"; };
-		D8325DF21D986B9600F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325DF31D986B9600F3EC95 /* junit4.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = junit4.jar; sourceTree = "<group>"; };
-		D8325DF51D986B9600F3EC95 /* BUCK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUCK; sourceTree = "<group>"; };
-		D8325DF61D986B9600F3EC95 /* soloader-0.1.0.aar */ = {isa = PBXFileReference; lastKnownFileType = file; path = "soloader-0.1.0.aar"; sourceTree = "<group>"; };
-		D8325DF71D986B9600F3EC95 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		D8325DF81D986B9600F3EC95 /* PATENTS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PATENTS; sourceTree = "<group>"; };
-		D8325DF91D986B9600F3EC95 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		D8325DFB1D986B9600F3EC95 /* CSSLayoutAbsolutePositionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutAbsolutePositionTest.cpp; sourceTree = "<group>"; };
-		D8325DFC1D986B9600F3EC95 /* CSSLayoutAlignContentTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutAlignContentTest.cpp; sourceTree = "<group>"; };
-		D8325DFD1D986B9600F3EC95 /* CSSLayoutAlignItemsTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutAlignItemsTest.cpp; sourceTree = "<group>"; };
-		D8325DFE1D986B9600F3EC95 /* CSSLayoutAlignSelfTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutAlignSelfTest.cpp; sourceTree = "<group>"; };
-		D8325DFF1D986B9600F3EC95 /* CSSLayoutBorderTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutBorderTest.cpp; sourceTree = "<group>"; };
-		D8325E001D986B9600F3EC95 /* CSSLayoutDirtyMarkingTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutDirtyMarkingTest.cpp; sourceTree = "<group>"; };
-		D8325E011D986B9600F3EC95 /* CSSLayoutEdgeTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutEdgeTest.cpp; sourceTree = "<group>"; };
-		D8325E021D986B9600F3EC95 /* CSSLayoutFlexDirectionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutFlexDirectionTest.cpp; sourceTree = "<group>"; };
-		D8325E031D986B9600F3EC95 /* CSSLayoutFlexTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutFlexTest.cpp; sourceTree = "<group>"; };
-		D8325E041D986B9600F3EC95 /* CSSLayoutFlexWrapTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutFlexWrapTest.cpp; sourceTree = "<group>"; };
-		D8325E051D986B9600F3EC95 /* CSSLayoutJustifyContentTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutJustifyContentTest.cpp; sourceTree = "<group>"; };
-		D8325E061D986B9600F3EC95 /* CSSLayoutMarginTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutMarginTest.cpp; sourceTree = "<group>"; };
-		D8325E071D986B9600F3EC95 /* CSSLayoutMeasureCacheTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutMeasureCacheTest.cpp; sourceTree = "<group>"; };
-		D8325E081D986B9600F3EC95 /* CSSLayoutMinMaxDimensionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutMinMaxDimensionTest.cpp; sourceTree = "<group>"; };
-		D8325E091D986B9600F3EC95 /* CSSLayoutPaddingTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSLayoutPaddingTest.cpp; sourceTree = "<group>"; };
-		D8325E0E1D986B9600F3EC95 /* CSSLayoutFlexBasisTest.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSLayoutFlexBasisTest.java; sourceTree = "<group>"; };
-		D8325E0F1D986B9600F3EC95 /* CSSNodeTest.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CSSNodeTest.java; sourceTree = "<group>"; };
-		D8325E101D986B9600F3EC95 /* LayoutCachingTest.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = LayoutCachingTest.java; sourceTree = "<group>"; };
-		D8325E111D986B9600F3EC95 /* LayoutEngineTest.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = LayoutEngineTest.java; sourceTree = "<group>"; };
-		D8325E121D986B9600F3EC95 /* TestConstants.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = TestConstants.java; sourceTree = "<group>"; };
+		D8325EC71D986D5000F3EC95 /* CSSLayout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CSSLayout.c; path = "ThirdParty/css-layout/CSSLayout/CSSLayout.c"; sourceTree = "<group>"; };
+		D8325EC81D986D5000F3EC95 /* CSSLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSLayout.h; path = "ThirdParty/css-layout/CSSLayout/CSSLayout.h"; sourceTree = "<group>"; };
+		D8325EC91D986D5000F3EC95 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSMacros.h; path = "ThirdParty/css-layout/CSSLayout/CSSMacros.h"; sourceTree = "<group>"; };
+		D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CSSNodeList.c; path = "ThirdParty/css-layout/CSSLayout/CSSNodeList.c"; sourceTree = "<group>"; };
+		D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSNodeList.h; path = "ThirdParty/css-layout/CSSLayout/CSSNodeList.h"; sourceTree = "<group>"; };
+		D8325ED11D986D9200F3EC95 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = "ThirdParty/css-layout/swift/Config.xcconfig"; sourceTree = "<group>"; };
+		D8325ED21D986DBB00F3EC95 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		D8325ED81D986E0000F3EC95 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "ThirdParty/css-layout/swift/Info.plist"; sourceTree = "<group>"; };
 		D83936921D8348C5008CA7F1 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Component.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D83936931D8348C5008CA7F1 /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Element.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D83936941D8348C5008CA7F1 /* Keyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyable.swift; sourceTree = "<group>"; };
@@ -462,7 +116,6 @@
 		D83936B11D8348C5008CA7F1 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		D83936DA1D83497C008CA7F1 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CSSLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D83936FB1D83504C008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSMacros.h; path = /Users/mcudich/src/TemplateKit/CSSLayout/CSSMacros.h; sourceTree = "<absolute>"; };
 		D83937071D835207008CA7F1 /* CSSLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSSLayout.swift; sourceTree = "<group>"; };
 		D83937161D872BDE008CA7F1 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncDataListView.swift; sourceTree = "<group>"; };
@@ -497,11 +150,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */,
-				D8325EAC1D986B9600F3EC95 /* junit4.jar in Frameworks */,
 				D8811CD51D5D85540098624B /* Alamofire.framework in Frameworks */,
-				D8325EAA1D986B9600F3EC95 /* jsr305.jar in Frameworks */,
 				D891944C1D57F7280049991F /* AEXML.framework in Frameworks */,
-				D8325EA81D986B9600F3EC95 /* infer-annotations-1.4.jar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,462 +166,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D8325D3D1D986B9500F3EC95 /* ThirdParty */ = {
+		D8325EC61D986D4100F3EC95 /* CSSLayout */ = {
 			isa = PBXGroup;
 			children = (
-				D8325D3E1D986B9500F3EC95 /* .buckconfig */,
-				D8325D3F1D986B9500F3EC95 /* .gitignore */,
-				D8325D401D986B9500F3EC95 /* .hgignore */,
-				D8325D411D986B9500F3EC95 /* .travis.yml */,
-				D8325D421D986B9500F3EC95 /* css-layout */,
+				D8325EC71D986D5000F3EC95 /* CSSLayout.c */,
+				D8325EC81D986D5000F3EC95 /* CSSLayout.h */,
+				D8325EC91D986D5000F3EC95 /* CSSMacros.h */,
+				D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */,
+				D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */,
+				D8325ED11D986D9200F3EC95 /* Config.xcconfig */,
+				D8325ED21D986DBB00F3EC95 /* module.modulemap */,
+				D8325ED81D986E0000F3EC95 /* Info.plist */,
 			);
-			path = ThirdParty;
-			sourceTree = "<group>";
-		};
-		D8325D421D986B9500F3EC95 /* css-layout */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D431D986B9500F3EC95 /* .buckconfig */,
-				D8325D441D986B9500F3EC95 /* .gitignore */,
-				D8325D451D986B9500F3EC95 /* .hgignore */,
-				D8325D461D986B9500F3EC95 /* .travis.yml */,
-				D8325D471D986B9500F3EC95 /* benchmarks */,
-				D8325D4A1D986B9500F3EC95 /* BUCK */,
-				D8325D4B1D986B9500F3EC95 /* CONTRIBUTING */,
-				D8325D4C1D986B9500F3EC95 /* csharp */,
-				D8325D721D986B9500F3EC95 /* CSSLayout */,
-				D8325D781D986B9500F3EC95 /* CSSLAYOUT_DEFS */,
-				D8325D791D986B9500F3EC95 /* format.sh */,
-				D8325D7A1D986B9500F3EC95 /* gentest */,
-				D8325D7E1D986B9500F3EC95 /* java */,
-				D8325D9D1D986B9500F3EC95 /* lib */,
-				D8325DF71D986B9600F3EC95 /* LICENSE */,
-				D8325DF81D986B9600F3EC95 /* PATENTS */,
-				D8325DF91D986B9600F3EC95 /* README.md */,
-				D8325DFA1D986B9600F3EC95 /* tests */,
-			);
-			path = "css-layout";
-			sourceTree = "<group>";
-		};
-		D8325D471D986B9500F3EC95 /* benchmarks */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D481D986B9500F3EC95 /* CSSBenchmark.c */,
-				D8325D491D986B9500F3EC95 /* CSSBenchmark.h */,
-			);
-			path = benchmarks;
-			sourceTree = "<group>";
-		};
-		D8325D4C1D986B9500F3EC95 /* csharp */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D4D1D986B9500F3EC95 /* .gitignore */,
-				D8325D4E1D986B9500F3EC95 /* .hgignore */,
-				D8325D4F1D986B9500F3EC95 /* BUCK */,
-				D8325D501D986B9500F3EC95 /* CSSLayout */,
-				D8325D571D986B9500F3EC95 /* Facebook.CSSLayout */,
-				D8325D711D986B9500F3EC95 /* Facebook.CSSLayout.sln */,
-			);
-			path = csharp;
-			sourceTree = "<group>";
-		};
-		D8325D501D986B9500F3EC95 /* CSSLayout */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D511D986B9500F3EC95 /* CSSLayout.vcxproj */,
-				D8325D521D986B9500F3EC95 /* CSSLayout.vcxproj.filters */,
-				D8325D531D986B9500F3EC95 /* dllmain.cpp */,
-				D8325D541D986B9500F3EC95 /* stdafx.cpp */,
-				D8325D551D986B9500F3EC95 /* stdafx.h */,
-				D8325D561D986B9500F3EC95 /* targetver.h */,
-			);
-			path = CSSLayout;
-			sourceTree = "<group>";
-		};
-		D8325D571D986B9500F3EC95 /* Facebook.CSSLayout */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D581D986B9500F3EC95 /* CSSAlign.cs */,
-				D8325D591D986B9500F3EC95 /* CSSConstants.cs */,
-				D8325D5A1D986B9500F3EC95 /* CSSDimension.cs */,
-				D8325D5B1D986B9500F3EC95 /* CSSDIrection.cs */,
-				D8325D5C1D986B9500F3EC95 /* CSSEdge.cs */,
-				D8325D5D1D986B9500F3EC95 /* CSSFlexDirection.cs */,
-				D8325D5E1D986B9500F3EC95 /* CSSJustify.cs */,
-				D8325D5F1D986B9500F3EC95 /* CSSLayoutContext.cs */,
-				D8325D601D986B9500F3EC95 /* CSSMeasureFunc.cs */,
-				D8325D611D986B9500F3EC95 /* CSSMeasureMode.cs */,
-				D8325D621D986B9500F3EC95 /* CSSNode.cs */,
-				D8325D631D986B9500F3EC95 /* CSSOverflow.cs */,
-				D8325D641D986B9500F3EC95 /* CSSPositionType.cs */,
-				D8325D651D986B9500F3EC95 /* CSSPrintFunc.cs */,
-				D8325D661D986B9500F3EC95 /* CSSPrintOptions.cs */,
-				D8325D671D986B9500F3EC95 /* CSSSize.cs */,
-				D8325D681D986B9500F3EC95 /* CSSWrap.cs */,
-				D8325D691D986B9500F3EC95 /* Facebook.CSSLayout.xproj */,
-				D8325D6A1D986B9500F3EC95 /* MeasureFunction.cs */,
-				D8325D6B1D986B9500F3EC95 /* MeasureOutput.cs */,
-				D8325D6C1D986B9500F3EC95 /* Native.cs */,
-				D8325D6D1D986B9500F3EC95 /* project.json */,
-				D8325D6E1D986B9500F3EC95 /* Properties */,
-				D8325D701D986B9500F3EC95 /* Spacing.cs */,
-			);
-			path = Facebook.CSSLayout;
-			sourceTree = "<group>";
-		};
-		D8325D6E1D986B9500F3EC95 /* Properties */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D6F1D986B9500F3EC95 /* AssemblyInfo.cs */,
-			);
-			path = Properties;
-			sourceTree = "<group>";
-		};
-		D8325D721D986B9500F3EC95 /* CSSLayout */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D731D986B9500F3EC95 /* CSSLayout.c */,
-				D8325D741D986B9500F3EC95 /* CSSLayout.h */,
-				D8325D751D986B9500F3EC95 /* CSSMacros.h */,
-				D8325D761D986B9500F3EC95 /* CSSNodeList.c */,
-				D8325D771D986B9500F3EC95 /* CSSNodeList.h */,
-			);
-			path = CSSLayout;
-			sourceTree = "<group>";
-		};
-		D8325D7A1D986B9500F3EC95 /* gentest */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D7B1D986B9500F3EC95 /* gentest.js */,
-				D8325D7C1D986B9500F3EC95 /* gentest.sh */,
-				D8325D7D1D986B9500F3EC95 /* test-template.html */,
-			);
-			path = gentest;
-			sourceTree = "<group>";
-		};
-		D8325D7E1D986B9500F3EC95 /* java */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D7F1D986B9500F3EC95 /* com */,
-				D8325D9B1D986B9500F3EC95 /* jni */,
-			);
-			path = java;
-			sourceTree = "<group>";
-		};
-		D8325D7F1D986B9500F3EC95 /* com */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D801D986B9500F3EC95 /* facebook */,
-			);
-			path = com;
-			sourceTree = "<group>";
-		};
-		D8325D801D986B9500F3EC95 /* facebook */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D811D986B9500F3EC95 /* csslayout */,
-				D8325D971D986B9500F3EC95 /* proguard */,
-			);
-			path = facebook;
-			sourceTree = "<group>";
-		};
-		D8325D811D986B9500F3EC95 /* csslayout */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D821D986B9500F3EC95 /* CachedCSSLayout.java */,
-				D8325D831D986B9500F3EC95 /* CSSAlign.java */,
-				D8325D841D986B9500F3EC95 /* CSSCachedMeasurement.java */,
-				D8325D851D986B9500F3EC95 /* CSSConstants.java */,
-				D8325D861D986B9500F3EC95 /* CSSDirection.java */,
-				D8325D871D986B9500F3EC95 /* CSSFlexDirection.java */,
-				D8325D881D986B9500F3EC95 /* CSSJustify.java */,
-				D8325D891D986B9500F3EC95 /* CSSLayout.java */,
-				D8325D8A1D986B9500F3EC95 /* CSSLayoutContext.java */,
-				D8325D8B1D986B9500F3EC95 /* CSSMeasureMode.java */,
-				D8325D8C1D986B9500F3EC95 /* CSSNode.java */,
-				D8325D8D1D986B9500F3EC95 /* CSSNodeAPI.java */,
-				D8325D8E1D986B9500F3EC95 /* CSSNodeJNI.java */,
-				D8325D8F1D986B9500F3EC95 /* CSSOverflow.java */,
-				D8325D901D986B9500F3EC95 /* CSSPositionType.java */,
-				D8325D911D986B9500F3EC95 /* CSSStyle.java */,
-				D8325D921D986B9500F3EC95 /* CSSWrap.java */,
-				D8325D931D986B9500F3EC95 /* FloatUtil.java */,
-				D8325D941D986B9500F3EC95 /* LayoutEngine.java */,
-				D8325D951D986B9500F3EC95 /* MeasureOutput.java */,
-				D8325D961D986B9500F3EC95 /* Spacing.java */,
-			);
-			path = csslayout;
-			sourceTree = "<group>";
-		};
-		D8325D971D986B9500F3EC95 /* proguard */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D981D986B9500F3EC95 /* annotations */,
-			);
-			path = proguard;
-			sourceTree = "<group>";
-		};
-		D8325D981D986B9500F3EC95 /* annotations */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D991D986B9500F3EC95 /* BUCK */,
-				D8325D9A1D986B9500F3EC95 /* DoNotStrip.java */,
-			);
-			path = annotations;
-			sourceTree = "<group>";
-		};
-		D8325D9B1D986B9500F3EC95 /* jni */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D9C1D986B9500F3EC95 /* CSSJNI.cpp */,
-			);
-			path = jni;
-			sourceTree = "<group>";
-		};
-		D8325D9D1D986B9500F3EC95 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D9E1D986B9600F3EC95 /* fb */,
-				D8325DE91D986B9600F3EC95 /* gtest */,
-				D8325DEB1D986B9600F3EC95 /* infer-annotations */,
-				D8325DEE1D986B9600F3EC95 /* jsr-305 */,
-				D8325DF11D986B9600F3EC95 /* junit */,
-				D8325DF41D986B9600F3EC95 /* soloader */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		D8325D9E1D986B9600F3EC95 /* fb */ = {
-			isa = PBXGroup;
-			children = (
-				D8325D9F1D986B9600F3EC95 /* assert.cpp */,
-				D8325DA01D986B9600F3EC95 /* BUCK */,
-				D8325DA11D986B9600F3EC95 /* Doxyfile */,
-				D8325DA21D986B9600F3EC95 /* include */,
-				D8325DD51D986B9600F3EC95 /* jni */,
-				D8325DE51D986B9600F3EC95 /* log.cpp */,
-				D8325DE61D986B9600F3EC95 /* lyra */,
-				D8325DE81D986B9600F3EC95 /* onload.cpp */,
-			);
-			path = fb;
-			sourceTree = "<group>";
-		};
-		D8325DA21D986B9600F3EC95 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DA31D986B9600F3EC95 /* fb */,
-				D8325DCD1D986B9600F3EC95 /* jni */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		D8325DA31D986B9600F3EC95 /* fb */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DA41D986B9600F3EC95 /* ALog.h */,
-				D8325DA51D986B9600F3EC95 /* assert.h */,
-				D8325DA61D986B9600F3EC95 /* Countable.h */,
-				D8325DA71D986B9600F3EC95 /* Doxyfile */,
-				D8325DA81D986B9600F3EC95 /* Environment.h */,
-				D8325DA91D986B9600F3EC95 /* fbjni */,
-				D8325DC31D986B9600F3EC95 /* fbjni.h */,
-				D8325DC41D986B9600F3EC95 /* log.h */,
-				D8325DC51D986B9600F3EC95 /* lyra.h */,
-				D8325DC61D986B9600F3EC95 /* noncopyable.h */,
-				D8325DC71D986B9600F3EC95 /* nonmovable.h */,
-				D8325DC81D986B9600F3EC95 /* ProgramLocation.h */,
-				D8325DC91D986B9600F3EC95 /* RefPtr.h */,
-				D8325DCA1D986B9600F3EC95 /* StaticInitialized.h */,
-				D8325DCB1D986B9600F3EC95 /* ThreadLocal.h */,
-				D8325DCC1D986B9600F3EC95 /* visibility.h */,
-			);
-			path = fb;
-			sourceTree = "<group>";
-		};
-		D8325DA91D986B9600F3EC95 /* fbjni */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DAA1D986B9600F3EC95 /* Boxed.h */,
-				D8325DAB1D986B9600F3EC95 /* ByteBuffer.h */,
-				D8325DAC1D986B9600F3EC95 /* Common.h */,
-				D8325DAD1D986B9600F3EC95 /* Context.h */,
-				D8325DAE1D986B9600F3EC95 /* CoreClasses-inl.h */,
-				D8325DAF1D986B9600F3EC95 /* CoreClasses.h */,
-				D8325DB01D986B9600F3EC95 /* Exceptions.h */,
-				D8325DB11D986B9600F3EC95 /* File.h */,
-				D8325DB21D986B9600F3EC95 /* Hybrid.h */,
-				D8325DB31D986B9600F3EC95 /* Iterator-inl.h */,
-				D8325DB41D986B9600F3EC95 /* Iterator.h */,
-				D8325DB51D986B9600F3EC95 /* JThread.h */,
-				D8325DB61D986B9600F3EC95 /* Meta-forward.h */,
-				D8325DB71D986B9600F3EC95 /* Meta-inl.h */,
-				D8325DB81D986B9600F3EC95 /* Meta.h */,
-				D8325DB91D986B9600F3EC95 /* MetaConvert.h */,
-				D8325DBA1D986B9600F3EC95 /* NativeRunnable.h */,
-				D8325DBB1D986B9600F3EC95 /* ReferenceAllocators-inl.h */,
-				D8325DBC1D986B9600F3EC95 /* ReferenceAllocators.h */,
-				D8325DBD1D986B9600F3EC95 /* References-forward.h */,
-				D8325DBE1D986B9600F3EC95 /* References-inl.h */,
-				D8325DBF1D986B9600F3EC95 /* References.h */,
-				D8325DC01D986B9600F3EC95 /* Registration-inl.h */,
-				D8325DC11D986B9600F3EC95 /* Registration.h */,
-				D8325DC21D986B9600F3EC95 /* TypeTraits.h */,
-			);
-			path = fbjni;
-			sourceTree = "<group>";
-		};
-		D8325DCD1D986B9600F3EC95 /* jni */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DCE1D986B9600F3EC95 /* Countable.h */,
-				D8325DCF1D986B9600F3EC95 /* GlobalReference.h */,
-				D8325DD01D986B9600F3EC95 /* jni_helpers.h */,
-				D8325DD11D986B9600F3EC95 /* LocalReference.h */,
-				D8325DD21D986B9600F3EC95 /* LocalString.h */,
-				D8325DD31D986B9600F3EC95 /* Registration.h */,
-				D8325DD41D986B9600F3EC95 /* WeakReference.h */,
-			);
-			path = jni;
-			sourceTree = "<group>";
-		};
-		D8325DD51D986B9600F3EC95 /* jni */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DD61D986B9600F3EC95 /* ByteBuffer.cpp */,
-				D8325DD71D986B9600F3EC95 /* Countable.cpp */,
-				D8325DD81D986B9600F3EC95 /* Environment.cpp */,
-				D8325DD91D986B9600F3EC95 /* Exceptions.cpp */,
-				D8325DDA1D986B9600F3EC95 /* fbjni.cpp */,
-				D8325DDB1D986B9600F3EC95 /* Hybrid.cpp */,
-				D8325DDC1D986B9600F3EC95 /* java */,
-				D8325DE01D986B9600F3EC95 /* jni_helpers.cpp */,
-				D8325DE11D986B9600F3EC95 /* LocalString.cpp */,
-				D8325DE21D986B9600F3EC95 /* OnLoad.cpp */,
-				D8325DE31D986B9600F3EC95 /* References.cpp */,
-				D8325DE41D986B9600F3EC95 /* WeakReference.cpp */,
-			);
-			path = jni;
-			sourceTree = "<group>";
-		};
-		D8325DDC1D986B9600F3EC95 /* java */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DDD1D986B9600F3EC95 /* CppException.java */,
-				D8325DDE1D986B9600F3EC95 /* CppSystemErrorException.java */,
-				D8325DDF1D986B9600F3EC95 /* UnknownCppException.java */,
-			);
-			path = java;
-			sourceTree = "<group>";
-		};
-		D8325DE61D986B9600F3EC95 /* lyra */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DE71D986B9600F3EC95 /* lyra.cpp */,
-			);
-			path = lyra;
-			sourceTree = "<group>";
-		};
-		D8325DE91D986B9600F3EC95 /* gtest */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DEA1D986B9600F3EC95 /* BUCK */,
-			);
-			path = gtest;
-			sourceTree = "<group>";
-		};
-		D8325DEB1D986B9600F3EC95 /* infer-annotations */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DEC1D986B9600F3EC95 /* BUCK */,
-				D8325DED1D986B9600F3EC95 /* infer-annotations-1.4.jar */,
-			);
-			path = "infer-annotations";
-			sourceTree = "<group>";
-		};
-		D8325DEE1D986B9600F3EC95 /* jsr-305 */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DEF1D986B9600F3EC95 /* BUCK */,
-				D8325DF01D986B9600F3EC95 /* jsr305.jar */,
-			);
-			path = "jsr-305";
-			sourceTree = "<group>";
-		};
-		D8325DF11D986B9600F3EC95 /* junit */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DF21D986B9600F3EC95 /* BUCK */,
-				D8325DF31D986B9600F3EC95 /* junit4.jar */,
-			);
-			path = junit;
-			sourceTree = "<group>";
-		};
-		D8325DF41D986B9600F3EC95 /* soloader */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DF51D986B9600F3EC95 /* BUCK */,
-				D8325DF61D986B9600F3EC95 /* soloader-0.1.0.aar */,
-			);
-			path = soloader;
-			sourceTree = "<group>";
-		};
-		D8325DFA1D986B9600F3EC95 /* tests */ = {
-			isa = PBXGroup;
-			children = (
-				D8325DFB1D986B9600F3EC95 /* CSSLayoutAbsolutePositionTest.cpp */,
-				D8325DFC1D986B9600F3EC95 /* CSSLayoutAlignContentTest.cpp */,
-				D8325DFD1D986B9600F3EC95 /* CSSLayoutAlignItemsTest.cpp */,
-				D8325DFE1D986B9600F3EC95 /* CSSLayoutAlignSelfTest.cpp */,
-				D8325DFF1D986B9600F3EC95 /* CSSLayoutBorderTest.cpp */,
-				D8325E001D986B9600F3EC95 /* CSSLayoutDirtyMarkingTest.cpp */,
-				D8325E011D986B9600F3EC95 /* CSSLayoutEdgeTest.cpp */,
-				D8325E021D986B9600F3EC95 /* CSSLayoutFlexDirectionTest.cpp */,
-				D8325E031D986B9600F3EC95 /* CSSLayoutFlexTest.cpp */,
-				D8325E041D986B9600F3EC95 /* CSSLayoutFlexWrapTest.cpp */,
-				D8325E051D986B9600F3EC95 /* CSSLayoutJustifyContentTest.cpp */,
-				D8325E061D986B9600F3EC95 /* CSSLayoutMarginTest.cpp */,
-				D8325E071D986B9600F3EC95 /* CSSLayoutMeasureCacheTest.cpp */,
-				D8325E081D986B9600F3EC95 /* CSSLayoutMinMaxDimensionTest.cpp */,
-				D8325E091D986B9600F3EC95 /* CSSLayoutPaddingTest.cpp */,
-				D8325E0A1D986B9600F3EC95 /* java */,
-			);
-			path = tests;
-			sourceTree = "<group>";
-		};
-		D8325E0A1D986B9600F3EC95 /* java */ = {
-			isa = PBXGroup;
-			children = (
-				D8325E0B1D986B9600F3EC95 /* com */,
-			);
-			path = java;
-			sourceTree = "<group>";
-		};
-		D8325E0B1D986B9600F3EC95 /* com */ = {
-			isa = PBXGroup;
-			children = (
-				D8325E0C1D986B9600F3EC95 /* facebook */,
-			);
-			path = com;
-			sourceTree = "<group>";
-		};
-		D8325E0C1D986B9600F3EC95 /* facebook */ = {
-			isa = PBXGroup;
-			children = (
-				D8325E0D1D986B9600F3EC95 /* csslayout */,
-			);
-			path = facebook;
-			sourceTree = "<group>";
-		};
-		D8325E0D1D986B9600F3EC95 /* csslayout */ = {
-			isa = PBXGroup;
-			children = (
-				D8325E0E1D986B9600F3EC95 /* CSSLayoutFlexBasisTest.java */,
-				D8325E0F1D986B9600F3EC95 /* CSSNodeTest.java */,
-				D8325E101D986B9600F3EC95 /* LayoutCachingTest.java */,
-				D8325E111D986B9600F3EC95 /* LayoutEngineTest.java */,
-				D8325E121D986B9600F3EC95 /* TestConstants.java */,
-			);
-			path = csslayout;
+			name = CSSLayout;
 			sourceTree = "<group>";
 		};
 		D83936911D8348C5008CA7F1 /* Core */ = {
@@ -1050,12 +257,12 @@
 		D89194041D57F1FB0049991F = {
 			isa = PBXGroup;
 			children = (
+				D8325EC61D986D4100F3EC95 /* CSSLayout */,
 				D8811CD41D5D85540098624B /* Alamofire.framework */,
 				D891944B1D57F7280049991F /* AEXML.framework */,
 				D89194101D57F1FB0049991F /* Source */,
 				D891941C1D57F1FB0049991F /* Tests */,
 				D891940F1D57F1FB0049991F /* Products */,
-				D8325D3D1D986B9500F3EC95 /* ThirdParty */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1109,7 +316,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D83937011D83504C008CA7F1 /* CSSMacros.h in Headers */,
+				D8325ED41D986DC800F3EC95 /* CSSLayout.h in Headers */,
+				D8325ED51D986DC800F3EC95 /* CSSMacros.h in Headers */,
+				D8325ED71D986DC800F3EC95 /* CSSNodeList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1117,59 +326,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8325E861D986B9600F3EC95 /* lyra.h in Headers */,
-				D8325E751D986B9600F3EC95 /* Iterator.h in Headers */,
-				D8325E811D986B9600F3EC95 /* Registration-inl.h in Headers */,
-				D8325E8B1D986B9600F3EC95 /* StaticInitialized.h in Headers */,
-				D8325E761D986B9600F3EC95 /* JThread.h in Headers */,
-				D8325E451D986B9600F3EC95 /* CSSNodeList.h in Headers */,
-				D8325E841D986B9600F3EC95 /* fbjni.h in Headers */,
-				D8325E6C1D986B9600F3EC95 /* ByteBuffer.h in Headers */,
-				D8325E261D986B9600F3EC95 /* stdafx.h in Headers */,
-				D8325E881D986B9600F3EC95 /* nonmovable.h in Headers */,
-				D8325E8E1D986B9600F3EC95 /* Countable.h in Headers */,
-				D8325E901D986B9600F3EC95 /* jni_helpers.h in Headers */,
-				D8325E271D986B9600F3EC95 /* targetver.h in Headers */,
-				D8325E6B1D986B9600F3EC95 /* Boxed.h in Headers */,
-				D8325E7A1D986B9600F3EC95 /* MetaConvert.h in Headers */,
-				D8325E1C1D986B9600F3EC95 /* CSSBenchmark.h in Headers */,
-				D8325E681D986B9600F3EC95 /* Countable.h in Headers */,
-				D8325E871D986B9600F3EC95 /* noncopyable.h in Headers */,
-				D8325E741D986B9600F3EC95 /* Iterator-inl.h in Headers */,
-				D8325E431D986B9600F3EC95 /* CSSMacros.h in Headers */,
-				D8325E6A1D986B9600F3EC95 /* Environment.h in Headers */,
-				D8325E721D986B9600F3EC95 /* File.h in Headers */,
-				D8325E911D986B9600F3EC95 /* LocalReference.h in Headers */,
-				D8325E791D986B9600F3EC95 /* Meta.h in Headers */,
-				D8325E771D986B9600F3EC95 /* Meta-forward.h in Headers */,
-				D8325E7B1D986B9600F3EC95 /* NativeRunnable.h in Headers */,
-				D8325E851D986B9600F3EC95 /* log.h in Headers */,
-				D8325E6D1D986B9600F3EC95 /* Common.h in Headers */,
-				D8325E831D986B9600F3EC95 /* TypeTraits.h in Headers */,
-				D8325E8D1D986B9600F3EC95 /* visibility.h in Headers */,
-				D8325E7C1D986B9600F3EC95 /* ReferenceAllocators-inl.h in Headers */,
-				D8325E701D986B9600F3EC95 /* CoreClasses.h in Headers */,
-				D8325E7D1D986B9600F3EC95 /* ReferenceAllocators.h in Headers */,
-				D8325E941D986B9600F3EC95 /* WeakReference.h in Headers */,
-				D8325E801D986B9600F3EC95 /* References.h in Headers */,
 				D89194121D57F1FB0049991F /* TemplateKit.h in Headers */,
-				D8325E421D986B9600F3EC95 /* CSSLayout.h in Headers */,
-				D8325E671D986B9600F3EC95 /* assert.h in Headers */,
-				D8325E821D986B9600F3EC95 /* Registration.h in Headers */,
-				D8325E7F1D986B9600F3EC95 /* References-inl.h in Headers */,
-				D8325E6E1D986B9600F3EC95 /* Context.h in Headers */,
-				D8325E731D986B9600F3EC95 /* Hybrid.h in Headers */,
-				D8325E8F1D986B9600F3EC95 /* GlobalReference.h in Headers */,
-				D8325E8A1D986B9600F3EC95 /* RefPtr.h in Headers */,
-				D8325E891D986B9600F3EC95 /* ProgramLocation.h in Headers */,
-				D8325E6F1D986B9600F3EC95 /* CoreClasses-inl.h in Headers */,
-				D8325E8C1D986B9600F3EC95 /* ThreadLocal.h in Headers */,
-				D8325E7E1D986B9600F3EC95 /* References-forward.h in Headers */,
-				D8325E711D986B9600F3EC95 /* Exceptions.h in Headers */,
-				D8325E781D986B9600F3EC95 /* Meta-inl.h in Headers */,
-				D8325E921D986B9600F3EC95 /* LocalString.h in Headers */,
-				D8325E661D986B9600F3EC95 /* ALog.h in Headers */,
-				D8325E931D986B9600F3EC95 /* Registration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1288,63 +445,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8325EA71D986B9600F3EC95 /* BUCK in Resources */,
-				D8325E141D986B9600F3EC95 /* .gitignore in Resources */,
-				D8325E131D986B9600F3EC95 /* .buckconfig in Resources */,
-				D8325E341D986B9600F3EC95 /* CSSPositionType.cs in Resources */,
-				D8325E221D986B9600F3EC95 /* CSSLayout.vcxproj in Resources */,
-				D8325E331D986B9600F3EC95 /* CSSOverflow.cs in Resources */,
-				D8325E601D986B9600F3EC95 /* BUCK in Resources */,
-				D8325E281D986B9600F3EC95 /* CSSAlign.cs in Resources */,
-				D8325E2D1D986B9600F3EC95 /* CSSFlexDirection.cs in Resources */,
-				D8325E201D986B9600F3EC95 /* .hgignore in Resources */,
-				D8325EAF1D986B9600F3EC95 /* LICENSE in Resources */,
-				D8325EAE1D986B9600F3EC95 /* soloader-0.1.0.aar in Resources */,
-				D8325E641D986B9600F3EC95 /* BUCK in Resources */,
-				D8325E691D986B9600F3EC95 /* Doxyfile in Resources */,
-				D8325E1A1D986B9600F3EC95 /* .travis.yml in Resources */,
-				D8325E351D986B9600F3EC95 /* CSSPrintFunc.cs in Resources */,
-				D8325E651D986B9600F3EC95 /* Doxyfile in Resources */,
-				D8325E161D986B9600F3EC95 /* .travis.yml in Resources */,
-				D8325E1F1D986B9600F3EC95 /* .gitignore in Resources */,
-				D8325E4A1D986B9600F3EC95 /* test-template.html in Resources */,
-				D8325E2C1D986B9600F3EC95 /* CSSEdge.cs in Resources */,
-				D8325E151D986B9600F3EC95 /* .hgignore in Resources */,
-				D8325E231D986B9600F3EC95 /* CSSLayout.vcxproj.filters in Resources */,
-				D8325E191D986B9600F3EC95 /* .hgignore in Resources */,
-				D8325E3D1D986B9600F3EC95 /* project.json in Resources */,
-				D8325E371D986B9600F3EC95 /* CSSSize.cs in Resources */,
-				D8325EAB1D986B9600F3EC95 /* BUCK in Resources */,
-				D8325E381D986B9600F3EC95 /* CSSWrap.cs in Resources */,
-				D8325EA91D986B9600F3EC95 /* BUCK in Resources */,
-				D8325E1D1D986B9600F3EC95 /* BUCK in Resources */,
-				D8325E3B1D986B9600F3EC95 /* MeasureOutput.cs in Resources */,
-				D8325E471D986B9600F3EC95 /* format.sh in Resources */,
-				D8325E181D986B9600F3EC95 /* .gitignore in Resources */,
-				D8325E291D986B9600F3EC95 /* CSSConstants.cs in Resources */,
-				D8325E2E1D986B9600F3EC95 /* CSSJustify.cs in Resources */,
-				D8325E401D986B9600F3EC95 /* Facebook.CSSLayout.sln in Resources */,
-				D8325E321D986B9600F3EC95 /* CSSNode.cs in Resources */,
-				D8325E2A1D986B9600F3EC95 /* CSSDimension.cs in Resources */,
-				D8325E3A1D986B9600F3EC95 /* MeasureFunction.cs in Resources */,
-				D8325E481D986B9600F3EC95 /* gentest.js in Resources */,
-				D8325E1E1D986B9600F3EC95 /* CONTRIBUTING in Resources */,
-				D8325E311D986B9600F3EC95 /* CSSMeasureMode.cs in Resources */,
-				D8325E361D986B9600F3EC95 /* CSSPrintOptions.cs in Resources */,
-				D8325E391D986B9600F3EC95 /* Facebook.CSSLayout.xproj in Resources */,
-				D8325EA61D986B9600F3EC95 /* BUCK in Resources */,
-				D8325E171D986B9600F3EC95 /* .buckconfig in Resources */,
-				D8325E301D986B9600F3EC95 /* CSSMeasureFunc.cs in Resources */,
-				D8325E3E1D986B9600F3EC95 /* AssemblyInfo.cs in Resources */,
-				D8325E3C1D986B9600F3EC95 /* Native.cs in Resources */,
-				D8325E3F1D986B9600F3EC95 /* Spacing.cs in Resources */,
-				D8325E2B1D986B9600F3EC95 /* CSSDIrection.cs in Resources */,
-				D8325E2F1D986B9600F3EC95 /* CSSLayoutContext.cs in Resources */,
-				D8325E491D986B9600F3EC95 /* gentest.sh in Resources */,
-				D8325EAD1D986B9600F3EC95 /* BUCK in Resources */,
-				D8325EB01D986B9600F3EC95 /* PATENTS in Resources */,
-				D8325E461D986B9600F3EC95 /* CSSLAYOUT_DEFS in Resources */,
-				D8325E211D986B9600F3EC95 /* BUCK in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1382,6 +482,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8325ED31D986DC800F3EC95 /* CSSLayout.c in Sources */,
+				D8325ED61D986DC800F3EC95 /* CSSNodeList.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1389,110 +491,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8325EA31D986B9600F3EC95 /* log.cpp in Sources */,
-				D8325EA11D986B9600F3EC95 /* References.cpp in Sources */,
-				D8325EBB1D986B9600F3EC95 /* CSSLayoutFlexWrapTest.cpp in Sources */,
 				D83936C31D8348C5008CA7F1 /* NativeNode.swift in Sources */,
 				D83936C51D8348C5008CA7F1 /* TableView.swift in Sources */,
 				D83936BF1D8348C5008CA7F1 /* Box.swift in Sources */,
-				D8325EA41D986B9600F3EC95 /* lyra.cpp in Sources */,
 				D83936B81D8348C5008CA7F1 /* Element.swift in Sources */,
-				D8325EC41D986B9600F3EC95 /* LayoutEngineTest.java in Sources */,
 				D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */,
-				D8325E551D986B9600F3EC95 /* CSSNode.java in Sources */,
 				D893AC501D908AA90078DAD9 /* Properties.swift in Sources */,
-				D8325E531D986B9600F3EC95 /* CSSLayoutContext.java in Sources */,
-				D8325EBF1D986B9600F3EC95 /* CSSLayoutMinMaxDimensionTest.cpp in Sources */,
-				D8325EA21D986B9600F3EC95 /* WeakReference.cpp in Sources */,
-				D8325EC51D986B9600F3EC95 /* TestConstants.java in Sources */,
-				D8325EC01D986B9600F3EC95 /* CSSLayoutPaddingTest.cpp in Sources */,
-				D8325EBE1D986B9600F3EC95 /* CSSLayoutMeasureCacheTest.cpp in Sources */,
-				D8325EBD1D986B9600F3EC95 /* CSSLayoutMarginTest.cpp in Sources */,
-				D8325E561D986B9600F3EC95 /* CSSNodeAPI.java in Sources */,
 				D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */,
 				D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */,
-				D8325E9C1D986B9600F3EC95 /* CppSystemErrorException.java in Sources */,
-				D8325EA51D986B9600F3EC95 /* onload.cpp in Sources */,
-				D8325EBC1D986B9600F3EC95 /* CSSLayoutJustifyContentTest.cpp in Sources */,
 				D83936D11D8348C5008CA7F1 /* Dictionary.swift in Sources */,
 				D83936BE1D8348C5008CA7F1 /* ViewNode.swift in Sources */,
-				D8325E981D986B9600F3EC95 /* Exceptions.cpp in Sources */,
 				D83936C71D8348C5008CA7F1 /* TextField.swift in Sources */,
-				D8325E241D986B9600F3EC95 /* dllmain.cpp in Sources */,
 				D83936DB1D83497C008CA7F1 /* UIView.swift in Sources */,
 				D83936CC1D8348C5008CA7F1 /* Template.swift in Sources */,
-				D8325E991D986B9600F3EC95 /* fbjni.cpp in Sources */,
-				D8325EBA1D986B9600F3EC95 /* CSSLayoutFlexTest.cpp in Sources */,
 				D83936D01D8348C5008CA7F1 /* AsyncQueue.swift in Sources */,
 				D83936BD1D8348C5008CA7F1 /* Renderer.swift in Sources */,
-				D8325EB21D986B9600F3EC95 /* CSSLayoutAbsolutePositionTest.cpp in Sources */,
-				D8325E511D986B9600F3EC95 /* CSSJustify.java in Sources */,
 				D83936C21D8348C5008CA7F1 /* ImageService.swift in Sources */,
-				D8325EC31D986B9600F3EC95 /* LayoutCachingTest.java in Sources */,
-				D8325E971D986B9600F3EC95 /* Environment.cpp in Sources */,
-				D8325E611D986B9600F3EC95 /* DoNotStrip.java in Sources */,
-				D8325E411D986B9600F3EC95 /* CSSLayout.c in Sources */,
 				D83936C01D8348C5008CA7F1 /* DelegateProxy.swift in Sources */,
 				D83936BB1D8348C5008CA7F1 /* Node.swift in Sources */,
 				D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */,
 				D8E6615B1D8E754D005D8C4F /* View.swift in Sources */,
-				D8325EB81D986B9600F3EC95 /* CSSLayoutEdgeTest.cpp in Sources */,
 				D83936C61D8348C5008CA7F1 /* Text.swift in Sources */,
 				D83936BA1D8348C5008CA7F1 /* Layout.swift in Sources */,
 				D83936CB1D8348C5008CA7F1 /* NodeRegistry.swift in Sources */,
-				D8325EB71D986B9600F3EC95 /* CSSLayoutDirtyMarkingTest.cpp in Sources */,
-				D8325EB91D986B9600F3EC95 /* CSSLayoutFlexDirectionTest.cpp in Sources */,
 				D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */,
-				D8325E961D986B9600F3EC95 /* Countable.cpp in Sources */,
 				D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */,
-				D8325E441D986B9600F3EC95 /* CSSNodeList.c in Sources */,
-				D8325E631D986B9600F3EC95 /* assert.cpp in Sources */,
-				D8325E4B1D986B9600F3EC95 /* CachedCSSLayout.java in Sources */,
 				D83936C11D8348C5008CA7F1 /* Image.swift in Sources */,
-				D8325E5C1D986B9600F3EC95 /* FloatUtil.java in Sources */,
-				D8325E571D986B9600F3EC95 /* CSSNodeJNI.java in Sources */,
-				D8325E501D986B9600F3EC95 /* CSSFlexDirection.java in Sources */,
 				D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */,
-				D8325E521D986B9600F3EC95 /* CSSLayout.java in Sources */,
-				D8325E9F1D986B9600F3EC95 /* LocalString.cpp in Sources */,
-				D8325E951D986B9600F3EC95 /* ByteBuffer.cpp in Sources */,
-				D8325E541D986B9600F3EC95 /* CSSMeasureMode.java in Sources */,
-				D8325EB31D986B9600F3EC95 /* CSSLayoutAlignContentTest.cpp in Sources */,
-				D8325E5A1D986B9600F3EC95 /* CSSStyle.java in Sources */,
 				D83936CA1D8348C5008CA7F1 /* Model.swift in Sources */,
-				D8325E5F1D986B9600F3EC95 /* Spacing.java in Sources */,
-				D8325E251D986B9600F3EC95 /* stdafx.cpp in Sources */,
-				D8325E4F1D986B9600F3EC95 /* CSSDirection.java in Sources */,
 				D83936B71D8348C5008CA7F1 /* Component.swift in Sources */,
 				D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */,
-				D8325E9E1D986B9600F3EC95 /* jni_helpers.cpp in Sources */,
 				D83936C41D8348C5008CA7F1 /* NativeView.swift in Sources */,
-				D8325E581D986B9600F3EC95 /* CSSOverflow.java in Sources */,
 				D83936CD1D8348C5008CA7F1 /* TemplateService.swift in Sources */,
-				D8325EB61D986B9600F3EC95 /* CSSLayoutBorderTest.cpp in Sources */,
-				D8325E4D1D986B9600F3EC95 /* CSSCachedMeasurement.java in Sources */,
-				D8325EB11D986B9600F3EC95 /* README.md in Sources */,
 				D83936D31D8348C5008CA7F1 /* Result.swift in Sources */,
-				D8325E1B1D986B9600F3EC95 /* CSSBenchmark.c in Sources */,
-				D8325E591D986B9600F3EC95 /* CSSPositionType.java in Sources */,
-				D8325EA01D986B9600F3EC95 /* OnLoad.cpp in Sources */,
-				D8325EB41D986B9600F3EC95 /* CSSLayoutAlignItemsTest.cpp in Sources */,
-				D8325E9D1D986B9600F3EC95 /* UnknownCppException.java in Sources */,
-				D8325E5D1D986B9600F3EC95 /* LayoutEngine.java in Sources */,
 				D83936CF1D8348C5008CA7F1 /* Array.swift in Sources */,
 				D83936C81D8348C5008CA7F1 /* UIKitRenderer.swift in Sources */,
-				D8325E621D986B9600F3EC95 /* CSSJNI.cpp in Sources */,
-				D8325EC21D986B9600F3EC95 /* CSSNodeTest.java in Sources */,
-				D8325EB51D986B9600F3EC95 /* CSSLayoutAlignSelfTest.cpp in Sources */,
-				D8325EC11D986B9600F3EC95 /* CSSLayoutFlexBasisTest.java in Sources */,
-				D8325E4C1D986B9600F3EC95 /* CSSAlign.java in Sources */,
 				D83936CE1D8348C5008CA7F1 /* Validation.swift in Sources */,
 				D83936C91D8348C5008CA7F1 /* Error.swift in Sources */,
-				D8325E4E1D986B9600F3EC95 /* CSSConstants.java in Sources */,
-				D8325E9B1D986B9600F3EC95 /* CppException.java in Sources */,
-				D8325E9A1D986B9600F3EC95 /* Hybrid.cpp in Sources */,
-				D8325E5B1D986B9600F3EC95 /* CSSWrap.java in Sources */,
-				D8325E5E1D986B9600F3EC95 /* MeasureOutput.java in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1534,7 +569,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CSSLayout/Info.plist;
+				INFOPLIST_FILE = "ThirdParty/css-layout/swift/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1560,7 +595,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CSSLayout/Info.plist;
+				INFOPLIST_FILE = "ThirdParty/css-layout/swift/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
