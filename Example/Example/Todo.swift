@@ -76,6 +76,10 @@ func ==(lhs: TodoTemplateProperties, rhs: TodoTemplateProperties) -> Bool {
 }
 
 class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
+  var buttonBackgroundColor: UIColor?
+  var text: String?
+  var enabled: Bool?
+
   @objc func handleSubmit(target: UITextField) {
     guard let todo = properties.todo else { return }
 
@@ -119,18 +123,9 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
   }
 
   override func render() -> Element {
-    var properties = TodoTemplateProperties()
-    properties.buttonBackgroundColor = (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red
-    properties.onToggle = #selector(Todo.handleToggle)
-    properties.text = state.editText ?? self.properties.todo?.title
-    properties.onChange = #selector(Todo.handleChange(target:))
-    properties.onSubmit = #selector(Todo.handleSubmit(target:))
-    properties.onBlur = #selector(Todo.handleSubmit(target:))
-    properties.layout = self.properties.layout
-    properties.enabled = state.editText != nil
-    properties.focused = properties.enabled
-    properties.onEdit = #selector(Todo.handleEdit)
-    properties.onDestroy = #selector(Todo.handleDestroy)
-    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!, properties: properties)
+    buttonBackgroundColor = (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red
+    enabled = state.editText != nil
+    text = state.editText ?? self.properties.todo?.title
+    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!)
   }
 }

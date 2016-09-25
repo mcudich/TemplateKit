@@ -40,8 +40,8 @@ public class XMLTemplateService: TemplateService {
     self.liveReload = liveReload
   }
 
-  public func element(withLocation location: URL, properties: Properties) throws -> Element {
-    guard let element = try cache[location]?.makeElement(with: properties) else {
+  public func element(withLocation location: URL, model: Model) throws -> Element {
+    guard let element = try cache[location]?.makeElement(with: model) else {
       throw TemplateKitError.missingTemplate("Template not found for \(location)")
     }
     return element
