@@ -40,27 +40,19 @@ func ==(lhs: FooterProperties, rhs: FooterProperties) -> Bool {
 
 class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
   @objc func handleSelectAll() {
-    if let onUpdateFilter = properties.onUpdateFilter {
-      performSelector(onUpdateFilter, with: Filter.all.rawValue)
-    }
+    performSelector(properties.onUpdateFilter, with: Filter.all.rawValue)
   }
 
   @objc func handleSelectActive() {
-    if let onUpdateFilter = properties.onUpdateFilter {
-      performSelector(onUpdateFilter, with: Filter.active.rawValue)
-    }
+    performSelector(properties.onUpdateFilter, with: Filter.active.rawValue)
   }
 
   @objc func handleSelectCompleted() {
-    if let onUpdateFilter = properties.onUpdateFilter {
-      performSelector(onUpdateFilter, with: Filter.completed.rawValue)
-    }
+    performSelector(properties.onUpdateFilter, with: Filter.completed.rawValue)
   }
 
   @objc func handleClearCompleted() {
-    if let onClearCompleted = properties.onClearCompleted {
-      performSelector(onClearCompleted)
-    }
+    performSelector(properties.onClearCompleted)
   }
 
   override func render() -> Element {

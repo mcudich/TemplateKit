@@ -83,20 +83,20 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
   @objc func handleSubmit(target: UITextField) {
     guard let todo = properties.todo else { return }
 
-    if let onSave = properties.onSave, let text = target.text, !text.isEmpty {
-      performSelector(onSave, with: todo.id, with: text)
+    if let text = target.text, !text.isEmpty {
+      performSelector(properties.onSave, with: todo.id, with: text)
       updateComponentState { state in
         state.editText = nil
       }
-    } else if let onDestroy = properties.onDestroy {
-      performSelector(onDestroy, with: todo.id)
+    } else {
+      performSelector(properties.onDestroy, with: todo.id)
     }
   }
 
   @objc func handleEdit() {
-    guard let onEdit = properties.onEdit, let todo = properties.todo else { return }
+    guard let todo = properties.todo else { return }
 
-    performSelector(onEdit, with: todo.id)
+    performSelector(properties.onEdit, with: todo.id)
     updateComponentState { state in
       state.editText = todo.title
     }
@@ -111,15 +111,11 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
   }
 
   @objc func handleToggle() {
-    if let onToggle = properties.onToggle {
-      performSelector(onToggle, with: properties.todo?.id)
-    }
+    performSelector(properties.onToggle, with: properties.todo?.id)
   }
 
   @objc func handleDestroy() {
-    if let onDestroy = properties.onDestroy {
-      performSelector(onDestroy, with: properties.todo?.id)
-    }
+    performSelector(properties.onDestroy, with: properties.todo?.id)
   }
 
   override func render() -> Element {
