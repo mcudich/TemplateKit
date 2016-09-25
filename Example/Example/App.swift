@@ -46,39 +46,12 @@ func ==(lhs: AppProperties, rhs: AppProperties) -> Bool {
   return lhs.model == rhs.model && lhs.equals(otherViewProperties: rhs)
 }
 
-struct HeaderProperties: ViewProperties {
-  var key: String?
-  var layout = LayoutProperties()
-  var style = StyleProperties()
-  var gestures = GestureProperties()
-
-  var text: String?
-  var onChange: Selector?
-  var onSubmit: Selector?
-  var onToggleAll: Selector?
-
-  public init() {}
-
-  public init(_ properties: [String: Any]) {
-    applyProperties(properties)
-
-    text = properties.cast("text")
-    onChange = properties.cast("onChange")
-    onSubmit = properties.cast("onSubmit")
-    onToggleAll = properties.cast("onToggleAll")
-  }
-}
-
-func ==(lhs: HeaderProperties, rhs: HeaderProperties) -> Bool {
-  return lhs.text == rhs.text && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.onToggleAll == rhs.onToggleAll
-}
-
 extension App: TableViewDataSource {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
     var properties = TodoProperties()
 
     properties.todo = getFilteredTodos()[indexPath.row]
-    properties.layout.width = 321
+    properties.layout.width = self.properties.layout.width
     properties.onToggle = #selector(App.handleToggle(id:))
     properties.onSave = #selector(App.handleSave(id:text:))
     properties.onEdit = #selector(App.handleEdit(id:))
@@ -208,13 +181,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   private func renderHeader() -> Element {
-    var properties = HeaderProperties()
-    properties.text = state.newTodo
-    properties.onChange = #selector(App.handleChange(target:))
-    properties.onSubmit = #selector(App.handleNewTodoSubmit(target:))
-    properties.onToggleAll = #selector(App.handleToggleAll(target:))
-
-    return render(withLocation: Bundle.main.url(forResource: "Header", withExtension: "xml")!, properties: properties)
+    return render(withLocation: Bundle.main.url(forResource: "Header", withExtension: "xml")!)
   }
 
   private func renderMain() -> Element {

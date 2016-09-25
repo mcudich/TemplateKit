@@ -8,39 +8,60 @@ public protocol Model {
 
 public extension Model {
   func value<T>(forKey key: String) -> T? {
-    let mirror = Mirror(reflecting: self)
-    for child in mirror.children {
-      if child.label == key {
-        return child.value as? T
+    var currentMirror: Mirror? = Mirror(reflecting: self)
+    while var mirror = currentMirror {
+      for child in mirror.children {
+        if keysEqual(child.label, key: key) {
+          return unwrapAny(child.value) as? T
+        }
       }
+      currentMirror = mirror.superclassMirror
     }
     return nil
   }
 
   func value<T>(forKeyPath keyPath: String) -> T? {
-    var keys = keyPath.components(separatedBy: ".")
-    var mirror = Mirror(reflecting: self)
-
-    for key in keys {
-      for child in mirror.children {
-        if child.label == key {
-          if child.label == keys.last {
-            return child.value as? T
-          }
-          else {
-            mirror = Mirror(reflecting: child.value)
+    var currentMirror: Mirror? = Mirror(reflecting: self)
+    while var mirror = currentMirror {
+      var keys = keyPath.components(separatedBy: ".")
+      for key in keys {
+        for var child in mirror.children {
+          if keysEqual(child.label, key: key) {
+            if keysEqual(child.label, key: keys.last) {
+              return child.value as? T
+            } else {
+              mirror = Mirror(reflecting: unwrapAny(child.value))
+              break
+            }
           }
         }
       }
+      currentMirror = mirror.superclassMirror
     }
+
     return nil
   }
 
-  /// Returns the value for the property identified by a given key.
-  subscript (key : String) -> Any? {
+  subscript(key: String) -> Any? {
     get {
       return self.value(forKeyPath: key)
     }
+  }
+
+  private func keysEqual(_ childLabel: String?, key: String?) -> Bool {
+    return childLabel?.replacingOccurrences(of: ".storage", with: "") == key
+  }
+
+  private func unwrapAny(_ val: Any) -> Any {
+    let mirror = Mirror(reflecting: val)
+    if mirror.displayStyle == .optional {
+      for child in mirror.children {
+        if child.label == "some" {
+          return child.value
+        }
+      }
+    }
+    return val
   }
 }
 
