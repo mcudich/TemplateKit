@@ -1,0 +1,3 @@
+[submodule "ThirdParty/css-layout"]
+	path = ThirdParty/css-layout
+	url = https://github.com/facebook/css-layout.git

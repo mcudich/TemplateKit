@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8325ED31D986DC800F3EC95 /* CSSLayout.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325EC71D986D5000F3EC95 /* CSSLayout.c */; };
+		D8325ED41D986DC800F3EC95 /* CSSLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325EC81D986D5000F3EC95 /* CSSLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8325ED51D986DC800F3EC95 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325EC91D986D5000F3EC95 /* CSSMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8325ED61D986DC800F3EC95 /* CSSNodeList.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */; };
+		D8325ED71D986DC800F3EC95 /* CSSNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */; };
 		D83936B71D8348C5008CA7F1 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936921D8348C5008CA7F1 /* Component.swift */; };
 		D83936B81D8348C5008CA7F1 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936931D8348C5008CA7F1 /* Element.swift */; };
 		D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936941D8348C5008CA7F1 /* Keyable.swift */; };
@@ -36,15 +41,8 @@
 		D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B01D8348C5008CA7F1 /* ResourceService.swift */; };
 		D83936D31D8348C5008CA7F1 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936B11D8348C5008CA7F1 /* Result.swift */; };
 		D83936DB1D83497C008CA7F1 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936DA1D83497C008CA7F1 /* UIView.swift */; };
-		D83936FE1D83504C008CA7F1 /* CSSLayout-internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936F81D83504C008CA7F1 /* CSSLayout-internal.h */; };
-		D83936FF1D83504C008CA7F1 /* CSSLayout.c in Sources */ = {isa = PBXBuildFile; fileRef = D83936F91D83504C008CA7F1 /* CSSLayout.c */; };
-		D83937001D83504C008CA7F1 /* CSSLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936FA1D83504C008CA7F1 /* CSSLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D83937011D83504C008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936FB1D83504C008CA7F1 /* CSSMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D83937021D83504C008CA7F1 /* CSSNodeList.c in Sources */ = {isa = PBXBuildFile; fileRef = D83936FC1D83504C008CA7F1 /* CSSNodeList.c */; };
-		D83937031D83504C008CA7F1 /* CSSNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = D83936FD1D83504C008CA7F1 /* CSSNodeList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D83937061D83513E008CA7F1 /* CSSLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937071D835207008CA7F1 /* CSSLayout.swift */; };
-		D839370F1D835A9F008CA7F1 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D839370E1D835A9F008CA7F1 /* CSSMacros.h */; };
 		D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937161D872BDE008CA7F1 /* CollectionView.swift */; };
 		D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */; };
 		D839371B1D876E00008CA7F1 /* ElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839371A1D876E00008CA7F1 /* ElementTests.swift */; };
@@ -80,6 +78,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D8325EC71D986D5000F3EC95 /* CSSLayout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CSSLayout.c; path = "ThirdParty/css-layout/CSSLayout/CSSLayout.c"; sourceTree = "<group>"; };
+		D8325EC81D986D5000F3EC95 /* CSSLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSLayout.h; path = "ThirdParty/css-layout/CSSLayout/CSSLayout.h"; sourceTree = "<group>"; };
+		D8325EC91D986D5000F3EC95 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSMacros.h; path = "ThirdParty/css-layout/CSSLayout/CSSMacros.h"; sourceTree = "<group>"; };
+		D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CSSNodeList.c; path = "ThirdParty/css-layout/CSSLayout/CSSNodeList.c"; sourceTree = "<group>"; };
+		D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSNodeList.h; path = "ThirdParty/css-layout/CSSLayout/CSSNodeList.h"; sourceTree = "<group>"; };
+		D8325ED11D986D9200F3EC95 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = "ThirdParty/css-layout/swift/Config.xcconfig"; sourceTree = "<group>"; };
+		D8325ED21D986DBB00F3EC95 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		D8325ED81D986E0000F3EC95 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "ThirdParty/css-layout/swift/Info.plist"; sourceTree = "<group>"; };
 		D83936921D8348C5008CA7F1 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Component.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D83936931D8348C5008CA7F1 /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Element.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D83936941D8348C5008CA7F1 /* Keyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyable.swift; sourceTree = "<group>"; };
@@ -110,17 +116,7 @@
 		D83936B11D8348C5008CA7F1 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		D83936DA1D83497C008CA7F1 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CSSLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D83936F11D834EAE008CA7F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D83936F61D834F35008CA7F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		D83936F81D83504C008CA7F1 /* CSSLayout-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSSLayout-internal.h"; sourceTree = "<group>"; };
-		D83936F91D83504C008CA7F1 /* CSSLayout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSLayout.c; sourceTree = "<group>"; };
-		D83936FA1D83504C008CA7F1 /* CSSLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSLayout.h; sourceTree = "<group>"; };
-		D83936FB1D83504C008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSMacros.h; path = /Users/mcudich/src/TemplateKit/CSSLayout/CSSMacros.h; sourceTree = "<absolute>"; };
-		D83936FC1D83504C008CA7F1 /* CSSNodeList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSNodeList.c; sourceTree = "<group>"; };
-		D83936FD1D83504C008CA7F1 /* CSSNodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSNodeList.h; sourceTree = "<group>"; };
-		D83937041D835060008CA7F1 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D83937071D835207008CA7F1 /* CSSLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSSLayout.swift; sourceTree = "<group>"; };
-		D839370E1D835A9F008CA7F1 /* CSSMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSMacros.h; sourceTree = "<group>"; };
 		D83937161D872BDE008CA7F1 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncDataListView.swift; sourceTree = "<group>"; };
 		D839371A1D876E00008CA7F1 /* ElementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementTests.swift; sourceTree = "<group>"; };
@@ -170,6 +166,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D8325EC61D986D4100F3EC95 /* CSSLayout */ = {
+			isa = PBXGroup;
+			children = (
+				D8325EC71D986D5000F3EC95 /* CSSLayout.c */,
+				D8325EC81D986D5000F3EC95 /* CSSLayout.h */,
+				D8325EC91D986D5000F3EC95 /* CSSMacros.h */,
+				D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */,
+				D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */,
+				D8325ED11D986D9200F3EC95 /* Config.xcconfig */,
+				D8325ED21D986DBB00F3EC95 /* module.modulemap */,
+				D8325ED81D986E0000F3EC95 /* Info.plist */,
+			);
+			name = CSSLayout;
+			sourceTree = "<group>";
+		};
 		D83936911D8348C5008CA7F1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,30 +254,14 @@
 			path = Validation;
 			sourceTree = "<group>";
 		};
-		D83936EF1D834EAE008CA7F1 /* CSSLayout */ = {
-			isa = PBXGroup;
-			children = (
-				D83936F81D83504C008CA7F1 /* CSSLayout-internal.h */,
-				D83936F91D83504C008CA7F1 /* CSSLayout.c */,
-				D83936FA1D83504C008CA7F1 /* CSSLayout.h */,
-				D839370E1D835A9F008CA7F1 /* CSSMacros.h */,
-				D83936FC1D83504C008CA7F1 /* CSSNodeList.c */,
-				D83936FD1D83504C008CA7F1 /* CSSNodeList.h */,
-				D83936F11D834EAE008CA7F1 /* Info.plist */,
-				D83936F61D834F35008CA7F1 /* Config.xcconfig */,
-				D83937041D835060008CA7F1 /* module.modulemap */,
-			);
-			path = CSSLayout;
-			sourceTree = "<group>";
-		};
 		D89194041D57F1FB0049991F = {
 			isa = PBXGroup;
 			children = (
+				D8325EC61D986D4100F3EC95 /* CSSLayout */,
 				D8811CD41D5D85540098624B /* Alamofire.framework */,
 				D891944B1D57F7280049991F /* AEXML.framework */,
 				D89194101D57F1FB0049991F /* Source */,
 				D891941C1D57F1FB0049991F /* Tests */,
-				D83936EF1D834EAE008CA7F1 /* CSSLayout */,
 				D891940F1D57F1FB0049991F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -321,11 +316,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D83937001D83504C008CA7F1 /* CSSLayout.h in Headers */,
-				D83937011D83504C008CA7F1 /* CSSMacros.h in Headers */,
-				D839370F1D835A9F008CA7F1 /* CSSMacros.h in Headers */,
-				D83937031D83504C008CA7F1 /* CSSNodeList.h in Headers */,
-				D83936FE1D83504C008CA7F1 /* CSSLayout-internal.h in Headers */,
+				D8325ED41D986DC800F3EC95 /* CSSLayout.h in Headers */,
+				D8325ED51D986DC800F3EC95 /* CSSMacros.h in Headers */,
+				D8325ED71D986DC800F3EC95 /* CSSNodeList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,8 +482,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D83936FF1D83504C008CA7F1 /* CSSLayout.c in Sources */,
-				D83937021D83504C008CA7F1 /* CSSNodeList.c in Sources */,
+				D8325ED31D986DC800F3EC95 /* CSSLayout.c in Sources */,
+				D8325ED61D986DC800F3EC95 /* CSSNodeList.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +558,6 @@
 /* Begin XCBuildConfiguration section */
 		D83936F41D834EAE008CA7F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D83936F61D834F35008CA7F1 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -577,7 +569,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CSSLayout/Info.plist;
+				INFOPLIST_FILE = "ThirdParty/css-layout/swift/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -592,7 +584,6 @@
 		};
 		D83936F51D834EAE008CA7F1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D83936F61D834F35008CA7F1 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -604,7 +595,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CSSLayout/Info.plist;
+				INFOPLIST_FILE = "ThirdParty/css-layout/swift/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
