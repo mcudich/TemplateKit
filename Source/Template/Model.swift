@@ -9,7 +9,7 @@ public protocol Model {
 public extension Model {
   func value<T>(forKey key: String) -> T? {
     var currentMirror: Mirror? = Mirror(reflecting: self)
-    while var mirror = currentMirror {
+    while let mirror = currentMirror {
       for child in mirror.children {
         if keysEqual(child.label, key: key) {
           return unwrapAny(child.value) as? T
@@ -23,9 +23,9 @@ public extension Model {
   func value<T>(forKeyPath keyPath: String) -> T? {
     var currentMirror: Mirror? = Mirror(reflecting: self)
     while var mirror = currentMirror {
-      var keys = keyPath.components(separatedBy: ".")
+      let keys = keyPath.components(separatedBy: ".")
       for key in keys {
-        for var child in mirror.children {
+        for child in mirror.children {
           if keysEqual(child.label, key: key) {
             if keysEqual(child.label, key: keys.last) {
               return child.value as? T

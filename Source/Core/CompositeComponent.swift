@@ -42,7 +42,7 @@ open class CompositeComponent<StateType: State, PropertiesType: ViewProperties, 
     }
   }
 
-  public required init(element: Element, children: [Node]?, owner: Node?) {
+  public required init(element: Element, children: [Node]? = nil, owner: Node? = nil) {
     self.element = element as! ElementData<PropertiesType>
     self.properties = self.element.properties
     self.owner = owner

@@ -87,48 +87,20 @@ public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
   return lhs.buttonStyle == rhs.buttonStyle && lhs.equals(otherViewProperties: rhs)
 }
 
-public class Button: UIButton, NativeView {
-  public weak var eventTarget: AnyObject?
+public struct ButtonState: State {
 
-  public var properties = ButtonProperties([:]) {
-    didSet {
-      applyProperties()
-    }
-  }
+  public init() {}
+}
 
-  public required init() {
-    super.init(frame: CGRect.zero)
-  }
+public func ==(lhs: ButtonState, rhs: ButtonState) -> Bool {
+  return false
+}
 
-  public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  func applyProperties() {
-    applyCommonProperties()
-    applyButtonProperties()
-  }
-
-  func handleTouchUpInside() {
-    isSelected = !isSelected
-    if let onTouchUpInside = properties.onTouchUpInside {
-      let _ = eventTarget?.perform(onTouchUpInside, with: self)
-    }
-  }
-
-  func applyButtonProperties() {
-    for state in UIControlState.buttonStates {
-      let stateProperties = properties.buttonStyle[state]
-
-      setTitle(stateProperties?.title, for: state)
-      setTitleColor(stateProperties?.titleColor, for: state)
-      setTitleShadowColor(stateProperties?.titleShadowColor, for: state)
-      setBackgroundImage(stateProperties?.backgroundImage, for: state)
-      setImage(stateProperties?.image, for: state)
-    }
-    if let _ = properties.onTouchUpInside {
-      addTarget(self, action: #selector(Button.handleTouchUpInside), for: .touchUpInside)
-    }
-    isSelected = properties.selected ?? false
+public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
+  public override func render() -> Element {
+    var properties = BaseProperties()
+    properties.layout = self.properties.layout
+    
+    return ElementData(ElementType.box, properties)
   }
 }
