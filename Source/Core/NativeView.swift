@@ -15,4 +15,6 @@ public protocol NativeView: View {
   weak var eventTarget: AnyObject? { get set }
 
   init()
+
+  func touchesBegan()
 }

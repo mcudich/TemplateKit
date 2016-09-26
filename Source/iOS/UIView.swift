@@ -47,4 +47,10 @@ extension NativeView where Self: UIView {
       addGestureRecognizer(recognizer)
     }
   }
+
+  public func touchesBegan() {
+    if let onPress = properties.gestures.onPress {
+      let _ = eventTarget?.perform(onPress)
+    }
+  }
 }

@@ -1,9 +1,9 @@
 <box flexDirection="row">
   <text text="$count" />
   <box flexDirection="row" flexGrow="1">
-    <button title="all" titleColor="#000000" width="48" height="24" onTouchUpInside="handleSelectAll" />
-    <button title="active" titleColor="#000000" width="48" height="24" onTouchUpInside="handleSelectActive" />
-    <button title="completed" titleColor="#000000" width="48" height="24" onTouchUpInside="handleSelectCompleted" />
+    <button title="all" titleColor="#000000" onTap="handleSelectAll" />
+    <button title="active" titleColor="#000000" onTap="handleSelectActive" />
+    <button title="completed" titleColor="#000000" onTap="handleSelectCompleted" />
   </box>
-  <button title="clear all" titleColor="#000000" width="48" height="24" onTouchUpInside="handleClearCompleted" />
+  <button title="clear all" titleColor="#000000" onTap="handleClearCompleted" />
 </box>

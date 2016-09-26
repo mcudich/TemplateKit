@@ -17,6 +17,7 @@ public struct ImageProperties: ViewProperties {
   public var contentMode = UIViewContentMode.scaleAspectFit
   public var url: URL?
   public var name: String?
+  public var image: UIImage?
 
   public init() {}
 
@@ -28,6 +29,7 @@ public struct ImageProperties: ViewProperties {
     }
     url = properties.cast("url")
     name = properties.cast("name")
+    image = properties.image("image")
   }
 }
 
@@ -73,7 +75,15 @@ public class Image: UIImageView, NativeView {
         }
       }
     } else if let name = properties.name {
-      image = UIImage(named: name)
+      self.image = UIImage(named: name)
+    } else if let image = properties.image {
+      self.image = image
     }
+  }
+
+  public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+
+    touchesBegan()
   }
 }

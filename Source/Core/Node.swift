@@ -17,6 +17,7 @@ public protocol Node: class, Keyable {
   func computeLayout() -> CSSLayout
   func buildCSSNode() -> CSSNode
   func updateCSSNode()
+  func getContext() -> Context
 
   func willBuild()
   func didBuild()
@@ -38,6 +39,13 @@ public extension Node {
     for child in (children ?? []) {
       child.parent = self
     }
+  }
+
+  func getContext() -> Context {
+    guard let context = context ?? owner?.getContext() else {
+      fatalError("No context available")
+    }
+    return context
   }
 
   func willBuild() {}

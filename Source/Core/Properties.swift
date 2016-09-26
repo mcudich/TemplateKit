@@ -34,12 +34,14 @@ public func ==(lhs: StyleProperties, rhs: StyleProperties) -> Bool {
 
 public struct GestureProperties: RawPropertiesReceiver, Model, Equatable {
   var onTap: Selector?
+  var onPress: Selector?
   var onDoubleTap: Selector?
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
     onTap = properties.cast("onTap")
+    onPress = properties.cast("onPress")
     onDoubleTap = properties.cast("onDoubleTap")
   }
 }
