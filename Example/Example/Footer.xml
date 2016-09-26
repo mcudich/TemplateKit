@@ -1,7 +1,7 @@
 <box flexDirection="row">
   <text text="$count" />
   <box flexDirection="row" flexGrow="1">
-    <button title="all" titleColor="#000000" onTap="handleSelectAll" />
+    <button title="all" titleColor="#000000" onTap="handleSelectAll" borderColor="#000000" cornerRadius="3" />
     <button title="active" titleColor="#000000" onTap="handleSelectActive" />
     <button title="completed" titleColor="#000000" onTap="handleSelectCompleted" />
   </box>
