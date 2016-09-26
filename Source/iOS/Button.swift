@@ -36,27 +36,31 @@ extension UIControlState: Hashable {
 public struct ButtonStyleProperties: Equatable {
   var title: String?
   var titleColor: UIColor?
+  var titleFontSize: CGFloat?
   var titleShadowColor: UIColor?
+  var backgroundColor: UIColor?
   var backgroundImage: UIImage?
   var image: UIImage?
 
   init(_ properties: [String : Any], statePrefix: String) {
     title = properties.cast(key(statePrefix, "title"))
+    titleFontSize = properties.cast(key(statePrefix, "titleFontSize"))
     titleColor = properties.color(key(statePrefix, "titleColor"))
     titleShadowColor = properties.color(key(statePrefix, "titleShadowColor"))
+    backgroundColor = properties.color(key(statePrefix, "backgroundColor"))
     backgroundImage = properties.image(key(statePrefix, "backgroundImage"))
     image = properties.image(key(statePrefix, "image"))
   }
 
   private func key(_ prefix: String, _ propertyKey: String) -> String {
     var key = prefix
-    key += prefix.isEmpty ? propertyKey : propertyKey.capitalized
+    key += prefix.isEmpty ? propertyKey : propertyKey.capitalizingFirstLetter()
     return key
   }
 }
 
 public func ==(lhs: ButtonStyleProperties, rhs: ButtonStyleProperties) -> Bool {
-  return lhs.title == rhs.title && lhs.titleColor == rhs.titleColor && lhs.titleShadowColor == rhs.titleShadowColor && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image
+  return lhs.title == rhs.title && lhs.titleFontSize == rhs.titleFontSize && lhs.titleColor == rhs.titleColor && lhs.titleShadowColor == rhs.titleShadowColor && lhs.backgroundColor == rhs.backgroundColor && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image
 }
 
 public struct ButtonProperties: ViewProperties {
@@ -92,7 +96,7 @@ public struct ButtonProperties: ViewProperties {
 }
 
 public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
-  return lhs.buttonStyle == rhs.buttonStyle && lhs.equals(otherViewProperties: rhs)
+  return lhs.buttonStyle == rhs.buttonStyle && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.highlighted == rhs.highlighted && lhs.equals(otherViewProperties: rhs)
 }
 
 public struct ButtonState: State {
@@ -120,14 +124,25 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
     return property { $0?.title }
   }
 
+  private var currentTitleFontSize: CGFloat? {
+    return property { $0?.titleFontSize }
+  }
+
   private var currentTitleColor: UIColor? {
     return property { $0?.titleColor }
+  }
+
+  private var currentBackgroundColor: UIColor? {
+    return property { $0?.backgroundColor }
   }
 
   public override func render() -> Element {
     var properties = BaseProperties()
     properties.layout = self.properties.layout
     properties.style = self.properties.style
+    if let backgroundColor = currentBackgroundColor {
+      properties.style.backgroundColor = backgroundColor
+    }
     properties.gestures.onTap = #selector(Button.handleTap)
     properties.gestures.onPress = #selector(Button.handlePress)
     properties.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
@@ -153,7 +168,12 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   private func renderTitle(with title: String) -> Element {
     var properties = TextProperties()
     properties.textStyle.text = title
-    properties.textStyle.color = currentTitleColor ?? .black
+    if let fontSize = currentTitleFontSize {
+      properties.textStyle.fontSize = fontSize
+    }
+    if let color = currentTitleColor {
+      properties.textStyle.color = color
+    }
 
     return ElementData(ElementType.text, properties)
   }
@@ -183,15 +203,20 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   }
 
   private func property<T>(handler: (ButtonStyleProperties?) -> T?) -> T? {
+    var value: T?
+
     if !properties.enabled {
-      return handler(properties.buttonStyle[.disabled])
+      value = handler(properties.buttonStyle[.disabled])
+    } else if state.highlighted {
+      value = handler(properties.buttonStyle[.highlighted])
+    } else if properties.selected {
+      value = handler(properties.buttonStyle[.selected])
     }
-    if state.highlighted {
-      return handler(properties.buttonStyle[.highlighted])
+
+    if value != nil {
+      return value
     }
-    if properties.selected {
-      return handler(properties.buttonStyle[.selected])
-    }
+
     return handler(properties.buttonStyle[.normal])
   }
 }

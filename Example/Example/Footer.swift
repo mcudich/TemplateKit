@@ -40,6 +40,9 @@ func ==(lhs: FooterProperties, rhs: FooterProperties) -> Bool {
 
 class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
   var count: String?
+  var allSelected = false
+  var activeSelected = false
+  var completedSelected = false
 
   @objc func handleSelectAll() {
     performSelector(properties.onUpdateFilter, with: Filter.all.rawValue)
@@ -59,6 +62,10 @@ class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
 
   override func render() -> Element {
     count = "\(properties.completedCount) items completed"
+    allSelected = properties.nowShowing == .all
+    activeSelected = properties.nowShowing == .active
+    completedSelected = properties.nowShowing == .completed
+
     return render(withLocation: Bundle.main.url(forResource: "Footer", withExtension: "xml")!)
   }
 }
