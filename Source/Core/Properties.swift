@@ -20,16 +20,22 @@ public protocol Properties: RawPropertiesReceiver, Model {
 
 public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {
   public var backgroundColor: UIColor?
+  public var borderColor: UIColor?
+  public var borderWidth: CGFloat?
+  public var cornerRadius: CGFloat?
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
     backgroundColor = properties.color("backgroundColor")
+    borderColor = properties.color("borderColor")
+    borderWidth = properties.cast("borderWidth")
+    cornerRadius = properties.cast("cornerRadius")
   }
 }
 
 public func ==(lhs: StyleProperties, rhs: StyleProperties) -> Bool {
-  return lhs.backgroundColor == rhs.backgroundColor
+  return lhs.backgroundColor == rhs.backgroundColor && lhs.borderColor == rhs.borderColor && lhs.borderWidth == rhs.borderWidth
 }
 
 public struct GestureProperties: RawPropertiesReceiver, Model, Equatable {

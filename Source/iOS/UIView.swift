@@ -27,6 +27,8 @@ extension UIView: View {
 extension NativeView where Self: UIView {
   func applyCommonProperties() {
     applyBackgroundColor()
+    applyBorder()
+    applyCornerRadius()
     applyTapHandler()
   }
 
@@ -35,6 +37,21 @@ extension NativeView where Self: UIView {
       return
     }
     self.backgroundColor = backgroundColor
+  }
+
+  private func applyBorder() {
+    guard let borderColor = properties.style.borderColor else {
+      return
+    }
+    self.layer.borderColor = borderColor.cgColor
+    self.layer.borderWidth = (properties.style.borderWidth ?? 1) / UIScreen.main.scale
+  }
+
+  private func applyCornerRadius() {
+    guard let cornerRadius = properties.style.cornerRadius else {
+      return
+    }
+    self.layer.cornerRadius = cornerRadius
   }
 
   private func applyTapHandler() {
