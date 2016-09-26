@@ -22,7 +22,7 @@ public enum ElementType: ElementRepresentable {
     case .box:
       return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(with: owner, context: nil) }, owner: owner)
     case .button:
-      return NativeNode<Button>(element: element as! ElementData<Button.PropertiesType>, owner: owner)
+      return Button(element: element, children: nil, owner: owner)
     case .text:
       return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner)
     case .textField:

@@ -183,19 +183,19 @@ extension PropertyNode where Self.PropertiesType: ViewProperties {
   }
 
   public var margin: CSSEdges {
-    return properties.layout.margin ?? CSSEdges()
+    return properties.layout.margin 
   }
 
   public var position: CSSEdges {
-    return properties.layout.position ?? CSSEdges()
+    return properties.layout.position
   }
 
   public var padding: CSSEdges {
-    return properties.layout.padding ?? CSSEdges()
+    return properties.layout.padding
   }
 
   public var size: CSSSize {
-    return properties.layout.size ?? CSSSize()
+    return properties.layout.size
   }
 
   public var minSize: CSSSize? {
