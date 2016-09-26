@@ -1,5 +1,5 @@
 <box flexDirection="row">
-  <text text="$properties.count" />
+  <text text="$count" />
   <box flexDirection="row" flexGrow="1">
     <button title="all" titleColor="#000000" width="48" height="24" onTouchUpInside="handleSelectAll" />
     <button title="active" titleColor="#000000" width="48" height="24" onTouchUpInside="handleSelectActive" />

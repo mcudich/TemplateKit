@@ -109,7 +109,6 @@
 				D89194BB1D57FD6F0049991F /* Sources */,
 				D89194BC1D57FD6F0049991F /* Frameworks */,
 				D89194BD1D57FD6F0049991F /* Resources */,
-				D8C9FFE91D91FD1F00C7E59E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -171,24 +170,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		D8C9FFE91D91FD1F00C7E59E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/../Carthage/Build/iOS/AEXML.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D89194BB1D57FD6F0049991F /* Sources */ = {

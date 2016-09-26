@@ -1,23 +1,22 @@
 import Foundation
-import AEXML
 
 public struct Template: Equatable {
-  fileprivate let document: AEXMLDocument
+  fileprivate let document: XMLElement
 
   init(xml: Data) throws {
-    self.document = try AEXMLDocument(xml: xml)
+    self.document = try XMLDocumentParser(data: xml).parse()
   }
 
   func makeElement(with model: Model) throws -> Element {
-    return try document.root.makeElement(with: model)
+    return try document.makeElement(with: model)
   }
 }
 
 public func ==(lhs: Template, rhs: Template) -> Bool {
-  return lhs.document.xml == rhs.document.xml
+  return false
 }
 
-extension AEXMLElement {
+extension XMLElement {
   func makeElement(with model: Model) throws -> Element {
     let resolvedProperties = resolve(properties: attributes, withModel: model)
     return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: model) })
