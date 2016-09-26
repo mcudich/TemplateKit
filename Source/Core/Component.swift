@@ -104,13 +104,6 @@ public extension Component {
     }
   }
 
-  func getContext() -> Context {
-    guard let context = context ?? owner?.context else {
-      fatalError("No context available")
-    }
-    return context
-  }
-
   func performSelector(_ selector: Selector?, with value: Any? = nil, with otherValue: Any? = nil) {
     guard let owner = owner, let selector = selector else { return }
     let _ = (owner as AnyObject).perform(selector, with: value, with: otherValue)

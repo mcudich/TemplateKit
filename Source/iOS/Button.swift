@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CSSLayout
 
 extension UIControlState: Hashable {
   var stringValue: String {
@@ -66,8 +67,9 @@ public struct ButtonProperties: ViewProperties {
   public var gestures = GestureProperties()
 
   public var buttonStyle = [UIControlState: ButtonStyleProperties]()
-  public var selected: Bool?
-  public var onTouchUpInside: Selector?
+  public var selected: Bool = false
+  public var enabled: Bool = true
+  public var highlighted: Bool = false
 
   public init() {}
 
@@ -78,8 +80,15 @@ public struct ButtonProperties: ViewProperties {
       buttonStyle[state] = ButtonStyleProperties(properties, statePrefix: state.stringValue)
     }
 
-    selected = properties.cast("selected")
-    onTouchUpInside = properties.cast("onTouchUpInside")
+    if let selected: Bool = properties.cast("selected") {
+      self.selected = selected
+    }
+    if let enabled: Bool = properties.cast("enabled") {
+      self.enabled = enabled
+    }
+    if let highlighted: Bool = properties.cast("highlighted") {
+      self.highlighted = highlighted
+    }
   }
 }
 
@@ -88,19 +97,102 @@ public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
 }
 
 public struct ButtonState: State {
+  var highlighted = false
 
   public init() {}
 }
 
 public func ==(lhs: ButtonState, rhs: ButtonState) -> Bool {
-  return false
+  return lhs.highlighted == rhs.highlighted
 }
 
 public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
+  public override var properties: ButtonProperties {
+    didSet {
+      state.highlighted = properties.highlighted
+    }
+  }
+
+  private var currentImage: UIImage? {
+    return property { $0?.image }
+  }
+
+  private var currentTitle: String? {
+    return property { $0?.title }
+  }
+
+  private var currentTitleColor: UIColor? {
+    return property { $0?.titleColor }
+  }
+
   public override func render() -> Element {
     var properties = BaseProperties()
     properties.layout = self.properties.layout
-    
-    return ElementData(ElementType.box, properties)
+    properties.style = self.properties.style
+    properties.gestures.onTap = #selector(Button.handleTap)
+    properties.gestures.onPress = #selector(Button.handlePress)
+    properties.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
+
+    var childElements = [Element]()
+    if let image = currentImage {
+      childElements.append(renderImage(with: image))
+    }
+    if let title = currentTitle {
+      childElements.append(renderTitle(with: title))
+    }
+
+    return ElementData(ElementType.box, properties, childElements)
+  }
+
+  private func renderImage(with image: UIImage) -> Element {
+    var properties = ImageProperties()
+    properties.image = image
+
+    return ElementData(ElementType.image, properties)
+  }
+
+  private func renderTitle(with title: String) -> Element {
+    var properties = TextProperties()
+    properties.textStyle.text = title
+    properties.textStyle.color = currentTitleColor ?? .black
+
+    return ElementData(ElementType.text, properties)
+  }
+
+  @objc private func handleTap() {
+    updateComponentState(stateMutation: { $0.highlighted = false }) { [weak self] in
+      guard self?.properties.enabled ?? true else {
+        return
+      }
+      self?.performSelector(self?.properties.gestures.onTap)
+    }
+  }
+
+  @objc private func handlePress() {
+    updateComponentState { state in
+      state.highlighted = true
+    }
+  }
+
+  @objc private func handleDoubleTap() {
+    updateComponentState(stateMutation: { $0.highlighted = false }) { [weak self] in
+      guard self?.properties.enabled ?? true else {
+        return
+      }
+      self?.performSelector(self?.properties.gestures.onDoubleTap)
+    }
+  }
+
+  private func property<T>(handler: (ButtonStyleProperties?) -> T?) -> T? {
+    if !properties.enabled {
+      return handler(properties.buttonStyle[.disabled])
+    }
+    if state.highlighted {
+      return handler(properties.buttonStyle[.highlighted])
+    }
+    if properties.selected {
+      return handler(properties.buttonStyle[.selected])
+    }
+    return handler(properties.buttonStyle[.normal])
   }
 }

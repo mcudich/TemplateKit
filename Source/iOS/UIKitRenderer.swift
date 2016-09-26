@@ -21,14 +21,14 @@ public enum ElementType: ElementRepresentable {
     switch self {
     case .box:
       return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(with: owner, context: nil) }, owner: owner)
-    case .button:
-      return Button(element: element, children: nil, owner: owner)
     case .text:
       return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner)
     case .textField:
       return NativeNode<TextField>(element: element as! ElementData<TextField.PropertiesType>, owner: owner)
     case .image:
       return NativeNode<Image>(element: element as! ElementData<Image.PropertiesType>, owner: owner)
+    case .button:
+      return Button(element: element, children: nil, owner: owner)
     case .view(let view):
       return ViewNode(view: view, element: element as! ElementData<BaseProperties>, owner: owner)
     case .component(let ComponentType as ComponentCreation.Type):

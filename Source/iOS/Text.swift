@@ -155,7 +155,13 @@ public class Text: UILabel, NativeView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override public func drawText(in rect: CGRect) {
+  public override func drawText(in rect: CGRect) {
     textLayout.drawText(in: rect)
+  }
+
+  public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+
+    touchesBegan()
   }
 }
