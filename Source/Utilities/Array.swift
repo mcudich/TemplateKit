@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Katana
 
 extension Array {
   func keyed(by: (Int, Element) -> AnyHashable) -> Dictionary<AnyHashable, Element> {

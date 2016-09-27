@@ -55,6 +55,21 @@
 		D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194431D57F24F0049991F /* SimpleTemplate.xml */; };
 		D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194441D57F24F0049991F /* TemplateWithModel.xml */; };
 		D893AC501D908AA90078DAD9 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D893AC4F1D908AA90078DAD9 /* Properties.swift */; };
+		D8C2B24C1D9AF16200FF4534 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D8C2B2491D9AF16200FF4534 /* Config.xcconfig */; };
+		D8C2B24D1D9AF16200FF4534 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8C2B24A1D9AF16200FF4534 /* Info.plist */; };
+		D8C2B25B1D9AF1AD00FF4534 /* foundation.c in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B22F1D9AF15600FF4534 /* foundation.c */; };
+		D8C2B25C1D9AF1AD00FF4534 /* foundation.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B2301D9AF15600FF4534 /* foundation.h */; };
+		D8C2B25D1D9AF1AD00FF4534 /* katana.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B2311D9AF15600FF4534 /* katana.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8C2B25E1D9AF1AD00FF4534 /* katana.lex.c in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B2321D9AF15600FF4534 /* katana.lex.c */; };
+		D8C2B25F1D9AF1AD00FF4534 /* katana.lex.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B2331D9AF15600FF4534 /* katana.lex.h */; };
+		D8C2B2601D9AF1AD00FF4534 /* katana.tab.c in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B2341D9AF15600FF4534 /* katana.tab.c */; };
+		D8C2B2611D9AF1AD00FF4534 /* katana.tab.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B2351D9AF15600FF4534 /* katana.tab.h */; };
+		D8C2B2621D9AF1AD00FF4534 /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B2361D9AF15600FF4534 /* parser.c */; };
+		D8C2B2631D9AF1AD00FF4534 /* parser.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B2371D9AF15600FF4534 /* parser.h */; };
+		D8C2B2641D9AF1AD00FF4534 /* selector.c in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B2381D9AF15600FF4534 /* selector.c */; };
+		D8C2B2651D9AF1AD00FF4534 /* selector.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B2391D9AF15600FF4534 /* selector.h */; };
+		D8C2B2661D9AF1AD00FF4534 /* tokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B23A1D9AF15600FF4534 /* tokenizer.c */; };
+		D8C2B2671D9AF1AD00FF4534 /* tokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B23B1D9AF15600FF4534 /* tokenizer.h */; };
 		D8E661571D8A1226005D8C4F /* DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E661561D8A1226005D8C4F /* DiffTests.swift */; };
 		D8E6615B1D8E754D005D8C4F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615A1D8E754D005D8C4F /* View.swift */; };
 		D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615E1D923D0B005D8C4F /* Button.swift */; };
@@ -74,6 +89,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D891940D1D57F1FB0049991F;
 			remoteInfo = TemplateKit;
+		};
+		D8C2B2681D9AF1C100FF4534 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D89194051D57F1FB0049991F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8C2B2521D9AF18700FF4534;
+			remoteInfo = Katana;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -132,6 +154,25 @@
 		D89194431D57F24F0049991F /* SimpleTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SimpleTemplate.xml; sourceTree = "<group>"; };
 		D89194441D57F24F0049991F /* TemplateWithModel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TemplateWithModel.xml; sourceTree = "<group>"; };
 		D893AC4F1D908AA90078DAD9 /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
+		D8C2B22F1D9AF15600FF4534 /* foundation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = foundation.c; path = "ThirdParty/katana-parser/src/foundation.c"; sourceTree = "<group>"; };
+		D8C2B2301D9AF15600FF4534 /* foundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = foundation.h; path = "ThirdParty/katana-parser/src/foundation.h"; sourceTree = "<group>"; };
+		D8C2B2311D9AF15600FF4534 /* katana.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = katana.h; path = "ThirdParty/katana-parser/src/katana.h"; sourceTree = "<group>"; };
+		D8C2B2321D9AF15600FF4534 /* katana.lex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = katana.lex.c; path = "ThirdParty/katana-parser/src/katana.lex.c"; sourceTree = "<group>"; };
+		D8C2B2331D9AF15600FF4534 /* katana.lex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = katana.lex.h; path = "ThirdParty/katana-parser/src/katana.lex.h"; sourceTree = "<group>"; };
+		D8C2B2341D9AF15600FF4534 /* katana.tab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = katana.tab.c; path = "ThirdParty/katana-parser/src/katana.tab.c"; sourceTree = "<group>"; };
+		D8C2B2351D9AF15600FF4534 /* katana.tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = katana.tab.h; path = "ThirdParty/katana-parser/src/katana.tab.h"; sourceTree = "<group>"; };
+		D8C2B2361D9AF15600FF4534 /* parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parser.c; path = "ThirdParty/katana-parser/src/parser.c"; sourceTree = "<group>"; };
+		D8C2B2371D9AF15600FF4534 /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parser.h; path = "ThirdParty/katana-parser/src/parser.h"; sourceTree = "<group>"; };
+		D8C2B2381D9AF15600FF4534 /* selector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = selector.c; path = "ThirdParty/katana-parser/src/selector.c"; sourceTree = "<group>"; };
+		D8C2B2391D9AF15600FF4534 /* selector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = selector.h; path = "ThirdParty/katana-parser/src/selector.h"; sourceTree = "<group>"; };
+		D8C2B23A1D9AF15600FF4534 /* tokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tokenizer.c; path = "ThirdParty/katana-parser/src/tokenizer.c"; sourceTree = "<group>"; };
+		D8C2B23B1D9AF15600FF4534 /* tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tokenizer.h; path = "ThirdParty/katana-parser/src/tokenizer.h"; sourceTree = "<group>"; };
+		D8C2B2491D9AF16200FF4534 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = "ThirdParty/Support/katana-parser/Config.xcconfig"; sourceTree = "<group>"; };
+		D8C2B24A1D9AF16200FF4534 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "ThirdParty/Support/katana-parser/Info.plist"; sourceTree = "<group>"; };
+		D8C2B24B1D9AF16200FF4534 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = "ThirdParty/Support/katana-parser/module.modulemap"; sourceTree = "<group>"; };
+		D8C2B2531D9AF18700FF4534 /* Katana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Katana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8C2B2551D9AF18700FF4534 /* Katana.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Katana.h; sourceTree = "<group>"; };
+		D8C2B2561D9AF18700FF4534 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8E661561D8A1226005D8C4F /* DiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffTests.swift; sourceTree = "<group>"; };
 		D8E6615A1D8E754D005D8C4F /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		D8E6615E1D923D0B005D8C4F /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
@@ -161,6 +202,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D8C2B24F1D9AF18700FF4534 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -182,6 +230,7 @@
 		D8325EDA1D98731500F3EC95 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				D8C2B22E1D9AF14300FF4534 /* Katana */,
 				D8325EC61D986D4100F3EC95 /* CSSLayout */,
 			);
 			name = ThirdParty;
@@ -268,6 +317,7 @@
 				D8325EDA1D98731500F3EC95 /* ThirdParty */,
 				D89194101D57F1FB0049991F /* Source */,
 				D891941C1D57F1FB0049991F /* Tests */,
+				D8C2B2541D9AF18700FF4534 /* Katana */,
 				D891940F1D57F1FB0049991F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -278,6 +328,7 @@
 				D891940E1D57F1FB0049991F /* TemplateKit.framework */,
 				D89194181D57F1FB0049991F /* TemplateKitTests.xctest */,
 				D83936EE1D834EAE008CA7F1 /* CSSLayout.framework */,
+				D8C2B2531D9AF18700FF4534 /* Katana.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -315,6 +366,38 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		D8C2B22E1D9AF14300FF4534 /* Katana */ = {
+			isa = PBXGroup;
+			children = (
+				D8C2B2491D9AF16200FF4534 /* Config.xcconfig */,
+				D8C2B24A1D9AF16200FF4534 /* Info.plist */,
+				D8C2B24B1D9AF16200FF4534 /* module.modulemap */,
+				D8C2B22F1D9AF15600FF4534 /* foundation.c */,
+				D8C2B2301D9AF15600FF4534 /* foundation.h */,
+				D8C2B2311D9AF15600FF4534 /* katana.h */,
+				D8C2B2321D9AF15600FF4534 /* katana.lex.c */,
+				D8C2B2331D9AF15600FF4534 /* katana.lex.h */,
+				D8C2B2341D9AF15600FF4534 /* katana.tab.c */,
+				D8C2B2351D9AF15600FF4534 /* katana.tab.h */,
+				D8C2B2361D9AF15600FF4534 /* parser.c */,
+				D8C2B2371D9AF15600FF4534 /* parser.h */,
+				D8C2B2381D9AF15600FF4534 /* selector.c */,
+				D8C2B2391D9AF15600FF4534 /* selector.h */,
+				D8C2B23A1D9AF15600FF4534 /* tokenizer.c */,
+				D8C2B23B1D9AF15600FF4534 /* tokenizer.h */,
+			);
+			name = Katana;
+			sourceTree = "<group>";
+		};
+		D8C2B2541D9AF18700FF4534 /* Katana */ = {
+			isa = PBXGroup;
+			children = (
+				D8C2B2551D9AF18700FF4534 /* Katana.h */,
+				D8C2B2561D9AF18700FF4534 /* Info.plist */,
+			);
+			path = Katana;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -333,6 +416,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89194121D57F1FB0049991F /* TemplateKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8C2B2501D9AF18700FF4534 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8C2B25D1D9AF1AD00FF4534 /* katana.h in Headers */,
+				D8C2B2631D9AF1AD00FF4534 /* parser.h in Headers */,
+				D8C2B2651D9AF1AD00FF4534 /* selector.h in Headers */,
+				D8C2B2671D9AF1AD00FF4534 /* tokenizer.h in Headers */,
+				D8C2B25C1D9AF1AD00FF4534 /* foundation.h in Headers */,
+				D8C2B25F1D9AF1AD00FF4534 /* katana.lex.h in Headers */,
+				D8C2B2611D9AF1AD00FF4534 /* katana.tab.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +466,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D8C2B2691D9AF1C100FF4534 /* PBXTargetDependency */,
 				D839370A1D835526008CA7F1 /* PBXTargetDependency */,
 			);
 			name = TemplateKit;
@@ -394,6 +492,24 @@
 			productReference = D89194181D57F1FB0049991F /* TemplateKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D8C2B2521D9AF18700FF4534 /* Katana */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8C2B2581D9AF18700FF4534 /* Build configuration list for PBXNativeTarget "Katana" */;
+			buildPhases = (
+				D8C2B24E1D9AF18700FF4534 /* Sources */,
+				D8C2B24F1D9AF18700FF4534 /* Frameworks */,
+				D8C2B2501D9AF18700FF4534 /* Headers */,
+				D8C2B2511D9AF18700FF4534 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Katana;
+			productName = Katana;
+			productReference = D8C2B2531D9AF18700FF4534 /* Katana.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -417,6 +533,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0800;
 					};
+					D8C2B2521D9AF18700FF4534 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 46UKZ786J3;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = D89194081D57F1FB0049991F /* Build configuration list for PBXProject "TemplateKit" */;
@@ -433,6 +554,7 @@
 			targets = (
 				D891940D1D57F1FB0049991F /* TemplateKit */,
 				D83936ED1D834EAE008CA7F1 /* CSSLayout */,
+				D8C2B2521D9AF18700FF4534 /* Katana */,
 				D89194171D57F1FB0049991F /* TemplateKitTests */,
 			);
 		};
@@ -450,6 +572,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C2B24D1D9AF16200FF4534 /* Info.plist in Resources */,
+				D8C2B24C1D9AF16200FF4534 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +583,13 @@
 			files = (
 				D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */,
 				D89194481D57F24F0049991F /* TemplateWithModel.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8C2B2511D9AF18700FF4534 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +660,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D8C2B24E1D9AF18700FF4534 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8C2B25E1D9AF1AD00FF4534 /* katana.lex.c in Sources */,
+				D8C2B2601D9AF1AD00FF4534 /* katana.tab.c in Sources */,
+				D8C2B2621D9AF1AD00FF4534 /* parser.c in Sources */,
+				D8C2B2661D9AF1AD00FF4534 /* tokenizer.c in Sources */,
+				D8C2B25B1D9AF1AD00FF4534 /* foundation.c in Sources */,
+				D8C2B2641D9AF1AD00FF4534 /* selector.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -541,6 +685,11 @@
 			isa = PBXTargetDependency;
 			target = D891940D1D57F1FB0049991F /* TemplateKit */;
 			targetProxy = D891941A1D57F1FB0049991F /* PBXContainerItemProxy */;
+		};
+		D8C2B2691D9AF1C100FF4534 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8C2B2521D9AF18700FF4534 /* Katana */;
+			targetProxy = D8C2B2681D9AF1C100FF4534 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -782,6 +931,52 @@
 			};
 			name = Release;
 		};
+		D8C2B2591D9AF18700FF4534 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 46UKZ786J3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Katana/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit.Katana;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D8C2B25A1D9AF18700FF4534 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 46UKZ786J3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Katana/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit.Katana;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -820,6 +1015,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D8C2B2581D9AF18700FF4534 /* Build configuration list for PBXNativeTarget "Katana" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8C2B2591D9AF18700FF4534 /* Debug */,
+				D8C2B25A1D9AF18700FF4534 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
