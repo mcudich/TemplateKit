@@ -1,5 +1,7 @@
-<box flexDirection="row" width="$properties.layout.width" onDoubleTap="handleEdit">
-  <button backgroundColor="$buttonBackgroundColor" width="24" height="24" onTap="handleToggle" />
-  <textfield text="$text" onChange="handleChangeWithTarget:" onSubmit="handleSubmitWithTarget:" onBlur="handleSubmitWithTarget:" flexGrow="1" enabled="$enabled" focused="$properties.enabled" />
-  <button backgroundColor="#ff0000" width="24" height="24" onTap="handleDestroy" />
-</box>
+<template>
+  <box flexDirection="row" width="$properties.layout.width" onDoubleTap="handleEdit">
+    <button backgroundColor="$buttonBackgroundColor" width="24" height="24" onTap="handleToggle" />
+    <textfield text="$text" onChange="handleChangeWithTarget:" onSubmit="handleSubmitWithTarget:" onBlur="handleSubmitWithTarget:" flexGrow="1" enabled="$enabled" focused="$properties.enabled" />
+    <button backgroundColor="#ff0000" width="24" height="24" onTap="handleDestroy" />
+  </box>
+</template>

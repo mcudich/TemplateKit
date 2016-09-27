@@ -1,4 +1,11 @@
-<Box id="container">
-  <Box id="child1" width="50" height="30" />
-  <Box id="child2" />
-</Box>
+<template>
+  <style>
+    #container {
+      backgroundColor: #ff0000;
+    }
+  </style>
+  <box id="container">
+    <box id="child1" width="50" height="30" />
+    <box id="child2" />
+  </box>
+</template>

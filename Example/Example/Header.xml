@@ -1,7 +1,9 @@
-<box paddingTop="40">
-  <text text="todos" textAlignment="center" />
-  <box flexDirection="row">
-    <button backgroundColor="#eeeeee" onTap="handleToggleAllWithTarget:" width="24" height="24" />
-    <textfield text="$state.newTodo" placeholder="What needs to be done?" height="24" onSubmit="handleNewTodoSubmitWithTarget:" onChange="handleChangeWithTarget:" flexGrow="1" />
+<template>
+  <box paddingTop="40">
+    <text text="todos" textAlignment="center" />
+    <box flexDirection="row">
+      <button backgroundColor="#eeeeee" onTap="handleToggleAllWithTarget:" width="24" height="24" />
+      <textfield text="$state.newTodo" placeholder="What needs to be done?" height="24" onSubmit="handleNewTodoSubmitWithTarget:" onChange="handleChangeWithTarget:" flexGrow="1" />
+    </box>
   </box>
-</box>
+</template>

@@ -1,9 +1,11 @@
-<box flexDirection="row" alignItems="center" backgroundColor="#eeeeee" padding="5">
-  <text text="$count" fontSize="10" />
-  <box flexDirection="row" flexGrow="1" paddingLeft="5" paddingRight="5" justifyContent="center">
-    <button title="all" titleColor="#000000" titleFontSize="10" onTap="handleSelectAll" borderColor="#000000" cornerRadius="5" padding="5" selectedBackgroundColor="#ff0000" selected="$allSelected" />
-    <button title="active" titleColor="#000000" titleFontSize="10" onTap="handleSelectActive" borderColor="#000000" cornerRadius="5" padding="5" marginLeft="5" selectedBackgroundColor="#ff0000" selected="$activeSelected" />
-    <button title="completed" titleColor="#000000" titleFontSize="10" onTap="handleSelectCompleted" borderColor="#000000" cornerRadius="5" padding="5" marginLeft="5" selectedBackgroundColor="#ff0000" selected="$completedSelected"/>
+<template>
+  <box flexDirection="row" alignItems="center" backgroundColor="#eeeeee" padding="5">
+    <text text="$count" fontSize="10" />
+    <box flexDirection="row" flexGrow="1" paddingLeft="5" paddingRight="5" justifyContent="center">
+      <button title="all" titleColor="#000000" titleFontSize="10" onTap="handleSelectAll" borderColor="#000000" cornerRadius="5" padding="5" selectedBackgroundColor="#ff0000" selected="$allSelected" />
+      <button title="active" titleColor="#000000" titleFontSize="10" onTap="handleSelectActive" borderColor="#000000" cornerRadius="5" padding="5" marginLeft="5" selectedBackgroundColor="#ff0000" selected="$activeSelected" />
+      <button title="completed" titleColor="#000000" titleFontSize="10" onTap="handleSelectCompleted" borderColor="#000000" cornerRadius="5" padding="5" marginLeft="5" selectedBackgroundColor="#ff0000" selected="$completedSelected"/>
+    </box>
+    <button title="clear all" titleColor="#000000" onTap="handleClearCompleted" titleFontSize="10" />
   </box>
-  <button title="clear all" titleColor="#000000" onTap="handleClearCompleted" titleFontSize="10" />
-</box>
+</template>

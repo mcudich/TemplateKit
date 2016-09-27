@@ -8,7 +8,14 @@ public struct Template: Equatable {
   }
 
   func makeElement(with model: Model) throws -> Element {
-    return try document.makeElement(with: model)
+    guard let componentElement = document.componentElement else {
+      throw TemplateKitError.parserError("Malformed document")
+    }
+    var styleSheet: StyleSheet?
+    if let styleElement = document.styleElement, let styleText = styleElement.value {
+      styleSheet = StyleSheet(string: styleText)
+    }
+    return try componentElement.makeElement(with: model)
   }
 }
 
@@ -17,6 +24,18 @@ public func ==(lhs: Template, rhs: Template) -> Bool {
 }
 
 extension XMLElement {
+  var styleElement: XMLElement? {
+    return children.first { candidate in
+      return candidate.name == "style"
+    }
+  }
+
+  var componentElement: XMLElement? {
+    return children.first { candidate in
+      return candidate.name != "style"
+    }
+  }
+
   func makeElement(with model: Model) throws -> Element {
     let resolvedProperties = resolve(properties: attributes, withModel: model)
     return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: model) })
