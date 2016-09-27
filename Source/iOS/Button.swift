@@ -140,9 +140,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
     var properties = BaseProperties()
     properties.layout = self.properties.layout
     properties.style = self.properties.style
-    if let backgroundColor = currentBackgroundColor {
-      properties.style.backgroundColor = backgroundColor
-    }
+    properties.style.backgroundColor = currentBackgroundColor
     properties.gestures.onTap = #selector(Button.handleTap)
     properties.gestures.onPress = #selector(Button.handlePress)
     properties.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
