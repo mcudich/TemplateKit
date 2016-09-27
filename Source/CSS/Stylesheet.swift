@@ -67,36 +67,53 @@ public struct Rule {
       return selector.matches(element)
     }
   }
+
+  public func greatestSpecificityForElement(_ element: StyleElement) -> Int {
+    var specificity = 0
+    for selector in selectors {
+      if selector.matches(element) {
+        var underlyingSelector = selector.selector!
+        specificity = max(specificity, Int(katana_calc_specificity_for_selector(&underlyingSelector)))
+      }
+    }
+    return specificity
+  }
 }
 
 public indirect enum StyleSelector {
   case none
-  case some(Match, StyleSelector, Relation, String)
+  case some(Match, StyleSelector, Relation, KatanaSelector, String)
 
   public var match: Match? {
-    if case let .some(match, _, _, _) = self {
+    if case let .some(match, _, _, _, _) = self {
       return match
     }
     return nil
   }
 
   public var related: StyleSelector? {
-    if case let .some(_, related, _, _) = self {
+    if case let .some(_, related, _, _, _) = self {
       return related
     }
     return nil
   }
 
   public var relation: Relation? {
-    if case let .some(_, _, relation, _) = self {
+    if case let .some(_, _, relation, _, _) = self {
       return relation
     }
     return nil
   }
 
+  public var selector: KatanaSelector? {
+    if case let .some(_, _, _, selector, _) = self {
+      return selector
+    }
+    return nil
+  }
 
   public var value: String? {
-    if case let .some(_, _, _, value) = self {
+    if case let .some(_, _, _, _, value) = self {
       return value
     }
     return nil
@@ -198,6 +215,29 @@ public struct StyleSheet {
     }
   }
 
+  public func stylesForElement(_ element: StyleElement) -> [String: StyleDeclaration] {
+    var declarations = [String: (Rule, StyleDeclaration)]()
+    for rule in rulesForElement(element) {
+      for declaration in rule.declarations {
+        if let (existingRule, _) = declarations[declaration.name] {
+          let existingSpecificity = existingRule.greatestSpecificityForElement(element)
+          let newSpecificity = rule.greatestSpecificityForElement(element)
+          if newSpecificity > existingSpecificity {
+            declarations[declaration.name] = (rule, declaration)
+          }
+        } else {
+          declarations[declaration.name] = (rule, declaration)
+        }
+      }
+    }
+
+    var declarationMap = [String: StyleDeclaration]()
+    for (key, (_, declaration)) in declarations {
+      declarationMap[key] = declaration
+    }
+    return declarationMap
+  }
+
   private func makeSelector(_ selector: KatanaSelector) -> StyleSelector {
     let parent = selector.tagHistory == nil ? .none : makeSelector(selector.tagHistory.pointee)
 
@@ -207,7 +247,8 @@ public struct StyleSheet {
     } else {
       name = String(cString: selector.data.pointee.value)
     }
-    return .some(Match(selector.match), parent, Relation(selector.relation), name)
+
+    return .some(Match(selector.match), parent, Relation(selector.relation), selector, name)
   }
 
   private func makeDeclaration(_ declaration: KatanaDeclaration) -> StyleDeclaration {

@@ -147,4 +147,41 @@ class StylesheetTests: XCTestCase {
     XCTAssertEqual(1, parsed.rulesForElement(test).count)
     XCTAssertEqual(0, parsed.rulesForElement(counter).count)
   }
+
+  func testSimpleStylesForElement() {
+    let sheet = "box { height: 100; width: 200; background-color: green }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let element = TestElement(tagName: "box")
+    let styles = parsed.stylesForElement(element)
+    XCTAssertEqual(3, styles.count)
+    XCTAssertEqual("100", styles["height"]?.values[0])
+    XCTAssertEqual("200", styles["width"]?.values[0])
+    XCTAssertEqual("green", styles["background-color"]?.values[0])
+  }
+
+  func testMergedStylesForElement() {
+    let sheet = "box { height: 100; width: 200; background-color: green } .focused { border: red }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let element = TestElement(classNames: ["focused"], tagName: "box")
+    let styles = parsed.stylesForElement(element)
+    XCTAssertEqual(4, styles.count)
+    XCTAssertEqual("100", styles["height"]?.values[0])
+    XCTAssertEqual("200", styles["width"]?.values[0])
+    XCTAssertEqual("green", styles["background-color"]?.values[0])
+    XCTAssertEqual("red", styles["border"]?.values[0])
+  }
+
+  func testSpecificityConstrainedStylesForElement() {
+    let sheet = "box { height: 100; width: 200; background-color: green } .focused { height: 300 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let element = TestElement(classNames: ["focused"], tagName: "box")
+    let styles = parsed.stylesForElement(element)
+    XCTAssertEqual(3, styles.count)
+    XCTAssertEqual("300", styles["height"]?.values[0])
+    XCTAssertEqual("200", styles["width"]?.values[0])
+    XCTAssertEqual("green", styles["background-color"]?.values[0])
+  }
 }
