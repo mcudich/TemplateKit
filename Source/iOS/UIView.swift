@@ -33,18 +33,15 @@ extension NativeView where Self: UIView {
   }
 
   private func applyBackgroundColor() {
-    guard let backgroundColor = properties.style.backgroundColor else {
-      return
-    }
-    self.backgroundColor = backgroundColor
+    backgroundColor = properties.style.backgroundColor
   }
 
   private func applyBorder() {
     guard let borderColor = properties.style.borderColor else {
       return
     }
-    self.layer.borderColor = borderColor.cgColor
-    self.layer.borderWidth = (properties.style.borderWidth ?? 1) / UIScreen.main.scale
+    layer.borderColor = borderColor.cgColor
+    layer.borderWidth = (properties.style.borderWidth ?? 1) / UIScreen.main.scale
   }
 
   private func applyCornerRadius() {

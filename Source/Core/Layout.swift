@@ -21,10 +21,12 @@ public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
   public var overflow: CSSOverflow?
   public var flexGrow: Float?
   public var flexShrink: Float?
+  public var margin: Float?
   public var marginTop: Float?
   public var marginBottom: Float?
   public var marginLeft: Float?
   public var marginRight: Float?
+  public var padding: Float?
   public var paddingTop: Float?
   public var paddingBottom: Float?
   public var paddingLeft: Float?
@@ -40,12 +42,12 @@ public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
   public var maxWidth: Float?
   public var maxHeight: Float?
 
-  public var margin: CSSEdges {
-    return CSSEdges(left: marginLeft ?? 0, right: marginRight ?? 0, bottom: marginBottom ?? 0, top: marginTop ?? 0)
+  public var computedMargin: CSSEdges {
+    return CSSEdges(left: marginLeft ?? margin ?? 0, right: marginRight ?? margin ?? 0, bottom: marginBottom ?? margin ?? 0, top: marginTop ?? margin ?? 0)
   }
 
-  public var padding: CSSEdges {
-    return CSSEdges(left: paddingLeft ?? 0, right: paddingRight ?? 0, bottom: paddingBottom ?? 0, top: paddingTop ?? 0)
+  public var computedPadding: CSSEdges {
+    return CSSEdges(left: paddingLeft ?? padding ?? 0, right: paddingRight ?? padding ?? 0, bottom: paddingBottom ?? padding ?? 0, top: paddingTop ?? padding ?? 0)
   }
 
   public var position: CSSEdges {
@@ -84,10 +86,12 @@ public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
     overflow = properties.cast("overflow")
     flexGrow = properties.cast("flexGrow")
     flexShrink = properties.cast("flexShrink")
+    margin = properties.cast("margin")
     marginTop = properties.cast("marginTop")
     marginBottom = properties.cast("marginBottom")
     marginLeft = properties.cast("marginLeft")
     marginRight = properties.cast("marginRight")
+    padding = properties.cast("padding")
     paddingTop = properties.cast("paddingTop")
     paddingBottom = properties.cast("paddingBottom")
     paddingLeft = properties.cast("paddingLeft")
@@ -183,7 +187,7 @@ extension PropertyNode where Self.PropertiesType: ViewProperties {
   }
 
   public var margin: CSSEdges {
-    return properties.layout.margin 
+    return properties.layout.computedMargin
   }
 
   public var position: CSSEdges {
@@ -191,7 +195,7 @@ extension PropertyNode where Self.PropertiesType: ViewProperties {
   }
 
   public var padding: CSSEdges {
-    return properties.layout.padding
+    return properties.layout.computedPadding
   }
 
   public var size: CSSSize {
