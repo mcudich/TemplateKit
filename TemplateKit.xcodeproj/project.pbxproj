@@ -47,7 +47,6 @@
 		D83937081D835207008CA7F1 /* CSSLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937071D835207008CA7F1 /* CSSLayout.swift */; };
 		D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937161D872BDE008CA7F1 /* CollectionView.swift */; };
 		D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */; };
-		D839371B1D876E00008CA7F1 /* ElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839371A1D876E00008CA7F1 /* ElementTests.swift */; };
 		D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */; };
 		D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43951D86627100DDC9A2 /* CompositeComponent.swift */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,7 +69,9 @@
 		D8C2B2651D9AF1AD00FF4534 /* selector.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B2391D9AF15600FF4534 /* selector.h */; };
 		D8C2B2661D9AF1AD00FF4534 /* tokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B23A1D9AF15600FF4534 /* tokenizer.c */; };
 		D8C2B2671D9AF1AD00FF4534 /* tokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = D8C2B23B1D9AF15600FF4534 /* tokenizer.h */; };
-		D8E661571D8A1226005D8C4F /* DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E661561D8A1226005D8C4F /* DiffTests.swift */; };
+		D8C2B26C1D9AF3B600FF4534 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B26B1D9AF3B600FF4534 /* Stylesheet.swift */; };
+		D8C2B26E1D9AF58A00FF4534 /* StylesheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B26D1D9AF58A00FF4534 /* StylesheetTests.swift */; };
+		D8C2B2701D9B183900FF4534 /* StyleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C2B26F1D9B183900FF4534 /* StyleElement.swift */; };
 		D8E6615B1D8E754D005D8C4F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615A1D8E754D005D8C4F /* View.swift */; };
 		D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6615E1D923D0B005D8C4F /* Button.swift */; };
 /* End PBXBuildFile section */
@@ -143,7 +144,6 @@
 		D83937071D835207008CA7F1 /* CSSLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSSLayout.swift; sourceTree = "<group>"; };
 		D83937161D872BDE008CA7F1 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncDataListView.swift; sourceTree = "<group>"; };
-		D839371A1D876E00008CA7F1 /* ElementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementTests.swift; sourceTree = "<group>"; };
 		D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateService.swift; sourceTree = "<group>"; };
 		D85B43951D86627100DDC9A2 /* CompositeComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CompositeComponent.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,7 +173,9 @@
 		D8C2B2531D9AF18700FF4534 /* Katana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Katana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C2B2551D9AF18700FF4534 /* Katana.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Katana.h; sourceTree = "<group>"; };
 		D8C2B2561D9AF18700FF4534 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8E661561D8A1226005D8C4F /* DiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffTests.swift; sourceTree = "<group>"; };
+		D8C2B26B1D9AF3B600FF4534 /* Stylesheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
+		D8C2B26D1D9AF58A00FF4534 /* StylesheetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylesheetTests.swift; sourceTree = "<group>"; };
+		D8C2B26F1D9B183900FF4534 /* StyleElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleElement.swift; sourceTree = "<group>"; };
 		D8E6615A1D8E754D005D8C4F /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		D8E6615E1D923D0B005D8C4F /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -339,6 +341,7 @@
 				D83936911D8348C5008CA7F1 /* Core */,
 				D839369A1D8348C5008CA7F1 /* iOS */,
 				D83936A51D8348C5008CA7F1 /* Template */,
+				D8C2B26A1D9AF2EC00FF4534 /* CSS */,
 				D83936AC1D8348C5008CA7F1 /* Utilities */,
 				D89194131D57F1FB0049991F /* Info.plist */,
 				D89194111D57F1FB0049991F /* TemplateKit.h */,
@@ -351,8 +354,7 @@
 			children = (
 				D89194421D57F24F0049991F /* Resources */,
 				D891941F1D57F1FB0049991F /* Info.plist */,
-				D839371A1D876E00008CA7F1 /* ElementTests.swift */,
-				D8E661561D8A1226005D8C4F /* DiffTests.swift */,
+				D8C2B26D1D9AF58A00FF4534 /* StylesheetTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -396,6 +398,15 @@
 				D8C2B2561D9AF18700FF4534 /* Info.plist */,
 			);
 			path = Katana;
+			sourceTree = "<group>";
+		};
+		D8C2B26A1D9AF2EC00FF4534 /* CSS */ = {
+			isa = PBXGroup;
+			children = (
+				D8C2B26B1D9AF3B600FF4534 /* Stylesheet.swift */,
+				D8C2B26F1D9B183900FF4534 /* StyleElement.swift */,
+			);
+			path = CSS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -621,6 +632,7 @@
 				D83936BE1D8348C5008CA7F1 /* ViewNode.swift in Sources */,
 				D83936C71D8348C5008CA7F1 /* TextField.swift in Sources */,
 				D83936DB1D83497C008CA7F1 /* UIView.swift in Sources */,
+				D8C2B2701D9B183900FF4534 /* StyleElement.swift in Sources */,
 				D83936CC1D8348C5008CA7F1 /* Template.swift in Sources */,
 				D83936D01D8348C5008CA7F1 /* AsyncQueue.swift in Sources */,
 				D83936BD1D8348C5008CA7F1 /* Renderer.swift in Sources */,
@@ -646,6 +658,7 @@
 				D83936CF1D8348C5008CA7F1 /* Array.swift in Sources */,
 				D83936C81D8348C5008CA7F1 /* UIKitRenderer.swift in Sources */,
 				D83936CE1D8348C5008CA7F1 /* Validation.swift in Sources */,
+				D8C2B26C1D9AF3B600FF4534 /* Stylesheet.swift in Sources */,
 				D8325EDC1D987F5500F3EC95 /* XMLDocumentParser.swift in Sources */,
 				D83936C91D8348C5008CA7F1 /* Error.swift in Sources */,
 			);
@@ -655,8 +668,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8E661571D8A1226005D8C4F /* DiffTests.swift in Sources */,
-				D839371B1D876E00008CA7F1 /* ElementTests.swift in Sources */,
+				D8C2B26E1D9AF58A00FF4534 /* StylesheetTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,10 +912,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKitTests;
@@ -918,10 +927,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKitTests;
@@ -942,6 +948,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				INFOPLIST_FILE = Katana/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -965,6 +972,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				INFOPLIST_FILE = Katana/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
