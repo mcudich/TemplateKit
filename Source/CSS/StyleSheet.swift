@@ -68,7 +68,7 @@ public struct Rule {
     }
   }
 
-  public func greatestSpecificityForElement(_ element: StyleElement) -> Int {
+  public func greatestSpecificity(for element: StyleElement) -> Int {
     var specificity = 0
     for selector in selectors {
       if selector.matches(element) {
@@ -164,9 +164,17 @@ public indirect enum StyleSelector {
       }
       return related.matches(parent)
     case .directAdjacent:
-      fatalError("Not implemented yet")
+      guard let directAdjacent = element.parentElement?.directAdjacent(of: element) else {
+        return false
+      }
+      return related.matches(directAdjacent)
     case .indirectAdjacent:
-      fatalError("Not implemented yet")
+      guard let indirectAdjacents = element.parentElement?.indirectAdjacents(of: element) else {
+        return false
+      }
+      return indirectAdjacents.contains { indirectAdjacent in
+        return related.matches(indirectAdjacent)
+      }
     }
   }
 }
@@ -220,8 +228,8 @@ public struct StyleSheet {
     for rule in rulesForElement(element) {
       for declaration in rule.declarations {
         if let (existingRule, _) = declarations[declaration.name] {
-          let existingSpecificity = existingRule.greatestSpecificityForElement(element)
-          let newSpecificity = rule.greatestSpecificityForElement(element)
+          let existingSpecificity = existingRule.greatestSpecificity(for: element)
+          let newSpecificity = rule.greatestSpecificity(for: element)
           if newSpecificity > existingSpecificity {
             declarations[declaration.name] = (rule, declaration)
           }

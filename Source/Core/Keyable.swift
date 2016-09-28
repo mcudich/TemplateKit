@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol Keyable {
-  var key: String? { get }
+  var key: String? { get set }
 }

@@ -20,6 +20,7 @@ public protocol Element: Keyable, StyleElement {
   var parent: Element? { get set }
 
   func build(with owner: Node?, context: Context?) -> Node
+  func equals(_ other: Element?) -> Bool
   mutating func applyStyleSheet(_ styleSheet: StyleSheet?)
 }
 
@@ -30,6 +31,42 @@ public extension StyleElement where Self: Element {
 
   var childElements: [StyleElement]? {
     return children
+  }
+
+  public func equals(_ other: Element?) -> Bool {
+    return key == other?.key && (other?.parent?.equals(other?.parent) ?? (other?.parent == nil))
+  }
+
+  public func directAdjacent(of element: StyleElement) -> StyleElement? {
+    guard let children = children else {
+      return nil
+    }
+
+    let idx = children.index { child in
+      return child.equals(element as? Element)
+    }
+
+    guard let index = idx, index > 0 else {
+      return nil
+    }
+
+    return children[index - 1]
+  }
+
+  public func indirectAdjacents(of element: StyleElement) -> [StyleElement] {
+    guard let children = children else {
+      return []
+    }
+
+    let idx = children.index { child in
+      return child.equals(element as? Element)
+    }
+
+    guard let index = idx, index > 0 else {
+      return []
+    }
+
+    return Array(children[0..<index])
   }
 }
 
@@ -52,7 +89,12 @@ public struct ElementData<PropertiesType: Properties>: Element {
   }
 
   public var key: String? {
-    return properties.key
+    get {
+      return properties.key
+    }
+    set {
+      properties.key = newValue
+    }
   }
 
   public init(_ type: ElementRepresentable, _ properties: PropertiesType, _ children: [Element]? = nil) {
@@ -60,8 +102,9 @@ public struct ElementData<PropertiesType: Properties>: Element {
     self.properties = properties
     self.children = children
 
-    for (index, _) in (self.children ?? []).enumerated() {
+    for (index, child) in (self.children ?? []).enumerated() {
       self.children?[index].parent = self
+      self.children?[index].key = child.key ?? "\(index)"
     }
   }
 
@@ -88,4 +131,6 @@ public struct ElementData<PropertiesType: Properties>: Element {
       children?[index].applyStyleSheet(styleSheet)
     }
   }
+
+
 }
