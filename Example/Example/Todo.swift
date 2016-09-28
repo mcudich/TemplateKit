@@ -18,9 +18,7 @@ func ==(lhs: TodoState, rhs: TodoState) -> Bool {
 }
 
 struct TodoProperties: ViewProperties {
-  var key: String?
-  var id: String?
-  var classNames: [String]?
+  var identifier = IdentifierProperties()
   var layout = LayoutProperties()
   var style = StyleProperties()
   var gestures = GestureProperties()

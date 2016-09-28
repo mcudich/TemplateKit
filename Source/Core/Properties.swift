@@ -23,10 +23,34 @@ public extension RawPropertiesReceiver {
   }
 }
 
+public struct IdentifierProperties: RawPropertiesReceiver, Model, Equatable {
+  var key: String?
+  var id: String?
+  var classNames: [String]?
+
+  public init() {}
+
+  public init(_ properties: [String : Any]) {
+    key = properties.cast("key")
+    id = properties.cast("id")
+    if let classNames: String = properties.cast("classNames") {
+      self.classNames = classNames.components(separatedBy: " ")
+    }
+  }
+
+  public mutating func merge(_ other: IdentifierProperties) {
+    merge(&key, other.key)
+    merge(&id, other.id)
+    merge(&classNames, other.classNames)
+  }
+}
+
+public func ==(lhs: IdentifierProperties, rhs: IdentifierProperties) -> Bool {
+  return lhs.key == rhs.key && lhs.id == rhs.id && lhs.classNames == rhs.classNames
+}
+
 public protocol Properties: RawPropertiesReceiver, Model {
-  var key: String? { get set }
-  var id: String? { get set }
-  var classNames: [String]? { get set }
+  var identifier: IdentifierProperties { get set }
 
   init()
 }
@@ -83,7 +107,6 @@ public func ==(lhs: GestureProperties, rhs: GestureProperties) -> Bool {
 }
 
 public protocol ViewProperties: Properties, Equatable {
-  var key: String? { get set }
   var layout: LayoutProperties { get set }
   var style: StyleProperties { get set }
   var gestures: GestureProperties { get set }
@@ -95,31 +118,26 @@ public protocol ViewProperties: Properties, Equatable {
 
 public extension ViewProperties {
   public mutating func applyProperties(_ properties: [String: Any]) {
-    key = properties.cast("key")
-    id = properties.cast("id")
-    if let classNames: String = properties.cast("classNames") {
-      self.classNames = classNames.components(separatedBy: " ")
-    }
+    identifier = IdentifierProperties(properties)
     layout = LayoutProperties(properties)
     style = StyleProperties(properties)
     gestures = GestureProperties(properties)
   }
 
   public mutating func mergeProperties(_ properties: Self) {
+    identifier.merge(properties.identifier)
     layout.merge(properties.layout)
     style.merge(properties.style)
     gestures.merge(properties.gestures)
   }
 
   public func equals<T: ViewProperties>(otherViewProperties: T) -> Bool {
-    return key == otherViewProperties.key && layout == otherViewProperties.layout && style == otherViewProperties.style && gestures == otherViewProperties.gestures
+    return identifier == otherViewProperties.identifier && layout == otherViewProperties.layout && style == otherViewProperties.style && gestures == otherViewProperties.gestures
   }
 }
 
 public struct BaseProperties: ViewProperties {
-  public var key: String?
-  public var id: String?
-  public var classNames: [String]?
+  public var identifier = IdentifierProperties()
   public var layout = LayoutProperties()
   public var style = StyleProperties()
   public var gestures = GestureProperties()
