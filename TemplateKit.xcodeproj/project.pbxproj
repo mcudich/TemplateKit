@@ -37,7 +37,6 @@
 		D83936CB1D8348C5008CA7F1 /* NodeRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936A81D8348C5008CA7F1 /* NodeRegistry.swift */; };
 		D83936CC1D8348C5008CA7F1 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936A91D8348C5008CA7F1 /* Template.swift */; };
 		D83936CD1D8348C5008CA7F1 /* TemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936AA1D8348C5008CA7F1 /* TemplateService.swift */; };
-		D83936CE1D8348C5008CA7F1 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936AB1D8348C5008CA7F1 /* Validation.swift */; };
 		D83936CF1D8348C5008CA7F1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936AD1D8348C5008CA7F1 /* Array.swift */; };
 		D83936D01D8348C5008CA7F1 /* AsyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936AE1D8348C5008CA7F1 /* AsyncQueue.swift */; };
 		D83936D11D8348C5008CA7F1 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936AF1D8348C5008CA7F1 /* Dictionary.swift */; };
@@ -50,6 +49,7 @@
 		D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */; };
 		D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */; };
 		D85B43961D86627100DDC9A2 /* CompositeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43951D86627100DDC9A2 /* CompositeComponent.swift */; };
+		D86D42D71D9C6DF300740958 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86D42D61D9C6DF300740958 /* Validation.swift */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
 		D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194431D57F24F0049991F /* SimpleTemplate.xml */; };
@@ -135,7 +135,6 @@
 		D83936A81D8348C5008CA7F1 /* NodeRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeRegistry.swift; sourceTree = "<group>"; };
 		D83936A91D8348C5008CA7F1 /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		D83936AA1D8348C5008CA7F1 /* TemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateService.swift; sourceTree = "<group>"; };
-		D83936AB1D8348C5008CA7F1 /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		D83936AD1D8348C5008CA7F1 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		D83936AE1D8348C5008CA7F1 /* AsyncQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncQueue.swift; sourceTree = "<group>"; };
 		D83936AF1D8348C5008CA7F1 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
@@ -148,6 +147,7 @@
 		D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncDataListView.swift; sourceTree = "<group>"; };
 		D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateService.swift; sourceTree = "<group>"; };
 		D85B43951D86627100DDC9A2 /* CompositeComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CompositeComponent.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		D86D42D61D9C6DF300740958 /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194111D57F1FB0049991F /* TemplateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemplateKit.h; sourceTree = "<group>"; };
 		D89194131D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -282,12 +282,12 @@
 		D83936A51D8348C5008CA7F1 /* Template */ = {
 			isa = PBXGroup;
 			children = (
-				D83936B21D8348C5008CA7F1 /* Validation */,
 				D83936A61D8348C5008CA7F1 /* Error.swift */,
 				D83936A71D8348C5008CA7F1 /* Model.swift */,
 				D83936A81D8348C5008CA7F1 /* NodeRegistry.swift */,
 				D83936A91D8348C5008CA7F1 /* Template.swift */,
 				D83936AA1D8348C5008CA7F1 /* TemplateService.swift */,
+				D86D42D61D9C6DF300740958 /* Validation.swift */,
 				D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */,
 			);
 			path = Template;
@@ -305,14 +305,6 @@
 				D8325EDD1D99DDC300F3EC95 /* String.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		D83936B21D8348C5008CA7F1 /* Validation */ = {
-			isa = PBXGroup;
-			children = (
-				D83936AB1D8348C5008CA7F1 /* Validation.swift */,
-			);
-			path = Validation;
 			sourceTree = "<group>";
 		};
 		D89194041D57F1FB0049991F = {
@@ -647,6 +639,7 @@
 				D83936C61D8348C5008CA7F1 /* Text.swift in Sources */,
 				D83936BA1D8348C5008CA7F1 /* Layout.swift in Sources */,
 				D83936CB1D8348C5008CA7F1 /* NodeRegistry.swift in Sources */,
+				D86D42D71D9C6DF300740958 /* Validation.swift in Sources */,
 				D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */,
 				D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */,
 				D83936C11D8348C5008CA7F1 /* Image.swift in Sources */,
@@ -660,7 +653,6 @@
 				D83936D31D8348C5008CA7F1 /* Result.swift in Sources */,
 				D83936CF1D8348C5008CA7F1 /* Array.swift in Sources */,
 				D83936C81D8348C5008CA7F1 /* UIKitRenderer.swift in Sources */,
-				D83936CE1D8348C5008CA7F1 /* Validation.swift in Sources */,
 				D8C2B26C1D9AF3B600FF4534 /* StyleSheet.swift in Sources */,
 				D8325EDC1D987F5500F3EC95 /* XMLDocumentParser.swift in Sources */,
 				D83936C91D8348C5008CA7F1 /* Error.swift in Sources */,
