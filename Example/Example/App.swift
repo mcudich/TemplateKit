@@ -27,6 +27,8 @@ func ==(lhs: AppState, rhs: AppState) -> Bool {
 
 struct AppProperties: ViewProperties {
   var key: String?
+  var id: String?
+  var classNames: [String]?
   var layout = LayoutProperties()
   var style = StyleProperties()
   var gestures = GestureProperties()
@@ -39,6 +41,12 @@ struct AppProperties: ViewProperties {
     applyProperties(properties)
 
     model = properties.get("model")
+  }
+
+  mutating func merge(_ other: AppProperties) {
+    mergeProperties(other)
+
+    merge(&model, other.model)
   }
 }
 
