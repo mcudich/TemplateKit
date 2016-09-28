@@ -20,7 +20,6 @@ public protocol Element: Keyable, StyleElement {
   var parent: Element? { get set }
 
   func build(with owner: Node?, context: Context?) -> Node
-  func equals(_ other: Element?) -> Bool
   mutating func applyStyleSheet(_ styleSheet: StyleSheet?)
 }
 
@@ -131,6 +130,4 @@ public struct ElementData<PropertiesType: Properties>: Element {
       children?[index].applyStyleSheet(styleSheet)
     }
   }
-
-
 }
