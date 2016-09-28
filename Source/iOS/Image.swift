@@ -16,7 +16,7 @@ public struct ImageProperties: ViewProperties {
   public var style = StyleProperties()
   public var gestures = GestureProperties()
 
-  public var contentMode = UIViewContentMode.scaleAspectFit
+  public var contentMode: UIViewContentMode?
   public var url: URL?
   public var name: String?
   public var image: UIImage?
@@ -24,18 +24,21 @@ public struct ImageProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  public mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
 
-    if let contentMode: UIViewContentMode = properties.cast("contentMode") {
-      self.contentMode = contentMode
-    }
+    contentMode = properties.cast("contentMode")
     url = properties.cast("url")
     name = properties.cast("name")
     image = properties.image("image")
+  }
+
+  public mutating func merge(_ other: ImageProperties) {
+    mergeProperties(other)
+
+    merge(&contentMode, other.contentMode)
+    merge(&url, other.url)
+    merge(&name, other.name)
+    merge(&image, other.image)
   }
 }
 
@@ -66,7 +69,7 @@ public class Image: UIImageView, NativeView {
   }
 
   func applyImageProperties() {
-    contentMode = properties.contentMode
+    contentMode = properties.contentMode ?? .scaleAspectFit
 
     if let url = properties.url {
       ImageService.shared.load(url) { [weak self] result in

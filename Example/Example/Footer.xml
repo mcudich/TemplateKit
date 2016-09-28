@@ -1,11 +1,42 @@
 <template>
-  <box flexDirection="row" alignItems="center" backgroundColor="#eeeeee" padding="5">
-    <text text="$count" fontSize="10" />
-    <box flexDirection="row" flexGrow="1" paddingLeft="5" paddingRight="5" justifyContent="center">
-      <button title="all" titleColor="#000000" titleFontSize="10" onTap="handleSelectAll" borderColor="#000000" cornerRadius="5" padding="5" selectedBackgroundColor="#ff0000" selected="$allSelected" />
-      <button title="active" titleColor="#000000" titleFontSize="10" onTap="handleSelectActive" borderColor="#000000" cornerRadius="5" padding="5" marginLeft="5" selectedBackgroundColor="#ff0000" selected="$activeSelected" />
-      <button title="completed" titleColor="#000000" titleFontSize="10" onTap="handleSelectCompleted" borderColor="#000000" cornerRadius="5" padding="5" marginLeft="5" selectedBackgroundColor="#ff0000" selected="$completedSelected"/>
+  <style>
+    #container {
+      flexDirection: row;
+      alignItems: center;
+      backgroundColor: #eeeeee;
+      padding: 5;
+    }
+    #count {
+      fontSize: 10;
+    }
+    #filters {
+      flexDirection: row;
+      flexGrow: 1;
+      paddingLeft: 5;
+      paddingRight: 5;
+      justifyContent: center;
+    }
+    #filters button {
+      titleColor: #000000;
+      titleFontSize: 10;
+      borderColor: #000000;
+      cornerRadius: 5;
+      padding: 5;
+      marginLeft: 5;
+      selectedBackgroundColor: #ff0000;
+    }
+    #clearAll {
+      titleColor: #000000;
+      titleFontSize: 10;
+    }
+  </style>
+  <box id="container">
+    <text text="$count" id="count" />
+    <box id="filters">
+      <button title="all" onTap="handleSelectAll" selected="$allSelected" />
+      <button title="active" onTap="handleSelectActive" selected="$activeSelected" />
+      <button title="completed" onTap="handleSelectCompleted" selected="$completedSelected"/>
     </box>
-    <button title="clear all" titleColor="#000000" onTap="handleClearCompleted" titleFontSize="10" />
+    <button title="clear all" onTap="handleClearCompleted" />
   </box>
 </template>

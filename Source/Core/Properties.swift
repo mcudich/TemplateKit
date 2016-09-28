@@ -10,7 +10,17 @@ import Foundation
 
 public protocol RawPropertiesReceiver {
   init(_ properties: [String: Any])
-  mutating func merge(_ properties: [String: Any])
+  mutating func merge(_ other: Self)
+
+  mutating func merge<T>(_ value: inout T?, _ newValue: T?)
+}
+
+public extension RawPropertiesReceiver {
+  public mutating func merge<T>(_ value: inout T?, _ newValue: T?) {
+    if let newValue = newValue {
+      value = newValue
+    }
+  }
 }
 
 public protocol Properties: RawPropertiesReceiver, Model {
@@ -30,14 +40,17 @@ public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  public mutating func merge(_ properties: [String : Any]) {
     backgroundColor = properties.color("backgroundColor")
     borderColor = properties.color("borderColor")
     borderWidth = properties.cast("borderWidth")
     cornerRadius = properties.cast("cornerRadius")
+  }
+
+  public mutating func merge(_ other: StyleProperties) {
+    merge(&backgroundColor, other.backgroundColor)
+    merge(&borderColor, other.borderColor)
+    merge(&borderWidth, other.borderWidth)
+    merge(&cornerRadius, other.cornerRadius)
   }
 }
 
@@ -53,13 +66,15 @@ public struct GestureProperties: RawPropertiesReceiver, Model, Equatable {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  public mutating func merge(_ properties: [String : Any]) {
     onTap = properties.cast("onTap")
     onPress = properties.cast("onPress")
     onDoubleTap = properties.cast("onDoubleTap")
+  }
+
+  public mutating func merge(_ other: GestureProperties) {
+    merge(&onTap, other.onTap)
+    merge(&onPress, other.onPress)
+    merge(&onDoubleTap, other.onDoubleTap)
   }
 }
 
@@ -74,6 +89,7 @@ public protocol ViewProperties: Properties, Equatable {
   var gestures: GestureProperties { get set }
 
   mutating func applyProperties(_ properties: [String: Any])
+  mutating func mergeProperties(_ properties: Self)
   func equals<T: ViewProperties>(otherViewProperties: T) -> Bool
 }
 
@@ -87,6 +103,12 @@ public extension ViewProperties {
     layout = LayoutProperties(properties)
     style = StyleProperties(properties)
     gestures = GestureProperties(properties)
+  }
+
+  public mutating func mergeProperties(_ properties: Self) {
+    layout.merge(properties.layout)
+    style.merge(properties.style)
+    gestures.merge(properties.gestures)
   }
 
   public func equals<T: ViewProperties>(otherViewProperties: T) -> Bool {
@@ -105,11 +127,11 @@ public struct BaseProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String: Any]) {
-    merge(properties)
+    applyProperties(properties)
   }
 
-  public mutating func merge(_ properties: [String : Any]) {
-    applyProperties(properties)
+  public mutating func merge(_ other: BaseProperties) {
+    mergeProperties(other)
   }
 }
 

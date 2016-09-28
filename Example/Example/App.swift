@@ -38,13 +38,15 @@ struct AppProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
 
     model = properties.get("model")
+  }
+
+  mutating func merge(_ other: AppProperties) {
+    mergeProperties(other)
+
+    merge(&model, other.model)
   }
 }
 

@@ -52,6 +52,22 @@ public struct ButtonStyleProperties: Equatable {
     image = properties.image(key(statePrefix, "image"))
   }
 
+  mutating func merge(_ other: ButtonStyleProperties) {
+    merge(&title, other.title)
+    merge(&titleFontSize, other.titleFontSize)
+    merge(&titleColor, other.titleColor)
+    merge(&titleShadowColor, other.titleShadowColor)
+    merge(&backgroundColor, other.backgroundColor)
+    merge(&backgroundImage, other.backgroundImage)
+    merge(&image, other.image)
+  }
+
+  private mutating func merge<T>(_ value: inout T?, _ newValue: T?) {
+    if let newValue = newValue {
+      value = newValue
+    }
+  }
+
   private func key(_ prefix: String, _ propertyKey: String) -> String {
     var key = prefix
     key += prefix.isEmpty ? propertyKey : propertyKey.capitalizingFirstLetter()
@@ -72,17 +88,13 @@ public struct ButtonProperties: ViewProperties {
   public var gestures = GestureProperties()
 
   public var buttonStyle = [UIControlState: ButtonStyleProperties]()
-  public var selected: Bool = false
-  public var enabled: Bool = true
-  public var highlighted: Bool = false
+  public var selected: Bool?
+  public var enabled: Bool?
+  public var highlighted: Bool?
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  public mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
 
     for state in UIControlState.buttonStates {
@@ -98,6 +110,24 @@ public struct ButtonProperties: ViewProperties {
     if let highlighted: Bool = properties.cast("highlighted") {
       self.highlighted = highlighted
     }
+  }
+
+  public mutating func merge(_ other: ButtonProperties) {
+    mergeProperties(other)
+
+    for state in UIControlState.buttonStates {
+      if let otherState = other.buttonStyle[state] {
+        if buttonStyle[state] != nil {
+          buttonStyle[state]?.merge(otherState)
+        } else {
+          buttonStyle[state] = otherState
+        }
+      }
+    }
+
+    merge(&selected, other.selected)
+    merge(&enabled, other.enabled)
+    merge(&highlighted, other.highlighted)
   }
 }
 
@@ -118,7 +148,7 @@ public func ==(lhs: ButtonState, rhs: ButtonState) -> Bool {
 public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   public override var properties: ButtonProperties {
     didSet {
-      state.highlighted = properties.highlighted
+      state.highlighted = properties.highlighted ?? false
     }
   }
 
@@ -209,11 +239,11 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   private func property<T>(handler: (ButtonStyleProperties?) -> T?) -> T? {
     var value: T?
 
-    if !properties.enabled {
+    if !(properties.enabled ?? true) {
       value = handler(properties.buttonStyle[.disabled])
     } else if state.highlighted {
       value = handler(properties.buttonStyle[.highlighted])
-    } else if properties.selected {
+    } else if (properties.selected ?? false) {
       value = handler(properties.buttonStyle[.selected])
     }
 

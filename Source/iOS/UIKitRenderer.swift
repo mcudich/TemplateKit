@@ -24,7 +24,7 @@ public enum ElementType: ElementRepresentable {
     case .text:
       return "text"
     case .textField:
-      return "textField"
+      return "textfield"
     case .image:
       return "image"
     case .button:

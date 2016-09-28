@@ -26,7 +26,7 @@ struct TodoProperties: ViewProperties {
   var gestures = GestureProperties()
 
   var todo: TodoItem?
-  var editing = false
+  var editing: Bool?
   var onToggle: Selector?
   var onDestroy: Selector?
   var onEdit: Selector?
@@ -36,10 +36,6 @@ struct TodoProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
 
     todo = properties.get("todo")
@@ -49,6 +45,18 @@ struct TodoProperties: ViewProperties {
     onEdit = properties.cast("onEdit(")
     onSave = properties.cast("onSave")
     onCancel = properties.cast("onCancel")
+  }
+
+  mutating func merge(_ other: TodoProperties) {
+    mergeProperties(other)
+
+    merge(&todo, other.todo)
+    merge(&editing, other.editing)
+    merge(&onToggle, other.onToggle)
+    merge(&onDestroy, other.onDestroy)
+    merge(&onEdit, other.onEdit)
+    merge(&onSave, other.onSave)
+    merge(&onCancel, other.onCancel)
   }
 }
 
@@ -84,7 +92,7 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
   }
 
   @objc func handleChange(target: UITextField) {
-    if self.properties.editing {
+    if properties.editing ?? false {
       updateComponentState { state in
         state.editText = target.text
       }

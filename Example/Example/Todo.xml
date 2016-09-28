@@ -1,7 +1,22 @@
 <template>
-  <box flexDirection="row" width="$properties.layout.width" onDoubleTap="handleEdit">
-    <button backgroundColor="$buttonBackgroundColor" width="24" height="24" onTap="handleToggle" />
-    <textfield text="$text" onChange="handleChangeWithTarget:" onSubmit="handleSubmitWithTarget:" onBlur="handleSubmitWithTarget:" flexGrow="1" enabled="$enabled" focused="$properties.enabled" />
-    <button backgroundColor="#ff0000" width="24" height="24" onTap="handleDestroy" />
+  <style>
+    #container {
+      flexDirection: row;
+    }
+    button {
+      width: 24;
+      height: 24;
+    }
+    textfield {
+      flexGrow: 1;
+    }
+    #destroy {
+      backgroundColor: #ff0000;
+    }
+  </style>
+  <box id="container" onDoubleTap="handleEdit" width="$properties.layout.width">
+    <button id="toggle" onTap="handleToggle" backgroundColor="$buttonBackgroundColor" />
+    <textfield text="$text" onChange="handleChangeWithTarget:" onSubmit="handleSubmitWithTarget:" onBlur="handleSubmitWithTarget:" enabled="$enabled" focused="$properties.enabled" />
+    <button onTap="handleDestroy" />
   </box>
 </template>

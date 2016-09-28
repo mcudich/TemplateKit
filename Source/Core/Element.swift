@@ -75,11 +75,14 @@ public struct ElementData<PropertiesType: Properties>: Element {
 
   public mutating func applyStyleSheet(_ styleSheet: StyleSheet?) {
     let matchingStyles = styleSheet?.stylesForElement(self)
-    var properties = [String: Any]()
+    var styleSheetProperties = [String: Any]()
     for (name, declaration) in (matchingStyles ?? [:]) {
-      properties[name] = declaration.values[0]
+      styleSheetProperties[name] = declaration.values[0]
     }
-    self.properties.merge(properties)
+
+    var styledProperties = PropertiesType(styleSheetProperties)
+    styledProperties.merge(self.properties)
+    self.properties = styledProperties
 
     for (index, _) in (children ?? []).enumerated() {
       children?[index].applyStyleSheet(styleSheet)

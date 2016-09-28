@@ -22,16 +22,12 @@ public struct TextFieldProperties: ViewProperties {
   public var onBlur: Selector?
   public var onFocus: Selector?
   public var placeholder: String?
-  public var enabled = true
-  public var focused = false
+  public var enabled: Bool?
+  public var focused: Bool?
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  public mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
     textStyle = TextStyleProperties(properties)
 
@@ -40,8 +36,21 @@ public struct TextFieldProperties: ViewProperties {
     onBlur = properties.cast("onBlur")
     onFocus = properties.cast("onFocus")
     placeholder = properties.cast("placeholder")
-    enabled = properties.cast("enabled") ?? true
-    focused = properties.cast("focused") ?? false
+    enabled = properties.cast("enabled")
+    focused = properties.cast("focused")
+  }
+
+  public mutating func merge(_ other: TextFieldProperties) {
+    mergeProperties(other)
+    textStyle.merge(other.textStyle)
+
+    merge(&onChange, other.onChange)
+    merge(&onSubmit, other.onSubmit)
+    merge(&onBlur, other.onBlur)
+    merge(&onFocus, other.onFocus)
+    merge(&placeholder, other.placeholder)
+    merge(&enabled, other.enabled)
+    merge(&focused, other.focused)
   }
 }
 
@@ -77,22 +86,24 @@ public class TextField: UITextField, NativeView {
   }
 
   func applyTextFieldProperties() {
-    guard let fontValue = UIFont(name: properties.textStyle.fontName, size: properties.textStyle.fontSize) else {
+    let fontName = properties.textStyle.fontName ?? UIFont.systemFont(ofSize: UIFont.systemFontSize).fontName
+    let fontSize = properties.textStyle.fontSize ?? UIFont.systemFontSize
+    guard let fontValue = UIFont(name: fontName, size: fontSize) else {
       fatalError("Attempting to use unknown font")
     }
     let attributes: [String : Any] = [
       NSFontAttributeName: fontValue,
-      NSForegroundColorAttributeName: properties.textStyle.color
+      NSForegroundColorAttributeName: properties.textStyle.color ?? .black
     ]
 
     selectedTextRange = lastSelectedRange
     tintColor = .black
 
-    attributedText = NSAttributedString(string: properties.textStyle.text, attributes: attributes)
-    textAlignment = properties.textStyle.textAlignment
+    attributedText = NSAttributedString(string: properties.textStyle.text ?? "", attributes: attributes)
+    textAlignment = properties.textStyle.textAlignment ?? .natural
     placeholder = properties.placeholder
-    isEnabled = properties.enabled
-    if properties.focused {
+    isEnabled = properties.enabled ?? true
+    if properties.focused ?? false {
       let _ = becomeFirstResponder()
     }
   }

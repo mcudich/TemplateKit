@@ -75,10 +75,6 @@ public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  public mutating func merge(_ properties: [String : Any]) {
     flexDirection = properties.cast("flexDirection")
     direction = properties.cast("direction")
     justifyContent = properties.cast("justifyContent")
@@ -110,6 +106,40 @@ public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
     minHeight = properties.cast("minHeight")
     maxWidth = properties.cast("maxWidth")
     maxHeight = properties.cast("maxHeight")
+  }
+
+  public mutating func merge(_ other: LayoutProperties) {
+    merge(&flexDirection, other.flexDirection)
+    merge(&direction, other.direction)
+    merge(&justifyContent, other.justifyContent)
+    merge(&alignContent, other.alignContent)
+    merge(&alignItems, other.alignItems)
+    merge(&alignSelf, other.alignSelf)
+    merge(&positionType, other.positionType)
+    merge(&flexWrap, other.flexWrap)
+    merge(&overflow, other.overflow)
+    merge(&flexGrow, other.flexGrow)
+    merge(&flexShrink, other.flexShrink)
+    merge(&margin, other.margin)
+    merge(&marginTop, other.marginTop)
+    merge(&marginBottom, other.marginBottom)
+    merge(&marginLeft, other.marginLeft)
+    merge(&marginRight, other.marginRight)
+    merge(&padding, other.padding)
+    merge(&paddingTop, other.paddingTop)
+    merge(&paddingBottom, other.paddingBottom)
+    merge(&paddingLeft, other.paddingLeft)
+    merge(&paddingRight, other.paddingRight)
+    merge(&top, other.top)
+    merge(&bottom, other.bottom)
+    merge(&left, other.left)
+    merge(&right, other.right)
+    merge(&width, other.width)
+    merge(&height, other.height)
+    merge(&minWidth, other.minWidth)
+    merge(&minHeight, other.minHeight)
+    merge(&maxWidth, other.maxWidth)
+    merge(&maxHeight, other.maxHeight)
   }
 }
 

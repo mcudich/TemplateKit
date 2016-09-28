@@ -17,8 +17,8 @@ struct FooterProperties: ViewProperties {
   var style = StyleProperties()
   var gestures = GestureProperties()
 
-  var count = 0
-  var completedCount = 0
+  var count: Int?
+  var completedCount: Int?
   var onClearCompleted: Selector?
   var onUpdateFilter: Selector?
   var nowShowing: Filter?
@@ -26,10 +26,6 @@ struct FooterProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
 
     count = properties.cast("count") ?? 0
@@ -37,6 +33,16 @@ struct FooterProperties: ViewProperties {
     onClearCompleted = properties.cast("onClearCompleted")
     nowShowing = properties.get("nowShowing")
     onUpdateFilter = properties.cast("onUpdateFilter")
+  }
+
+  mutating func merge(_ other: FooterProperties) {
+    mergeProperties(other)
+
+    merge(&count, other.count)
+    merge(&completedCount, other.completedCount)
+    merge(&onClearCompleted, other.onClearCompleted)
+    merge(&nowShowing, other.nowShowing)
+    merge(&onUpdateFilter, other.onUpdateFilter)
   }
 }
 
@@ -67,7 +73,7 @@ class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
   }
 
   override func render() -> Element {
-    count = "\(properties.completedCount) items completed"
+    count = "\(properties.completedCount ?? 0) items completed"
     allSelected = properties.nowShowing == .all
     activeSelected = properties.nowShowing == .active
     completedSelected = properties.nowShowing == .completed

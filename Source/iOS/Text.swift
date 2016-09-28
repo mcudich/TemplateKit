@@ -54,58 +54,54 @@ class TextLayout {
   }
 
   private func applyProperties() {
-    guard let fontValue = UIFont(name: properties.textStyle.fontName, size: properties.textStyle.fontSize) else {
+    let fontName = properties.textStyle.fontName ?? UIFont.systemFont(ofSize: UIFont.systemFontSize).fontName
+    let fontSize = properties.textStyle.fontSize ?? UIFont.systemFontSize
+
+    guard let fontValue = UIFont(name: fontName, size: fontSize) else {
       fatalError("Attempting to use unknown font")
     }
 
     let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = properties.textStyle.textAlignment
+    paragraphStyle.alignment = properties.textStyle.textAlignment ?? .natural
 
     let attributes: [String : Any] = [
       NSFontAttributeName: fontValue,
-      NSForegroundColorAttributeName: properties.textStyle.color,
+      NSForegroundColorAttributeName: properties.textStyle.color ?? .black,
       NSParagraphStyleAttributeName: paragraphStyle
     ]
 
-    textStorage.setAttributedString(NSAttributedString(string: properties.textStyle.text, attributes: attributes))
+    textStorage.setAttributedString(NSAttributedString(string: properties.textStyle.text ?? "", attributes: attributes))
 
-    textContainer.lineBreakMode = properties.textStyle.lineBreakMode
+    textContainer.lineBreakMode = properties.textStyle.lineBreakMode ?? .byTruncatingTail
   }
 }
 
 public struct TextStyleProperties: RawPropertiesReceiver, Equatable {
-  public var text = ""
-  public var fontName = UIFont.systemFont(ofSize: UIFont.systemFontSize).fontName
-  public var fontSize = UIFont.systemFontSize
-  public var color = UIColor.black
-  public var lineBreakMode = NSLineBreakMode.byTruncatingTail
-  public var textAlignment = NSTextAlignment.natural
+  public var text: String?
+  public var fontName: String?
+  public var fontSize: CGFloat?
+  public var color: UIColor?
+  public var lineBreakMode: NSLineBreakMode?
+  public var textAlignment: NSTextAlignment?
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
+    text = properties.cast("text")
+    fontName = properties.cast("fontName")
+    fontSize = properties.cast("fontSize")
+    color = properties.color("color")
+    lineBreakMode = properties.cast("lineBreakMode")
+    textAlignment = properties.cast("textAlignment")
   }
 
-  public mutating func merge(_ properties: [String : Any]) {
-    if let text: String = properties.cast("text") {
-      self.text = text
-    }
-    if let fontName: String = properties.cast("fontName") {
-      self.fontName = fontName
-    }
-    if let fontSize: CGFloat = properties.cast("fontSize") {
-      self.fontSize = fontSize
-    }
-    if let color: UIColor = properties.color("color") {
-      self.color = color
-    }
-    if let lineBreakMode: NSLineBreakMode = properties.cast("lineBreakMode") {
-      self.lineBreakMode = lineBreakMode
-    }
-    if let textAlignment: NSTextAlignment = properties.cast("textAlignment") {
-      self.textAlignment = textAlignment
-    }
+  public mutating func merge(_ other: TextStyleProperties) {
+    merge(&text, other.text)
+    merge(&fontName, other.fontName)
+    merge(&fontSize, other.fontSize)
+    merge(&color, other.color)
+    merge(&lineBreakMode, other.lineBreakMode)
+    merge(&textAlignment, other.textAlignment)
   }
 }
 
@@ -126,12 +122,13 @@ public struct TextProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    merge(properties)
-  }
-
-  public mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
     textStyle = TextStyleProperties(properties)
+  }
+
+  public mutating func merge(_ other: TextProperties) {
+    mergeProperties(other)
+    textStyle.merge(other.textStyle)
   }
 }
 
