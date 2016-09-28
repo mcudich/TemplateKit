@@ -68,10 +68,10 @@ public protocol PropertyNode: Node {
 public extension PropertyNode {
   public var key: String? {
     get {
-      return properties.key
+      return properties.identifier.key
     }
     set {
-      properties.key = newValue
+      properties.identifier.key = newValue
     }
   }
 

@@ -37,15 +37,7 @@ public extension StyleElement where Self: Element {
   }
 
   public func directAdjacent(of element: StyleElement) -> StyleElement? {
-    guard let children = children else {
-      return nil
-    }
-
-    let idx = children.index { child in
-      return child.equals(element as? Element)
-    }
-
-    guard let index = idx, index > 0 else {
+    guard let children = children, let index = index(of: element), index > 0 else {
       return nil
     }
 
@@ -53,19 +45,21 @@ public extension StyleElement where Self: Element {
   }
 
   public func indirectAdjacents(of element: StyleElement) -> [StyleElement] {
-    guard let children = children else {
-      return []
-    }
-
-    let idx = children.index { child in
-      return child.equals(element as? Element)
-    }
-
-    guard let index = idx, index > 0 else {
+    guard let children = children, let index = index(of: element), index > 0 else {
       return []
     }
 
     return Array(children[0..<index])
+  }
+
+  private func index(of child: StyleElement) -> Int? {
+    guard let children = children else {
+      return nil
+    }
+
+    return children.index { child in
+      return child.equals(child)
+    }
   }
 }
 
@@ -76,11 +70,11 @@ public struct ElementData<PropertiesType: Properties>: Element {
   public var properties: PropertiesType
 
   public var id: String? {
-    return properties.id
+    return properties.identifier.id
   }
 
   public var classNames: [String]? {
-    return properties.classNames
+    return properties.identifier.classNames
   }
 
   public var tagName: String? {
@@ -89,10 +83,10 @@ public struct ElementData<PropertiesType: Properties>: Element {
 
   public var key: String? {
     get {
-      return properties.key
+      return properties.identifier.key
     }
     set {
-      properties.key = newValue
+      properties.identifier.key = newValue
     }
   }
 

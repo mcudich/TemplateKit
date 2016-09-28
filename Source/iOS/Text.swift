@@ -110,9 +110,7 @@ public func ==(lhs: TextStyleProperties, rhs: TextStyleProperties) -> Bool {
 }
 
 public struct TextProperties: ViewProperties {
-  public var key: String?
-  public var id: String?
-  public var classNames: [String]?
+  public var identifier = IdentifierProperties()
   public var layout = LayoutProperties()
   public var style = StyleProperties()
   public var gestures = GestureProperties()
