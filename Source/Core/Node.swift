@@ -66,8 +66,13 @@ public protocol PropertyNode: Node {
 }
 
 public extension PropertyNode {
-  var key: String? {
-    return properties.key
+  public var key: String? {
+    get {
+      return properties.key
+    }
+    set {
+      properties.key = newValue
+    }
   }
 
   var type: ElementRepresentable {

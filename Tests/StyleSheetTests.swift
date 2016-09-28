@@ -9,7 +9,7 @@
 import XCTest
 import TemplateKit
 
-class TestElement: StyleElement {
+class TestElement: StyleElement, Equatable {
   var id: String?
   var classNames: [String]?
   var tagName: String?
@@ -23,6 +23,24 @@ class TestElement: StyleElement {
     self.parentElement = parent
     self.childElements = children
   }
+
+  func directAdjacent(of element: StyleElement) -> StyleElement? {
+    let index = childElements?.index { child in
+      return (child as! TestElement) == (element as! TestElement)
+    }
+    return childElements![index! - 1]
+  }
+
+  func indirectAdjacents(of element: StyleElement) -> [StyleElement] {
+    let index = childElements?.index { child in
+      return (child as! TestElement) == (element as! TestElement)
+    }
+    return Array(childElements![0..<index!])
+  }
+}
+
+func ==(lhs: TestElement, rhs: TestElement) -> Bool {
+  return lhs === rhs
 }
 
 class StylesheetTests: XCTestCase {
@@ -132,6 +150,32 @@ class StylesheetTests: XCTestCase {
     element.parentElement = shim
     shim.parentElement = root
     XCTAssertEqual(0, parsed.rulesForElement(element).count)
+  }
+
+  func testMatchesDirectAdjacent() {
+    let sheet = ".foo + .bar { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+    let parent = TestElement()
+    let childOne = TestElement(classNames: ["foo"], parent: parent)
+    let childTwo = TestElement(classNames: ["bar"], parent: parent)
+    let childThree = TestElement(classNames: ["bar"], parent: parent)
+    parent.childElements = [childOne, childTwo, childThree]
+
+    XCTAssertEqual(1, parsed.rulesForElement(childTwo).count)
+    XCTAssertEqual(0, parsed.rulesForElement(childThree).count)
+  }
+
+  func testMatchesIndirectDirectAdjacent() {
+    let sheet = ".foo ~ .bar { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+    let parent = TestElement()
+    let childOne = TestElement(classNames: ["foo"], parent: parent)
+    let childTwo = TestElement(classNames: ["bar"], parent: parent)
+    let childThree = TestElement(classNames: ["bar"], parent: parent)
+    parent.childElements = [childOne, childTwo, childThree]
+
+    XCTAssertEqual(1, parsed.rulesForElement(childTwo).count)
+    XCTAssertEqual(1, parsed.rulesForElement(childThree).count)
   }
 
   func testArbitrarilyComplexSelectors() {

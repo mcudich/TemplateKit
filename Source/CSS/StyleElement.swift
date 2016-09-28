@@ -14,4 +14,7 @@ public protocol StyleElement {
   var tagName: String? { get }
   var parentElement: StyleElement? { get }
   var childElements: [StyleElement]? { get }
+
+  func directAdjacent(of element: StyleElement) -> StyleElement?
+  func indirectAdjacents(of element: StyleElement) -> [StyleElement]
 }
