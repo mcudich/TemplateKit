@@ -19,6 +19,8 @@ func ==(lhs: TodoState, rhs: TodoState) -> Bool {
 
 struct TodoProperties: ViewProperties {
   var key: String?
+  var id: String?
+  var classNames: [String]?
   var layout = LayoutProperties()
   var style = StyleProperties()
   var gestures = GestureProperties()
@@ -34,6 +36,10 @@ struct TodoProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
+    merge(properties)
+  }
+
+  mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
 
     todo = properties.get("todo")
@@ -48,31 +54,6 @@ struct TodoProperties: ViewProperties {
 
 func ==(lhs: TodoProperties, rhs: TodoProperties) -> Bool {
   return lhs.todo == rhs.todo && lhs.editing == rhs.editing && lhs.onToggle == rhs.onToggle && lhs.onDestroy == rhs.onDestroy && lhs.onEdit == rhs.onEdit && lhs.onSave == rhs.onSave && lhs.onCancel == rhs.onCancel
-}
-
-struct TodoTemplateProperties: ViewProperties {
-  var key: String?
-  var layout = LayoutProperties()
-  var style = StyleProperties()
-  var gestures = GestureProperties()
-
-  var buttonBackgroundColor: UIColor?
-  var onToggle: Selector?
-  var text: String?
-  var onChange: Selector?
-  var onSubmit: Selector?
-  var onBlur: Selector?
-  var onEdit: Selector?
-  var onDestroy: Selector?
-  var enabled: Bool?
-  var focused: Bool?
-
-  public init() {}
-  public init(_ properties: [String: Any]) {}
-}
-
-func ==(lhs: TodoTemplateProperties, rhs: TodoTemplateProperties) -> Bool {
-  return false
 }
 
 class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {

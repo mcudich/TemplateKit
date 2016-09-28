@@ -13,15 +13,15 @@ class TestElement: StyleElement {
   var id: String?
   var classNames: [String]?
   var tagName: String?
-  var parent: StyleElement?
-  var children: [StyleElement]?
+  var parentElement: StyleElement?
+  var childElements: [StyleElement]?
 
   init(id: String? = nil, classNames: [String]? = nil, tagName: String? = nil, parent: StyleElement? = nil, children: [StyleElement]? = nil) {
     self.id = id
     self.classNames = classNames
     self.tagName = tagName
-    self.parent = parent
-    self.children = children
+    self.parentElement = parent
+    self.childElements = children
   }
 }
 
@@ -112,8 +112,8 @@ class StylesheetTests: XCTestCase {
 
     let root = TestElement(classNames: ["test"])
     let shim = TestElement()
-    element.parent = shim
-    shim.parent = root
+    element.parentElement = shim
+    shim.parentElement = root
     XCTAssertEqual(1, parsed.rulesForElement(element).count)
   }
 
@@ -125,12 +125,12 @@ class StylesheetTests: XCTestCase {
     XCTAssertEqual(0, parsed.rulesForElement(element).count)
 
     let root = TestElement(classNames: ["test"])
-    element.parent = root
+    element.parentElement = root
     XCTAssertEqual(1, parsed.rulesForElement(element).count)
 
     let shim = TestElement()
-    element.parent = shim
-    shim.parent = root
+    element.parentElement = shim
+    shim.parentElement = root
     XCTAssertEqual(0, parsed.rulesForElement(element).count)
   }
 

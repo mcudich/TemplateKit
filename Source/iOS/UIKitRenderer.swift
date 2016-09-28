@@ -17,6 +17,26 @@ public enum ElementType: ElementRepresentable {
   case view(UIView)
   case component(AnyClass)
 
+  public var tagName: String {
+    switch self {
+    case .box:
+      return "box"
+    case .text:
+      return "text"
+    case .textField:
+      return "textField"
+    case .image:
+      return "image"
+    case .button:
+      return "button"
+    case .component(let ComponentType as ComponentCreation.Type):
+      print("Don't know how to handle this yet")
+      return ""
+    default:
+      fatalError("Unknown element type")
+    }
+  }
+
   public func make(_ element: Element, _ owner: Node?) -> Node {
     switch self {
     case .box:

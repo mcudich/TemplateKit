@@ -10,6 +10,8 @@ import Foundation
 
 public struct TextFieldProperties: ViewProperties {
   public var key: String?
+  public var id: String?
+  public var classNames: [String]?
   public var layout = LayoutProperties()
   public var style = StyleProperties()
   public var gestures = GestureProperties()
@@ -26,6 +28,10 @@ public struct TextFieldProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
+    merge(properties)
+  }
+
+  public mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
     textStyle = TextStyleProperties(properties)
 

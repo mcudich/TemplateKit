@@ -75,6 +75,10 @@ public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
   public init() {}
 
   public init(_ properties: [String : Any]) {
+    merge(properties)
+  }
+
+  public mutating func merge(_ properties: [String : Any]) {
     flexDirection = properties.cast("flexDirection")
     direction = properties.cast("direction")
     justifyContent = properties.cast("justifyContent")

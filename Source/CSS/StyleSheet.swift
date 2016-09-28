@@ -150,16 +150,16 @@ public indirect enum StyleSelector {
     case .subselector:
       return related.matches(element)
     case .descendant:
-      var parent = element.parent
+      var parent = element.parentElement
       while let currentParent = parent {
         if related.matches(currentParent) {
           return true
         }
-        parent = currentParent.parent
+        parent = currentParent.parentElement
       }
       return false
     case .child:
-      guard let parent = element.parent else {
+      guard let parent = element.parentElement else {
         return false
       }
       return related.matches(parent)

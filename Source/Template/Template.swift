@@ -11,11 +11,16 @@ public struct Template: Equatable {
     guard let componentElement = document.componentElement else {
       throw TemplateKitError.parserError("Malformed document")
     }
+
     var styleSheet: StyleSheet?
     if let styleElement = document.styleElement, let styleText = styleElement.value {
       styleSheet = StyleSheet(string: styleText)
+      // TODO(mcudich): Resolve style sheet against the model here.
     }
-    return try componentElement.makeElement(with: model)
+
+    var tree = try componentElement.makeElement(with: model, styleSheet: styleSheet)
+    tree.applyStyleSheet(styleSheet)
+    return tree
   }
 }
 
@@ -36,9 +41,9 @@ extension XMLElement {
     }
   }
 
-  func makeElement(with model: Model) throws -> Element {
+  func makeElement(with model: Model, styleSheet: StyleSheet?) throws -> Element {
     let resolvedProperties = resolve(properties: attributes, withModel: model)
-    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: model) })
+    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: model, styleSheet: styleSheet) })
   }
 
   private func resolve(properties: [String: String], withModel model: Model?) -> [String: Any] {

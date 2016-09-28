@@ -11,6 +11,8 @@ import TemplateKit
 
 struct FooterProperties: ViewProperties {
   var key: String?
+  var id: String?
+  var classNames: [String]?
   var layout = LayoutProperties()
   var style = StyleProperties()
   var gestures = GestureProperties()
@@ -24,6 +26,10 @@ struct FooterProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
+    merge(properties)
+  }
+
+  mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
 
     count = properties.cast("count") ?? 0

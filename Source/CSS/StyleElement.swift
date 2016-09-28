@@ -12,6 +12,6 @@ public protocol StyleElement {
   var id: String? { get }
   var classNames: [String]? { get }
   var tagName: String? { get }
-  var parent: StyleElement? { get }
-  var children: [StyleElement]? { get }
+  var parentElement: StyleElement? { get }
+  var childElements: [StyleElement]? { get }
 }

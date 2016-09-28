@@ -10,10 +10,13 @@ import Foundation
 
 public protocol RawPropertiesReceiver {
   init(_ properties: [String: Any])
+  mutating func merge(_ properties: [String: Any])
 }
 
 public protocol Properties: RawPropertiesReceiver, Model {
-  var key: String? { get }
+  var key: String? { get set }
+  var id: String? { get set }
+  var classNames: [String]? { get set }
 
   init()
 }
@@ -27,6 +30,10 @@ public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {
   public init() {}
 
   public init(_ properties: [String : Any]) {
+    merge(properties)
+  }
+
+  public mutating func merge(_ properties: [String : Any]) {
     backgroundColor = properties.color("backgroundColor")
     borderColor = properties.color("borderColor")
     borderWidth = properties.cast("borderWidth")
@@ -46,6 +53,10 @@ public struct GestureProperties: RawPropertiesReceiver, Model, Equatable {
   public init() {}
 
   public init(_ properties: [String : Any]) {
+    merge(properties)
+  }
+
+  public mutating func merge(_ properties: [String : Any]) {
     onTap = properties.cast("onTap")
     onPress = properties.cast("onPress")
     onDoubleTap = properties.cast("onDoubleTap")
@@ -69,6 +80,10 @@ public protocol ViewProperties: Properties, Equatable {
 public extension ViewProperties {
   public mutating func applyProperties(_ properties: [String: Any]) {
     key = properties.cast("key")
+    id = properties.cast("id")
+    if let classNames: String = properties.cast("classNames") {
+      self.classNames = classNames.components(separatedBy: " ")
+    }
     layout = LayoutProperties(properties)
     style = StyleProperties(properties)
     gestures = GestureProperties(properties)
@@ -81,6 +96,8 @@ public extension ViewProperties {
 
 public struct BaseProperties: ViewProperties {
   public var key: String?
+  public var id: String?
+  public var classNames: [String]?
   public var layout = LayoutProperties()
   public var style = StyleProperties()
   public var gestures = GestureProperties()
@@ -88,6 +105,10 @@ public struct BaseProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String: Any]) {
+    merge(properties)
+  }
+
+  public mutating func merge(_ properties: [String : Any]) {
     applyProperties(properties)
   }
 }
