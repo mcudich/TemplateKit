@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol NativeView: View {
-  associatedtype PropertiesType: ViewProperties
+  associatedtype PropertiesType: Properties
 
   var properties: PropertiesType { get set }
   weak var eventTarget: AnyObject? { get set }

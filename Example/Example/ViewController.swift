@@ -26,8 +26,8 @@ class ViewController: UIViewController, Context {
     super.viewDidLoad()
 
     var properties = AppProperties()
-    properties.layout.width = Float(view.bounds.size.width)
-    properties.layout.height = Float(view.bounds.size.height)
+    properties.core.layout.width = Float(view.bounds.size.width)
+    properties.core.layout.height = Float(view.bounds.size.height)
     properties.model = Todos()
 
     let templateURLs = [

@@ -28,9 +28,9 @@ public class Box: UIView, NativeView, ContainerView {
     }
   }
 
-  public var properties = BaseProperties([:]) {
+  public var properties = DefaultProperties() {
     didSet {
-      applyCommonProperties()
+      applyCoreProperties()
     }
   }
 

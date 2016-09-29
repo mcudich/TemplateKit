@@ -16,7 +16,7 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
   return true
 }
 
-open class CompositeComponent<StateType: State, PropertiesType: ViewProperties, ViewType: View>: Component, Model {
+open class CompositeComponent<StateType: State, PropertiesType: Properties, ViewType: View>: Component, Model {
   public weak var parent: Node?
   public weak var owner: Node?
 

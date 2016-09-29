@@ -175,73 +175,73 @@ public func ==(lhs: LayoutProperties, rhs: LayoutProperties) -> Bool {
   return lhs.flexDirection == rhs.flexDirection && lhs.direction == rhs.direction && lhs.justifyContent == rhs.justifyContent && lhs.alignContent == rhs.alignContent && lhs.alignItems == rhs.alignItems && lhs.alignSelf == rhs.alignSelf && lhs.positionType == rhs.positionType && lhs.flexWrap == rhs.flexWrap && lhs.overflow == rhs.overflow && lhs.flexGrow == rhs.flexGrow && lhs.flexShrink == rhs.flexShrink && lhs.margin == rhs.margin && lhs.padding == rhs.padding && CSSSize.compare(lhs.size, rhs.size) && lhs.minSize == rhs.minSize && lhs.maxSize == rhs.maxSize
 }
 
-extension PropertyNode where Self.PropertiesType: ViewProperties {
+extension PropertyNode where Self.PropertiesType: Properties {
   public var flexDirection: CSSFlexDirection {
-    return properties.layout.flexDirection ?? CSSFlexDirectionColumn
+    return properties.core.layout.flexDirection ?? CSSFlexDirectionColumn
   }
 
   public var direction: CSSDirection {
-    return properties.layout.direction ?? CSSDirectionLTR
+    return properties.core.layout.direction ?? CSSDirectionLTR
   }
 
   public var justifyContent: CSSJustify {
-    return properties.layout.justifyContent ?? CSSJustifyFlexStart
+    return properties.core.layout.justifyContent ?? CSSJustifyFlexStart
   }
 
   public var alignContent: CSSAlign {
-    return properties.layout.alignContent ?? CSSAlignStretch
+    return properties.core.layout.alignContent ?? CSSAlignStretch
   }
 
   public var alignItems: CSSAlign {
-    return properties.layout.alignItems ?? CSSAlignStretch
+    return properties.core.layout.alignItems ?? CSSAlignStretch
   }
 
   public var alignSelf: CSSAlign {
-    return properties.layout.alignSelf ?? CSSAlignAuto
+    return properties.core.layout.alignSelf ?? CSSAlignAuto
   }
 
   public var positionType: CSSPositionType {
-    return properties.layout.positionType ?? CSSPositionTypeRelative
+    return properties.core.layout.positionType ?? CSSPositionTypeRelative
   }
 
   public var flexWrap: CSSWrapType {
-    return properties.layout.flexWrap ?? CSSWrapTypeNoWrap
+    return properties.core.layout.flexWrap ?? CSSWrapTypeNoWrap
   }
 
   public var overflow: CSSOverflow {
-    return properties.layout.overflow ?? CSSOverflowVisible
+    return properties.core.layout.overflow ?? CSSOverflowVisible
   }
 
   public var flexGrow: Float {
-    return properties.layout.flexGrow ?? 0
+    return properties.core.layout.flexGrow ?? 0
   }
 
   public var flexShrink: Float {
-    return properties.layout.flexShrink ?? 0
+    return properties.core.layout.flexShrink ?? 0
   }
 
   public var margin: CSSEdges {
-    return properties.layout.computedMargin
+    return properties.core.layout.computedMargin
   }
 
   public var position: CSSEdges {
-    return properties.layout.position
+    return properties.core.layout.position
   }
 
   public var padding: CSSEdges {
-    return properties.layout.computedPadding
+    return properties.core.layout.computedPadding
   }
 
   public var size: CSSSize {
-    return properties.layout.size
+    return properties.core.layout.size
   }
 
   public var minSize: CSSSize? {
-    return properties.layout.minSize
+    return properties.core.layout.minSize
   }
 
   public var maxSize: CSSSize? {
-    return properties.layout.maxSize
+    return properties.core.layout.maxSize
   }
 
   public func buildCSSNode() -> CSSNode {

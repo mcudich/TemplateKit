@@ -15,7 +15,7 @@ class TemplateTests: XCTestCase {
   func testParseTemplate() {
     let template = Bundle(for: TemplateTests.self).url(forResource: "SimpleTemplate", withExtension: "xml")!
     let parsed = try! Template(xml: Data(contentsOf: template))
-    let element = try! parsed.makeElement(with: FakeModel()) as! ElementData<BaseProperties>
-    XCTAssertEqual(UIColor.red, element.properties.style.backgroundColor)
+    let element = try! parsed.makeElement(with: FakeModel()) as! ElementData<DefaultProperties>
+    XCTAssertEqual(UIColor.red, element.properties.core.style.backgroundColor)
   }
 }

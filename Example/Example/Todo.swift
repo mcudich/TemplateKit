@@ -17,11 +17,8 @@ func ==(lhs: TodoState, rhs: TodoState) -> Bool {
   return lhs.editText == rhs.editText
 }
 
-struct TodoProperties: ViewProperties {
-  var identifier = IdentifierProperties()
-  var layout = LayoutProperties()
-  var style = StyleProperties()
-  var gestures = GestureProperties()
+struct TodoProperties: Properties {
+  var core = CoreProperties()
 
   var todo: TodoItem?
   var editing: Bool?
@@ -34,7 +31,7 @@ struct TodoProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    applyProperties(properties)
+    core = CoreProperties(properties)
 
     todo = properties.get("todo")
     editing = properties.cast("editing") ?? false
@@ -46,7 +43,7 @@ struct TodoProperties: ViewProperties {
   }
 
   mutating func merge(_ other: TodoProperties) {
-    mergeProperties(other)
+    core.merge(other.core)
 
     merge(&todo, other.todo)
     merge(&editing, other.editing)

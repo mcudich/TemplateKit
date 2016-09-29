@@ -8,11 +8,8 @@
 
 import Foundation
 
-public struct TextFieldProperties: ViewProperties {
-  public var identifier = IdentifierProperties()
-  public var layout = LayoutProperties()
-  public var style = StyleProperties()
-  public var gestures = GestureProperties()
+public struct TextFieldProperties: Properties {
+  public var core = CoreProperties()
 
   public var textStyle = TextStyleProperties()
   public var onChange: Selector?
@@ -26,7 +23,7 @@ public struct TextFieldProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    applyProperties(properties)
+    core = CoreProperties(properties)
     textStyle = TextStyleProperties(properties)
 
     onChange = properties.cast("onChange")
@@ -39,7 +36,7 @@ public struct TextFieldProperties: ViewProperties {
   }
 
   public mutating func merge(_ other: TextFieldProperties) {
-    mergeProperties(other)
+    core.merge(other.core)
     textStyle.merge(other.textStyle)
 
     merge(&onChange, other.onChange)
@@ -53,13 +50,13 @@ public struct TextFieldProperties: ViewProperties {
 }
 
 public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
-  return lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.placeholder == rhs.placeholder && lhs.enabled == rhs.enabled && lhs.equals(otherViewProperties: rhs)
+  return lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.placeholder == rhs.placeholder && lhs.enabled == rhs.enabled && lhs.equals(otherProperties: rhs)
 }
 
 public class TextField: UITextField, NativeView {
   public weak var eventTarget: AnyObject?
 
-  public var properties = TextFieldProperties([:]) {
+  public var properties = TextFieldProperties() {
     didSet {
       applyProperties()
     }
@@ -79,7 +76,7 @@ public class TextField: UITextField, NativeView {
   }
 
   func applyProperties() {
-    applyCommonProperties()
+    applyCoreProperties()
     applyTextFieldProperties()
   }
 

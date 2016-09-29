@@ -109,29 +109,26 @@ public func ==(lhs: TextStyleProperties, rhs: TextStyleProperties) -> Bool {
   return lhs.text == rhs.text && lhs.fontName == rhs.fontName && lhs.fontSize == rhs.fontSize && lhs.color == rhs.color && lhs.lineBreakMode == rhs.lineBreakMode && lhs.textAlignment == rhs.textAlignment
 }
 
-public struct TextProperties: ViewProperties {
-  public var identifier = IdentifierProperties()
-  public var layout = LayoutProperties()
-  public var style = StyleProperties()
-  public var gestures = GestureProperties()
+public struct TextProperties: Properties {
+  public var core = CoreProperties()
 
   public var textStyle = TextStyleProperties()
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    applyProperties(properties)
+    core = CoreProperties(properties)
     textStyle = TextStyleProperties(properties)
   }
 
   public mutating func merge(_ other: TextProperties) {
-    mergeProperties(other)
+    core.merge(other.core)
     textStyle.merge(other.textStyle)
   }
 }
 
 public func ==(lhs: TextProperties, rhs: TextProperties) -> Bool {
-  return lhs.textStyle == rhs.textStyle && lhs.equals(otherViewProperties: rhs)
+  return lhs.textStyle == rhs.textStyle && lhs.equals(otherProperties: rhs)
 }
 
 public class Text: UILabel, NativeView {
@@ -139,7 +136,7 @@ public class Text: UILabel, NativeView {
 
   public var properties = TextProperties() {
     didSet {
-      applyCommonProperties()
+      applyCoreProperties()
       textLayout.properties = properties
       setNeedsDisplay()
     }
@@ -154,7 +151,7 @@ public class Text: UILabel, NativeView {
 
     isUserInteractionEnabled = true
 
-    applyCommonProperties()
+    applyCoreProperties()
   }
 
   public required init?(coder aDecoder: NSCoder) {

@@ -50,7 +50,7 @@ public enum ElementType: ElementRepresentable {
     case .button:
       return Button(element: element, children: nil, owner: owner)
     case .view(let view):
-      return ViewNode(view: view, element: element as! ElementData<BaseProperties>, owner: owner)
+      return ViewNode(view: view, element: element as! ElementData<DefaultProperties>, owner: owner)
     case .component(let ComponentType as ComponentCreation.Type):
       return ComponentType.init(element: element, children: nil, owner: owner)
     default:
