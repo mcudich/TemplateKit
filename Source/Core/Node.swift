@@ -7,7 +7,6 @@ public protocol Node: class, Keyable {
 
   var children: [Node]? { get set }
   var cssNode: CSSNode? { get set }
-  var key: String? { get }
   var type: ElementRepresentable { get }
 
   func build<V: View>() -> V
