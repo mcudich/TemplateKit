@@ -70,8 +70,6 @@ open class CompositeComponent<StateType: State, PropertiesType: ViewProperties, 
     }, completion: completion)
   }
 
-  // FIXME: For some reason, implementing this as a default in the Component protocol extension
-  // causes subclasses of this class to not receive calls to this function.
   open func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
     return properties != nextProperties || state != nextState
   }

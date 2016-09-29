@@ -23,6 +23,20 @@ public extension RawPropertiesReceiver {
   }
 }
 
+public protocol Properties: RawPropertiesReceiver, Model {
+  var identifier: IdentifierProperties { get set }
+
+  init()
+
+  func has(key: String, withValue value: String) -> Bool
+}
+
+extension Properties {
+  public func has(key: String, withValue value: String) -> Bool {
+    return false
+  }
+}
+
 public struct IdentifierProperties: RawPropertiesReceiver, Model, Equatable {
   var key: String?
   var id: String?
@@ -47,12 +61,6 @@ public struct IdentifierProperties: RawPropertiesReceiver, Model, Equatable {
 
 public func ==(lhs: IdentifierProperties, rhs: IdentifierProperties) -> Bool {
   return lhs.key == rhs.key && lhs.id == rhs.id && lhs.classNames == rhs.classNames
-}
-
-public protocol Properties: RawPropertiesReceiver, Model {
-  var identifier: IdentifierProperties { get set }
-
-  init()
 }
 
 public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {

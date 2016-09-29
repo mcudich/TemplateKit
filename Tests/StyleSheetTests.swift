@@ -15,13 +15,19 @@ class TestElement: StyleElement, Equatable {
   var tagName: String?
   var parentElement: StyleElement?
   var childElements: [StyleElement]?
+  var attributes: [String: String]?
 
-  init(id: String? = nil, classNames: [String]? = nil, tagName: String? = nil, parent: StyleElement? = nil, children: [StyleElement]? = nil) {
+  init(id: String? = nil, classNames: [String]? = nil, tagName: String? = nil, parent: StyleElement? = nil, children: [StyleElement]? = nil, attributes: [String: String]? = nil) {
     self.id = id
     self.classNames = classNames
     self.tagName = tagName
     self.parentElement = parent
     self.childElements = children
+    self.attributes = attributes
+  }
+
+  func has(attribute: String, with value: String) -> Bool {
+    return attributes?[attribute] == value
   }
 
   func directAdjacent(of element: StyleElement) -> StyleElement? {
@@ -176,6 +182,16 @@ class StylesheetTests: XCTestCase {
 
     XCTAssertEqual(1, parsed.rulesForElement(childTwo).count)
     XCTAssertEqual(1, parsed.rulesForElement(childThree).count)
+  }
+
+  func testMatchesAttribute() {
+    let sheet = "button { height: 100} button[selected=true] { height: 200 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let element = TestElement(tagName: "button", attributes: ["selected": "false"])
+    XCTAssertEqual(1, parsed.rulesForElement(element).count)
+    element.attributes?["selected"] = "true"
+    XCTAssertEqual(2, parsed.rulesForElement(element).count)
   }
 
   func testArbitrarilyComplexSelectors() {

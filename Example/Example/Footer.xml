@@ -17,26 +17,29 @@
       justifyContent: center;
     }
     #filters button {
-      titleColor: #000000;
-      titleFontSize: 10;
+      color: #000000;
+      fontSize: 10;
       borderColor: #000000;
       cornerRadius: 5;
       padding: 5;
       marginLeft: 5;
-      selectedBackgroundColor: #ff0000;
+    }
+    #filters button[selected=true] {
+      backgroundColor: #ff0000;
+      color: #ffffff;
     }
     #clearAll {
-      titleColor: #000000;
-      titleFontSize: 10;
+      color: #000000;
+      fontSize: 10;
     }
   </style>
   <box id="container">
     <text text="$count" id="count" />
     <box id="filters">
-      <button title="all" onTap="handleSelectAll" selected="$allSelected" />
-      <button title="active" onTap="handleSelectActive" selected="$activeSelected" />
-      <button title="completed" onTap="handleSelectCompleted" selected="$completedSelected"/>
+      <button text="all" onTap="handleSelectAll" selected="$allSelected" />
+      <button text="active" onTap="handleSelectActive" selected="$activeSelected" />
+      <button text="completed" onTap="handleSelectCompleted" selected="$completedSelected"/>
     </box>
-    <button title="clear all" onTap="handleClearCompleted" />
+    <button text="clear all" onTap="handleClearCompleted" />
   </box>
 </template>

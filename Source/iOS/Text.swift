@@ -115,7 +115,7 @@ public struct TextProperties: ViewProperties {
   public var style = StyleProperties()
   public var gestures = GestureProperties()
 
-  public var textStyle = TextStyleProperties([:])
+  public var textStyle = TextStyleProperties()
 
   public init() {}
 
@@ -141,6 +141,7 @@ public class Text: UILabel, NativeView {
     didSet {
       applyCommonProperties()
       textLayout.properties = properties
+      setNeedsDisplay()
     }
   }
 

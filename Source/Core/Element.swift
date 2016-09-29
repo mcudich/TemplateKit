@@ -36,6 +36,10 @@ public extension StyleElement where Self: Element {
     return key == other?.key && (other?.parent?.equals(other?.parent) ?? (other?.parent == nil))
   }
 
+  func matches(attribute: String, with value: String) -> Bool {
+    return false
+  }
+
   public func directAdjacent(of element: StyleElement) -> StyleElement? {
     guard let children = children, let index = index(of: element), index > 0 else {
       return nil
@@ -107,6 +111,10 @@ public struct ElementData<PropertiesType: Properties>: Element {
     made.context = context
 
     return made
+  }
+
+  public func has(attribute: String, with value: String) -> Bool {
+    return properties.has(key: attribute, withValue: value)
   }
 
   public mutating func applyStyleSheet(_ styleSheet: StyleSheet?) {
