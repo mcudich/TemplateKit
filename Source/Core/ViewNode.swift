@@ -13,18 +13,18 @@ class ViewNode: PropertyNode {
   weak var parent: Node?
   var context: Context?
 
-  var properties: BaseProperties
+  var properties: DefaultProperties
   var children: [Node]? {
     didSet {
       updateParent()
     }
   }
-  var element: ElementData<BaseProperties>
+  var element: ElementData<DefaultProperties>
   var cssNode: CSSNode?
   var builtView: View?
 
   required init(element: Element, children: [Node]?, owner: Node?) {
-    self.element = element as! ElementData<BaseProperties>
+    self.element = element as! ElementData<DefaultProperties>
     self.properties = self.element.properties
     self.children = children
     self.owner = owner
@@ -33,13 +33,13 @@ class ViewNode: PropertyNode {
   }
 
   init(view: UIView, element: Element, owner: Node? = nil) {
-    self.element = element as! ElementData<BaseProperties>
+    self.element = element as! ElementData<DefaultProperties>
     self.builtView = view
     self.properties = self.element.properties
   }
 
-  init(element: Element, properties: BaseProperties, children: [Node]? = nil, owner: Node? = nil) {
-    self.element = element as! ElementData<BaseProperties>
+  init(element: Element, properties: DefaultProperties, children: [Node]? = nil, owner: Node? = nil) {
+    self.element = element as! ElementData<DefaultProperties>
     self.properties = properties
     self.children = children
     self.owner = owner

@@ -8,11 +8,8 @@
 
 import Foundation
 
-public struct ImageProperties: ViewProperties {
-  public var identifier = IdentifierProperties()
-  public var layout = LayoutProperties()
-  public var style = StyleProperties()
-  public var gestures = GestureProperties()
+public struct ImageProperties: Properties {
+  public var core = CoreProperties()
 
   public var contentMode: UIViewContentMode?
   public var url: URL?
@@ -22,7 +19,7 @@ public struct ImageProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    applyProperties(properties)
+    core = CoreProperties(properties)
 
     contentMode = properties.cast("contentMode")
     url = properties.cast("url")
@@ -31,7 +28,7 @@ public struct ImageProperties: ViewProperties {
   }
 
   public mutating func merge(_ other: ImageProperties) {
-    mergeProperties(other)
+    core.merge(other.core)
 
     merge(&contentMode, other.contentMode)
     merge(&url, other.url)
@@ -41,7 +38,7 @@ public struct ImageProperties: ViewProperties {
 }
 
 public func ==(lhs: ImageProperties, rhs: ImageProperties) -> Bool {
-  return lhs.contentMode == rhs.contentMode && lhs.url == rhs.url && lhs.name == rhs.name && lhs.equals(otherViewProperties: rhs)
+  return lhs.contentMode == rhs.contentMode && lhs.url == rhs.url && lhs.name == rhs.name && lhs.equals(otherProperties: rhs)
 }
 
 public class Image: UIImageView, NativeView {
@@ -62,7 +59,7 @@ public class Image: UIImageView, NativeView {
   }
 
   func applyProperties() {
-    applyCommonProperties()
+    applyCoreProperties()
     applyImageProperties()
   }
 

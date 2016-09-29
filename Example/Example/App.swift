@@ -25,31 +25,27 @@ func ==(lhs: AppState, rhs: AppState) -> Bool {
   return lhs.nowShowing == rhs.nowShowing && lhs.editing == rhs.editing && lhs.newTodo == rhs.newTodo
 }
 
-struct AppProperties: ViewProperties {
-  var identifier = IdentifierProperties()
-  var layout = LayoutProperties()
-  var style = StyleProperties()
-  var gestures = GestureProperties()
-
+struct AppProperties: Properties {
+  var core = CoreProperties()
   var model: Todos?
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    applyProperties(properties)
+    core = CoreProperties(properties)
 
     model = properties.get("model")
   }
 
   mutating func merge(_ other: AppProperties) {
-    mergeProperties(other)
+    core.merge(other.core)
 
     merge(&model, other.model)
   }
 }
 
 func ==(lhs: AppProperties, rhs: AppProperties) -> Bool {
-  return lhs.model == rhs.model && lhs.equals(otherViewProperties: rhs)
+  return lhs.model == rhs.model && lhs.equals(otherProperties: rhs)
 }
 
 extension App: TableViewDataSource {
@@ -57,7 +53,7 @@ extension App: TableViewDataSource {
     var properties = TodoProperties()
 
     properties.todo = getFilteredTodos()[indexPath.row]
-    properties.layout.width = self.properties.layout.width
+    properties.core.layout.width = self.properties.core.layout.width
     properties.onToggle = #selector(App.handleToggle(id:))
     properties.onSave = #selector(App.handleSave(id:text:))
     properties.onEdit = #selector(App.handleEdit(id:))
@@ -180,8 +176,8 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
       children.append(renderFooter(activeCount: activeCount, completedCount: completedCount))
     }
 
-    var properties = BaseProperties()
-    properties.layout = self.properties.layout
+    var properties = DefaultProperties()
+    properties.core.layout = self.properties.core.layout
 
     return ElementData(ElementType.box, properties, children)
   }
@@ -191,7 +187,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   private func renderMain() -> Element {
-    return ElementData(ElementType.view(todosList), BaseProperties(["flexGrow": Float(1)]))
+    return ElementData(ElementType.view(todosList), DefaultProperties(["flexGrow": Float(1)]))
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {

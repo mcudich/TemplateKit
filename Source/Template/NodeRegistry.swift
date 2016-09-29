@@ -18,7 +18,7 @@ public class NodeRegistry {
 
   private func registerDefaultProviders() {
     registerElementBuilder("box") { properties, children in
-      return ElementData(ElementType.box, BaseProperties(properties), children)
+      return ElementData(ElementType.box, DefaultProperties(properties), children)
     }
     registerElementBuilder("text") { properties, children in
       return ElementData(ElementType.text, TextProperties(properties))

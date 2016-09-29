@@ -25,7 +25,7 @@ extension UIView: View {
 }
 
 extension NativeView where Self: UIView {
-  func applyCommonProperties() {
+  func applyCoreProperties() {
     applyBackgroundColor()
     applyBorder()
     applyCornerRadius()
@@ -33,29 +33,29 @@ extension NativeView where Self: UIView {
   }
 
   private func applyBackgroundColor() {
-    backgroundColor = properties.style.backgroundColor
+    backgroundColor = properties.core.style.backgroundColor
   }
 
   private func applyBorder() {
-    guard let borderColor = properties.style.borderColor else {
+    guard let borderColor = properties.core.style.borderColor else {
       return
     }
     layer.borderColor = borderColor.cgColor
-    layer.borderWidth = (properties.style.borderWidth ?? 1) / UIScreen.main.scale
+    layer.borderWidth = (properties.core.style.borderWidth ?? 1) / UIScreen.main.scale
   }
 
   private func applyCornerRadius() {
-    guard let cornerRadius = properties.style.cornerRadius else {
+    guard let cornerRadius = properties.core.style.cornerRadius else {
       return
     }
     self.layer.cornerRadius = cornerRadius
   }
 
   private func applyTapHandler() {
-    if let onTap = properties.gestures.onTap {
+    if let onTap = properties.core.gestures.onTap {
       let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
       addGestureRecognizer(recognizer)
-    } else if let onDoubleTap = properties.gestures.onDoubleTap {
+    } else if let onDoubleTap = properties.core.gestures.onDoubleTap {
       let recognizer = UITapGestureRecognizer(target: eventTarget, action: onDoubleTap)
       recognizer.numberOfTapsRequired = 2
       addGestureRecognizer(recognizer)
@@ -63,7 +63,7 @@ extension NativeView where Self: UIView {
   }
 
   public func touchesBegan() {
-    if let onPress = properties.gestures.onPress {
+    if let onPress = properties.core.gestures.onPress {
       let _ = eventTarget?.perform(onPress)
     }
   }

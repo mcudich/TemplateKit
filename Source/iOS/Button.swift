@@ -8,11 +8,8 @@
 
 import Foundation
 
-public struct ButtonProperties: ViewProperties {
-  public var identifier = IdentifierProperties()
-  public var layout = LayoutProperties()
-  public var style = StyleProperties()
-  public var gestures = GestureProperties()
+public struct ButtonProperties: Properties {
+  public var core = CoreProperties()
 
   public var titleStyle = TextStyleProperties()
   public var backgroundImage: UIImage?
@@ -24,7 +21,7 @@ public struct ButtonProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    applyProperties(properties)
+    core = CoreProperties(properties)
 
     titleStyle = TextStyleProperties(properties)
     selected = properties.cast("selected")
@@ -33,7 +30,7 @@ public struct ButtonProperties: ViewProperties {
   }
 
   public mutating func merge(_ other: ButtonProperties) {
-    mergeProperties(other)
+    core.merge(other.core)
 
     titleStyle.merge(other.titleStyle)
 
@@ -53,7 +50,7 @@ public struct ButtonProperties: ViewProperties {
 }
 
 public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
-  return lhs.titleStyle == rhs.titleStyle && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.highlighted == rhs.highlighted && lhs.equals(otherViewProperties: rhs)
+  return lhs.titleStyle == rhs.titleStyle && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.highlighted == rhs.highlighted && lhs.equals(otherProperties: rhs)
 }
 
 public struct ButtonState: State {
@@ -74,12 +71,12 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   }
 
   public override func render() -> Element {
-    var properties = BaseProperties()
-    properties.layout = self.properties.layout
-    properties.style = self.properties.style
-    properties.gestures.onTap = #selector(Button.handleTap)
-    properties.gestures.onPress = #selector(Button.handlePress)
-    properties.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
+    var properties = DefaultProperties()
+    properties.core.layout = self.properties.core.layout
+    properties.core.style = self.properties.core.style
+    properties.core.gestures.onTap = #selector(Button.handleTap)
+    properties.core.gestures.onPress = #selector(Button.handlePress)
+    properties.core.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
 
     var childElements = [Element]()
     if let _ = self.properties.image {
@@ -111,7 +108,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       guard self?.properties.enabled ?? true else {
         return
       }
-      self?.performSelector(self?.properties.gestures.onTap)
+      self?.performSelector(self?.properties.core.gestures.onTap)
     }
   }
 
@@ -126,7 +123,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       guard self?.properties.enabled ?? true else {
         return
       }
-      self?.performSelector(self?.properties.gestures.onDoubleTap)
+      self?.performSelector(self?.properties.core.gestures.onDoubleTap)
     }
   }
 }

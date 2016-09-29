@@ -55,7 +55,7 @@ public extension Node {
 }
 
 public protocol PropertyNode: Node {
-  associatedtype PropertiesType: ViewProperties
+  associatedtype PropertiesType: Properties
 
   var element: ElementData<PropertiesType> { get set }
   var properties: PropertiesType { get set }
@@ -67,10 +67,10 @@ public protocol PropertyNode: Node {
 public extension PropertyNode {
   public var key: String? {
     get {
-      return properties.identifier.key
+      return properties.core.identifier.key
     }
     set {
-      properties.identifier.key = newValue
+      properties.core.identifier.key = newValue
     }
   }
 

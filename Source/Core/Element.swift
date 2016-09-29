@@ -74,11 +74,11 @@ public struct ElementData<PropertiesType: Properties>: Element {
   public var properties: PropertiesType
 
   public var id: String? {
-    return properties.identifier.id
+    return properties.core.identifier.id
   }
 
   public var classNames: [String]? {
-    return properties.identifier.classNames
+    return properties.core.identifier.classNames
   }
 
   public var tagName: String? {
@@ -87,10 +87,10 @@ public struct ElementData<PropertiesType: Properties>: Element {
 
   public var key: String? {
     get {
-      return properties.identifier.key
+      return properties.core.identifier.key
     }
     set {
-      properties.identifier.key = newValue
+      properties.core.identifier.key = newValue
     }
   }
 

@@ -14,9 +14,9 @@
       backgroundColor: #ff0000;
     }
   </style>
-  <box id="container" onDoubleTap="handleEdit" width="$properties.layout.width">
+  <box id="container" onDoubleTap="handleEdit" width="$properties.core.layout.width">
     <button id="toggle" onTap="handleToggle" backgroundColor="$buttonBackgroundColor" />
     <textfield text="$text" onChange="handleChangeWithTarget:" onSubmit="handleSubmitWithTarget:" onBlur="handleSubmitWithTarget:" enabled="$enabled" focused="$properties.enabled" />
-    <button onTap="handleDestroy" />
+    <button id="destroy" onTap="handleDestroy" />
   </box>
 </template>

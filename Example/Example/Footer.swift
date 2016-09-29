@@ -9,11 +9,8 @@
 import Foundation
 import TemplateKit
 
-struct FooterProperties: ViewProperties {
-  var identifier = IdentifierProperties()
-  var layout = LayoutProperties()
-  var style = StyleProperties()
-  var gestures = GestureProperties()
+struct FooterProperties: Properties {
+  var core = CoreProperties()
 
   var count: Int?
   var completedCount: Int?
@@ -24,7 +21,7 @@ struct FooterProperties: ViewProperties {
   public init() {}
 
   public init(_ properties: [String : Any]) {
-    applyProperties(properties)
+    core = CoreProperties(properties)
 
     count = properties.cast("count") ?? 0
     completedCount = properties.cast("completedCount") ?? 0
@@ -34,7 +31,7 @@ struct FooterProperties: ViewProperties {
   }
 
   mutating func merge(_ other: FooterProperties) {
-    mergeProperties(other)
+    core.merge(other.core)
 
     merge(&count, other.count)
     merge(&completedCount, other.completedCount)

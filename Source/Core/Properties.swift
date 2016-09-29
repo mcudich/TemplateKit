@@ -23,20 +23,6 @@ public extension RawPropertiesReceiver {
   }
 }
 
-public protocol Properties: RawPropertiesReceiver, Model {
-  var identifier: IdentifierProperties { get set }
-
-  init()
-
-  func has(key: String, withValue value: String) -> Bool
-}
-
-extension Properties {
-  public func has(key: String, withValue value: String) -> Bool {
-    return false
-  }
-}
-
 public struct IdentifierProperties: RawPropertiesReceiver, Model, Equatable {
   var key: String?
   var id: String?
@@ -114,37 +100,7 @@ public func ==(lhs: GestureProperties, rhs: GestureProperties) -> Bool {
   return lhs.onTap == rhs.onTap
 }
 
-public protocol ViewProperties: Properties, Equatable {
-  var layout: LayoutProperties { get set }
-  var style: StyleProperties { get set }
-  var gestures: GestureProperties { get set }
-
-  mutating func applyProperties(_ properties: [String: Any])
-  mutating func mergeProperties(_ properties: Self)
-  func equals<T: ViewProperties>(otherViewProperties: T) -> Bool
-}
-
-public extension ViewProperties {
-  public mutating func applyProperties(_ properties: [String: Any]) {
-    identifier = IdentifierProperties(properties)
-    layout = LayoutProperties(properties)
-    style = StyleProperties(properties)
-    gestures = GestureProperties(properties)
-  }
-
-  public mutating func mergeProperties(_ properties: Self) {
-    identifier.merge(properties.identifier)
-    layout.merge(properties.layout)
-    style.merge(properties.style)
-    gestures.merge(properties.gestures)
-  }
-
-  public func equals<T: ViewProperties>(otherViewProperties: T) -> Bool {
-    return identifier == otherViewProperties.identifier && layout == otherViewProperties.layout && style == otherViewProperties.style && gestures == otherViewProperties.gestures
-  }
-}
-
-public struct BaseProperties: ViewProperties {
+public struct CoreProperties: RawPropertiesReceiver, Equatable {
   public var identifier = IdentifierProperties()
   public var layout = LayoutProperties()
   public var style = StyleProperties()
@@ -152,15 +108,57 @@ public struct BaseProperties: ViewProperties {
 
   public init() {}
 
-  public init(_ properties: [String: Any]) {
-    applyProperties(properties)
+  public init(_ properties: [String : Any]) {
+    identifier = IdentifierProperties(properties)
+    layout = LayoutProperties(properties)
+    style = StyleProperties(properties)
+    gestures = GestureProperties(properties)
   }
 
-  public mutating func merge(_ other: BaseProperties) {
-    mergeProperties(other)
+  public mutating func merge(_ other: CoreProperties) {
+    identifier.merge(other.identifier)
+    layout.merge(other.layout)
+    style.merge(other.style)
+    gestures.merge(other.gestures)
   }
 }
 
-public func ==(lhs: BaseProperties, rhs: BaseProperties) -> Bool {
-  return lhs.equals(otherViewProperties: rhs)
+public func ==(lhs: CoreProperties, rhs: CoreProperties) -> Bool {
+  return lhs.identifier == rhs.identifier && lhs.layout == lhs.layout && lhs.style == rhs.style && lhs.gestures == rhs.gestures
+}
+
+public protocol Properties: RawPropertiesReceiver, Equatable {
+  var core: CoreProperties { get set }
+
+  init()
+  func equals<T: Properties>(otherProperties: T) -> Bool
+  func has(key: String, withValue value: String) -> Bool
+}
+
+public extension Properties {
+  public func equals<T: Properties>(otherProperties: T) -> Bool {
+    return core == otherProperties.core
+  }
+
+  public func has(key: String, withValue value: String) -> Bool {
+    return false
+  }
+}
+
+public struct DefaultProperties: Properties {
+  public var core = CoreProperties()
+
+  public init() {}
+
+  public init(_ properties: [String: Any]) {
+    core = CoreProperties(properties)
+  }
+
+  public mutating func merge(_ other: DefaultProperties) {
+    core.merge(other.core)
+  }
+}
+
+public func ==(lhs: DefaultProperties, rhs: DefaultProperties) -> Bool {
+  return lhs.equals(otherProperties: rhs)
 }

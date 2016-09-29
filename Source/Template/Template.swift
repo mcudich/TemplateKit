@@ -17,7 +17,7 @@ public struct Template: Equatable {
       styleSheet = StyleSheet(string: styleText)
     }
 
-    var tree = try componentElement.makeElement(with: model, styleSheet: styleSheet)
+    var tree = try componentElement.makeElement(with: model)
     tree.applyStyleSheet(styleSheet)
     return tree
   }
@@ -60,8 +60,8 @@ extension XMLElement {
     }
   }
 
-  func makeElement(with model: Model, styleSheet: StyleSheet?) throws -> Element {
+  func makeElement(with model: Model) throws -> Element {
     let resolvedProperties = Template.resolve(properties: attributes, withModel: model)
-    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: model, styleSheet: styleSheet) })
+    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: model) })
   }
 }
