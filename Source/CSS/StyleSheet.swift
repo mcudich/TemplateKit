@@ -13,6 +13,7 @@ public enum Match {
   case tag
   case id
   case className
+  case attributeExact
 
   init(_ rawValue: KatanaSelectorMatch) {
     switch rawValue {
@@ -22,6 +23,8 @@ public enum Match {
       self = .id
     case KatanaSelectorMatchClass:
       self = .className
+    case KatanaSelectorMatchAttributeExact:
+      self = .attributeExact
     default:
       fatalError()
     }
@@ -80,41 +83,61 @@ public struct Rule {
   }
 }
 
+public struct RareData {
+  var value: String?
+  var attribute: String?
+}
+
+public struct StyleSelectorData {
+  var match: Match?
+  var relation: Relation?
+  var selector: KatanaSelector?
+  var data: RareData?
+  var value: String?
+}
+
 public indirect enum StyleSelector {
   case none
-  case some(Match, StyleSelector, Relation, KatanaSelector, String)
+  case some(StyleSelectorData, StyleSelector)
 
   public var match: Match? {
-    if case let .some(match, _, _, _, _) = self {
-      return match
+    if case let .some(data, _) = self {
+      return data.match
     }
     return nil
   }
 
   public var related: StyleSelector? {
-    if case let .some(_, related, _, _, _) = self {
+    if case let .some(_, related) = self {
       return related
     }
     return nil
   }
 
   public var relation: Relation? {
-    if case let .some(_, _, relation, _, _) = self {
-      return relation
+    if case let .some(data, _) = self {
+      return data.relation
     }
     return nil
   }
 
   public var selector: KatanaSelector? {
-    if case let .some(_, _, _, selector, _) = self {
-      return selector
+    if case let .some(data, _) = self {
+      return data.selector
+    }
+    return nil
+  }
+
+  public var data: RareData? {
+    if case let .some(data, _) = self {
+      return data.data
     }
     return nil
   }
 
   public var value: String? {
-    if case let .some(_, _, _, _, value) = self {
-      return value
+    if case let .some(data, _) = self {
+      return data.value
     }
     return nil
   }
@@ -136,6 +159,12 @@ public indirect enum StyleSelector {
       matches = element.classNames?.contains(value) ?? false
     case .tag:
       matches = element.tagName == value
+    case .attributeExact:
+      if let data = data, let attribute = data.attribute, let value = data.value {
+        matches = element.has(attribute: attribute, with: value)
+      } else {
+        matches = false
+      }
     }
 
     if !matches {
@@ -249,14 +278,24 @@ public struct StyleSheet {
   private func makeSelector(_ selector: KatanaSelector) -> StyleSelector {
     let parent = selector.tagHistory == nil ? .none : makeSelector(selector.tagHistory.pointee)
 
-    var name = ""
+    var value = ""
     if selector.tag != nil {
-      name = String(cString: selector.tag.pointee.local)
+      value = String(cString: selector.tag.pointee.local)
     } else {
-      name = String(cString: selector.data.pointee.value)
+      value = String(cString: selector.data.pointee.value)
     }
 
-    return .some(Match(selector.match), parent, Relation(selector.relation), selector, name)
+    var rareData = RareData()
+    if selector.data.pointee.value != nil {
+      rareData.value = String(cString: selector.data.pointee.value)
+    }
+    if selector.data.pointee.attribute != nil {
+      rareData.attribute = String(cString: selector.data.pointee.attribute.pointee.local)
+    }
+
+    let data = StyleSelectorData(match: Match(selector.match), relation: Relation(selector.relation), selector: selector, data: rareData, value: value)
+
+    return .some(data, parent)
   }
 
   private func makeDeclaration(_ declaration: KatanaDeclaration) -> StyleDeclaration {

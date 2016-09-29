@@ -8,84 +8,15 @@
 
 import Foundation
 
-extension UIControlState: Hashable {
-  var stringValue: String {
-    switch self {
-    case UIControlState.normal:
-      return ""
-    case UIControlState.disabled:
-      return "disabled"
-    case UIControlState.highlighted:
-      return "highlighed"
-    case UIControlState.selected:
-      return "selected"
-    default:
-      fatalError("Unhandled control state")
-    }
-  }
-
-  public var hashValue: Int {
-    return stringValue.hashValue
-  }
-
-  static var buttonStates: [UIControlState] {
-    return [UIControlState.normal, UIControlState.selected, UIControlState.highlighted, UIControlState.disabled]
-  }
-}
-
-public struct ButtonStyleProperties: Equatable {
-  var title: String?
-  var titleColor: UIColor?
-  var titleFontSize: CGFloat?
-  var titleShadowColor: UIColor?
-  var backgroundColor: UIColor?
-  var backgroundImage: UIImage?
-  var image: UIImage?
-
-  init(_ properties: [String : Any], statePrefix: String) {
-    title = properties.cast(key(statePrefix, "title"))
-    titleFontSize = properties.cast(key(statePrefix, "titleFontSize"))
-    titleColor = properties.color(key(statePrefix, "titleColor"))
-    titleShadowColor = properties.color(key(statePrefix, "titleShadowColor"))
-    backgroundColor = properties.color(key(statePrefix, "backgroundColor"))
-    backgroundImage = properties.image(key(statePrefix, "backgroundImage"))
-    image = properties.image(key(statePrefix, "image"))
-  }
-
-  mutating func merge(_ other: ButtonStyleProperties) {
-    merge(&title, other.title)
-    merge(&titleFontSize, other.titleFontSize)
-    merge(&titleColor, other.titleColor)
-    merge(&titleShadowColor, other.titleShadowColor)
-    merge(&backgroundColor, other.backgroundColor)
-    merge(&backgroundImage, other.backgroundImage)
-    merge(&image, other.image)
-  }
-
-  private mutating func merge<T>(_ value: inout T?, _ newValue: T?) {
-    if let newValue = newValue {
-      value = newValue
-    }
-  }
-
-  private func key(_ prefix: String, _ propertyKey: String) -> String {
-    var key = prefix
-    key += prefix.isEmpty ? propertyKey : propertyKey.capitalizingFirstLetter()
-    return key
-  }
-}
-
-public func ==(lhs: ButtonStyleProperties, rhs: ButtonStyleProperties) -> Bool {
-  return lhs.title == rhs.title && lhs.titleFontSize == rhs.titleFontSize && lhs.titleColor == rhs.titleColor && lhs.titleShadowColor == rhs.titleShadowColor && lhs.backgroundColor == rhs.backgroundColor && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image
-}
-
 public struct ButtonProperties: ViewProperties {
   public var identifier = IdentifierProperties()
   public var layout = LayoutProperties()
   public var style = StyleProperties()
   public var gestures = GestureProperties()
 
-  public var buttonStyle = [UIControlState: ButtonStyleProperties]()
+  public var titleStyle = TextStyleProperties()
+  public var backgroundImage: UIImage?
+  public var image: UIImage?
   public var selected: Bool?
   public var enabled: Bool?
   public var highlighted: Bool?
@@ -95,42 +26,34 @@ public struct ButtonProperties: ViewProperties {
   public init(_ properties: [String : Any]) {
     applyProperties(properties)
 
-    for state in UIControlState.buttonStates {
-      buttonStyle[state] = ButtonStyleProperties(properties, statePrefix: state.stringValue)
-    }
-
-    if let selected: Bool = properties.cast("selected") {
-      self.selected = selected
-    }
-    if let enabled: Bool = properties.cast("enabled") {
-      self.enabled = enabled
-    }
-    if let highlighted: Bool = properties.cast("highlighted") {
-      self.highlighted = highlighted
-    }
+    titleStyle = TextStyleProperties(properties)
+    selected = properties.cast("selected")
+    enabled = properties.cast("enabled")
+    highlighted = properties.cast("highlighted")
   }
 
   public mutating func merge(_ other: ButtonProperties) {
     mergeProperties(other)
 
-    for state in UIControlState.buttonStates {
-      if let otherState = other.buttonStyle[state] {
-        if buttonStyle[state] != nil {
-          buttonStyle[state]?.merge(otherState)
-        } else {
-          buttonStyle[state] = otherState
-        }
-      }
-    }
+    titleStyle.merge(other.titleStyle)
 
     merge(&selected, other.selected)
     merge(&enabled, other.enabled)
     merge(&highlighted, other.highlighted)
   }
+
+  public func has(key: String, withValue value: String) -> Bool {
+    switch key {
+    case "selected":
+      return selected == Bool.fromString(value)
+    default:
+      fatalError("This attribute is not yet supported")
+    }
+  }
 }
 
 public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
-  return lhs.buttonStyle == rhs.buttonStyle && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.highlighted == rhs.highlighted && lhs.equals(otherViewProperties: rhs)
+  return lhs.titleStyle == rhs.titleStyle && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.highlighted == rhs.highlighted && lhs.equals(otherViewProperties: rhs)
 }
 
 public struct ButtonState: State {
@@ -150,62 +73,35 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
     }
   }
 
-  private var currentImage: UIImage? {
-    return property { $0?.image }
-  }
-
-  private var currentTitle: String? {
-    return property { $0?.title }
-  }
-
-  private var currentTitleFontSize: CGFloat? {
-    return property { $0?.titleFontSize }
-  }
-
-  private var currentTitleColor: UIColor? {
-    return property { $0?.titleColor }
-  }
-
-  private var currentBackgroundColor: UIColor? {
-    return property { $0?.backgroundColor }
-  }
-
   public override func render() -> Element {
     var properties = BaseProperties()
     properties.layout = self.properties.layout
     properties.style = self.properties.style
-    properties.style.backgroundColor = currentBackgroundColor
     properties.gestures.onTap = #selector(Button.handleTap)
     properties.gestures.onPress = #selector(Button.handlePress)
     properties.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
 
     var childElements = [Element]()
-    if let image = currentImage {
-      childElements.append(renderImage(with: image))
+    if let _ = self.properties.image {
+      childElements.append(renderImage())
     }
-    if let title = currentTitle {
-      childElements.append(renderTitle(with: title))
+    if let _ = self.properties.titleStyle.text {
+      childElements.append(renderTitle())
     }
 
     return ElementData(ElementType.box, properties, childElements)
   }
 
-  private func renderImage(with image: UIImage) -> Element {
+  private func renderImage() -> Element {
     var properties = ImageProperties()
-    properties.image = image
+    properties.image = self.properties.image
 
     return ElementData(ElementType.image, properties)
   }
 
-  private func renderTitle(with title: String) -> Element {
+  private func renderTitle() -> Element {
     var properties = TextProperties()
-    properties.textStyle.text = title
-    if let fontSize = currentTitleFontSize {
-      properties.textStyle.fontSize = fontSize
-    }
-    if let color = currentTitleColor {
-      properties.textStyle.color = color
-    }
+    properties.textStyle = self.properties.titleStyle
 
     return ElementData(ElementType.text, properties)
   }
@@ -232,23 +128,5 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       }
       self?.performSelector(self?.properties.gestures.onDoubleTap)
     }
-  }
-
-  private func property<T>(handler: (ButtonStyleProperties?) -> T?) -> T? {
-    var value: T?
-
-    if !(properties.enabled ?? true) {
-      value = handler(properties.buttonStyle[.disabled])
-    } else if state.highlighted {
-      value = handler(properties.buttonStyle[.highlighted])
-    } else if (properties.selected ?? false) {
-      value = handler(properties.buttonStyle[.selected])
-    }
-
-    if value != nil {
-      return value
-    }
-
-    return handler(properties.buttonStyle[.normal])
   }
 }
