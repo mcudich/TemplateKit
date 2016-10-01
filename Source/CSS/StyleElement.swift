@@ -19,4 +19,5 @@ public protocol StyleElement {
 
   func directAdjacent(of element: StyleElement) -> StyleElement?
   func indirectAdjacents(of element: StyleElement) -> [StyleElement]
+  func subsequentAdjacents(of element: StyleElement) -> [StyleElement]
 }

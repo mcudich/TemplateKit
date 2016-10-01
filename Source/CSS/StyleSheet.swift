@@ -14,6 +14,7 @@ public enum Match {
   case id
   case className
   case attributeExact
+  case pseudoClass
 
   init(_ rawValue: KatanaSelectorMatch) {
     switch rawValue {
@@ -25,6 +26,8 @@ public enum Match {
       self = .className
     case KatanaSelectorMatchAttributeExact:
       self = .attributeExact
+    case KatanaSelectorMatchPseudoClass:
+      self = .pseudoClass
     default:
       fatalError()
     }
@@ -86,6 +89,68 @@ public struct Rule {
 public struct RareData {
   var value: String?
   var attribute: String?
+  var nth: Int?
+}
+
+public enum PseudoType {
+  case empty
+  case firstChild
+  case firstOfType
+  case lastChild
+  case lastOfType
+  case onlyChild
+  case onlyOfType
+  case nthChild
+  case nthOfType
+  case nthLastChild
+  case nthLastOfType
+  case pseudoDrag
+  case pseudoFocus
+  case pseudoActive
+  case pseudoSelection
+  case pseudoEnabled
+  case pseudoDisabled
+
+  public init?(_ rawValue: KatanaPseudoType) {
+    switch rawValue {
+    case KatanaPseudoEmpty:
+      self = .empty
+    case KatanaPseudoFirstChild:
+      self = .firstChild
+    case KatanaPseudoFirstOfType:
+      self = .firstOfType
+    case KatanaPseudoLastChild:
+      self = .lastChild
+    case KatanaPseudoLastOfType:
+      self = .lastOfType
+    case KatanaPseudoOnlyChild:
+      self = .onlyChild
+    case KatanaPseudoOnlyOfType:
+      self = .onlyOfType
+    case KatanaPseudoNthChild:
+      self = .nthChild
+    case KatanaPseudoNthOfType:
+      self = .nthOfType
+    case KatanaPseudoNthLastChild:
+      self = .nthLastChild
+    case KatanaPseudoNthLastOfType:
+      self = .nthLastOfType
+    case KatanaPseudoDrag:
+      self = .pseudoDrag
+    case KatanaPseudoFocus:
+      self = .pseudoFocus
+    case KatanaPseudoActive:
+      self = .pseudoActive
+    case KatanaPseudoSelection:
+      self = .pseudoSelection
+    case KatanaPseudoEnabled:
+      self = .pseudoEnabled
+    case KatanaPseudoDisabled:
+      self = .pseudoDisabled
+    default:
+      return nil
+    }
+  }
 }
 
 public struct StyleSelectorData {
@@ -93,6 +158,7 @@ public struct StyleSelectorData {
   var relation: Relation?
   var selector: KatanaSelector?
   var data: RareData?
+  var pseudoType: PseudoType?
   var value: String?
 }
 
@@ -124,6 +190,13 @@ public indirect enum StyleSelector {
   public var selector: KatanaSelector? {
     if case let .some(data, _) = self {
       return data.selector
+    }
+    return nil
+  }
+
+  public var psuedoType: PseudoType? {
+    if case let .some(data, _) = self {
+      return data.pseudoType
     }
     return nil
   }
@@ -164,6 +237,39 @@ public indirect enum StyleSelector {
         matches = element.has(attribute: attribute, with: value)
       } else {
         matches = false
+      }
+    case .pseudoClass:
+      guard let psuedoType = psuedoType else {
+        matches = false
+        break
+      }
+      switch psuedoType {
+      case .firstChild:
+        let precedingSiblings = element.parentElement?.indirectAdjacents(of: element) ?? []
+        matches = precedingSiblings.count == 0
+      case .firstOfType:
+        let precedingSiblings = element.parentElement?.indirectAdjacents(of: element) ?? []
+        matches = !precedingSiblings.contains { sibling in
+          return sibling.tagName == element.tagName
+        }
+      case .lastChild:
+        let precedingSiblings = element.parentElement?.indirectAdjacents(of: element) ?? []
+        matches = precedingSiblings.count == (element.parentElement?.childElements?.count ?? 0) - 1
+      case .lastOfType:
+        let subsequentSiblings = element.parentElement?.subsequentAdjacents(of: element) ?? []
+        matches = !subsequentSiblings.contains { sibling in
+          sibling.tagName == element.tagName
+        }
+      case .onlyChild:
+        matches = element.parentElement?.childElements?.count == 1
+      case .onlyOfType:
+        let precedingSiblings = element.parentElement?.indirectAdjacents(of: element) ?? []
+        let subsequentSiblings = element.parentElement?.subsequentAdjacents(of: element) ?? []
+        matches = !(precedingSiblings + subsequentSiblings).contains { sibling in
+          return sibling.tagName == element.tagName
+        }
+      default:
+        fatalError()
       }
     }
 
@@ -292,8 +398,9 @@ public struct StyleSheet {
     if selector.data.pointee.attribute != nil {
       rareData.attribute = String(cString: selector.data.pointee.attribute.pointee.local)
     }
+    rareData.nth = Int(selector.data.pointee.bits.nth.a)
 
-    let data = StyleSelectorData(match: Match(selector.match), relation: Relation(selector.relation), selector: selector, data: rareData, value: value)
+    let data = StyleSelectorData(match: Match(selector.match), relation: Relation(selector.relation), selector: selector, data: rareData, pseudoType: PseudoType(selector.pseudo), value: value)
 
     return .some(data, parent)
   }
