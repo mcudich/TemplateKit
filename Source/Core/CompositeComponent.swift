@@ -52,7 +52,7 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     fatalError("Must be implemented by subclasses")
   }
 
-  public func render(withLocation location: URL, model: Model? = nil) -> Element {
+  public func render(_ location: URL, _ model: Model? = nil) -> Element {
     getContext().templateService.addObserver(observer: self, forLocation: location)
 
     return try! getContext().templateService.element(withLocation: location, model: model ?? self)
