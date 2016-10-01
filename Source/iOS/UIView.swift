@@ -38,29 +38,27 @@ extension NativeView where Self: UIView {
   }
 
   private func applyBorder() {
-    guard let borderColor = properties.core.style.borderColor else {
-      return
+    layer.borderColor = properties.core.style.borderColor?.cgColor
+
+    if layer.borderColor != nil {
+      layer.borderWidth = (properties.core.style.borderWidth ?? 1) / UIScreen.main.scale
     }
-    layer.borderColor = borderColor.cgColor
-    layer.borderWidth = (properties.core.style.borderWidth ?? 1) / UIScreen.main.scale
   }
 
   private func applyCornerRadius() {
-    guard let cornerRadius = properties.core.style.cornerRadius else {
-      return
-    }
-    layer.cornerRadius = cornerRadius
+    layer.cornerRadius = properties.core.style.cornerRadius ?? 0
   }
 
   private func applyOpacity() {
-    guard let opacity = properties.core.style.opacity else {
-      return
-    }
-    alpha = opacity
-    isOpaque = opacity < 1
+    alpha = properties.core.style.opacity ?? 1
+    isOpaque = alpha < 1
   }
 
   private func applyTapHandler() {
+    for recognizer in (gestureRecognizers ?? []) {
+      removeGestureRecognizer(recognizer)
+    }
+
     if let onTap = properties.core.gestures.onTap {
       let recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
       addGestureRecognizer(recognizer)
