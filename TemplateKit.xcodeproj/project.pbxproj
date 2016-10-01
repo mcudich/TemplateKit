@@ -175,8 +175,6 @@
 		D8C2B24A1D9AF16200FF4534 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "ThirdParty/Support/katana-parser/Info.plist"; sourceTree = "<group>"; };
 		D8C2B24B1D9AF16200FF4534 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = "ThirdParty/Support/katana-parser/module.modulemap"; sourceTree = "<group>"; };
 		D8C2B2531D9AF18700FF4534 /* Katana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Katana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8C2B2551D9AF18700FF4534 /* Katana.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Katana.h; sourceTree = "<group>"; };
-		D8C2B2561D9AF18700FF4534 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8C2B26B1D9AF3B600FF4534 /* StyleSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSheet.swift; sourceTree = "<group>"; };
 		D8C2B26D1D9AF58A00FF4534 /* StyleSheetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSheetTests.swift; sourceTree = "<group>"; };
 		D8C2B26F1D9B183900FF4534 /* StyleElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleElement.swift; sourceTree = "<group>"; };
@@ -316,7 +314,6 @@
 				D8325EDA1D98731500F3EC95 /* ThirdParty */,
 				D89194101D57F1FB0049991F /* Source */,
 				D891941C1D57F1FB0049991F /* Tests */,
-				D8C2B2541D9AF18700FF4534 /* Katana */,
 				D891940F1D57F1FB0049991F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -387,15 +384,6 @@
 				D8C2B23B1D9AF15600FF4534 /* tokenizer.h */,
 			);
 			name = Katana;
-			sourceTree = "<group>";
-		};
-		D8C2B2541D9AF18700FF4534 /* Katana */ = {
-			isa = PBXGroup;
-			children = (
-				D8C2B2551D9AF18700FF4534 /* Katana.h */,
-				D8C2B2561D9AF18700FF4534 /* Info.plist */,
-			);
-			path = Katana;
 			sourceTree = "<group>";
 		};
 		D8C2B26A1D9AF2EC00FF4534 /* CSS */ = {

@@ -56,6 +56,14 @@ public extension StyleElement where Self: Element {
     return Array(children[0..<index])
   }
 
+  public func subsequentAdjacents(of element: StyleElement) -> [StyleElement] {
+    guard let children = children, let index = index(of: element), index < children.count - 1 else {
+      return []
+    }
+
+    return Array(children[index + 1..<children.count])
+  }
+
   private func index(of child: StyleElement) -> Int? {
     guard let children = children else {
       return nil

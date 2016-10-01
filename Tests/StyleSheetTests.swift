@@ -43,6 +43,13 @@ class TestElement: StyleElement, Equatable {
     }
     return Array(childElements![0..<index!])
   }
+
+  func subsequentAdjacents(of element: StyleElement) -> [StyleElement] {
+    let index = childElements?.index { child in
+      return (child as! TestElement) == (element as! TestElement)
+    }
+    return Array(childElements![index! + 1..<childElements!.count])
+  }
 }
 
 func ==(lhs: TestElement, rhs: TestElement) -> Bool {
@@ -192,6 +199,90 @@ class StylesheetTests: XCTestCase {
     XCTAssertEqual(1, parsed.rulesForElement(element).count)
     element.attributes?["selected"] = "true"
     XCTAssertEqual(2, parsed.rulesForElement(element).count)
+  }
+
+  func testMatchesFirstChild() {
+    let sheet = "button:first-child { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement()
+    let button1 = TestElement(tagName: "button", parent: parent)
+    let button2 = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button1, button2]
+
+    XCTAssertEqual(1, parsed.rulesForElement(button1).count)
+    XCTAssertEqual(0, parsed.rulesForElement(button2).count)
+  }
+
+  func testMatchesFirstOfType() {
+    let sheet = "#parent :first-of-type { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button = TestElement(tagName: "button", parent: parent)
+    let box = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button, box]
+
+    XCTAssertEqual(1, parsed.rulesForElement(button).count)
+    XCTAssertEqual(0, parsed.rulesForElement(box).count)
+  }
+
+  func testMatchesLastChild() {
+    let sheet = "button:last-child { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement()
+    let button1 = TestElement(tagName: "button", parent: parent)
+    let button2 = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button1, button2]
+
+    XCTAssertEqual(0, parsed.rulesForElement(button1).count)
+    XCTAssertEqual(1, parsed.rulesForElement(button2).count)
+  }
+
+  func testMatchesLastOfType() {
+    let sheet = "#parent :last-of-type { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button = TestElement(tagName: "button", parent: parent)
+    let box = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button, box]
+
+    XCTAssertEqual(0, parsed.rulesForElement(button).count)
+    XCTAssertEqual(1, parsed.rulesForElement(box).count)
+  }
+
+  func testMatchesOnlyChild() {
+    let sheet = "#parent :only-child { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button = TestElement(tagName: "button", parent: parent)
+    let box = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button, box]
+
+    XCTAssertEqual(0, parsed.rulesForElement(button).count)
+    XCTAssertEqual(0, parsed.rulesForElement(box).count)
+
+    parent.childElements = [button]
+    XCTAssertEqual(1, parsed.rulesForElement(button).count)
+  }
+
+  func testMatchesOnlyOfType() {
+    let sheet = "button:only-of-type { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button1 = TestElement(tagName: "button", parent: parent)
+    let button2 = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button1, button2]
+
+    XCTAssertEqual(0, parsed.rulesForElement(button1).count)
+    XCTAssertEqual(0, parsed.rulesForElement(button2).count)
+
+    parent.childElements = [button1]
+    XCTAssertEqual(1, parsed.rulesForElement(button1).count)
   }
 
   func testArbitrarilyComplexSelectors() {
