@@ -54,6 +54,7 @@ public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {
   public var borderColor: UIColor?
   public var borderWidth: CGFloat?
   public var cornerRadius: CGFloat?
+  public var opacity: CGFloat?
 
   public init() {}
 
@@ -62,6 +63,7 @@ public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {
     borderColor = properties.color("borderColor")
     borderWidth = properties.cast("borderWidth")
     cornerRadius = properties.cast("cornerRadius")
+    opacity = properties.cast("opacity")
   }
 
   public mutating func merge(_ other: StyleProperties) {
@@ -69,11 +71,12 @@ public struct StyleProperties: RawPropertiesReceiver, Model, Equatable {
     merge(&borderColor, other.borderColor)
     merge(&borderWidth, other.borderWidth)
     merge(&cornerRadius, other.cornerRadius)
+    merge(&opacity, other.opacity)
   }
 }
 
 public func ==(lhs: StyleProperties, rhs: StyleProperties) -> Bool {
-  return lhs.backgroundColor == rhs.backgroundColor && lhs.borderColor == rhs.borderColor && lhs.borderWidth == rhs.borderWidth
+  return lhs.backgroundColor == rhs.backgroundColor && lhs.borderColor == rhs.borderColor && lhs.borderWidth == rhs.borderWidth && lhs.cornerRadius == rhs.cornerRadius && lhs.opacity == rhs.opacity
 }
 
 public struct GestureProperties: RawPropertiesReceiver, Model, Equatable {

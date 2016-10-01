@@ -29,6 +29,7 @@ extension NativeView where Self: UIView {
     applyBackgroundColor()
     applyBorder()
     applyCornerRadius()
+    applyOpacity()
     applyTapHandler()
   }
 
@@ -48,7 +49,15 @@ extension NativeView where Self: UIView {
     guard let cornerRadius = properties.core.style.cornerRadius else {
       return
     }
-    self.layer.cornerRadius = cornerRadius
+    layer.cornerRadius = cornerRadius
+  }
+
+  private func applyOpacity() {
+    guard let opacity = properties.core.style.opacity else {
+      return
+    }
+    alpha = opacity
+    isOpaque = opacity < 1
   }
 
   private func applyTapHandler() {

@@ -17,6 +17,7 @@
       justifyContent: center;
     }
     #filters button {
+      opacity: 0.5;
       color: #000000;
       fontSize: 10;
       borderColor: #000000;

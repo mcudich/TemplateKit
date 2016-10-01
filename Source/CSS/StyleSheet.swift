@@ -305,7 +305,14 @@ public struct StyleSheet {
   private func makeValues(_ values: KatanaArray) -> [String] {
     let values: [KatanaValue] = fromKatanaArray(array: values)
     return values.map { value in
-      return String(cString: value.isInt ? value.raw : value.value.string)
+      if value.isInt {
+        return String(cString: value.raw)
+      } else if value.value.fValue >= Double.leastNormalMagnitude {
+        return "\(value.value.fValue)"
+      } else {
+        return String(cString: value.value.string)
+      }
+
     }
   }
 
