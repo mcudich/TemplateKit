@@ -15,6 +15,7 @@
 		D8325ED71D986DC800F3EC95 /* CSSNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */; };
 		D8325EDC1D987F5500F3EC95 /* XMLDocumentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDB1D987F5500F3EC95 /* XMLDocumentParser.swift */; };
 		D8325EDE1D99DDC300F3EC95 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDD1D99DDC300F3EC95 /* String.swift */; };
+		D8325EE21D9F74EC00F3EC95 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EE11D9F74EC00F3EC95 /* URL.swift */; };
 		D83936B71D8348C5008CA7F1 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936921D8348C5008CA7F1 /* Component.swift */; };
 		D83936B81D8348C5008CA7F1 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936931D8348C5008CA7F1 /* Element.swift */; };
 		D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936941D8348C5008CA7F1 /* Keyable.swift */; };
@@ -113,6 +114,7 @@
 		D8325ED81D986E0000F3EC95 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "ThirdParty/Support/css-layout/Info.plist"; sourceTree = "<group>"; };
 		D8325EDB1D987F5500F3EC95 /* XMLDocumentParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocumentParser.swift; sourceTree = "<group>"; };
 		D8325EDD1D99DDC300F3EC95 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		D8325EE11D9F74EC00F3EC95 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		D83936921D8348C5008CA7F1 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Component.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D83936931D8348C5008CA7F1 /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Element.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D83936941D8348C5008CA7F1 /* Keyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyable.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				D83936B11D8348C5008CA7F1 /* Result.swift */,
 				D8325EDB1D987F5500F3EC95 /* XMLDocumentParser.swift */,
 				D8325EDD1D99DDC300F3EC95 /* String.swift */,
+				D8325EE11D9F74EC00F3EC95 /* URL.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				D83936D01D8348C5008CA7F1 /* AsyncQueue.swift in Sources */,
 				D83936BD1D8348C5008CA7F1 /* Renderer.swift in Sources */,
 				D83936C21D8348C5008CA7F1 /* ImageService.swift in Sources */,
+				D8325EE21D9F74EC00F3EC95 /* URL.swift in Sources */,
 				D83936C01D8348C5008CA7F1 /* DelegateProxy.swift in Sources */,
 				D83936BB1D8348C5008CA7F1 /* Node.swift in Sources */,
 				D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */,

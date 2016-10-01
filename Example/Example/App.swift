@@ -183,7 +183,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   private func renderHeader() -> Element {
-    return render(withLocation: Bundle.main.url(forResource: "Header", withExtension: "xml")!)
+    return render(Bundle.main.url(forResource: "Header", withExtension: "xml")!)
   }
 
   private func renderMain() -> Element {

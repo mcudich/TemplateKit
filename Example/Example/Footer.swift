@@ -73,6 +73,6 @@ class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
     activeSelected = properties.nowShowing == .active
     completedSelected = properties.nowShowing == .completed
 
-    return render(withLocation: Bundle.main.url(forResource: "Footer", withExtension: "xml")!)
+    return render(Bundle.main.url(forResource: "Footer", withExtension: "xml")!)
   }
 }

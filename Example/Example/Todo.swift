@@ -106,6 +106,6 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
     buttonBackgroundColor = (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red
     enabled = state.editText != nil
     text = state.editText ?? self.properties.todo?.title
-    return render(withLocation: Bundle.main.url(forResource: "Todo", withExtension: "xml")!)
+    return render(Bundle.main.url(forResource: "Todo", withExtension: "xml")!)
   }
 }
