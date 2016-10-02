@@ -165,3 +165,16 @@ public struct DefaultProperties: Properties {
 public func ==(lhs: DefaultProperties, rhs: DefaultProperties) -> Bool {
   return lhs.equals(otherProperties: rhs)
 }
+
+public protocol FocusableProperties {
+  var focused: Bool? { get set }
+}
+
+public protocol EnableableProperties {
+  var enabled: Bool? { get set }
+}
+
+public protocol ActivatableProperties {
+  var active: Bool? { get set }
+}
+

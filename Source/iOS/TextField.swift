@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct TextFieldProperties: Properties {
+public struct TextFieldProperties: Properties, FocusableProperties, EnableableProperties {
   public var core = CoreProperties()
 
   public var textStyle = TextStyleProperties()

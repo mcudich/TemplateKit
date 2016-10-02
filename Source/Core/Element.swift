@@ -81,18 +81,6 @@ public struct ElementData<PropertiesType: Properties>: Element {
   public var parent: Element?
   public var properties: PropertiesType
 
-  public var id: String? {
-    return properties.core.identifier.id
-  }
-
-  public var classNames: [String]? {
-    return properties.core.identifier.classNames
-  }
-
-  public var tagName: String? {
-    return type.tagName
-  }
-
   public var key: String? {
     get {
       return properties.core.identifier.key
@@ -121,10 +109,6 @@ public struct ElementData<PropertiesType: Properties>: Element {
     return made
   }
 
-  public func has(attribute: String, with value: String) -> Bool {
-    return properties.has(key: attribute, withValue: value)
-  }
-
   public mutating func applyStyleSheet(_ styleSheet: StyleSheet?) {
     let matchingStyles = styleSheet?.stylesForElement(self)
     var styleSheetProperties = [String: Any]()
@@ -139,5 +123,44 @@ public struct ElementData<PropertiesType: Properties>: Element {
     for (index, _) in (children ?? []).enumerated() {
       children?[index].applyStyleSheet(styleSheet)
     }
+  }
+}
+
+extension ElementData: StyleElement {
+  public var id: String? {
+    return properties.core.identifier.id
+  }
+
+  public var classNames: [String]? {
+    return properties.core.identifier.classNames
+  }
+
+  public var tagName: String? {
+    return type.tagName
+  }
+
+  public var isFocused: Bool {
+    if let focusable = properties as? FocusableProperties {
+      return focusable.focused ?? false
+    }
+    return false
+  }
+
+  public var isEnabled: Bool {
+    if let enableable = properties as? EnableableProperties {
+      return enableable.enabled ?? false
+    }
+    return false
+  }
+
+  public var isActive: Bool {
+    if let activatable = properties as? ActivatableProperties {
+      return activatable.active ?? false
+    }
+    return false
+  }
+
+  public func has(attribute: String, with value: String) -> Bool {
+    return properties.has(key: attribute, withValue: value)
   }
 }

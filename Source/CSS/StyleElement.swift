@@ -15,6 +15,10 @@ public protocol StyleElement {
   var parentElement: StyleElement? { get }
   var childElements: [StyleElement]? { get }
 
+  var isFocused: Bool { get }
+  var isEnabled: Bool { get }
+  var isActive: Bool { get }
+
   func has(attribute: String, with value: String) -> Bool
 
   func directAdjacent(of element: StyleElement) -> StyleElement?
