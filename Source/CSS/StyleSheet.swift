@@ -322,17 +322,16 @@ public struct StyleDeclaration {
   public let important: Bool
 }
 
-public struct StyleSheet {
+public struct StyleSheet: Equatable {
   public var rules = [Rule]()
 
-  public init(rules: [Rule]) {
-    self.rules = rules
-  }
+  fileprivate let data: Data
 
   public init?(string: String) {
     guard string.characters.count > 0, let data = string.data(using: String.Encoding.utf8) else {
       return nil
     }
+    self.data = data
 
     data.withUnsafeBytes { (bytes: UnsafePointer<Int8>) -> Void in
       guard let parsed = katana_parse(bytes, data.count, KatanaParserModeStylesheet) else {
@@ -437,4 +436,8 @@ public struct StyleSheet {
     }
     return results
   }
+}
+
+public func ==(lhs: StyleSheet, rhs: StyleSheet) -> Bool {
+  return lhs.data == rhs.data
 }

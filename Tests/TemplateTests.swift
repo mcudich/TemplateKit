@@ -14,7 +14,7 @@ struct FakeModel: Model {}
 class TemplateTests: XCTestCase {
   func testParseTemplate() {
     let template = Bundle(for: TemplateTests.self).url(forResource: "SimpleTemplate", withExtension: "xml")!
-    let xmlTemplate = try! XMLDocumentParser(data: Data(contentsOf: template)).parse()
+    let xmlTemplate = try! XMLDocument(data: Data(contentsOf: template))
     let styleSheet = StyleSheet(string: xmlTemplate.styleElements.first!.value!)
     let parsed = Template(elementProvider: xmlTemplate.componentElement!, styleSheet: styleSheet)
     let element = try! parsed.makeElement(with: FakeModel()) as! ElementData<DefaultProperties>

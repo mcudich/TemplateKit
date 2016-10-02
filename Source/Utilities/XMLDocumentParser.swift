@@ -8,7 +8,7 @@
 
 import Foundation
 
-class XMLElement {
+class XMLElement: Equatable {
   var name: String
   var value: String?
   var parent: XMLElement?
@@ -28,38 +28,41 @@ class XMLElement {
   }
 }
 
+func ==(lhs: XMLElement, rhs: XMLElement) -> Bool {
+  return lhs.name == rhs.name && lhs.attributes == rhs.attributes && lhs.children == rhs.children
+}
+
 enum XMLError: Error {
   case parserError(String)
 }
 
-class XMLDocumentParser: NSObject, XMLParserDelegate {
+class XMLDocument: NSObject, XMLParserDelegate {
   let data: Data
+  private(set) var root: XMLElement?
 
-  var root: XMLElement?
-  var currentParent: XMLElement?
-  var currentElement: XMLElement?
-  var currentValue = ""
+  private var currentParent: XMLElement?
+  private var currentElement: XMLElement?
+  private var currentValue = ""
+  private var parseError: Error?
 
-  var parseError: Error?
-
-  init(data: Data) {
+  init(data: Data) throws {
     self.data = data
 
     super.init()
+
+    try parse()
   }
 
-  func parse() throws -> XMLElement {
+  private func parse() throws {
     let parser = XMLParser(data: data)
     parser.delegate = self
 
-    guard parser.parse(), let root = root else {
+    guard parser.parse() else {
       guard let error = parseError else {
         throw XMLError.parserError("Failure parsing: \(parseError?.localizedDescription)")
       }
       throw error
     }
-
-    return root
   }
 
   @objc func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {

@@ -2,11 +2,12 @@ import Foundation
 
 public protocol ElementProvider {
   func makeElement(with model: Model) throws -> Element
+  func equals(_ other: ElementProvider?) -> Bool
 }
 
 public struct Template: Equatable {
-  private let elementProvider: ElementProvider
-  private let styleSheet: StyleSheet?
+  fileprivate let elementProvider: ElementProvider
+  fileprivate let styleSheet: StyleSheet?
 
   init(elementProvider: ElementProvider, styleSheet: StyleSheet?) {
     self.elementProvider = elementProvider
@@ -21,5 +22,5 @@ public struct Template: Equatable {
 }
 
 public func ==(lhs: Template, rhs: Template) -> Bool {
-  return false
+  return lhs.elementProvider.equals(rhs.elementProvider) && lhs.styleSheet == rhs.styleSheet
 }
