@@ -9,12 +9,12 @@
 import Foundation
 
 class XMLTemplateParser: Parser {
-  typealias ParsedType = XMLElement
+  typealias ParsedType = XMLDocument
 
   required init() {}
 
-  func parse(data: Data) throws -> XMLElement {
-    return try XMLDocumentParser(data: data).parse()
+  func parse(data: Data) throws -> XMLDocument {
+    return try XMLDocument(data: data)
   }
 }
 
@@ -103,7 +103,7 @@ public class XMLTemplateService: TemplateService {
     observers[location]?.remove(observer as AnyObject)
   }
 
-  private func resolveStyles(for template: XMLElement, at relativeURL: URL, completion: @escaping (StyleSheet?) -> Void) {
+  private func resolveStyles(for template: XMLDocument, at relativeURL: URL, completion: @escaping (StyleSheet?) -> Void) {
     var urls = [URL]()
     var sheets = [String](repeating: "", count: template.styleElements.count)
     for (index, styleElement) in template.styleElements.enumerated() {
@@ -156,7 +156,7 @@ public class XMLTemplateService: TemplateService {
   }
 }
 
-extension XMLElement: ElementProvider {
+extension XMLDocument {
   var hasRemoteStyles: Bool {
     return styleElements.contains { element in
       return element.attributes["url"] != nil
@@ -164,19 +164,28 @@ extension XMLElement: ElementProvider {
   }
 
   var styleElements: [XMLElement] {
-    return children.filter { candidate in
+    return root?.children.filter { candidate in
       return candidate.name == "style"
-    }
+    } ?? []
   }
 
   var componentElement: XMLElement? {
-    return children.first { candidate in
+    return root?.children.first { candidate in
       return candidate.name != "style"
     }
   }
+}
 
+extension XMLElement: ElementProvider {
   func makeElement(with model: Model) throws -> Element {
     let resolvedProperties = model.resolve(properties: attributes)
     return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.makeElement(with: model) })
+  }
+
+  func equals(_ other: ElementProvider?) -> Bool {
+    guard let other = other as? XMLElement else {
+      return false
+    }
+    return self == other
   }
 }
