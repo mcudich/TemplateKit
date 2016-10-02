@@ -330,7 +330,7 @@ public struct StyleSheet {
   }
 
   public init?(string: String) {
-    guard let data = string.data(using: String.Encoding.utf8) else {
+    guard string.characters.count > 0, let data = string.data(using: String.Encoding.utf8) else {
       return nil
     }
 

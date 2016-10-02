@@ -48,6 +48,26 @@ public extension Model {
     }
   }
 
+  func resolve(properties: [String: String]) -> [String: Any] {
+    var resolvedProperties = [String: Any]()
+    for (key, value) in properties {
+      resolvedProperties[key] = resolve(value)
+    }
+
+    return resolvedProperties
+  }
+
+  func resolve(_ value: Any) -> Any? {
+    guard let expression = value as? String, expression.hasPrefix("$") else {
+      return value
+    }
+
+    let startIndex = expression.characters.index(expression.startIndex, offsetBy: 1)
+    let keyPath = expression.substring(from: startIndex)
+
+    return self.value(forKeyPath: keyPath)
+  }
+
   private func keysEqual(_ childLabel: String?, key: String?) -> Bool {
     return childLabel?.replacingOccurrences(of: ".storage", with: "") == key
   }
