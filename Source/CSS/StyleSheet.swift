@@ -104,10 +104,8 @@ public enum PseudoType {
   case nthOfType
   case nthLastChild
   case nthLastOfType
-  case pseudoDrag
   case pseudoFocus
   case pseudoActive
-  case pseudoSelection
   case pseudoEnabled
   case pseudoDisabled
 
@@ -135,14 +133,10 @@ public enum PseudoType {
       self = .nthLastChild
     case KatanaPseudoNthLastOfType:
       self = .nthLastOfType
-    case KatanaPseudoDrag:
-      self = .pseudoDrag
     case KatanaPseudoFocus:
       self = .pseudoFocus
     case KatanaPseudoActive:
       self = .pseudoActive
-    case KatanaPseudoSelection:
-      self = .pseudoSelection
     case KatanaPseudoEnabled:
       self = .pseudoEnabled
     case KatanaPseudoDisabled:
@@ -268,8 +262,16 @@ public indirect enum StyleSelector {
         matches = !(precedingSiblings + subsequentSiblings).contains { sibling in
           return sibling.tagName == element.tagName
         }
+      case .pseudoFocus:
+        matches = element.isFocused
+      case .pseudoEnabled:
+        matches = element.isEnabled
+      case .pseudoDisabled:
+        matches = !element.isEnabled
+      case .pseudoActive:
+        matches = element.isActive
       default:
-        fatalError()
+        matches = false
       }
     }
 

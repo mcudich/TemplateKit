@@ -17,6 +17,11 @@ class TestElement: StyleElement, Equatable {
   var childElements: [StyleElement]?
   var attributes: [String: String]?
 
+  var isEnabled: Bool
+  var isFocused: Bool
+  var isSelected: Bool
+  var isActive: Bool
+
   init(id: String? = nil, classNames: [String]? = nil, tagName: String? = nil, parent: StyleElement? = nil, children: [StyleElement]? = nil, attributes: [String: String]? = nil) {
     self.id = id
     self.classNames = classNames
@@ -24,6 +29,10 @@ class TestElement: StyleElement, Equatable {
     self.parentElement = parent
     self.childElements = children
     self.attributes = attributes
+    isEnabled = true
+    isFocused = false
+    isSelected = false
+    isActive = false
   }
 
   func has(attribute: String, with value: String) -> Bool {
@@ -282,6 +291,70 @@ class StylesheetTests: XCTestCase {
     XCTAssertEqual(0, parsed.rulesForElement(button2).count)
 
     parent.childElements = [button1]
+    XCTAssertEqual(1, parsed.rulesForElement(button1).count)
+  }
+
+  func testMatchesFocus() {
+    let sheet = "button:focus { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button1 = TestElement(tagName: "button", parent: parent)
+    let button2 = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button1, button2]
+
+    XCTAssertEqual(0, parsed.rulesForElement(button1).count)
+    XCTAssertEqual(0, parsed.rulesForElement(button2).count)
+
+    button1.isFocused = true
+    XCTAssertEqual(1, parsed.rulesForElement(button1).count)
+  }
+
+  func testMatchesActive() {
+    let sheet = "button:active { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button1 = TestElement(tagName: "button", parent: parent)
+    let button2 = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button1, button2]
+
+    XCTAssertEqual(0, parsed.rulesForElement(button1).count)
+    XCTAssertEqual(0, parsed.rulesForElement(button2).count)
+
+    button1.isActive = true
+    XCTAssertEqual(1, parsed.rulesForElement(button1).count)
+  }
+
+  func testMatchesEnabled() {
+    let sheet = "button:enabled { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button1 = TestElement(tagName: "button", parent: parent)
+    let button2 = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button1, button2]
+
+    XCTAssertEqual(1, parsed.rulesForElement(button1).count)
+    XCTAssertEqual(1, parsed.rulesForElement(button2).count)
+
+    button1.isEnabled = false
+    XCTAssertEqual(0, parsed.rulesForElement(button1).count)
+  }
+
+  func testMatchesDisabled() {
+    let sheet = "button:disabled { height: 100 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let parent = TestElement(id: "parent")
+    let button1 = TestElement(tagName: "button", parent: parent)
+    let button2 = TestElement(tagName: "button", parent: parent)
+    parent.childElements = [button1, button2]
+
+    XCTAssertEqual(0, parsed.rulesForElement(button1).count)
+    XCTAssertEqual(0, parsed.rulesForElement(button2).count)
+
+    button1.isEnabled = false
     XCTAssertEqual(1, parsed.rulesForElement(button1).count)
   }
 

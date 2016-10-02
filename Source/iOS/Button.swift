@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ButtonProperties: Properties {
+public struct ButtonProperties: Properties, EnableableProperties, ActivatableProperties {
   public var core = CoreProperties()
 
   public var titleStyle = TextStyleProperties()
@@ -16,7 +16,7 @@ public struct ButtonProperties: Properties {
   public var image: UIImage?
   public var selected: Bool?
   public var enabled: Bool?
-  public var highlighted: Bool?
+  public var active: Bool?
 
   public init() {}
 
@@ -26,7 +26,7 @@ public struct ButtonProperties: Properties {
     titleStyle = TextStyleProperties(properties)
     selected = properties.cast("selected")
     enabled = properties.cast("enabled")
-    highlighted = properties.cast("highlighted")
+    active = properties.cast("active")
   }
 
   public mutating func merge(_ other: ButtonProperties) {
@@ -36,7 +36,7 @@ public struct ButtonProperties: Properties {
 
     merge(&selected, other.selected)
     merge(&enabled, other.enabled)
-    merge(&highlighted, other.highlighted)
+    merge(&active, other.active)
   }
 
   public func has(key: String, withValue value: String) -> Bool {
@@ -50,23 +50,23 @@ public struct ButtonProperties: Properties {
 }
 
 public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
-  return lhs.titleStyle == rhs.titleStyle && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.highlighted == rhs.highlighted && lhs.equals(otherProperties: rhs)
+  return lhs.titleStyle == rhs.titleStyle && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.active == rhs.active && lhs.equals(otherProperties: rhs)
 }
 
 public struct ButtonState: State {
-  var highlighted = false
+  var active = false
 
   public init() {}
 }
 
 public func ==(lhs: ButtonState, rhs: ButtonState) -> Bool {
-  return lhs.highlighted == rhs.highlighted
+  return lhs.active == rhs.active
 }
 
 public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   public override var properties: ButtonProperties {
     didSet {
-      state.highlighted = properties.highlighted ?? false
+      state.active = properties.active ?? false
     }
   }
 
@@ -104,7 +104,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   }
 
   @objc private func handleTap() {
-    updateComponentState(stateMutation: { $0.highlighted = false }) { [weak self] in
+    updateComponentState(stateMutation: { $0.active = false }) { [weak self] in
       guard self?.properties.enabled ?? true else {
         return
       }
@@ -114,12 +114,12 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
 
   @objc private func handlePress() {
     updateComponentState { state in
-      state.highlighted = true
+      state.active = true
     }
   }
 
   @objc private func handleDoubleTap() {
-    updateComponentState(stateMutation: { $0.highlighted = false }) { [weak self] in
+    updateComponentState(stateMutation: { $0.active = false }) { [weak self] in
       guard self?.properties.enabled ?? true else {
         return
       }
