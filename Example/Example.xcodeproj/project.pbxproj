@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8325EE41DA0E4AB00F3EC95 /* Header.css in Resources */ = {isa = PBXBuildFile; fileRef = D8325EE31DA0E4AB00F3EC95 /* Header.css */; };
+		D8325EE61DA0E5C700F3EC95 /* Common.css in Resources */ = {isa = PBXBuildFile; fileRef = D8325EE51DA0E5C700F3EC95 /* Common.css */; };
 		D856A0571D91C1540049467E /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D856A0561D91C1540049467E /* App.swift */; };
 		D856A0591D91C7180049467E /* Todos.swift in Sources */ = {isa = PBXBuildFile; fileRef = D856A0581D91C7180049467E /* Todos.swift */; };
 		D856A05B1D91D8A60049467E /* Header.xml in Resources */ = {isa = PBXBuildFile; fileRef = D856A05A1D91D8A60049467E /* Header.xml */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D8325EE31DA0E4AB00F3EC95 /* Header.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Header.css; sourceTree = "<group>"; };
+		D8325EE51DA0E5C700F3EC95 /* Common.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Common.css; sourceTree = "<group>"; };
 		D856A0561D91C1540049467E /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		D856A0581D91C7180049467E /* Todos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todos.swift; sourceTree = "<group>"; };
 		D856A05A1D91D8A60049467E /* Header.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Header.xml; sourceTree = "<group>"; };
@@ -79,8 +83,10 @@
 				D8D7D19C1D9204E200A745D8 /* Todo.swift */,
 				D856A0581D91C7180049467E /* Todos.swift */,
 				D89194C41D57FD6F0049991F /* ViewController.swift */,
+				D8325EE51DA0E5C700F3EC95 /* Common.css */,
 				D8D7D1A21D94704200A745D8 /* Footer.xml */,
 				D856A05A1D91D8A60049467E /* Header.xml */,
+				D8325EE31DA0E4AB00F3EC95 /* Header.css */,
 				D8D7D19E1D92072D00A745D8 /* Todo.xml */,
 				D89194C91D57FD6F0049991F /* Assets.xcassets */,
 				D89194CB1D57FD6F0049991F /* LaunchScreen.storyboard */,
@@ -162,6 +168,8 @@
 			files = (
 				D8D7D1A31D94704200A745D8 /* Footer.xml in Resources */,
 				D89194CD1D57FD6F0049991F /* LaunchScreen.storyboard in Resources */,
+				D8325EE61DA0E5C700F3EC95 /* Common.css in Resources */,
+				D8325EE41DA0E4AB00F3EC95 /* Header.css in Resources */,
 				D89194CA1D57FD6F0049991F /* Assets.xcassets in Resources */,
 				D8D7D19F1D92072D00A745D8 /* Todo.xml in Resources */,
 				D856A05B1D91D8A60049467E /* Header.xml in Resources */,

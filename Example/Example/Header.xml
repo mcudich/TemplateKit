@@ -1,24 +1,7 @@
 <template>
-  <style>
-    #container {
-      paddingTop: 40
-    }
-    #todos {
-      textAlignment: center;
-    }
-    #fieldContainer {
-      flexDirection: row;
-    }
-    #button {
-      backgroundColor: #eeeeee;
-      width: 24;
-      height: 24;
-    }
-    textfield {
-      height: 24;
-      flexGrow: 1;
-    }
-  </style>
+  <style url="./Common.css" />
+  <style url="./Header.css" />
+
   <box id="container">
     <text text="todos" id="todos" />
     <box id="fieldContainer">
