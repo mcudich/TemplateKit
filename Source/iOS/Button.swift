@@ -12,6 +12,7 @@ public struct ButtonProperties: Properties, EnableableProperties, ActivatablePro
   public var core = CoreProperties()
 
   public var titleStyle = TextStyleProperties()
+  public var text: String?
   public var backgroundImage: UIImage?
   public var image: UIImage?
   public var selected: Bool?
@@ -24,6 +25,7 @@ public struct ButtonProperties: Properties, EnableableProperties, ActivatablePro
     core = CoreProperties(properties)
 
     titleStyle = TextStyleProperties(properties)
+    text = properties.cast("text")
     selected = properties.cast("selected")
     enabled = properties.cast("enabled")
     active = properties.cast("active")
@@ -34,6 +36,7 @@ public struct ButtonProperties: Properties, EnableableProperties, ActivatablePro
 
     titleStyle.merge(other.titleStyle)
 
+    merge(&text, other.text)
     merge(&selected, other.selected)
     merge(&enabled, other.enabled)
     merge(&active, other.active)
@@ -50,7 +53,7 @@ public struct ButtonProperties: Properties, EnableableProperties, ActivatablePro
 }
 
 public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
-  return lhs.titleStyle == rhs.titleStyle && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.active == rhs.active && lhs.equals(otherProperties: rhs)
+  return lhs.titleStyle == rhs.titleStyle && lhs.text == rhs.text && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.active == rhs.active && lhs.equals(otherProperties: rhs)
 }
 
 public struct ButtonState: State {
@@ -82,7 +85,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
     if let _ = self.properties.image {
       childElements.append(renderImage())
     }
-    if let _ = self.properties.titleStyle.text {
+    if let _ = self.properties.text {
       childElements.append(renderTitle())
     }
 
@@ -98,6 +101,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
 
   private func renderTitle() -> Element {
     var properties = TextProperties()
+    properties.text = self.properties.text
     properties.textStyle = self.properties.titleStyle
 
     return ElementData(ElementType.text, properties)

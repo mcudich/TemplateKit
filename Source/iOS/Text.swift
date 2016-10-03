@@ -70,60 +70,30 @@ class TextLayout {
       NSParagraphStyleAttributeName: paragraphStyle
     ]
 
-    textStorage.setAttributedString(NSAttributedString(string: properties.textStyle.text ?? "", attributes: attributes))
+    textStorage.setAttributedString(NSAttributedString(string: properties.text ?? "", attributes: attributes))
 
     textContainer.lineBreakMode = properties.textStyle.lineBreakMode ?? .byTruncatingTail
   }
-}
-
-public struct TextStyleProperties: RawPropertiesReceiver, Equatable {
-  public var text: String?
-  public var fontName: String?
-  public var fontSize: CGFloat?
-  public var color: UIColor?
-  public var lineBreakMode: NSLineBreakMode?
-  public var textAlignment: NSTextAlignment?
-
-  public init() {}
-
-  public init(_ properties: [String : Any]) {
-    text = properties.cast("text")
-    fontName = properties.cast("fontName")
-    fontSize = properties.cast("fontSize")
-    color = properties.color("color")
-    lineBreakMode = properties.cast("lineBreakMode")
-    textAlignment = properties.cast("textAlignment")
-  }
-
-  public mutating func merge(_ other: TextStyleProperties) {
-    merge(&text, other.text)
-    merge(&fontName, other.fontName)
-    merge(&fontSize, other.fontSize)
-    merge(&color, other.color)
-    merge(&lineBreakMode, other.lineBreakMode)
-    merge(&textAlignment, other.textAlignment)
-  }
-}
-
-public func ==(lhs: TextStyleProperties, rhs: TextStyleProperties) -> Bool {
-  return lhs.text == rhs.text && lhs.fontName == rhs.fontName && lhs.fontSize == rhs.fontSize && lhs.color == rhs.color && lhs.lineBreakMode == rhs.lineBreakMode && lhs.textAlignment == rhs.textAlignment
 }
 
 public struct TextProperties: Properties {
   public var core = CoreProperties()
 
   public var textStyle = TextStyleProperties()
+  public var text: String?
 
   public init() {}
 
   public init(_ properties: [String : Any]) {
     core = CoreProperties(properties)
     textStyle = TextStyleProperties(properties)
+    text = properties.cast("text")
   }
 
   public mutating func merge(_ other: TextProperties) {
     core.merge(other.core)
     textStyle.merge(other.textStyle)
+    merge(&text, other.text)
   }
 }
 
