@@ -12,6 +12,7 @@ public struct TextFieldProperties: Properties, FocusableProperties, EnableablePr
   public var core = CoreProperties()
 
   public var textStyle = TextStyleProperties()
+  public var text: String?
   public var onChange: Selector?
   public var onSubmit: Selector?
   public var onBlur: Selector?
@@ -26,6 +27,7 @@ public struct TextFieldProperties: Properties, FocusableProperties, EnableablePr
     core = CoreProperties(properties)
     textStyle = TextStyleProperties(properties)
 
+    text = properties.cast("text")
     onChange = properties.cast("onChange")
     onSubmit = properties.cast("onSubmit")
     onBlur = properties.cast("onBlur")
@@ -39,6 +41,7 @@ public struct TextFieldProperties: Properties, FocusableProperties, EnableablePr
     core.merge(other.core)
     textStyle.merge(other.textStyle)
 
+    merge(&text, other.text)
     merge(&onChange, other.onChange)
     merge(&onSubmit, other.onSubmit)
     merge(&onBlur, other.onBlur)
@@ -94,7 +97,7 @@ public class TextField: UITextField, NativeView {
     selectedTextRange = lastSelectedRange
     tintColor = .black
 
-    attributedText = NSAttributedString(string: properties.textStyle.text ?? "", attributes: attributes)
+    attributedText = NSAttributedString(string: properties.text ?? "", attributes: attributes)
     textAlignment = properties.textStyle.textAlignment ?? .natural
     placeholder = properties.placeholder
     isEnabled = properties.enabled ?? true
