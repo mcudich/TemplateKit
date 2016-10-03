@@ -32,10 +32,12 @@ class ViewNode: PropertyNode {
     updateParent()
   }
 
-  init(view: UIView, element: Element, owner: Node? = nil) {
-    self.element = element as! ElementData<DefaultProperties>
+  init(view: UIView, element: Element, owner: Node? = nil, context: Context? = nil) {
     self.builtView = view
+    self.element = element as! ElementData<DefaultProperties>
     self.properties = self.element.properties
+    self.owner = owner
+    self.context = context
   }
 
   init(element: Element, properties: DefaultProperties, children: [Node]? = nil, owner: Node? = nil) {

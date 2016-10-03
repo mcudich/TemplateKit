@@ -10,7 +10,7 @@ import Foundation
 
 public protocol ElementRepresentable {
   var tagName: String { get }
-  func make(_ element: Element, _ owner: Node?) -> Node
+  func make(_ element: Element, _ owner: Node?, _ context: Context?) -> Node
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
@@ -102,11 +102,7 @@ public struct ElementData<PropertiesType: Properties>: Element {
   }
 
   public func build(with owner: Node?, context: Context? = nil) -> Node {
-    let made = type.make(self, owner)
-
-    made.context = context
-
-    return made
+    return type.make(self, owner, context)
   }
 
   public mutating func applyStyleSheet(_ styleSheet: StyleSheet?) {

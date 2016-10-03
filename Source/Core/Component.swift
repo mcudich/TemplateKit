@@ -14,7 +14,7 @@ public protocol State: Model, Equatable {
 
 // Type-agnostic protocol, so we can dynamically create components as needed.
 public protocol ComponentCreation: Node {
-  init(element: Element, children: [Node]?, owner: Node?)
+  init(element: Element, children: [Node]?, owner: Node?, context: Context?)
 }
 
 public protocol Component: PropertyNode, ComponentCreation {

@@ -37,22 +37,22 @@ public enum ElementType: ElementRepresentable {
     }
   }
 
-  public func make(_ element: Element, _ owner: Node?) -> Node {
+  public func make(_ element: Element, _ owner: Node?, _ context: Context?) -> Node {
     switch self {
     case .box:
-      return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(with: owner, context: nil) }, owner: owner)
+      return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(with: owner, context: nil) }, owner: owner, context: context)
     case .text:
-      return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner)
+      return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner, context: context)
     case .textField:
-      return NativeNode<TextField>(element: element as! ElementData<TextField.PropertiesType>, owner: owner)
+      return NativeNode<TextField>(element: element as! ElementData<TextField.PropertiesType>, owner: owner, context: context)
     case .image:
-      return NativeNode<Image>(element: element as! ElementData<Image.PropertiesType>, owner: owner)
+      return NativeNode<Image>(element: element as! ElementData<Image.PropertiesType>, owner: owner, context: context)
     case .button:
-      return Button(element: element, children: nil, owner: owner)
+      return Button(element: element, children: nil, owner: owner, context: context)
     case .view(let view):
-      return ViewNode(view: view, element: element as! ElementData<DefaultProperties>, owner: owner)
+      return ViewNode(view: view, element: element as! ElementData<DefaultProperties>, owner: owner, context: context)
     case .component(let ComponentType as ComponentCreation.Type):
-      return ComponentType.init(element: element, children: nil, owner: owner)
+      return ComponentType.init(element: element, children: nil, owner: owner, context: context)
     default:
       fatalError("Unknown element type")
     }

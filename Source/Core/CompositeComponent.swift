@@ -42,10 +42,11 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     }
   }
 
-  public required init(element: Element, children: [Node]? = nil, owner: Node? = nil) {
+  public required init(element: Element, children: [Node]? = nil, owner: Node? = nil, context: Context? = nil) {
     self.element = element as! ElementData<PropertiesType>
     self.properties = self.element.properties
     self.owner = owner
+    self.context = context
   }
 
   open func render() -> Element {

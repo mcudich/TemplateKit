@@ -76,8 +76,8 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     return todosList
   }()
 
-  required init(element: Element, children: [Node]?, owner: Node?) {
-    super.init(element: element, children: children, owner: owner)
+  required init(element: Element, children: [Node]?, owner: Node?, context: Context?) {
+    super.init(element: element, children: children, owner: owner, context: context)
 
     self.properties.model?.subscribe { [weak self] in
       // Properties have changed, but have not gotten re-set on this component. Force an update.
