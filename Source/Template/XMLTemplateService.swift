@@ -63,9 +63,9 @@ public class XMLTemplateService: TemplateService {
     if cachePolicy == .never {
       URLCache.shared.removeAllCachedResponses()
     }
+    var pendingURLs = Set(urls)
     for url in urls {
       templateResourceService.load(url) { [weak self] result in
-        expectedCount -= 1
         switch result {
         case .success(let templateXML):
           guard let componentElement = templateXML.componentElement else {
@@ -75,7 +75,8 @@ public class XMLTemplateService: TemplateService {
 
           self?.resolveStyles(for: templateXML, at: url) { styleSheet in
             self?.cache[url] = Template(elementProvider: componentElement, styleSheet: styleSheet)
-            if expectedCount == 0 {
+            pendingURLs.remove(url)
+            if pendingURLs.isEmpty {
               completion(.success())
               if self?.liveReload ?? false {
                 self?.watchTemplates(withURLs: urls)
@@ -83,6 +84,7 @@ public class XMLTemplateService: TemplateService {
             }
           }
         case .failure(_):
+          pendingURLs.remove(url)
           completion(.failure(TemplateKitError.missingTemplate("Template not found at \(url)")))
         }
       }
@@ -118,18 +120,18 @@ public class XMLTemplateService: TemplateService {
       completion(StyleSheet(string: fetchedSheets.joined()))
     }
 
-    var expectedCount = urls.count
-    if expectedCount == 0 {
+    var pendingURLs = Set(urls)
+    if pendingURLs.isEmpty {
       return done(sheets)
     }
 
     for (index, url) in urls.enumerated() {
       styleSheetResourceService.load(url) { result in
-        expectedCount -= 1
+        pendingURLs.remove(url)
         switch result {
         case .success(let sheetString):
           sheets[index] = sheetString
-          if expectedCount == 0 {
+          if pendingURLs.isEmpty {
             done(sheets)
           }
         case .failure(_):

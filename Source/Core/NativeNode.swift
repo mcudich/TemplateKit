@@ -23,11 +23,12 @@ class NativeNode<T: NativeView>: PropertyNode {
   var builtView: T?
   var cssNode: CSSNode?
 
-  required init(element: ElementData<T.PropertiesType>, children: [Node]? = nil, owner: Node? = nil) {
+  required init(element: ElementData<T.PropertiesType>, children: [Node]? = nil, owner: Node? = nil, context: Context? = nil) {
     self.element = element
     self.properties = self.element.properties
     self.children = children
     self.owner = owner
+    self.context = context
 
     updateParent()
   }
