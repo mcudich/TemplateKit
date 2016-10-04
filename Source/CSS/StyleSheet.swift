@@ -318,7 +318,7 @@ public indirect enum StyleSelector {
 
 public struct StyleDeclaration {
   public let name: String
-  public let values: [String]
+  public let value: String
   public let important: Bool
 }
 
@@ -407,10 +407,10 @@ public struct StyleSheet: Equatable {
   }
 
   private func makeDeclaration(_ declaration: KatanaDeclaration) -> StyleDeclaration {
-    return StyleDeclaration(name: String(cString: declaration.property), values: makeValues(declaration.values.pointee), important: declaration.important)
+    return StyleDeclaration(name: String(cString: declaration.property), value: makeValue(declaration.values.pointee), important: declaration.important)
   }
 
-  private func makeValues(_ values: KatanaArray) -> [String] {
+  private func makeValue(_ values: KatanaArray) -> String {
     let values: [KatanaValue] = fromKatanaArray(array: values)
     return values.map { value in
       if value.isInt {
@@ -420,8 +420,7 @@ public struct StyleSheet: Equatable {
       } else {
         return String(cString: value.value.string)
       }
-
-    }
+    }.joined(separator: " ")
   }
 
   private func fromKatanaArray<T>(array: KatanaArray) -> [T] {

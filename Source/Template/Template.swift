@@ -16,7 +16,9 @@ public struct Template: Equatable {
 
   func makeElement(with model: Model) throws -> Element {
     var tree = try elementProvider.makeElement(with: model)
-    tree.applyStyleSheet(styleSheet)
+    if let styleSheet = styleSheet {
+      tree.applyStyleSheet(styleSheet, parentStyles: DefaultProperties())
+    }
     return tree
   }
 }

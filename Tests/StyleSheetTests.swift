@@ -94,9 +94,9 @@ class StylesheetTests: XCTestCase {
 
     XCTAssertEqual(2, rule.declarations.count)
     XCTAssertEqual("height", rule.declarations[0].name)
-    XCTAssertEqual("red", rule.declarations[0].values[0])
+    XCTAssertEqual("red", rule.declarations[0].value)
     XCTAssertEqual("width", rule.declarations[1].name)
-    XCTAssertEqual("100", rule.declarations[1].values[0])
+    XCTAssertEqual("100", rule.declarations[1].value)
   }
 
   func testMatchesTag() {
@@ -379,9 +379,9 @@ class StylesheetTests: XCTestCase {
     let element = TestElement(tagName: "box")
     let styles = parsed.stylesForElement(element)
     XCTAssertEqual(3, styles.count)
-    XCTAssertEqual("100", styles["height"]?.values[0])
-    XCTAssertEqual("200", styles["width"]?.values[0])
-    XCTAssertEqual("green", styles["background-color"]?.values[0])
+    XCTAssertEqual("100", styles["height"]?.value)
+    XCTAssertEqual("200", styles["width"]?.value)
+    XCTAssertEqual("green", styles["background-color"]?.value)
   }
 
   func testMergedStylesForElement() {
@@ -391,10 +391,10 @@ class StylesheetTests: XCTestCase {
     let element = TestElement(classNames: ["focused"], tagName: "box")
     let styles = parsed.stylesForElement(element)
     XCTAssertEqual(4, styles.count)
-    XCTAssertEqual("100", styles["height"]?.values[0])
-    XCTAssertEqual("200", styles["width"]?.values[0])
-    XCTAssertEqual("green", styles["background-color"]?.values[0])
-    XCTAssertEqual("red", styles["border"]?.values[0])
+    XCTAssertEqual("100", styles["height"]?.value)
+    XCTAssertEqual("200", styles["width"]?.value)
+    XCTAssertEqual("green", styles["background-color"]?.value)
+    XCTAssertEqual("red", styles["border"]?.value)
   }
 
   func testSpecificityConstrainedStylesForElement() {
@@ -404,8 +404,8 @@ class StylesheetTests: XCTestCase {
     let element = TestElement(classNames: ["focused"], tagName: "box")
     let styles = parsed.stylesForElement(element)
     XCTAssertEqual(3, styles.count)
-    XCTAssertEqual("300", styles["height"]?.values[0])
-    XCTAssertEqual("200", styles["width"]?.values[0])
-    XCTAssertEqual("green", styles["background-color"]?.values[0])
+    XCTAssertEqual("300", styles["height"]?.value)
+    XCTAssertEqual("200", styles["width"]?.value)
+    XCTAssertEqual("green", styles["background-color"]?.value)
   }
 }
