@@ -178,17 +178,20 @@ public extension Properties {
   }
 }
 
-public struct DefaultProperties: Properties {
+public struct DefaultProperties: Properties, InheritableProperties {
   public var core = CoreProperties()
+  public var textStyle = TextStyleProperties()
 
   public init() {}
 
   public init(_ properties: [String: Any]) {
     core = CoreProperties(properties)
+    textStyle = TextStyleProperties(properties)
   }
 
   public mutating func merge(_ other: DefaultProperties) {
     core.merge(other.core)
+    textStyle.merge(other.textStyle)
   }
 }
 
@@ -208,3 +211,19 @@ public protocol ActivatableProperties {
   var active: Bool? { get set }
 }
 
+public protocol InheritingProperties {
+  var textStyle: TextStyleProperties { get set }
+}
+
+public protocol InheritableProperties: InheritingProperties {
+  func apply(to other: inout InheritingProperties)
+}
+
+public extension InheritableProperties {
+  func apply(to other: inout InheritingProperties) {
+    var workingTextStyle = textStyle
+
+    workingTextStyle.merge(other.textStyle)
+    other.textStyle = workingTextStyle
+  }
+}

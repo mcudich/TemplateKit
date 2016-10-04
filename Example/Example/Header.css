@@ -1,8 +1,10 @@
 #container {
-  paddingTop: 40
+  paddingTop: 40;
+  fontSize: 20;
+  textAlignment: center;
 }
 #todos {
-  textAlignment: center;
+  textAlignment: left;
 }
 #fieldContainer {
   flexDirection: row;

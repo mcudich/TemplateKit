@@ -76,7 +76,7 @@ class TextLayout {
   }
 }
 
-public struct TextProperties: Properties {
+public struct TextProperties: Properties, InheritingProperties {
   public var core = CoreProperties()
 
   public var textStyle = TextStyleProperties()

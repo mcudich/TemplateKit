@@ -20,7 +20,7 @@ public protocol Element: Keyable, StyleElement {
   var parent: Element? { get set }
 
   func build(with owner: Node?, context: Context?) -> Node
-  mutating func applyStyleSheet(_ styleSheet: StyleSheet?)
+  mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties)
 }
 
 public extension StyleElement where Self: Element {
@@ -105,19 +105,25 @@ public struct ElementData<PropertiesType: Properties>: Element {
     return type.make(self, owner, context)
   }
 
-  public mutating func applyStyleSheet(_ styleSheet: StyleSheet?) {
-    let matchingStyles = styleSheet?.stylesForElement(self)
+  public mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties) {
+    let matchingStyles = styleSheet.stylesForElement(self)
     var styleSheetProperties = [String: Any]()
-    for (name, declaration) in (matchingStyles ?? [:]) {
-      styleSheetProperties[name] = declaration.values[0]
+    for (name, declaration) in matchingStyles {
+      styleSheetProperties[name] = declaration.value
     }
 
     var styledProperties = PropertiesType(styleSheetProperties)
+
+    if var inheritable = styledProperties as? InheritingProperties {
+      parentStyles.apply(to: &inheritable)
+      styledProperties = inheritable as! PropertiesType
+    }
+
     styledProperties.merge(self.properties)
     self.properties = styledProperties
 
     for (index, _) in (children ?? []).enumerated() {
-      children?[index].applyStyleSheet(styleSheet)
+      children?[index].applyStyleSheet(styleSheet, parentStyles: self.properties as! InheritableProperties)
     }
   }
 }
