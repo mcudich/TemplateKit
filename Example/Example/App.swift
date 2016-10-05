@@ -179,7 +179,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
 
-    return ElementData(ElementType.box, properties, children)
+    return box(properties, children)
   }
 
   private func renderHeader() -> Element {
@@ -187,7 +187,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   private func renderMain() -> Element {
-    return ElementData(ElementType.view(todosList), DefaultProperties(["flexGrow": Float(1)]))
+    return view(todosList, DefaultProperties(["flexGrow": Float(1)]))
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {
@@ -197,6 +197,6 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     properties.onClearCompleted = #selector(App.handleClearCompleted)
     properties.onUpdateFilter = #selector(App.handleUpdateFilter(filter:))
     properties.nowShowing = state.nowShowing
-    return ElementData(ElementType.component(Footer.self), properties)
+    return component(Footer.self, properties)
   }
 }
