@@ -9,7 +9,7 @@
 import Foundation
 import CSSLayout
 
-public struct LayoutProperties: RawPropertiesReceiver, Model, Equatable {
+public struct LayoutProperties: RawProperties, Model, Equatable {
   public var flexDirection: CSSFlexDirection?
   public var direction: CSSDirection?
   public var justifyContent: CSSJustify?
