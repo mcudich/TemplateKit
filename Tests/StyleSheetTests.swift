@@ -408,4 +408,14 @@ class StylesheetTests: XCTestCase {
     XCTAssertEqual("200", styles["width"]?.value)
     XCTAssertEqual("green", styles["background-color"]?.value)
   }
+
+  func testMatchingSpecificityRespectsSourceOrder() {
+    let sheet = ".class1 { height: 100; width: 200; background-color: green } .class2 { height: 300 }"
+    let parsed = StyleSheet(string: sheet)!
+
+    let element = TestElement(classNames: ["class1", "class2"])
+    let styles = parsed.stylesForElement(element)
+    XCTAssertEqual(3, styles.count)
+    XCTAssertEqual("300", styles["height"]?.value)
+  }
 }

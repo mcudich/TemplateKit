@@ -366,7 +366,7 @@ public struct StyleSheet: Equatable {
         if let (existingRule, _) = declarations[declaration.name] {
           let existingSpecificity = existingRule.greatestSpecificity(for: element)
           let newSpecificity = rule.greatestSpecificity(for: element)
-          if newSpecificity > existingSpecificity {
+          if newSpecificity >= existingSpecificity {
             declarations[declaration.name] = (rule, declaration)
           }
         } else {
