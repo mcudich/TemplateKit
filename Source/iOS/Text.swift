@@ -98,7 +98,7 @@ public struct TextProperties: Properties, InheritingProperties {
 }
 
 public func ==(lhs: TextProperties, rhs: TextProperties) -> Bool {
-  return lhs.textStyle == rhs.textStyle && lhs.equals(otherProperties: rhs)
+  return lhs.text == rhs.text && lhs.textStyle == rhs.textStyle && lhs.equals(otherProperties: rhs)
 }
 
 public class Text: UILabel, NativeView {

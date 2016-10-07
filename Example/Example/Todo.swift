@@ -102,7 +102,7 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
     performSelector(properties.onDestroy, with: properties.todo?.id)
   }
 
-  override func render() -> Element {
+  override func render() -> Template {
     buttonBackgroundColor = (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red
     enabled = state.editText != nil
     text = state.editText ?? self.properties.todo?.title

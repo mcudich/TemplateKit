@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension CompositeComponent {
+public extension CompositeComponent {
   func box(_ properties: DefaultProperties = DefaultProperties(), _ children: [Element]? = nil) -> Element {
     return ElementData(ElementType.box, properties, children)
   }

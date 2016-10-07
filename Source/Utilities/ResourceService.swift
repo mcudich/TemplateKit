@@ -52,15 +52,15 @@ class ResourceService<ParserType: Parser> {
 
     pendingOperations[url] = [completion]
 
-    operationQueue.enqueueOperation { [weak self] done in
-      self?.defaultSession.dataTask(with: url) { [weak self] data, response, error in
-        self?.requestQueue.async {
+    operationQueue.enqueueOperation { done in
+      self.defaultSession.dataTask(with: url) { data, response, error in
+        self.requestQueue.async {
           if let data = data {
-            self?.processResponse(forURL: url, withData: data)
+            self.processResponse(forURL: url, withData: data)
           } else if let error = error {
-            self?.fail(forURL: url, withError: error)
+            self.fail(forURL: url, withError: error)
           }
-          let _ = self?.pendingOperations.removeValue(forKey: url)
+          let _ = self.pendingOperations.removeValue(forKey: url)
           done()
         }
       }.resume()

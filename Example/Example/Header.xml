@@ -4,9 +4,6 @@
 
   <box id="container">
     <text text="todos" id="todos" />
-    <box>
-      <text text="some other text" />
-    </box>
     <box id="fieldContainer">
       <button id="button" onTap="handleToggleAllWithTarget:" />
       <textfield text="$state.newTodo" placeholder="What needs to be done?" onSubmit="handleNewTodoSubmitWithTarget:" onChange="handleChangeWithTarget:" />

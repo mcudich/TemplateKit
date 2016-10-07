@@ -53,7 +53,7 @@ public struct TextFieldProperties: Properties, FocusableProperties, EnableablePr
 }
 
 public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
-  return lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.placeholder == rhs.placeholder && lhs.enabled == rhs.enabled && lhs.equals(otherProperties: rhs)
+  return lhs.text == rhs.text && lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.placeholder == rhs.placeholder && lhs.enabled == rhs.enabled && lhs.equals(otherProperties: rhs)
 }
 
 public class TextField: UITextField, NativeView {

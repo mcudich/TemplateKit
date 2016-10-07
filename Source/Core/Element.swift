@@ -14,13 +14,31 @@ public protocol ElementRepresentable {
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
-public protocol Element: Keyable, StyleElement {
+public protocol Element: Keyable, StyleElement, ElementProvider {
   var type: ElementRepresentable { get }
   var children: [Element]? { get }
   var parent: Element? { get set }
 
   func build(with owner: Node?, context: Context?) -> Node
+  func equals(_ other: Element?) -> Bool
   mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties)
+}
+
+extension Element {
+  public func equals(_ other: Element?) -> Bool {
+    guard let other = other else {
+      return false
+    }
+    return type.equals(other.type) && key == other.key && (other.parent?.equals(other.parent) ?? (other.parent == nil))
+  }
+
+  public func equals(_ other: ElementProvider?) -> Bool {
+    return equals(other)
+  }
+
+  public func build(with model: Model) throws -> Element {
+    return self
+  }
 }
 
 public extension StyleElement where Self: Element {
@@ -30,10 +48,6 @@ public extension StyleElement where Self: Element {
 
   var childElements: [StyleElement]? {
     return children
-  }
-
-  public func equals(_ other: Element?) -> Bool {
-    return key == other?.key && (other?.parent?.equals(other?.parent) ?? (other?.parent == nil))
   }
 
   func matches(attribute: String, with value: String) -> Bool {
@@ -103,6 +117,14 @@ public struct ElementData<PropertiesType: Properties>: Element {
 
   public func build(with owner: Node?, context: Context? = nil) -> Node {
     return type.make(self, owner, context)
+  }
+
+  public func equals(_ other: Element?) -> Bool {
+    guard let other = other as? ElementData<PropertiesType> else {
+      return false
+    }
+
+    return type.equals(other.type) && key == other.key && (parent?.equals(other.parent) ?? (other.parent == nil)) && properties == other.properties
   }
 
   public mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties) {

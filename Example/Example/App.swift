@@ -162,7 +162,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     } ?? 0
   }
 
-  override func render() -> Element {
+  override func render() -> Template {
     var children = [
       renderHeader()
     ]
@@ -179,11 +179,11 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
 
-    return box(properties, children)
+    return Template(elementProvider: box(properties, children), styleSheet: nil)
   }
 
   private func renderHeader() -> Element {
-    return render(Bundle.main.url(forResource: "Header", withExtension: "xml")!)
+    return try! render(Bundle.main.url(forResource: "Header", withExtension: "xml")!).build(with: self)
   }
 
   private func renderMain() -> Element {
