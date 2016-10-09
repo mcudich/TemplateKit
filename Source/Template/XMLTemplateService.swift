@@ -66,7 +66,7 @@ public class XMLTemplateService: TemplateService {
           }
 
           self?.resolveStyles(for: templateXML, at: url) { styleSheet in
-            self?.templates[url] = Template(elementProvider: componentElement, styleSheet: styleSheet ?? StyleSheet())
+            self?.templates[url] = Template(componentElement, styleSheet ?? StyleSheet())
             pendingURLs.remove(url)
             if pendingURLs.isEmpty {
               completion(.success())

@@ -89,7 +89,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       childElements.append(renderTitle())
     }
 
-    return Template(elementProvider: box(properties, childElements))
+    return Template(box(properties, childElements))
   }
 
   private func renderImage() -> Element {

@@ -31,9 +31,9 @@ class ViewController: UIViewController, Context {
     properties.model = Todos()
 
     let templateURLs = [
-      Bundle.main.url(forResource: "Header", withExtension: "xml")!,
-      Bundle.main.url(forResource: "Footer", withExtension: "xml")!,
-      Bundle.main.url(forResource: "Todo", withExtension: "xml")!
+      App.headerTemplateURL,
+      Footer.templateURL,
+      Todo.templateURL
     ]
 
     NodeRegistry.shared.registerComponent(CountText.self, CountTextProperties.self)

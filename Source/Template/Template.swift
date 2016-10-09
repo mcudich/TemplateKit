@@ -9,7 +9,7 @@ public struct Template: Equatable {
   fileprivate let elementProvider: ElementProvider
   fileprivate let styleSheet: StyleSheet
 
-  public init(elementProvider: ElementProvider, styleSheet: StyleSheet = StyleSheet()) {
+  public init(_ elementProvider: ElementProvider, _ styleSheet: StyleSheet = StyleSheet()) {
     self.elementProvider = elementProvider
     self.styleSheet = styleSheet
   }
