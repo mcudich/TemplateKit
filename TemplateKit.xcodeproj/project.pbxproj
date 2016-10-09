@@ -13,7 +13,7 @@
 		D8325ED51D986DC800F3EC95 /* CSSMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325EC91D986D5000F3EC95 /* CSSMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D8325ED61D986DC800F3EC95 /* CSSNodeList.c in Sources */ = {isa = PBXBuildFile; fileRef = D8325ECA1D986D5000F3EC95 /* CSSNodeList.c */; };
 		D8325ED71D986DC800F3EC95 /* CSSNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = D8325ECB1D986D5000F3EC95 /* CSSNodeList.h */; };
-		D8325EDC1D987F5500F3EC95 /* XMLDocumentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDB1D987F5500F3EC95 /* XMLDocumentParser.swift */; };
+		D8325EDC1D987F5500F3EC95 /* XMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */; };
 		D8325EDE1D99DDC300F3EC95 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDD1D99DDC300F3EC95 /* String.swift */; };
 		D8325EE21D9F74EC00F3EC95 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EE11D9F74EC00F3EC95 /* URL.swift */; };
 		D8325EEB1DA5889700F3EC95 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EEA1DA5889700F3EC95 /* Properties.swift */; };
@@ -120,7 +120,7 @@
 		D8325ED11D986D9200F3EC95 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = "ThirdParty/Support/css-layout/Config.xcconfig"; sourceTree = "<group>"; };
 		D8325ED21D986DBB00F3EC95 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = "ThirdParty/Support/css-layout/module.modulemap"; sourceTree = "<group>"; };
 		D8325ED81D986E0000F3EC95 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "ThirdParty/Support/css-layout/Info.plist"; sourceTree = "<group>"; };
-		D8325EDB1D987F5500F3EC95 /* XMLDocumentParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocumentParser.swift; sourceTree = "<group>"; };
+		D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocument.swift; sourceTree = "<group>"; };
 		D8325EDD1D99DDC300F3EC95 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		D8325EE11D9F74EC00F3EC95 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		D8325EEA1DA5889700F3EC95 /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
@@ -333,7 +333,7 @@
 				D83936AF1D8348C5008CA7F1 /* Dictionary.swift */,
 				D83936B01D8348C5008CA7F1 /* ResourceService.swift */,
 				D83936B11D8348C5008CA7F1 /* Result.swift */,
-				D8325EDB1D987F5500F3EC95 /* XMLDocumentParser.swift */,
+				D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */,
 				D8325EDD1D99DDC300F3EC95 /* String.swift */,
 				D8325EE11D9F74EC00F3EC95 /* URL.swift */,
 			);
@@ -685,7 +685,7 @@
 				D83936C81D8348C5008CA7F1 /* UIKitRenderer.swift in Sources */,
 				D8C2B26C1D9AF3B600FF4534 /* StyleSheet.swift in Sources */,
 				D8325EF31DA588EA00F3EC95 /* GestureProperties.swift in Sources */,
-				D8325EDC1D987F5500F3EC95 /* XMLDocumentParser.swift in Sources */,
+				D8325EDC1D987F5500F3EC95 /* XMLDocument.swift in Sources */,
 				D83936C91D8348C5008CA7F1 /* Error.swift in Sources */,
 				D8325EED1DA588A800F3EC95 /* RawProperties.swift in Sources */,
 			);
