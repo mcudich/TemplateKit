@@ -44,6 +44,6 @@ class CountText: CompositeComponent<EmptyState, CountTextProperties, UIView> {
     properties.text = self.properties.count
     properties.textStyle = self.properties.textStyle
 
-    return Template(elementProvider: text(properties))
+    return Template(text(properties))
   }
 }

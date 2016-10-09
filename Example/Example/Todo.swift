@@ -60,6 +60,8 @@ func ==(lhs: TodoProperties, rhs: TodoProperties) -> Bool {
 }
 
 class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
+  static let templateURL = Bundle.main.url(forResource: "Todo", withExtension: "xml")!
+
   var buttonBackgroundColor: UIColor?
   var text: String?
   var enabled: Bool?
@@ -106,6 +108,7 @@ class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
     buttonBackgroundColor = (self.properties.todo?.completed ?? false) ? UIColor.green : UIColor.red
     enabled = state.editText != nil
     text = state.editText ?? self.properties.todo?.title
-    return render(Bundle.main.url(forResource: "Todo", withExtension: "xml")!)
+
+    return render(Todo.templateURL)
   }
 }

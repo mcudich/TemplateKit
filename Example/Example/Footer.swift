@@ -46,6 +46,8 @@ func ==(lhs: FooterProperties, rhs: FooterProperties) -> Bool {
 }
 
 class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
+  static let templateURL = Bundle.main.url(forResource: "Footer", withExtension: "xml")!
+
   var count: String?
   var allSelected = false
   var activeSelected = false
@@ -73,6 +75,6 @@ class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
     activeSelected = properties.nowShowing == .active
     completedSelected = properties.nowShowing == .completed
 
-    return render(Bundle.main.url(forResource: "Footer", withExtension: "xml")!)
+    return render(Footer.templateURL)
   }
 }

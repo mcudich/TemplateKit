@@ -69,6 +69,8 @@ extension App: TableViewDataSource {
 }
 
 class App: CompositeComponent<AppState, AppProperties, UIView> {
+  static let headerTemplateURL = Bundle.main.url(forResource: "Header", withExtension: "xml")!
+
   private lazy var todosList: TableView = {
     let todosList = TableView(frame: CGRect.zero, style: .plain, context: self.getContext())
     todosList.tableViewDataSource = self
@@ -184,11 +186,11 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
 
-    return Template(elementProvider: box(properties, children))
+    return Template(box(properties, children))
   }
 
   private func renderHeader() -> Element {
-    return render(Bundle.main.url(forResource: "Header", withExtension: "xml")!).build(with: self)
+    return render(App.headerTemplateURL).build(with: self)
   }
 
   private func renderMain() -> Element {
