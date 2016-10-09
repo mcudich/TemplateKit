@@ -60,7 +60,7 @@ extension App: TableViewDataSource {
     properties.onEdit = #selector(App.handleEdit(id:))
     properties.onDestroy = #selector(App.handleDestroy(id:))
 
-    return ElementData(ElementType.component(Todo.self), properties)
+    return component(Todo.self, properties)
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -184,7 +184,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
 
-    return Template(elementProvider: box(properties, children), styleSheet: nil)
+    return Template(elementProvider: box(properties, children))
   }
 
   private func renderHeader() -> Element {

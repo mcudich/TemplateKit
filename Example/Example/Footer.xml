@@ -5,10 +5,9 @@
       alignItems: center;
       backgroundColor: #eeeeee;
       padding: 5;
-    }
-    #count {
       fontSize: 10;
     }
+
     #filters {
       flexDirection: row;
       flexGrow: 1;
@@ -16,31 +15,36 @@
       paddingRight: 5;
       justifyContent: center;
     }
+
     #filters button {
       opacity: 0.5;
       color: #000000;
-      fontSize: 10;
       borderColor: #000000;
       cornerRadius: 5;
       padding: 5;
       marginLeft: 5;
     }
+
     #filters button[selected=true] {
       backgroundColor: #ff0000;
       color: #ffffff;
     }
+
     #clearAll {
       color: #000000;
-      fontSize: 10;
+    }
+
+    CountText {
+      color: #aaaaaa;
     }
   </style>
   <box id="container">
-    <text text="$count" id="count" />
+    <CountText count="$count" id="count" />
     <box id="filters">
       <button text="all" onTap="handleSelectAll" selected="$allSelected" />
       <button text="active" onTap="handleSelectActive" selected="$activeSelected" />
       <button text="completed" onTap="handleSelectCompleted" selected="$completedSelected"/>
     </box>
-    <button text="clear all" onTap="handleClearCompleted" />
+    <button id="clearAll" text="clear all" onTap="handleClearCompleted" />
   </box>
 </template>

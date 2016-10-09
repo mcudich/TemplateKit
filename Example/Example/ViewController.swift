@@ -35,9 +35,12 @@ class ViewController: UIViewController, Context {
       Bundle.main.url(forResource: "Footer", withExtension: "xml")!,
       Bundle.main.url(forResource: "Todo", withExtension: "xml")!
     ]
+
+    NodeRegistry.shared.registerComponent(CountText.self, CountTextProperties.self)
+
     templateService.fetchTemplates(withURLs: templateURLs) { result in
       DispatchQueue.global(qos: .background).async {
-        UIKitRenderer.render(ElementData(ElementType.component(App.self), properties), container: self.view, context: self) { component in
+        UIKitRenderer.render(component(App.self, properties), container: self.view, context: self) { component in
           self.app = component as? App
         }
       }

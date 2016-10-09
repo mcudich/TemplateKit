@@ -15,7 +15,7 @@ public enum ElementType: ElementRepresentable {
   case textfield
   case image
   case view(UIView)
-  case component(AnyClass)
+  case component(ComponentCreation.Type)
 
   public var tagName: String {
     switch self {
@@ -29,9 +29,8 @@ public enum ElementType: ElementRepresentable {
       return "image"
     case .button:
       return "button"
-    case .component(let ComponentType as ComponentCreation.Type):
-      print("Don't know how to handle this yet")
-      return ""
+    case .component(let ComponentType):
+      return "\(ComponentType)"
     default:
       fatalError("Unknown element type")
     }
@@ -51,7 +50,7 @@ public enum ElementType: ElementRepresentable {
       return Button(element: element, children: nil, owner: owner, context: context)
     case .view(let view):
       return ViewNode(view: view, element: element as! ElementData<DefaultProperties>, owner: owner, context: context)
-    case .component(let ComponentType as ComponentCreation.Type):
+    case .component(let ComponentType):
       return ComponentType.init(element: element, children: nil, owner: owner, context: context)
     default:
       fatalError("Unknown element type")

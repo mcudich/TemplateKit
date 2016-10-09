@@ -8,10 +8,10 @@
 
 import Foundation
 
-public struct ButtonProperties: Properties, EnableableProperties, ActivatableProperties {
+public struct ButtonProperties: Properties, EnableableProperties, ActivatableProperties, InheritingProperties {
   public var core = CoreProperties()
+  public var textStyle = TextStyleProperties()
 
-  public var titleStyle = TextStyleProperties()
   public var text: String?
   public var backgroundImage: UIImage?
   public var image: UIImage?
@@ -23,8 +23,8 @@ public struct ButtonProperties: Properties, EnableableProperties, ActivatablePro
 
   public init(_ properties: [String : Any]) {
     core = CoreProperties(properties)
+    textStyle = TextStyleProperties(properties)
 
-    titleStyle = TextStyleProperties(properties)
     text = properties.cast("text")
     selected = properties.cast("selected")
     enabled = properties.cast("enabled")
@@ -33,8 +33,7 @@ public struct ButtonProperties: Properties, EnableableProperties, ActivatablePro
 
   public mutating func merge(_ other: ButtonProperties) {
     core.merge(other.core)
-
-    titleStyle.merge(other.titleStyle)
+    textStyle.merge(other.textStyle)
 
     merge(&text, other.text)
     merge(&selected, other.selected)
@@ -53,7 +52,7 @@ public struct ButtonProperties: Properties, EnableableProperties, ActivatablePro
 }
 
 public func ==(lhs: ButtonProperties, rhs: ButtonProperties) -> Bool {
-  return lhs.titleStyle == rhs.titleStyle && lhs.text == rhs.text && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.active == rhs.active && lhs.equals(otherProperties: rhs)
+  return lhs.textStyle == rhs.textStyle && lhs.text == rhs.text && lhs.backgroundImage == rhs.backgroundImage && lhs.image == rhs.image && lhs.selected == rhs.selected && lhs.enabled == rhs.enabled && lhs.active == rhs.active && lhs.equals(otherProperties: rhs)
 }
 
 public struct ButtonState: State {
@@ -73,13 +72,14 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
     }
   }
 
-  public override func render() -> Element {
+  public override func render() -> Template {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
     properties.core.style = self.properties.core.style
     properties.core.gestures.onTap = #selector(Button.handleTap)
     properties.core.gestures.onPress = #selector(Button.handlePress)
     properties.core.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
+    properties.textStyle = self.properties.textStyle
 
     var childElements = [Element]()
     if let _ = self.properties.image {
@@ -89,7 +89,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       childElements.append(renderTitle())
     }
 
-    return box(properties, childElements)
+    return Template(elementProvider: box(properties, childElements))
   }
 
   private func renderImage() -> Element {
@@ -102,7 +102,6 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
   private func renderTitle() -> Element {
     var properties = TextProperties()
     properties.text = self.properties.text
-    properties.textStyle = self.properties.titleStyle
 
     return text(properties)
   }

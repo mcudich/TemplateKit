@@ -8,6 +8,12 @@ public class NodeRegistry {
     registerDefaultProviders()
   }
 
+  public func registerComponent<T: Properties>(_ type: ComponentCreation.Type, _ propertiesType: T.Type) {
+    registerElementBuilder("\(type)") { properties, children in
+      return component(type, propertiesType.init(properties))
+    }
+  }
+
   public func registerElementBuilder(_ name: String, builder: @escaping ElementBuilder) {
     self.elementBuilders[name] = builder
   }
@@ -18,19 +24,19 @@ public class NodeRegistry {
 
   private func registerDefaultProviders() {
     registerElementBuilder("box") { properties, children in
-      return ElementData(ElementType.box, DefaultProperties(properties), children)
+      return box(DefaultProperties(properties), children)
     }
     registerElementBuilder("text") { properties, children in
-      return ElementData(ElementType.text, TextProperties(properties))
+      return text(TextProperties(properties))
     }
     registerElementBuilder("textfield") { properties, children in
-      return ElementData(ElementType.textfield, TextFieldProperties(properties))
+      return textfield(TextFieldProperties(properties))
     }
     registerElementBuilder("image") { properties, children in
-      return ElementData(ElementType.image, ImageProperties(properties))
+      return image(ImageProperties(properties))
     }
     registerElementBuilder("button") { properties, children in
-      return ElementData(ElementType.button, ButtonProperties(properties))
+      return button(ButtonProperties(properties))
     }
   }
 }

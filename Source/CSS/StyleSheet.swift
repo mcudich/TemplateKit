@@ -325,7 +325,11 @@ public struct StyleDeclaration {
 public struct StyleSheet: Equatable {
   public var rules = [Rule]()
 
-  fileprivate let data: Data
+  fileprivate let data: Data?
+
+  public init() {
+    data = nil
+  }
 
   public init?(string: String) {
     guard string.characters.count > 0, let data = string.data(using: String.Encoding.utf8) else {

@@ -7,18 +7,16 @@ public protocol ElementProvider {
 
 public struct Template: Equatable {
   fileprivate let elementProvider: ElementProvider
-  fileprivate let styleSheet: StyleSheet?
+  fileprivate let styleSheet: StyleSheet
 
-  public init(elementProvider: ElementProvider, styleSheet: StyleSheet?) {
+  public init(elementProvider: ElementProvider, styleSheet: StyleSheet = StyleSheet()) {
     self.elementProvider = elementProvider
     self.styleSheet = styleSheet
   }
 
   public func build(with model: Model) -> Element {
     var tree = elementProvider.build(with: model)
-    if let styleSheet = styleSheet {
-      tree.applyStyleSheet(styleSheet, parentStyles: DefaultProperties())
-    }
+    tree.applyStyleSheet(styleSheet, parentStyles: DefaultProperties())
     return tree
   }
 }
