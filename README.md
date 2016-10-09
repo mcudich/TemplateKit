@@ -54,8 +54,7 @@ class MyComponent: CompositeComponent<ComponentState, ComponentProperties, UIVie
 override func viewDidLoad() {
   super.viewDidLoad()
  
-  let element = ElementData(ElementType.component(MyComponent.self))
-  UIKitRenderer.render(element, container: self.view, context: self) { component in
+  UIKitRenderer.render(component(MyComponent.self), container: self.view, context: self) { component in
     self.component = component
   }
 }
@@ -66,7 +65,7 @@ override func viewDidLoad() {
 Because you like writing your apps completely in Swift.
 
 #### Declarative Style
-Writing user interfaces in a declarative style makes it easier to reason about how model data and user actions affect what gets rendered.
+Writing user interfaces in a declarative style makes it easier to reason about how model data and user actions affect what gets rendered. Out-of-the-box support for XML. Extensible if you want to add your own template format (e.g., protocol buffers).
 
 #### Components
 Components make it easy to encapsulate application functionality into re-usable building blocks. These blocks can then be composed to create more complex interfaces.
@@ -113,7 +112,7 @@ At its core, TemplateKit is comprised of `Element` and `Node` instances. Element
 
 Out of the box, there are several `Node` implementations that make it easy to set up UI hierarchies: `CompositeComponent`, `ViewNode`, and a set of native controls like buttons, text labels, text fields and so on.
 
-Building a component is as simple as subclassing `CompositeComponent`, overriding its `render()` function, and deciding the set of properties it might accept and use as part of rendering. `render()` simply needs to return an `Element` tree, which can be constructed programmatically, or via an XML document. When it comes time to render your component into a view, you simply call `UIKitRenderer.render`, and pass in the view that should contain your component's rendered output. This will in turn call `render()` on your component instance, compute the layout and styles for the view tree, build the view tree and then apply the layout and styles to it as appropriate.
+Building a component is as simple as subclassing `CompositeComponent`, overriding its `render()` function, and deciding the set of properties it might accept and use as part of rendering. `render()` simply needs to return a `Template`, which can be constructed programmatically, or via an XML document. When it comes time to render your component into a view, you simply call `UIKitRenderer.render`, and pass in the view that should contain your component's rendered output. This will in turn call `render()` on your component instance, compute the layout and styles for the view tree, build this tree and then apply the layout and styles to it as appropriate.
 
 When it comes time to update your component's state, you can call `updateComponentState` from within your component implementation. This function receives a function that is passed the current state value (each `CompositeComponent` can declare a `State` type, in the same way it declares a `Properties` type). This function in turn enqueues an update to the component, which will cause it to re-render, taking into account whatever changes were made to the state. This update is intelligent, and compares the current incarnation of the rendered view tree against the proposed element tree. Only the deltas between these two are flushed out to the view layer.
 
@@ -137,7 +136,7 @@ React Native relies on an incredibly well-tested library (React), and has been s
   - [katana-parser](https://github.com/hackers-painters/katana-parser)
 
 ## See Also
-If TemplateKit isn't exactly what you're looking for, check these other great projects out!
+If TemplateKit isn't exactly what you're looking for, check out these other great projects!
 - [Few.swift](https://github.com/joshaber/Few.swift)
 - [Render](https://github.com/alexdrone/Render)
 - [React Native](https://facebook.github.io/react-native/)
