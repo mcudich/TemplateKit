@@ -39,10 +39,8 @@ class ViewController: UIViewController, Context {
     NodeRegistry.shared.registerComponent(CountText.self, CountTextProperties.self)
 
     templateService.fetchTemplates(withURLs: templateURLs) { result in
-      DispatchQueue.global(qos: .background).async {
-        UIKitRenderer.render(component(App.self, properties), container: self.view, context: self) { component in
-          self.app = component as? App
-        }
+      UIKitRenderer.render(component(App.self, properties), container: self.view, context: self) { component in
+        self.app = component as? App
       }
     }
   }
