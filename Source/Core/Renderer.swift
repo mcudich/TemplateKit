@@ -22,14 +22,16 @@ public protocol Renderer {
 public extension Renderer {
   static func render(_ element: Element, container: ViewType? = nil, context: Context? = nil, completion: @escaping (Node) -> Void) {
     let context = context ?? defaultContext
-    let component = element.build(with: nil, context: context)
-    let layout = component.computeLayout()
+    context.updateQueue.async {
+      let component = element.build(with: nil, context: context)
+      let layout = component.computeLayout()
 
-    DispatchQueue.main.async {
-      let builtView: ViewType = component.build()
-      layout.apply(to: builtView)
-      container?.add(builtView)
-      completion(component)
+      DispatchQueue.main.async {
+        let builtView: ViewType = component.build()
+        layout.apply(to: builtView)
+        container?.add(builtView)
+        completion(component)
+      }
     }
   }
 }
