@@ -67,7 +67,7 @@ class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
     performSelector(properties.onClearCompleted)
   }
 
-  override func render() -> Element {
+  override func render() -> Template {
     count = "\(properties.completedCount ?? 0) items completed"
     allSelected = properties.nowShowing == .all
     activeSelected = properties.nowShowing == .active

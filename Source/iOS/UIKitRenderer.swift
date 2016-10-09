@@ -12,7 +12,7 @@ public enum ElementType: ElementRepresentable {
   case box
   case button
   case text
-  case textField
+  case textfield
   case image
   case view(UIView)
   case component(AnyClass)
@@ -23,7 +23,7 @@ public enum ElementType: ElementRepresentable {
       return "box"
     case .text:
       return "text"
-    case .textField:
+    case .textfield:
       return "textfield"
     case .image:
       return "image"
@@ -43,7 +43,7 @@ public enum ElementType: ElementRepresentable {
       return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(with: owner, context: nil) }, owner: owner, context: context)
     case .text:
       return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner, context: context)
-    case .textField:
+    case .textfield:
       return NativeNode<TextField>(element: element as! ElementData<TextField.PropertiesType>, owner: owner, context: context)
     case .image:
       return NativeNode<Image>(element: element as! ElementData<Image.PropertiesType>, owner: owner, context: context)
@@ -68,7 +68,7 @@ public enum ElementType: ElementRepresentable {
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
-  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textField, .textField):
+  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textfield, .textfield):
     return true
   case (.view(let lhsView), .view(let rhsView)):
     return lhsView === rhsView

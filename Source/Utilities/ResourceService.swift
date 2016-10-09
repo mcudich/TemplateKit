@@ -60,7 +60,7 @@ class ResourceService<ParserType: Parser> {
           } else if let error = error {
             self?.fail(forURL: url, withError: error)
           }
-          let _ = self?.pendingOperations.removeValue(forKey: url)
+          _ = self?.pendingOperations.removeValue(forKey: url)
           done()
         }
       }.resume()

@@ -89,14 +89,14 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       childElements.append(renderTitle())
     }
 
-    return ElementData(ElementType.box, properties, childElements)
+    return box(properties, childElements)
   }
 
   private func renderImage() -> Element {
     var properties = ImageProperties()
     properties.image = self.properties.image
 
-    return ElementData(ElementType.image, properties)
+    return image(properties)
   }
 
   private func renderTitle() -> Element {
@@ -104,7 +104,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
     properties.text = self.properties.text
     properties.textStyle = self.properties.titleStyle
 
-    return ElementData(ElementType.text, properties)
+    return text(properties)
   }
 
   @objc private func handleTap() {
@@ -112,7 +112,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       guard self?.properties.enabled ?? true else {
         return
       }
-      self?.performSelector(self?.properties.core.gestures.onTap)
+      self?.performSelector(self?.properties.core.gestures.onTap, with: self)
     }
   }
 

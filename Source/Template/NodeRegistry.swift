@@ -24,7 +24,7 @@ public class NodeRegistry {
       return ElementData(ElementType.text, TextProperties(properties))
     }
     registerElementBuilder("textfield") { properties, children in
-      return ElementData(ElementType.textField, TextFieldProperties(properties))
+      return ElementData(ElementType.textfield, TextFieldProperties(properties))
     }
     registerElementBuilder("image") { properties, children in
       return ElementData(ElementType.image, ImageProperties(properties))

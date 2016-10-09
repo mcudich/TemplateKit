@@ -49,14 +49,19 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     self.context = context
   }
 
-  open func render() -> Element {
+  public func render() -> Element {
+    let template: Template = render()
+    return template.build(with: self)
+  }
+
+  open func render() -> Template {
     fatalError("Must be implemented by subclasses")
   }
 
-  public func render(_ location: URL, _ model: Model? = nil) -> Element {
+  public func render(_ location: URL) -> Template {
     getContext().templateService.addObserver(observer: self, forLocation: location)
 
-    return try! getContext().templateService.element(withLocation: location, model: model ?? self)
+    return getContext().templateService.templates[location]!
   }
 
   public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void) {

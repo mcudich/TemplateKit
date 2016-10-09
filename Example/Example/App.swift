@@ -19,6 +19,7 @@ struct AppState: State {
   var nowShowing = Filter.all
   var editing: String?
   var newTodo: String = ""
+  var toggleAllEnabled = false
 }
 
 func ==(lhs: AppState, rhs: AppState) -> Bool {
@@ -103,8 +104,12 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     }
   }
 
-  @objc func handleToggleAll(target: UIButton) {
-    properties.model?.toggleAll(checked: target.state.contains(.selected))
+  @objc func handleToggleAll() {
+    updateComponentState( stateMutation: { state in
+      state.toggleAllEnabled = !state.toggleAllEnabled
+    }, completion: {
+      self.properties.model?.toggleAll(checked: self.state.toggleAllEnabled)
+    })
   }
 
   @objc func handleUpdateFilter(filter: NSNumber) {
@@ -162,7 +167,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     } ?? 0
   }
 
-  override func render() -> Element {
+  override func render() -> Template {
     var children = [
       renderHeader()
     ]
@@ -179,15 +184,15 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
 
-    return ElementData(ElementType.box, properties, children)
+    return Template(elementProvider: box(properties, children), styleSheet: nil)
   }
 
   private func renderHeader() -> Element {
-    return render(Bundle.main.url(forResource: "Header", withExtension: "xml")!)
+    return render(Bundle.main.url(forResource: "Header", withExtension: "xml")!).build(with: self)
   }
 
   private func renderMain() -> Element {
-    return ElementData(ElementType.view(todosList), DefaultProperties(["flexGrow": Float(1)]))
+    return view(todosList, DefaultProperties(["flexGrow": Float(1)]))
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {
@@ -197,6 +202,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     properties.onClearCompleted = #selector(App.handleClearCompleted)
     properties.onUpdateFilter = #selector(App.handleUpdateFilter(filter:))
     properties.nowShowing = state.nowShowing
-    return ElementData(ElementType.component(Footer.self), properties)
+
+    return component(Footer.self, properties)
   }
 }
