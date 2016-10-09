@@ -20,22 +20,10 @@ public protocol Element: Keyable, StyleElement, ElementProvider {
   var parent: Element? { get set }
 
   func build(with owner: Node?, context: Context?) -> Node
-  func equals(_ other: Element?) -> Bool
   mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties)
 }
 
-extension Element {
-  public func equals(_ other: Element?) -> Bool {
-    guard let other = other else {
-      return false
-    }
-    return type.equals(other.type) && key == other.key && (other.parent?.equals(other.parent) ?? (other.parent == nil))
-  }
-
-  public func equals(_ other: ElementProvider?) -> Bool {
-    return equals(other)
-  }
-
+extension ElementProvider where Self: Element {
   public func build(with model: Model) -> Element {
     return self
   }
@@ -48,44 +36,6 @@ public extension StyleElement where Self: Element {
 
   var childElements: [StyleElement]? {
     return children
-  }
-
-  func matches(attribute: String, with value: String) -> Bool {
-    return false
-  }
-
-  public func directAdjacent(of element: StyleElement) -> StyleElement? {
-    guard let children = children, let index = index(of: element), index > 0 else {
-      return nil
-    }
-
-    return children[index - 1]
-  }
-
-  public func indirectAdjacents(of element: StyleElement) -> [StyleElement] {
-    guard let children = children, let index = index(of: element), index > 0 else {
-      return []
-    }
-
-    return Array(children[0..<index])
-  }
-
-  public func subsequentAdjacents(of element: StyleElement) -> [StyleElement] {
-    guard let children = children, let index = index(of: element), index < children.count - 1 else {
-      return []
-    }
-
-    return Array(children[index + 1..<children.count])
-  }
-
-  private func index(of child: StyleElement) -> Int? {
-    guard let children = children else {
-      return nil
-    }
-
-    return children.index { child in
-      return child.equals(child)
-    }
   }
 }
 
@@ -125,6 +75,10 @@ public struct ElementData<PropertiesType: Properties>: Element {
     }
 
     return type.equals(other.type) && key == other.key && (parent?.equals(other.parent) ?? (other.parent == nil)) && properties == other.properties
+  }
+
+  public func equals(_ other: ElementProvider?) -> Bool {
+    return equals(other as? Element)
   }
 
   public mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties) {
@@ -186,5 +140,9 @@ extension ElementData: StyleElement {
 
   public func has(attribute: String, with value: String) -> Bool {
     return properties.has(key: attribute, withValue: value)
+  }
+
+  public func equals(_ other: StyleElement) -> Bool {
+    return equals(other as? Element)
   }
 }
