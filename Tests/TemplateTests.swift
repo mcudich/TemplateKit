@@ -17,7 +17,7 @@ class TemplateTests: XCTestCase {
     let xmlTemplate = try! XMLDocument(data: Data(contentsOf: template))
     let styleSheet = StyleSheet(string: xmlTemplate.styleElements.first!.value!)
     let parsed = Template(elementProvider: xmlTemplate.componentElement!, styleSheet: styleSheet)
-    let element = try! parsed.makeElement(with: FakeModel()) as! ElementData<DefaultProperties>
+    let element = parsed.build(with: FakeModel()) as! ElementData<DefaultProperties>
     XCTAssertEqual(UIColor.red, element.properties.core.style.backgroundColor)
   }
 }

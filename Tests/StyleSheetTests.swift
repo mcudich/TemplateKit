@@ -59,6 +59,10 @@ class TestElement: StyleElement, Equatable {
     }
     return Array(childElements![index! + 1..<childElements!.count])
   }
+
+  func equals(_ other: StyleElement) -> Bool {
+    return self == (other as! TestElement)
+  }
 }
 
 func ==(lhs: TestElement, rhs: TestElement) -> Bool {
