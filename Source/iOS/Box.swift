@@ -10,6 +10,7 @@ import Foundation
 
 public class Box: UIView, NativeView, ContainerView {
   public weak var eventTarget: AnyObject?
+  public lazy var eventRecognizers = [AnyObject]()
 
   public var children: [View] {
     get {
