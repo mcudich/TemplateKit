@@ -5,7 +5,7 @@
   <box id="container">
     <text text="todos" id="todos" />
     <box id="fieldContainer">
-      <button id="button" onTap="handleToggleAllWithTarget:" />
+      <button id="button" onTap="handleToggleAll" selected="$state.toggleAllEnabled" />
       <textfield text="$state.newTodo" placeholder="What needs to be done?" onSubmit="handleNewTodoSubmitWithTarget:" onChange="handleChangeWithTarget:" />
     </box>
   </box>

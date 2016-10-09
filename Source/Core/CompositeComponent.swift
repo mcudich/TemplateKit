@@ -51,7 +51,7 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
 
   public func render() -> Element {
     let template: Template = render()
-    return try! template.build(with: self)
+    return template.build(with: self)
   }
 
   open func render() -> Template {

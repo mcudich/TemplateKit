@@ -36,7 +36,7 @@ extension Element {
     return equals(other)
   }
 
-  public func build(with model: Model) throws -> Element {
+  public func build(with model: Model) -> Element {
     return self
   }
 }

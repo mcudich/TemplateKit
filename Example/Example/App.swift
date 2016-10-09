@@ -19,6 +19,7 @@ struct AppState: State {
   var nowShowing = Filter.all
   var editing: String?
   var newTodo: String = ""
+  var toggleAllEnabled = false
 }
 
 func ==(lhs: AppState, rhs: AppState) -> Bool {
@@ -103,8 +104,12 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     }
   }
 
-  @objc func handleToggleAll(target: UIButton) {
-    properties.model?.toggleAll(checked: target.state.contains(.selected))
+  @objc func handleToggleAll() {
+    updateComponentState( stateMutation: { state in
+      state.toggleAllEnabled = !state.toggleAllEnabled
+    }, completion: {
+      self.properties.model?.toggleAll(checked: self.state.toggleAllEnabled)
+    })
   }
 
   @objc func handleUpdateFilter(filter: NSNumber) {
@@ -183,7 +188,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
   }
 
   private func renderHeader() -> Element {
-    return try! render(Bundle.main.url(forResource: "Header", withExtension: "xml")!).build(with: self)
+    return render(Bundle.main.url(forResource: "Header", withExtension: "xml")!).build(with: self)
   }
 
   private func renderMain() -> Element {
@@ -197,6 +202,7 @@ class App: CompositeComponent<AppState, AppProperties, UIView> {
     properties.onClearCompleted = #selector(App.handleClearCompleted)
     properties.onUpdateFilter = #selector(App.handleUpdateFilter(filter:))
     properties.nowShowing = state.nowShowing
+
     return component(Footer.self, properties)
   }
 }

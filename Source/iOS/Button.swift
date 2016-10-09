@@ -112,7 +112,7 @@ public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
       guard self?.properties.enabled ?? true else {
         return
       }
-      self?.performSelector(self?.properties.core.gestures.onTap)
+      self?.performSelector(self?.properties.core.gestures.onTap, with: self)
     }
   }
 

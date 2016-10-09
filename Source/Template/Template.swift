@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol ElementProvider {
-  func build(with model: Model) throws -> Element
+  func build(with model: Model) -> Element
   func equals(_ other: ElementProvider?) -> Bool
 }
 
@@ -14,8 +14,8 @@ public struct Template: Equatable {
     self.styleSheet = styleSheet
   }
 
-  public func build(with model: Model) throws -> Element {
-    var tree = try elementProvider.build(with: model)
+  public func build(with model: Model) -> Element {
+    var tree = elementProvider.build(with: model)
     if let styleSheet = styleSheet {
       tree.applyStyleSheet(styleSheet, parentStyles: DefaultProperties())
     }

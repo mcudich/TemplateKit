@@ -66,7 +66,6 @@ public class XMLTemplateService: TemplateService {
           }
 
           self?.resolveStyles(for: templateXML, at: url) { styleSheet in
-            print(self, url)
             self?.templates[url] = Template(elementProvider: componentElement, styleSheet: styleSheet)
             pendingURLs.remove(url)
             if pendingURLs.isEmpty {
@@ -172,9 +171,9 @@ extension XMLDocument {
 }
 
 extension XMLElement: ElementProvider {
-  func build(with model: Model) throws -> Element {
+  func build(with model: Model) -> Element {
     let resolvedProperties = model.resolve(properties: attributes)
-    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: try children.map { try $0.build(with: model) })
+    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: children.map { $0.build(with: model) })
   }
 
   func equals(_ other: ElementProvider?) -> Bool {
