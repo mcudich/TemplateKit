@@ -12,6 +12,7 @@ public protocol NativeView: View {
   associatedtype PropertiesType: Properties
 
   var properties: PropertiesType { get set }
+  var eventRecognizers: [AnyObject] { get set }
   weak var eventTarget: AnyObject? { get set }
 
   init()

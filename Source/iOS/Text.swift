@@ -103,6 +103,7 @@ public func ==(lhs: TextProperties, rhs: TextProperties) -> Bool {
 
 public class Text: UILabel, NativeView {
   public weak var eventTarget: AnyObject?
+  public lazy var eventRecognizers = [AnyObject]()
 
   public var properties = TextProperties() {
     didSet {

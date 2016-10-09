@@ -53,11 +53,12 @@ public struct TextFieldProperties: Properties, FocusableProperties, EnableablePr
 }
 
 public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
-  return lhs.text == rhs.text && lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.placeholder == rhs.placeholder && lhs.enabled == rhs.enabled && lhs.equals(otherProperties: rhs)
+  return lhs.text == rhs.text && lhs.textStyle == rhs.textStyle && lhs.onChange == rhs.onChange && lhs.onSubmit == rhs.onSubmit && lhs.onBlur == rhs.onBlur && lhs.onFocus == rhs.onFocus && lhs.placeholder == rhs.placeholder && lhs.enabled == rhs.enabled && lhs.focused == rhs.focused && lhs.equals(otherProperties: rhs)
 }
 
 public class TextField: UITextField, NativeView {
   public weak var eventTarget: AnyObject?
+  public lazy var eventRecognizers = [AnyObject]()
 
   public var properties = TextFieldProperties() {
     didSet {
