@@ -313,7 +313,7 @@ extension PropertyNode where Self.PropertiesType: Properties {
   }
 }
 
-extension CompositeComponent {
+extension Component {
   public func buildCSSNode() -> CSSNode {
     return instance.buildCSSNode()
   }

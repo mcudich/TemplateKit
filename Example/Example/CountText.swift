@@ -38,7 +38,7 @@ func ==(lhs: CountTextProperties, rhs: CountTextProperties) -> Bool {
   return lhs.count == rhs.count && lhs.equals(otherProperties: rhs)
 }
 
-class CountText: CompositeComponent<EmptyState, CountTextProperties, UIView> {
+class CountText: Component<EmptyState, CountTextProperties, UIView> {
   override func render() -> Template {
     var properties = TextProperties()
     properties.text = self.properties.count

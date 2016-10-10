@@ -45,7 +45,7 @@ func ==(lhs: FooterProperties, rhs: FooterProperties) -> Bool {
   return lhs.count == rhs.count && lhs.completedCount == rhs.completedCount && lhs.onClearCompleted == rhs.onClearCompleted && lhs.nowShowing == rhs.nowShowing && lhs.onUpdateFilter == rhs.onUpdateFilter
 }
 
-class Footer: CompositeComponent<EmptyState, FooterProperties, UIView> {
+class Footer: Component<EmptyState, FooterProperties, UIView> {
   static let templateURL = Bundle.main.url(forResource: "Footer", withExtension: "xml")!
 
   var count: String?

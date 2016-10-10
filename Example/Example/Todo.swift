@@ -59,7 +59,7 @@ func ==(lhs: TodoProperties, rhs: TodoProperties) -> Bool {
   return lhs.todo == rhs.todo && lhs.editing == rhs.editing && lhs.onToggle == rhs.onToggle && lhs.onDestroy == rhs.onDestroy && lhs.onEdit == rhs.onEdit && lhs.onSave == rhs.onSave && lhs.onCancel == rhs.onCancel
 }
 
-class Todo: CompositeComponent<TodoState, TodoProperties, UIView> {
+class Todo: Component<TodoState, TodoProperties, UIView> {
   static let templateURL = Bundle.main.url(forResource: "Todo", withExtension: "xml")!
 
   var buttonBackgroundColor: UIColor?
