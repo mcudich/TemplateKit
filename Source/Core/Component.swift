@@ -38,20 +38,6 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
 
   open var properties: PropertiesType
 
-  private var _instance: Node?
-  public var instance: Node {
-    get {
-      if _instance == nil {
-        willBuild()
-        _instance = render().build(with: self, context: nil)
-      }
-      return _instance!
-    }
-    set {
-      _instance = newValue
-    }
-  }
-
   public var root: Node {
     var current = owner ?? self
     while let currentOwner = current.owner {
@@ -78,16 +64,15 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     }
   }
 
+  var instance: Node!
+
   public required init(element: Element, children: [Node]? = nil, owner: Node? = nil, context: Context? = nil) {
     self.element = element as! ElementData<PropertiesType>
     self.properties = self.element.properties
     self.owner = owner
     self.context = context
-  }
 
-  public func render() -> Element {
-    let template: Template = render()
-    return template.build(with: self)
+    instance = renderElement().build(with: self, context: nil)
   }
 
   public func render(_ location: URL) -> Template {
@@ -131,7 +116,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   }
 
   public func performDiff() {
-    let rendered: Element = render()
+    let rendered = renderElement()
 
     if shouldReplace(type: instance.type, with: rendered.type) {
       instance = rendered.build(with: self, context: context)
@@ -152,7 +137,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     }
   }
 
-  func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
+  private func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     update(stateMutation: stateMutation, completion: completion)
   }
 
@@ -201,6 +186,10 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
       }
       layout.apply(to: self.root.getBuiltView()! as ViewType)
     }
+  }
+
+  private func renderElement() -> Element {
+    return render().build(with: self)
   }
 
   open func render() -> Template {
