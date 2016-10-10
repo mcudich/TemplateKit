@@ -52,8 +52,6 @@ public enum ElementType: ElementRepresentable {
       return ViewNode(view: view, element: element as! ElementData<DefaultProperties>, owner: owner, context: context)
     case .component(let ComponentType):
       return ComponentType.init(element: element, children: nil, owner: owner, context: context)
-    default:
-      fatalError("Unknown element type")
     }
   }
 

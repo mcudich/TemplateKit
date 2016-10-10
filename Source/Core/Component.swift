@@ -1,8 +1,8 @@
 //
-//  Component.swift
+//  CompositeComponent.swift
 //  TemplateKit
 //
-//  Created by Matias Cudich on 9/9/16.
+//  Created by Matias Cudich on 9/11/16.
 //  Copyright © 2016 Matias Cudich. All rights reserved.
 //
 
@@ -17,24 +17,27 @@ public protocol ComponentCreation: Node {
   init(element: Element, children: [Node]?, owner: Node?, context: Context?)
 }
 
-public protocol Component: PropertyNode, ComponentCreation {
-  associatedtype PropertiesType: Properties
-  associatedtype StateType: State
-  associatedtype ViewType: View
-
-  var state: StateType { get set }
-  var properties: PropertiesType { get set }
-  var instance: Node { get set }
-  var root: Node { get }
-  var builtView: ViewType? { get set }
-
-  func render() -> Element
-  func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool
-  func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)?)
-  func performSelector(_ selector: Selector?, with value: Any?, with otherValue: Any?)
+public struct EmptyState: State {
+  public init() {}
 }
 
-public extension Component {
+public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
+  return true
+}
+
+open class Component<StateType: State, PropertiesType: Properties, ViewType: View>: PropertyNode, Model, ComponentCreation {
+  public weak var parent: Node?
+  public weak var owner: Node?
+
+  public var element: ElementData<PropertiesType>
+  public var builtView: ViewType?
+  public var context: Context?
+  public lazy var state: StateType = {
+    return self.getInitialState()
+  }()
+
+  open var properties: PropertiesType
+
   public var root: Node {
     var current = owner ?? self
     while let currentOwner = current.owner {
@@ -61,6 +64,35 @@ public extension Component {
     }
   }
 
+  var instance: Node!
+
+  public required init(element: Element, children: [Node]? = nil, owner: Node? = nil, context: Context? = nil) {
+    self.element = element as! ElementData<PropertiesType>
+    self.properties = self.element.properties
+    self.owner = owner
+    self.context = context
+
+    instance = renderElement().build(with: self, context: nil)
+  }
+
+  public func render(_ location: URL) -> Template {
+    getContext().templateService.addObserver(observer: self, forLocation: location)
+
+    return getContext().templateService.templates[location]!
+  }
+
+  public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void) {
+    updateState(stateMutation: { (state: inout StateType) in
+      stateMutation(&state)
+    })
+  }
+
+  public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)?) {
+    updateState(stateMutation: { (state: inout StateType) in
+      stateMutation(&state)
+    }, completion: completion)
+  }
+
   public func build<V: View>() -> V {
     let isNew = builtView == nil
 
@@ -75,20 +107,16 @@ public extension Component {
     return builtView as! V
   }
 
-  func getBuiltView<V>() -> V? {
+  public func getBuiltView<V>() -> V? {
     return instance.getBuiltView()
   }
 
-  func shouldUpdate(nextProperties: PropertiesType) -> Bool {
+  public func shouldUpdate(nextProperties: PropertiesType) -> Bool {
     return shouldUpdate(nextProperties: nextProperties, nextState: state)
   }
 
-  func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
-    return true
-  }
-
-  func performDiff() {
-    let rendered = render()
+  public func performDiff() {
+    let rendered = renderElement()
 
     if shouldReplace(type: instance.type, with: rendered.type) {
       instance = rendered.build(with: self, context: context)
@@ -98,18 +126,18 @@ public extension Component {
     }
   }
 
-  func performSelector(_ selector: Selector?, with value: Any? = nil, with otherValue: Any? = nil) {
+  public func performSelector(_ selector: Selector?, with value: Any? = nil, with otherValue: Any? = nil) {
     guard let owner = owner, let selector = selector else { return }
     let _ = (owner as AnyObject).perform(selector, with: value, with: otherValue)
   }
 
-  func forceUpdate() {
+  public func forceUpdate() {
     getContext().updateQueue.async {
       self.performUpdate(shouldUpdate: true, nextState: self.state)
     }
   }
 
-  func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
+  private func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
     update(stateMutation: stateMutation, completion: completion)
   }
 
@@ -159,4 +187,26 @@ public extension Component {
       layout.apply(to: self.root.getBuiltView()! as ViewType)
     }
   }
+
+  private func renderElement() -> Element {
+    return render().build(with: self)
+  }
+
+  open func render() -> Template {
+    fatalError("Must be implemented by subclasses")
+  }
+
+  open func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
+    return properties != nextProperties || state != nextState
+  }
+
+  open func getInitialState() -> StateType {
+    return StateType()
+  }
+
+  open func willBuild() {}
+  open func didBuild() {}
+  open func willUpdate() {}
+  open func didUpdate() {}
+  open func willDetach() {}
 }

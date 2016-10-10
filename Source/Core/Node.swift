@@ -17,12 +17,6 @@ public protocol Node: class, Keyable {
   func buildCSSNode() -> CSSNode
   func updateCSSNode()
   func getContext() -> Context
-
-  func willBuild()
-  func didBuild()
-  func willUpdate()
-  func didUpdate()
-  func willDetach()
 }
 
 public extension Node {
@@ -46,12 +40,6 @@ public extension Node {
     }
     return context
   }
-
-  func willBuild() {}
-  func didBuild() {}
-  func willUpdate() {}
-  func didUpdate() {}
-  func willDetach() {}
 }
 
 public protocol PropertyNode: Node {
@@ -93,7 +81,6 @@ public extension PropertyNode {
     element = newElement
 
     if properties != nextProperties {
-      willUpdate()
       properties = nextProperties
       updateCSSNode()
     }
@@ -154,7 +141,6 @@ public extension PropertyNode {
     guard let index = index(of: child) else {
       return
     }
-    child.willDetach()
     children?.remove(at: index)
     if let childNode = child.cssNode {
       cssNode?.removeChild(child: childNode)

@@ -68,7 +68,7 @@ extension App: TableViewDataSource {
   }
 }
 
-class App: CompositeComponent<AppState, AppProperties, UIView> {
+class App: Component<AppState, AppProperties, UIView> {
   static let headerTemplateURL = Bundle.main.url(forResource: "Header", withExtension: "xml")!
 
   private lazy var todosList: TableView = {

@@ -65,7 +65,7 @@ public func ==(lhs: ButtonState, rhs: ButtonState) -> Bool {
   return lhs.active == rhs.active
 }
 
-public class Button: CompositeComponent<ButtonState, ButtonProperties, UIView> {
+public class Button: Component<ButtonState, ButtonProperties, UIView> {
   public override var properties: ButtonProperties {
     didSet {
       state.active = properties.active ?? false
