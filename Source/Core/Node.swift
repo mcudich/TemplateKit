@@ -93,6 +93,7 @@ public extension PropertyNode {
     element = newElement
 
     if properties != nextProperties {
+      willUpdate()
       properties = nextProperties
       updateCSSNode()
     }

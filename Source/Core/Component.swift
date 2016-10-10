@@ -64,10 +64,6 @@ public extension Component {
   public func build<V: View>() -> V {
     let isNew = builtView == nil
 
-    if isNew {
-      willBuild()
-    }
-
     builtView = instance.build() as ViewType
 
     if isNew {
@@ -92,8 +88,6 @@ public extension Component {
   }
 
   func performDiff() {
-    willUpdate()
-
     let rendered = render()
 
     if shouldReplace(type: instance.type, with: rendered.type) {
@@ -116,7 +110,6 @@ public extension Component {
   }
 
   func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
-    willUpdate()
     update(stateMutation: stateMutation, completion: completion)
   }
 
@@ -132,6 +125,10 @@ public extension Component {
   }
 
   private func performUpdate(shouldUpdate: Bool, nextState: StateType) {
+    if shouldUpdate {
+      willUpdate()
+    }
+
     state = nextState
 
     if !shouldUpdate {

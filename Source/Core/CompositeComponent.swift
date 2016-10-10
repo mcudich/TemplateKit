@@ -33,7 +33,8 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
   public var instance: Node {
     get {
       if _instance == nil {
-        _instance =  self.render().build(with: self, context: nil)
+        willBuild()
+        _instance = render().build(with: self, context: nil)
       }
       return _instance!
     }
@@ -54,10 +55,6 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     return template.build(with: self)
   }
 
-  open func render() -> Template {
-    fatalError("Must be implemented by subclasses")
-  }
-
   public func render(_ location: URL) -> Template {
     getContext().templateService.addObserver(observer: self, forLocation: location)
 
@@ -76,6 +73,10 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
     }, completion: completion)
   }
 
+  open func render() -> Template {
+    fatalError("Must be implemented by subclasses")
+  }
+
   open func shouldUpdate(nextProperties: PropertiesType, nextState: StateType) -> Bool {
     return properties != nextProperties || state != nextState
   }
@@ -83,4 +84,10 @@ open class CompositeComponent<StateType: State, PropertiesType: Properties, View
   open func getInitialState() -> StateType {
     return StateType()
   }
+
+  open func willBuild() {}
+  open func didBuild() {}
+  open func willUpdate() {}
+  open func didUpdate() {}
+  open func willDetach() {}
 }
