@@ -290,12 +290,12 @@ extension PropertyNode where Self.PropertiesType: Properties {
       cssNode?.overflow = overflow
       cssNode?.padding = padding
     case ElementType.text:
-      let textLayout = TextLayout(properties: properties as! TextProperties)
-      let context = UnsafeMutableRawPointer(Unmanaged.passRetained(textLayout).toOpaque())
+      let context = Unmanaged.passUnretained(self).toOpaque()
 
       let measure: CSSMeasureFunc = { context, width, widthMode, height, heightMode in
         let effectiveWidth = width.isNaN ? Float.greatestFiniteMagnitude : width
-        let textLayout = Unmanaged<TextLayout>.fromOpaque(context!).takeUnretainedValue()
+        let node = Unmanaged<NativeNode<Text>>.fromOpaque(context!).takeUnretainedValue()
+        let textLayout = TextLayout(properties: node.properties)
         let size = textLayout.sizeThatFits(CGSize(width: CGFloat(effectiveWidth), height: CGFloat.greatestFiniteMagnitude))
 
         return CSSSize(width: Float(size.width), height: Float(size.height))
