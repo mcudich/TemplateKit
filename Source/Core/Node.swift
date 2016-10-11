@@ -163,14 +163,14 @@ public extension PropertyNode {
   }
 
   private func replace(_ node: Node, with element: Element) {
-    let replacement = element.build(with: owner, context: nil)
+    let replacement = element.build(withOwner: owner, context: nil)
     let index = self.index(of: node)!
     remove(child: node)
     insert(child: replacement, at: index)
   }
 
   private func append(_ element: Element) {
-    let child = element.build(with: owner, context: nil)
+    let child = element.build(withOwner: owner, context: nil)
     children?.insert(child, at: children!.endIndex)
     cssNode?.insertChild(child: child.buildCSSNode(), at: children!.count - 1)
   }

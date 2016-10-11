@@ -72,7 +72,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     self.owner = owner
     self.context = context
 
-    instance = renderElement().build(with: self, context: nil)
+    instance = renderElement().build(withOwner: self, context: nil)
   }
 
   public func render(_ location: URL) -> Template {
@@ -119,7 +119,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     let rendered = renderElement()
 
     if shouldReplace(type: instance.type, with: rendered.type) {
-      instance = rendered.build(with: self, context: context)
+      instance = rendered.build(withOwner: self, context: context)
       cssNode = nil
     } else {
       instance.update(with: rendered)
@@ -153,10 +153,6 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   }
 
   private func performUpdate(shouldUpdate: Bool, nextState: StateType) {
-    if shouldUpdate {
-      willUpdate()
-    }
-
     state = nextState
 
     if !shouldUpdate {
@@ -206,7 +202,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
 
   open func willBuild() {}
   open func didBuild() {}
-  open func willUpdate() {}
+  open func willUpdate(nextProperties: PropertiesType, nextState: StateType) {}
   open func didUpdate() {}
   open func willDetach() {}
 }

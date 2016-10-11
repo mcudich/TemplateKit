@@ -23,7 +23,7 @@ public extension Renderer {
   static func render(_ element: Element, container: ViewType? = nil, context: Context? = nil, completion: @escaping (Node) -> Void) {
     let context = context ?? defaultContext
     context.updateQueue.async {
-      let component = element.build(with: nil, context: context)
+      let component = element.build(withOwner: nil, context: context)
       let layout = component.computeLayout()
 
       DispatchQueue.main.async {
