@@ -35,9 +35,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   public var element: ElementData<PropertiesType>
   public var builtView: ViewType?
   public var context: Context?
-  public lazy var state: StateType = {
-    return self.getInitialState()
-  }()
+  public lazy var state: StateType = self.getInitialState()
 
   public var properties: PropertiesType
 
@@ -67,7 +65,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     }
   }
 
-  var instance: Node!
+  lazy var instance: Node = self.makeInstance()
   private lazy var pendingStateMutations = [StateMutation]()
   private lazy var pendingStateMutationCallbacks = [StateMutationCallback]()
 
@@ -76,14 +74,6 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     self.properties = self.element.properties
     self.owner = owner
     self.context = context
-
-    willBuild()
-    if pendingStateMutations.count > 0 {
-      state = processStateMutations()
-      processStateMutationCallbacks()
-    }
-
-    instance = renderElement().build(withOwner: self, context: nil)
   }
 
   public func render(_ location: URL) -> Template {
@@ -223,6 +213,16 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
 
   private func renderElement() -> Element {
     return render().build(with: self)
+  }
+
+  private func makeInstance() -> Node {
+    willBuild()
+    if pendingStateMutations.count > 0 {
+      state = processStateMutations()
+      processStateMutationCallbacks()
+    }
+
+    return renderElement().build(withOwner: self, context: nil)
   }
 
   open func render() -> Template {
