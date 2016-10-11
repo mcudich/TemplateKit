@@ -26,6 +26,9 @@ public func ==(lhs: EmptyState, rhs: EmptyState) -> Bool {
 }
 
 open class Component<StateType: State, PropertiesType: Properties, ViewType: View>: PropertyNode, Model, ComponentCreation {
+  public typealias StateMutation = (inout StateType) -> Void
+  public typealias StateMutationCallback = () -> Void
+
   public weak var parent: Node?
   public weak var owner: Node?
 
@@ -36,7 +39,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     return self.getInitialState()
   }()
 
-  open var properties: PropertiesType
+  public var properties: PropertiesType
 
   public var root: Node {
     var current = owner ?? self
@@ -65,12 +68,20 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   }
 
   var instance: Node!
+  private lazy var pendingStateMutations = [StateMutation]()
+  private lazy var pendingStateMutationCallbacks = [StateMutationCallback]()
 
   public required init(element: Element, children: [Node]? = nil, owner: Node? = nil, context: Context? = nil) {
     self.element = element as! ElementData<PropertiesType>
     self.properties = self.element.properties
     self.owner = owner
     self.context = context
+
+    willBuild()
+    if pendingStateMutations.count > 0 {
+      state = processStateMutations()
+      processStateMutationCallbacks()
+    }
 
     instance = renderElement().build(withOwner: self, context: nil)
   }
@@ -81,16 +92,14 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     return getContext().templateService.templates[location]!
   }
 
-  public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void) {
-    updateState(stateMutation: { (state: inout StateType) in
-      stateMutation(&state)
-    })
+  public func updateState(stateMutation: @escaping StateMutation) {
+    pendingStateMutations.append(stateMutation)
+    enqueueUpdate()
   }
 
-  public func updateComponentState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)?) {
-    updateState(stateMutation: { (state: inout StateType) in
-      stateMutation(&state)
-    }, completion: completion)
+  public func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: @escaping StateMutationCallback) {
+    pendingStateMutationCallbacks.append(completion)
+    updateState(stateMutation: stateMutation)
   }
 
   public func build<V: View>() -> V {
@@ -111,10 +120,6 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     return instance.getBuiltView()
   }
 
-  public func shouldUpdate(nextProperties: PropertiesType) -> Bool {
-    return shouldUpdate(nextProperties: nextProperties, nextState: state)
-  }
-
   public func performDiff() {
     let rendered = renderElement()
 
@@ -132,38 +137,70 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   }
 
   public func forceUpdate() {
-    getContext().updateQueue.async {
-      self.performUpdate(shouldUpdate: true, nextState: self.state)
+    enqueueUpdate(force: true)
+  }
+
+  public func update(with newElement: Element) {
+    update(with: newElement, force: nil)
+  }
+
+  public func update(with newElement: Element, force: Bool? = nil) {
+    let newElement = newElement as! ElementData<PropertiesType>
+
+    let nextProperties = newElement.properties
+
+    willReceiveProperties(nextProperties: nextProperties)
+
+    let nextState = processStateMutations()
+
+    if force ?? self.shouldUpdate(nextProperties: nextProperties, nextState: nextState) {
+      willUpdate(nextProperties: nextProperties, nextState: nextState)
+      state = nextState
+      performUpdate(with: element, nextProperties: nextProperties, shouldUpdate: true)
+    } else {
+      state = nextState
+      properties = nextProperties
+    }
+
+    processStateMutationCallbacks()
+  }
+
+  private func processStateMutations() -> StateType {
+    var newState = state
+    for mutation in pendingStateMutations {
+      mutation(&newState)
+    }
+    pendingStateMutations.removeAll()
+    return newState
+  }
+
+  private func processStateMutationCallbacks() {
+    for callback in pendingStateMutationCallbacks {
+      callback()
+    }
+    pendingStateMutationCallbacks.removeAll()
+  }
+
+  private func enqueueUpdate(force: Bool? = nil) {
+    // Wait until the start of next run loop to schedule.
+    DispatchQueue.main.async {
+      self.getContext().updateQueue.async { [weak self] in
+        self?.applyUpdate(force: force)
+      }
     }
   }
 
-  private func updateState(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
-    update(stateMutation: stateMutation, completion: completion)
-  }
-
-  private func update(stateMutation: @escaping (inout StateType) -> Void, completion: (() -> Void)? = nil) {
-    getContext().updateQueue.async {
-      let nextProperties = self.properties
-      var nextState = self.state
-      stateMutation(&nextState)
-      let shouldUpdate = self.shouldUpdate(nextProperties: nextProperties, nextState: nextState)
-      self.performUpdate(shouldUpdate: shouldUpdate, nextState: nextState)
-      completion?()
-    }
-  }
-
-  private func performUpdate(shouldUpdate: Bool, nextState: StateType) {
-    state = nextState
-
-    if !shouldUpdate {
+  private func applyUpdate(force: Bool? = nil) {
+    guard pendingStateMutations.count > 0 || (force ?? false) else {
       return
     }
+
+    update(with: element, force: force)
 
     let previousInstance = instance
     let previousParentView = builtView?.parent
     let previousView = builtView
 
-    performUpdate(with: element, nextProperties: properties, shouldUpdate: shouldUpdate)
     let layout = root.computeLayout()
 
     DispatchQueue.main.async {
@@ -202,6 +239,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
 
   open func willBuild() {}
   open func didBuild() {}
+  open func willReceiveProperties(nextProperties: PropertiesType) {}
   open func willUpdate(nextProperties: PropertiesType, nextState: StateType) {}
   open func didUpdate() {}
   open func willDetach() {}

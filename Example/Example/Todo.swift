@@ -71,7 +71,7 @@ class Todo: Component<TodoState, TodoProperties, UIView> {
 
     if let text = target.text, !text.isEmpty {
       performSelector(properties.onSave, with: todo.id, with: text)
-      updateComponentState { state in
+      updateState { state in
         state.editText = nil
       }
     } else {
@@ -83,14 +83,14 @@ class Todo: Component<TodoState, TodoProperties, UIView> {
     guard let todo = properties.todo else { return }
 
     performSelector(properties.onEdit, with: todo.id)
-    updateComponentState { state in
+    updateState { state in
       state.editText = todo.title
     }
   }
 
   @objc func handleChange(target: UITextField) {
     if properties.editing ?? false {
-      updateComponentState { state in
+      updateState { state in
         state.editText = target.text
       }
     }

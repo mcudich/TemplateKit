@@ -94,20 +94,20 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   @objc func handleChange(target: UITextField) {
-    updateComponentState { state in
+    updateState { state in
       state.newTodo = target.text ?? ""
     }
   }
 
   @objc func handleNewTodoSubmit(target: UITextField) {
     properties.model?.addTodo(title: target.text!)
-    updateComponentState { state in
+    updateState { state in
       state.newTodo = ""
     }
   }
 
   @objc func handleToggleAll() {
-    updateComponentState( stateMutation: { state in
+    updateState( stateMutation: { state in
       state.toggleAllEnabled = !state.toggleAllEnabled
     }, completion: {
       self.properties.model?.toggleAll(checked: self.state.toggleAllEnabled)
@@ -118,7 +118,7 @@ class App: Component<AppState, AppProperties, UIView> {
     guard let filter = Filter(rawValue: filter.intValue) else {
       return
     }
-    updateComponentState(stateMutation: { $0.nowShowing = filter }, completion: { self.todosList.reloadData() })
+    updateState(stateMutation: { $0.nowShowing = filter }, completion: { self.todosList.reloadData() })
   }
 
   @objc func handleToggle(id: String) {
@@ -130,7 +130,7 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   @objc func handleEdit(id: String) {
-    updateComponentState { state in
+    updateState { state in
       state.editing = id
     }
   }
@@ -141,7 +141,7 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   func cancel() {
-    updateComponentState { state in
+    updateState { state in
       state.editing = nil
     }
   }
