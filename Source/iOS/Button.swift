@@ -107,7 +107,7 @@ public class Button: Component<ButtonState, ButtonProperties, UIView> {
   }
 
   @objc private func handleTap() {
-    updateComponentState(stateMutation: { $0.active = false }) { [weak self] in
+    updateState(stateMutation: { $0.active = false }) { [weak self] in
       guard self?.properties.enabled ?? true else {
         return
       }
@@ -116,13 +116,13 @@ public class Button: Component<ButtonState, ButtonProperties, UIView> {
   }
 
   @objc private func handlePress() {
-    updateComponentState { state in
+    updateState { state in
       state.active = true
     }
   }
 
   @objc private func handleDoubleTap() {
-    updateComponentState(stateMutation: { $0.active = false }) { [weak self] in
+    updateState(stateMutation: { $0.active = false }) { [weak self] in
       guard self?.properties.enabled ?? true else {
         return
       }

@@ -39,7 +39,7 @@ public enum ElementType: ElementRepresentable {
   public func make(_ element: Element, _ owner: Node?, _ context: Context?) -> Node {
     switch self {
     case .box:
-      return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(with: owner, context: nil) }, owner: owner, context: context)
+      return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(withOwner: owner, context: nil) }, owner: owner, context: context)
     case .text:
       return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner, context: context)
     case .textfield:

@@ -19,7 +19,7 @@ public protocol Element: Keyable, StyleElement, ElementProvider {
   var children: [Element]? { get }
   var parent: Element? { get set }
 
-  func build(with owner: Node?, context: Context?) -> Node
+  func build(withOwner owner: Node?, context: Context?) -> Node
   mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties)
 }
 
@@ -65,7 +65,7 @@ public struct ElementData<PropertiesType: Properties>: Element {
     }
   }
 
-  public func build(with owner: Node?, context: Context? = nil) -> Node {
+  public func build(withOwner owner: Node?, context: Context? = nil) -> Node {
     return type.make(self, owner, context)
   }
 
