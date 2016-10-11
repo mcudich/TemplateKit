@@ -11,7 +11,7 @@ import Foundation
 class XMLElement: Equatable {
   var name: String
   var value: String?
-  var parent: XMLElement?
+  weak var parent: XMLElement?
   lazy var children = [XMLElement]()
   lazy var attributes = [String: String]()
 
@@ -83,7 +83,6 @@ class XMLDocument: NSObject, XMLParserDelegate {
     currentParent = currentParent?.parent
     currentElement = nil
     currentValue = ""
-
   }
 
   @objc func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {

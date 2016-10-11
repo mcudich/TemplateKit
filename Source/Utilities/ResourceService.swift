@@ -35,8 +35,8 @@ class ResourceService<ParserType: Parser> {
   private lazy var cache = [URL: ResponseType]()
 
   func load(_ url: URL, completion: @escaping CompletionHandler<ResponseType>) {
-    requestQueue.async {
-      self.enqueueLoad(url, completion: completion)
+    requestQueue.async { [weak self] in
+      self?.enqueueLoad(url, completion: completion)
     }
   }
 
