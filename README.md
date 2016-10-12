@@ -95,12 +95,32 @@ Plug it in anywhere you want to render a view in your application. Plays nicely 
 
 #### Carthage
 
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
 
-```
+```ogdl
 github "mcudich/TemplateKit"
 ```
-Make sure to add `TemplateKit.framework`, `CSSLayout.framework`, and `CSSParser.framework` to "Linked Frameworks and Libraries" and "copy-frameworks" Build Phases.
+
+Run `carthage update`, then make sure to add `TemplateKit.framework`, `CSSLayout.framework`, and `CSSParser.framework` to "Linked Frameworks and Libraries" and "copy-frameworks" Build Phases.
+
+## Requirements
+
+- iOS 9.3+
+- Xcode 8.0+
+- Swift 3.0+
+
+## Communication
+
+- If you **found a bug**, open an issue.
+- If you **have a feature request**, open an issue.
+- If you **want to contribute**, submit a pull request.
 
 ## How does it work?
 At its core, TemplateKit is comprised of `Element` and `Node` instances. Elements are used to describe trees of nodes, which can be anything that implements the `Node` interface. Nodes are used to vend out and manage view hierarchies.
