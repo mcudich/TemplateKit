@@ -62,7 +62,7 @@ override func viewDidLoad() {
 ## Why?
 
 #### Swift
-Because you like writing your apps completely in Swift.
+Because you like writing your apps completely in Swift. TemplateKit is fully native and compiled.
 
 #### Declarative Style
 Writing user interfaces in a declarative style makes it easier to reason about how model data and user actions affect what gets rendered. Out-of-the-box support for XML. Extensible if you want to add your own template format (e.g., protocol buffers).
@@ -92,20 +92,12 @@ Plug it in anywhere you want to render a view in your application. Plays nicely 
 
 #### Carthage
 
-Add the following line to your `Cartfile`:
+Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
 
 ```
 github "mcudich/TemplateKit"
 ```
-
-#### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `TemplateKit` by adding it to your `Podfile`:
-
-```ruby
-platform :ios, '9.0'
-use_frameworks!
-pod 'TemplateKit'
-```
+Make sure to add `TemplateKit.framework`, `CSSLayout.framework`, and `Katana.framework` to "Linked Frameworks and Libraries" and "copy-frameworks" Build Phases.
 
 ## How does it work?
 At its core, TemplateKit is comprised of `Element` and `Node` instances. Elements are used to describe trees of nodes, which can be anything that implements the `Node` interface. Nodes are used to vend out and manage view hierarchies.
