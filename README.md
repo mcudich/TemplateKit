@@ -97,7 +97,7 @@ Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/b
 ```
 github "mcudich/TemplateKit"
 ```
-Make sure to add `TemplateKit.framework`, `CSSLayout.framework`, and `Katana.framework` to "Linked Frameworks and Libraries" and "copy-frameworks" Build Phases.
+Make sure to add `TemplateKit.framework`, `CSSLayout.framework`, and `CSSParser.framework` to "Linked Frameworks and Libraries" and "copy-frameworks" Build Phases.
 
 ## How does it work?
 At its core, TemplateKit is comprised of `Element` and `Node` instances. Elements are used to describe trees of nodes, which can be anything that implements the `Node` interface. Nodes are used to vend out and manage view hierarchies.
