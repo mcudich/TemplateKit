@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CSSLayout
 
 public protocol State: Model, Equatable {
   init()

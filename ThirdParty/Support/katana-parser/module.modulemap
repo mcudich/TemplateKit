@@ -1,4 +1,0 @@
-framework module Katana {
-  header "katana.h"
-  export *
-}

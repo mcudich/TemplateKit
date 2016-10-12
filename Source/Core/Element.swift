@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CSSParser
 
 public protocol ElementRepresentable {
   var tagName: String { get }

@@ -1,2 +1,2 @@
-github "mcudich/katana-parser.git" "master"
-github "facebook/css-layout.git" "master"
+github "mcudich/CSSParser.git" "master"
+github "mcudich/CSSLayout.git" "master"

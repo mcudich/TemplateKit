@@ -1,4 +1,5 @@
 import Foundation
+import CSSParser
 
 public protocol ElementProvider {
   func build(with model: Model) -> Element

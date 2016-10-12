@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CSSParser
 
 class XMLTemplateParser: Parser {
   typealias ParsedType = XMLDocument

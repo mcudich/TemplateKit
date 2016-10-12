@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CSSLayout
 
 public protocol View: class {
   var frame: CGRect { get set }
@@ -18,4 +19,18 @@ public protocol View: class {
 
 public protocol ContainerView: class {
   var children: [View] { get set }
+}
+
+extension CSSLayout {
+  func apply(to view: View) {
+    view.frame = frame
+
+    guard let containerView = view as? ContainerView else {
+      return
+    }
+
+    for (index, child) in children.enumerated() {
+      child.apply(to: containerView.children[index])
+    }
+  }
 }

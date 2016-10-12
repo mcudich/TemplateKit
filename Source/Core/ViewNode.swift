@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CSSLayout
 
 class ViewNode: PropertyNode {
   weak var owner: Node?
