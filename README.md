@@ -59,6 +59,9 @@ override func viewDidLoad() {
   }
 }
 ```
+
+See the included [Example](https://github.com/mcudich/TemplateKit/tree/master/Example) project for more examples of how to use TemplateKit.
+
 ## Why?
 
 #### Swift
