@@ -1,4 +1,4 @@
-framework module CSSLayout{
+framework module CSSLayout {
   header "CSSLayout.h"
   export *
 }
