@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CSSLayout
 
 class NativeNode<T: NativeView>: PropertyNode {
   weak var parent: Node?

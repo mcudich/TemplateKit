@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import TemplateKit
+import CSSParser
 
 struct FakeModel: Model {}
 
@@ -15,8 +16,8 @@ class TemplateTests: XCTestCase {
   func testParseTemplate() {
     let template = Bundle(for: TemplateTests.self).url(forResource: "SimpleTemplate", withExtension: "xml")!
     let xmlTemplate = try! XMLDocument(data: Data(contentsOf: template))
-    let styleSheet = StyleSheet(string: xmlTemplate.styleElements.first!.value!)
-    let parsed = Template(elementProvider: xmlTemplate.componentElement!, styleSheet: styleSheet)
+    let styleSheet = StyleSheet(string: xmlTemplate.styleElements.first!.value!)!
+    let parsed = Template(xmlTemplate.componentElement!, styleSheet)
     let element = parsed.build(with: FakeModel()) as! ElementData<DefaultProperties>
     XCTAssertEqual(UIColor.red, element.properties.core.style.backgroundColor)
   }
