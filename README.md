@@ -122,13 +122,9 @@ TemplateKit is implemented in Swift (and a bit of C). If you like writing entire
 
 React Native relies on an incredibly well-tested library (React), and has been shipipng in some incredibly popular apps for some time now. This means it probably has way fewer rough edges, has sorted out many performance issues TemplateKit has yet to face, and so on.
 
-## Credits
-- Inspiration
-  - [React](https://github.com/facebook/react)
-  - [AsyncDisplayKit](https://github.com/facebook/AsyncDisplayKit)
-- Dependencies
-  - [css-layout](https://github.com/facebook/css-layout)
-  - [katana-parser](https://github.com/hackers-painters/katana-parser)
+## Inspiration
+- [React](https://github.com/facebook/react)
+- [AsyncDisplayKit](https://github.com/facebook/AsyncDisplayKit)
 
 ## See Also
 If TemplateKit isn't exactly what you're looking for, check out these other great projects!
