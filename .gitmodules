@@ -1,6 +1,1 @@
-[submodule "Carthage/Checkouts/katana-parser"]
-	path = Carthage/Checkouts/katana-parser
-	url = https://github.com/mcudich/katana-parser.git
-[submodule "Carthage/Checkouts/css-layout"]
-	path = Carthage/Checkouts/css-layout
-	url = https://github.com/facebook/css-layout.git
+
