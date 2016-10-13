@@ -96,11 +96,13 @@ public struct ElementData<PropertiesType: Properties>: Element {
       styledProperties = inheritable as! PropertiesType
     }
 
-    styledProperties.merge(self.properties)
-    self.properties = styledProperties
+    styledProperties.merge(properties)
+    properties = styledProperties
 
-    for (index, _) in (children ?? []).enumerated() {
-      children?[index].applyStyleSheet(styleSheet, parentStyles: self.properties as! InheritableProperties)
+    if let inheritable = properties as? InheritableProperties {
+      for (index, _) in (children ?? []).enumerated() {
+        children?[index].applyStyleSheet(styleSheet, parentStyles: inheritable)
+      }
     }
   }
 }

@@ -48,8 +48,8 @@ class CollectionViewCell: UICollectionViewCell {
       for view in contentView.subviews {
         view.removeFromSuperview()
       }
-      if let node = node {
-        contentView.addSubview(node.build())
+      if let node = node, let view = node.build() as? UIView {
+        contentView.addSubview(view)
       }
     }
   }
@@ -217,11 +217,10 @@ public class CollectionView: UICollectionView, AsyncDataListView {
   }
 
   private func sizeForNode(_ node: Node?) -> CGSize {
-    guard let node = node else {
+    guard let node = node, let view = node.build() as? UIView else {
       return CGSize.zero
     }
 
-    let view: UIView = node.build()
     return view.frame.size
   }
 

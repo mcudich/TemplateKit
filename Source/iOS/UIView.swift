@@ -35,7 +35,9 @@ extension UIView: View {
   }
 
   public func replace(_ view: View, with newView: View) {
-    let currentIndex = subviews.index(of: view as! UIView)!
+    guard let currentIndex = subviews.index(of: view as! UIView) else {
+      return
+    }
     (view as! UIView).removeFromSuperview()
     insertSubview(newView as! UIView, at: currentIndex)
   }

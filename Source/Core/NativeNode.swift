@@ -34,7 +34,7 @@ class NativeNode<T: NativeView>: PropertyNode {
     updateParent()
   }
 
-  func build<V: View>() -> V {
+  func build() -> View {
     if builtView == nil {
       builtView = T()
     }
@@ -45,10 +45,10 @@ class NativeNode<T: NativeView>: PropertyNode {
     }
 
     if let children = children {
-      builtView?.children = children.map { $0.build() as V } ?? []
+      builtView?.children = children.map { $0.build() } ?? []
     }
 
-    return builtView as! V
+    return builtView!
   }
 
   func getBuiltView<V>() -> V? {
