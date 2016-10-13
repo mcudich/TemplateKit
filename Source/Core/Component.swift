@@ -93,10 +93,10 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     updateState(stateMutation: stateMutation)
   }
 
-  public func build<V: View>() -> V {
+  public func build() -> View {
     let isNew = builtView == nil
 
-    builtView = instance.build() as ViewType
+    builtView = instance.build() as! ViewType
 
     if isNew {
       didBuild()
@@ -104,7 +104,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
       didUpdate()
     }
 
-    return builtView as! V
+    return builtView!
   }
 
   public func getBuiltView<V>() -> V? {
@@ -199,14 +199,14 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
         // We've changed instances in a component that is nested in another. Just ask the parent to
         // rebuild. This will pick up the new instance and rebuild it.
         if let parent = self.parent {
-          let _: ViewType = parent.build()
+          _ = parent.build()
         } else if let previousParentView = previousParentView {
           // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
-          let view: ViewType = self.build()
+          let view = self.build()
           previousParentView.replace(previousView!, with: view)
         }
       } else {
-        let _: ViewType = self.build()
+        _ = self.build()
       }
       layout.apply(to: self.root.getBuiltView()! as ViewType)
     }

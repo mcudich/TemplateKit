@@ -15,43 +15,21 @@ class ViewNode<ViewType: View>: PropertyNode {
   var context: Context?
 
   var properties: DefaultProperties
-  var children: [Node]? {
-    didSet {
-      updateParent()
-    }
-  }
+  var children: [Node]?
   var element: ElementData<DefaultProperties>
   var cssNode: CSSNode?
   var builtView: ViewType?
 
-  required init(element: Element, children: [Node]?, owner: Node?) {
-    self.element = element as! ElementData<DefaultProperties>
-    self.properties = self.element.properties
-    self.children = children
-    self.owner = owner
-
-    updateParent()
-  }
-
-  init(view: ViewType, element: Element, owner: Node? = nil, context: Context? = nil) {
+  init(view: ViewType, element: ElementData<DefaultProperties>, owner: Node? = nil, context: Context? = nil) {
     self.builtView = view
-    self.element = element as! ElementData<DefaultProperties>
+    self.element = element
     self.properties = self.element.properties
     self.owner = owner
     self.context = context
   }
 
-  init(element: Element, properties: DefaultProperties, children: [Node]? = nil, owner: Node? = nil) {
-    self.element = element as! ElementData<DefaultProperties>
-    self.properties = properties
-    self.children = children
-    self.owner = owner
-
-    updateParent()
-  }
-
-  func build<V: View>() -> V {
-    return builtView as! V
+  func build() -> View {
+    return builtView!
   }
 
   func getBuiltView<V>() -> V? {

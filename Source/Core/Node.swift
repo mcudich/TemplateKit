@@ -10,7 +10,7 @@ public protocol Node: class, Keyable {
   var cssNode: CSSNode? { get set }
   var type: ElementRepresentable { get }
 
-  func build<V: View>() -> V
+  func build() -> View
   func getBuiltView<V>() -> V?
   func update(with newElement: Element)
   func forceUpdate()
