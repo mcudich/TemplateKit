@@ -37,21 +37,23 @@ public enum ElementType: ElementRepresentable {
   }
 
   public func make(_ element: Element, _ owner: Node?, _ context: Context?) -> Node {
-    switch self {
-    case .box:
-      return NativeNode<Box>(element: element as! ElementData<Box.PropertiesType>, children: element.children?.map { $0.build(withOwner: owner, context: nil) }, owner: owner, context: context)
-    case .text:
-      return NativeNode<Text>(element: element as! ElementData<Text.PropertiesType>, owner: owner, context: context)
-    case .textfield:
-      return NativeNode<TextField>(element: element as! ElementData<TextField.PropertiesType>, owner: owner, context: context)
-    case .image:
-      return NativeNode<Image>(element: element as! ElementData<Image.PropertiesType>, owner: owner, context: context)
-    case .button:
+    switch (self, element) {
+    case (.box, let element as ElementData<Box.PropertiesType>):
+      return NativeNode<Box>(element: element, children: element.children?.map { $0.build(withOwner: owner, context: nil) }, owner: owner, context: context)
+    case (.text, let element as ElementData<Text.PropertiesType>):
+      return NativeNode<Text>(element: element, owner: owner, context: context)
+    case (.textfield, let element as ElementData<TextField.PropertiesType>):
+      return NativeNode<TextField>(element: element, owner: owner, context: context)
+    case (.image, let element as ElementData<Image.PropertiesType>):
+      return NativeNode<Image>(element: element, owner: owner, context: context)
+    case (.button, _):
       return Button(element: element, children: nil, owner: owner, context: context)
-    case .view(let view):
-      return ViewNode(view: view, element: element as! ElementData<DefaultProperties>, owner: owner, context: context)
-    case .component(let ComponentType):
+    case (.view(let view), let element as ElementData<DefaultProperties>):
+      return ViewNode(view: view, element: element, owner: owner, context: context)
+    case (.component(let ComponentType), _):
       return ComponentType.init(element: element, children: nil, owner: owner, context: context)
+    default:
+      fatalError("Supplied element \(element) does not match type \(self)")
     }
   }
 
