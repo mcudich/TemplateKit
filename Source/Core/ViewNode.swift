@@ -9,7 +9,7 @@
 import Foundation
 import CSSLayout
 
-class ViewNode: PropertyNode {
+class ViewNode<ViewType: View>: PropertyNode {
   weak var owner: Node?
   weak var parent: Node?
   var context: Context?
@@ -22,7 +22,7 @@ class ViewNode: PropertyNode {
   }
   var element: ElementData<DefaultProperties>
   var cssNode: CSSNode?
-  var builtView: View?
+  var builtView: ViewType?
 
   required init(element: Element, children: [Node]?, owner: Node?) {
     self.element = element as! ElementData<DefaultProperties>
@@ -33,7 +33,7 @@ class ViewNode: PropertyNode {
     updateParent()
   }
 
-  init(view: UIView, element: Element, owner: Node? = nil, context: Context? = nil) {
+  init(view: ViewType, element: Element, owner: Node? = nil, context: Context? = nil) {
     self.builtView = view
     self.element = element as! ElementData<DefaultProperties>
     self.properties = self.element.properties
