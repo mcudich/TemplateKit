@@ -173,8 +173,10 @@ extension XMLDocument {
 
 extension XMLElement: ElementProvider {
   func build(with model: Model) -> Element {
-    let resolvedProperties = model.resolve(properties: attributes)
-    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: children.map { $0.build(with: model) })
+    guard let built = maybeBuild(with: model) else {
+      fatalError("Templates may not be empty")
+    }
+    return built
   }
 
   func equals(_ other: ElementProvider?) -> Bool {
@@ -182,5 +184,13 @@ extension XMLElement: ElementProvider {
       return false
     }
     return self == other
+  }
+
+  private func maybeBuild(with model: Model) -> Element? {
+    let resolvedProperties = model.resolve(properties: attributes)
+    if let ifDirective: Bool = resolvedProperties.cast("if"), !ifDirective {
+      return nil
+    }
+    return NodeRegistry.shared.buildElement(with: name, properties: resolvedProperties, children: children.flatMap { $0.maybeBuild(with: model) })
   }
 }
