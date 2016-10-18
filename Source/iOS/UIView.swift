@@ -18,11 +18,15 @@ extension UIView: View {
 
       for (index, child) in newValue.enumerated() {
         let childView = child as! UIView
-        insertSubview(childView, at: index)
+        if (subviews.count > index && childView !== subviews[index]) || index >= subviews.count {
+          insertSubview(childView, at: index)
+        }
         viewsToRemove.remove(childView)
       }
 
-      viewsToRemove.forEach { $0.removeFromSuperview() }
+      viewsToRemove.forEach { viewToRemove in
+        viewToRemove.removeFromSuperview()
+      }
     }
   }
 
@@ -70,32 +74,36 @@ extension NativeView where Self: UIView {
 
   private func applyOpacity() {
     alpha = properties.core.style.opacity ?? 1
-    isOpaque = alpha < 1
   }
 
   private func applyTapHandler() {
-    for recognizer in eventRecognizers {
-      if let recognizer = recognizer as? UIGestureRecognizer {
-        removeGestureRecognizer(recognizer)
-      }
+    let singleTap = updateTapGestureRecognizer(recognizer: &eventRecognizers.onTap, selector: properties.core.gestures.onTap, numberOfTaps: 1)
+    if let doubleTap = updateTapGestureRecognizer(recognizer: &eventRecognizers.onDoubleTap, selector: properties.core.gestures.onDoubleTap, numberOfTaps: 2) {
+      singleTap?.require(toFail: doubleTap)
     }
+  }
 
-    var recognizer: UITapGestureRecognizer?
-    if let onTap = properties.core.gestures.onTap {
-      recognizer = UITapGestureRecognizer(target: eventTarget, action: onTap)
-    } else if let onDoubleTap = properties.core.gestures.onDoubleTap {
-      recognizer = UITapGestureRecognizer(target: eventTarget, action: onDoubleTap)
-      recognizer?.numberOfTapsRequired = 2
+  private func updateTapGestureRecognizer(recognizer: inout EventRecognizers.Recognizer?, selector: Selector?, numberOfTaps: Int) -> UIGestureRecognizer? {
+    if let existingRecognizer = recognizer, let selector = selector, selector != existingRecognizer.0 {
+      existingRecognizer.1.removeTarget(eventTarget, action: existingRecognizer.0)
+      existingRecognizer.1.addTarget(eventTarget, action: selector)
+      recognizer = (selector, existingRecognizer.1)
+    } else if let selector = selector {
+      let newRecognizer = UITapGestureRecognizer(target: eventTarget, action: selector)
+      newRecognizer.numberOfTapsRequired = numberOfTaps
+      addGestureRecognizer(newRecognizer)
+      recognizer = (selector, newRecognizer)
+      return newRecognizer
+    } else if let existingRecognizer = recognizer {
+      removeGestureRecognizer(existingRecognizer.1)
+      recognizer = nil
     }
-    if let recognizer = recognizer {
-      addGestureRecognizer(recognizer)
-      eventRecognizers.append(recognizer)
-    }
+    return nil
   }
 
   public func touchesBegan() {
     if let onPress = properties.core.gestures.onPress {
-      let _ = eventTarget?.perform(onPress)
+      _ = eventTarget?.perform(onPress)
     }
   }
 }

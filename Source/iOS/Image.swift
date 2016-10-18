@@ -43,7 +43,7 @@ public func ==(lhs: ImageProperties, rhs: ImageProperties) -> Bool {
 
 public class Image: UIImageView, NativeView {
   public weak var eventTarget: AnyObject?
-  public lazy var eventRecognizers = [AnyObject]()
+  public lazy var eventRecognizers = EventRecognizers()
 
   public var properties = ImageProperties([:]) {
     didSet {
