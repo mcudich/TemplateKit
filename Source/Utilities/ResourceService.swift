@@ -28,11 +28,15 @@ class ResourceService<ParserType: Parser> {
   public var cachePolicy: CachePolicy = .always
 
   private lazy var defaultSession = URLSession(configuration: .default)
-  private lazy var requestQueue: DispatchQueue = DispatchQueue(label: "requestQueue")
   private lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 8)
-
   private lazy var pendingOperations = [URL: [CompletionHandler<ResponseType>]]()
   private lazy var cache = [URL: ResponseType]()
+
+  private let requestQueue: DispatchQueue
+
+  init(requestQueue: DispatchQueue) {
+    self.requestQueue = requestQueue
+  }
 
   func load(_ url: URL, completion: @escaping CompletionHandler<ResponseType>) {
     requestQueue.async { [weak self] in

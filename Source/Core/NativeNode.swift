@@ -45,7 +45,7 @@ class NativeNode<T: NativeView>: PropertyNode {
     }
 
     if let children = children {
-      builtView?.children = children.map { $0.build() } ?? []
+      builtView?.children = children.map { $0.build() } 
     }
 
     return builtView!

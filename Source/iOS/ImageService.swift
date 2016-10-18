@@ -23,4 +23,8 @@ class ImageParser: Parser {
 
 class ImageService: ResourceService<ImageParser> {
   static let shared = ImageService()
+
+  convenience init() {
+    self.init(requestQueue: DispatchQueue(label: "ImageService"))
+  }
 }

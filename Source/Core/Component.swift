@@ -96,7 +96,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   public func build() -> View {
     let isNew = builtView == nil
 
-    builtView = instance.build() as! ViewType
+    builtView = instance.build() as? ViewType
 
     if isNew {
       didBuild()
