@@ -10,7 +10,7 @@ import Foundation
 
 public class Box: UIView, NativeView {
   public weak var eventTarget: AnyObject?
-  public lazy var eventRecognizers = [AnyObject]()
+  public lazy var eventRecognizers = EventRecognizers()
 
   public var properties = DefaultProperties() {
     didSet {

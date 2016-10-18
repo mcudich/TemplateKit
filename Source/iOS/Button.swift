@@ -66,9 +66,9 @@ public func ==(lhs: ButtonState, rhs: ButtonState) -> Bool {
 }
 
 public class Button: Component<ButtonState, ButtonProperties, UIView> {
-  public override var properties: ButtonProperties {
-    didSet {
-      state.active = properties.active ?? false
+  public override func willReceiveProperties(nextProperties: ButtonProperties) {
+    updateState { state in
+      state.active = nextProperties.active ?? false
     }
   }
 
@@ -76,9 +76,13 @@ public class Button: Component<ButtonState, ButtonProperties, UIView> {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
     properties.core.style = self.properties.core.style
-    properties.core.gestures.onTap = #selector(Button.handleTap)
+    if self.properties.core.gestures.onTap != nil {
+      properties.core.gestures.onTap = #selector(Button.handleTap)
+    }
+    if self.properties.core.gestures.onDoubleTap != nil {
+      properties.core.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
+    }
     properties.core.gestures.onPress = #selector(Button.handlePress)
-    properties.core.gestures.onDoubleTap = #selector(Button.handleDoubleTap)
     properties.textStyle = self.properties.textStyle
 
     var childElements = [Element]()

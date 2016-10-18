@@ -58,7 +58,7 @@ public func ==(lhs: TextFieldProperties, rhs: TextFieldProperties) -> Bool {
 
 public class TextField: UITextField, NativeView {
   public weak var eventTarget: AnyObject?
-  public lazy var eventRecognizers = [AnyObject]()
+  public lazy var eventRecognizers = EventRecognizers()
 
   public var properties = TextFieldProperties() {
     didSet {
