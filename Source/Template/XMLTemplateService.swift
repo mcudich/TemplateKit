@@ -43,6 +43,7 @@ public class XMLTemplateService: TemplateService {
 
   let templateResourceService = ResourceService<XMLTemplateParser>()
   let styleSheetResourceService = ResourceService<StyleSheetParser>()
+  let cacheLock = DispatchQueue(label: "XMLTemplateService")
 
   private let liveReload: Bool
   public lazy var templates = [URL: Template]()
@@ -67,7 +68,9 @@ public class XMLTemplateService: TemplateService {
           }
 
           self?.resolveStyles(for: templateXML, at: url) { styleSheet in
-            self?.templates[url] = Template(componentElement, styleSheet ?? StyleSheet())
+            self?.cacheLock.sync {
+              self?.templates[url] = Template(componentElement, styleSheet ?? StyleSheet())
+            }
             pendingURLs.remove(url)
             if pendingURLs.isEmpty {
               completion(.success())
