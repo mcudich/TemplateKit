@@ -41,8 +41,13 @@ public class XMLTemplateService: TemplateService {
 
   public var liveReloadInterval = DispatchTimeInterval.seconds(5)
 
-  let templateResourceService = ResourceService<XMLTemplateParser>()
-  let styleSheetResourceService = ResourceService<StyleSheetParser>()
+  private lazy var requestQueue: DispatchQueue = DispatchQueue(label: "XMLTemplateService")
+  private lazy var templateResourceService: ResourceService<XMLTemplateParser> = {
+    return ResourceService<XMLTemplateParser>(requestQueue: self.requestQueue)
+  }()
+  private lazy var styleSheetResourceService: ResourceService<StyleSheetParser> = {
+    return ResourceService<StyleSheetParser>(requestQueue: self.requestQueue)
+  }()
 
   private let liveReload: Bool
   public lazy var templates = [URL: Template]()
