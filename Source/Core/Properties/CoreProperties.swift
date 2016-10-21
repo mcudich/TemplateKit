@@ -32,5 +32,5 @@ public struct CoreProperties: RawProperties, Equatable {
 }
 
 public func ==(lhs: CoreProperties, rhs: CoreProperties) -> Bool {
-  return lhs.identifier == rhs.identifier && lhs.layout == lhs.layout && lhs.style == rhs.style && lhs.gestures == rhs.gestures
+  return lhs.identifier == rhs.identifier && lhs.layout == rhs.layout && lhs.style == rhs.style && lhs.gestures == rhs.gestures
 }
