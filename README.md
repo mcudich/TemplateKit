@@ -82,6 +82,9 @@ All layout computation, text sizing, tree diffing, image decoding is performed i
 #### CSS
 Use stylesheets to style components, just like you do on the web.
 
+#### Animations
+Animate layout, style and arbitrary properties using an intuitive API. 
+
 #### Live Reloading
 Automatically reload changes to user interfaces without having to re-build binaries or restart your application. Usable in both development and production environments.
 
@@ -125,22 +128,29 @@ Run `carthage update`, then make sure to add `TemplateKit.framework`, `CSSLayout
 ## How does it work?
 At its core, TemplateKit is comprised of `Element` and `Node` instances. Elements are used to describe trees of nodes, which can be anything that implements the `Node` interface. Nodes are used to vend out and manage view hierarchies.
 
-Out of the box, there are several `Node` implementations that make it easy to set up UI hierarchies: `CompositeComponent`, `ViewNode`, and a set of native controls like buttons, text labels, text fields and so on.
+Out of the box, there are several `Node` implementations that make it easy to set up UI hierarchies: `Component`, `ViewNode`, and a set of native controls like buttons, text labels, text fields and so on.
 
-Building a component is as simple as subclassing `CompositeComponent`, overriding its `render()` function, and deciding the set of properties it might accept and use as part of rendering. `render()` simply needs to return a `Template`, which can be constructed programmatically, or via an XML document. When it comes time to render your component into a view, you simply call `UIKitRenderer.render`, and pass in the view that should contain your component's rendered output. This will in turn call `render()` on your component instance, compute the layout and styles for the view tree, build this tree and then apply the layout and styles to it as appropriate.
+Building a component is as simple as subclassing `Component`, overriding its `render()` function, and deciding the set of properties it might accept and use as part of rendering. `render()` simply needs to return a `Template`, which can be constructed programmatically, or via an XML document (or other custom payload). When it comes time to render your component into a view, you simply call `UIKitRenderer.render`, and pass in the view that should contain your component's rendered output. This will in turn call `render()` on your component instance, compute the layout and styles for the view tree, build this tree and then apply the layout and styles to it as appropriate.
 
-When it comes time to update your component's state, you can call `updateComponentState` from within your component implementation. This function receives a function that is passed the current state value (each `CompositeComponent` can declare a `State` type, in the same way it declares a `Properties` type). This function in turn enqueues an update to the component, which will cause it to re-render, taking into account whatever changes were made to the state. This update is intelligent, and compares the current incarnation of the rendered view tree against the proposed element tree. Only the deltas between these two are flushed out to the view layer.
+When it comes time to update your component's state, you can call `updateState` from within your component implementation. This function receives a function that is passed the current state value (each `Component` can declare a `State` type, in the same way it declares a `Properties` type). This function in turn enqueues an update to the component, which will cause it to re-render, taking into account whatever changes were made to the state. This update is intelligent, and compares the current incarnation of the rendered view tree against the proposed element tree. Only the deltas between these two are flushed out to the view layer.
 
 ## Opaque Views
 If there are parts of your UI that are easier to deal with as plain `UIViews`, TemplateKit provides a simple abstraction `Node` called `ViewNode` that allows you to include these "opaque" views as part of any TemplateKit-managed tree. TemplateKit stays out of the way, and simply sets the `frame` of these views for you, so they sit nicely within in whatever UI tree you've composed.
 
 ## Collections
-TemplateKit provides `UITableView` and `UICollectionView` subclasses which are able to load, and asynchronously size and render `CompositeComponents` into cells with just a little bit of configuration. Tables and collections can be used via `Table` and `Collection` components, or simply wrapped as `ViewNode` instances.
+TemplateKit provides `UITableView` and `UICollectionView` subclasses which are able to load, and asynchronously size and render `Components` into cells with just a little bit of configuration. Tables and collections can be used via `Table` and `Collection` components, or simply wrapped as `ViewNode` instances.
 
 ## How's this different from React Native?
 TemplateKit is implemented in Swift (and a bit of C). If you like writing entirely in Swift, then this framework might be for you.
 
-React Native relies on an incredibly well-tested library (React), and has been shipipng in some incredibly popular apps for some time now. This means it probably has way fewer rough edges, has sorted out many performance issues TemplateKit has yet to face, and so on.
+React Native relies on a very well-tested library (React), and has been shipping in popular apps for some time now. This means it probably has way fewer rough edges, has sorted out many performance issues TemplateKit has yet to face, and so on.
+
+## What's Missing
+A lot.
+
+There's no AppKit support yet (though it would be straightforward to add). Lots of tests have yet to be written. Performance testing has yet to be done. The entirety of the applicable CSS spec is not supported. Animation features are rudimentary at best. Many gesture types need to be added. And much more.
+
+If you'd like something added, please file a feature request or send a pull request!
 
 ## Inspiration
 - [React](https://github.com/facebook/react)
