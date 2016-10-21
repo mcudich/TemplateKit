@@ -82,6 +82,9 @@ All layout computation, text sizing, tree diffing, image decoding is performed i
 #### CSS
 Use stylesheets to style components, just like you do on the web.
 
+#### Animations
+Animate layout, style and arbitrary properties using an intuitive API. 
+
 #### Live Reloading
 Automatically reload changes to user interfaces without having to re-build binaries or restart your application. Usable in both development and production environments.
 
