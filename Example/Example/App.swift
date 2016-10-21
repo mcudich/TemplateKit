@@ -20,6 +20,8 @@ struct AppState: State {
   var editing: String?
   var newTodo: String = ""
   var toggleAllEnabled = false
+  var opacity = Animatable<CGFloat>(0, duration: 1)
+  var color = Animatable<UIColor>(.red, duration: 1, easingFunction: .quadraticEaseOut)
 }
 
 func ==(lhs: AppState, rhs: AppState) -> Bool {
@@ -169,6 +171,11 @@ class App: Component<AppState, AppProperties, UIView> {
     } ?? 0
   }
 
+  override func didBuild() {
+    animate(state.opacity, to: 1)
+    animate(state.color, to: .blue)
+  }
+
   override func render() -> Template {
     var children = [
       renderHeader()
@@ -185,6 +192,7 @@ class App: Component<AppState, AppProperties, UIView> {
 
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
+    properties.core.style.opacity = state.opacity.value
 
     return Template(box(properties, children))
   }
