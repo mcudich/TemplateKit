@@ -260,8 +260,15 @@ extension Component: AnimatorObserver {
   }
 
   public func didAnimate() {
-    update(with: element, force: true)
-    _ = build()
+    let root = self.root
+    getContext().updateQueue.async {
+      self.update(with: self.element, force: true)
+      let layout = root.computeLayout()
+      DispatchQueue.main.async {
+        _ = self.build()
+        layout.apply(to: root.getBuiltView()! as ViewType)
+      }
+    }
   }
 
   public func equals(_ other: AnimatorObserver) -> Bool {

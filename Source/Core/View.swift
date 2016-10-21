@@ -22,7 +22,6 @@ extension CSSLayout {
   func apply(to view: View) {
     view.frame = frame
 
-
     for (index, child) in children.enumerated() {
       child.apply(to: view.children[index])
     }
