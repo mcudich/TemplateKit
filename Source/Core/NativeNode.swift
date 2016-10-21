@@ -35,23 +35,24 @@ class NativeNode<T: NativeView>: PropertyNode {
   }
 
   func build() -> View {
-    if builtView == nil {
-      builtView = T()
-    }
+    let built = builtView ?? T()
 
-    builtView?.eventTarget = owner
-    if builtView?.properties != properties {
-      builtView?.properties = properties
+    built.eventTarget = owner
+    if built.properties != properties {
+      built.properties = properties
     }
 
     if let children = children {
-      builtView?.children = children.map { $0.build() } 
+      built.children = children.map { $0.build() }
     }
 
-    return builtView!
+    builtView = built
+
+    return built
   }
 
   func getBuiltView<V>() -> V? {
     return builtView as? V
   }
 }
+

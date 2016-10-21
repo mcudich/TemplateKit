@@ -96,7 +96,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   public func build() -> View {
     let isNew = builtView == nil
 
-    builtView = instance.build() as? ViewType
+    let built = instance.build() as! ViewType
 
     if isNew {
       didBuild()
@@ -104,7 +104,9 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
       didUpdate()
     }
 
-    return builtView!
+    builtView = built
+
+    return built
   }
 
   public func getBuiltView<V>() -> V? {
@@ -154,6 +156,12 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     }
 
     processStateMutationCallbacks()
+  }
+
+  public func animate<T>(_ animatable: Animatable<T>, to value: T) {
+    animatable.set(value)
+    Animator.shared.addAnimatable(animatable)
+    Animator.shared.addObserver(self, for: animatable)
   }
 
   private func processStateMutations() -> StateType {
@@ -244,4 +252,26 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   open func willUpdate(nextProperties: PropertiesType, nextState: StateType) {}
   open func didUpdate() {}
   open func willDetach() {}
+}
+
+extension Component: AnimatorObserver {
+  public var hashValue: Int {
+    return ObjectIdentifier(self as AnyObject).hashValue
+  }
+
+  public func didAnimate() {
+    update(with: element, force: true)
+    _ = build()
+  }
+
+  public func equals(_ other: AnimatorObserver) -> Bool {
+    guard let other = other as? Component<StateType, PropertiesType, ViewType> else {
+      return false
+    }
+    return self == other
+  }
+}
+
+public func ==<StateType: State, PropertiesType: Properties, ViewType: View>(lhs: Component<StateType, PropertiesType, ViewType>, rhs: Component<StateType, PropertiesType, ViewType>) -> Bool {
+  return lhs === rhs
 }
