@@ -20,8 +20,8 @@ struct AppState: State {
   var editing: String?
   var newTodo: String = ""
   var toggleAllEnabled = false
-  var opacity = Animatable<CGFloat>(0, duration: 1, delay: 3)
-  var color = Animatable<UIColor>(.red, duration: 1, delay: 2, easingFunction: .quadraticEaseOut)
+  var opacity = Animatable<CGFloat>(0, duration: 1, timingFunction: .easeInQuad)
+  var color = Animatable<UIColor>(.red, duration: 1, delay: 2)
 }
 
 func ==(lhs: AppState, rhs: AppState) -> Bool {

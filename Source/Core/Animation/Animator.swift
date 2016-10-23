@@ -30,6 +30,7 @@ struct AnimatorObserverValue: Hashable {
   let animatorObserver: AnimatorObserver
 
   var hashValue: Int {
+    
     return animatorObserver.hashValue
   }
 }
