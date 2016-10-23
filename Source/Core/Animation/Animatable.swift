@@ -30,7 +30,7 @@ public class Animatable<T: Equatable & Interpolatable>: Tickable, Model, Equatab
   public private(set) var value: T?
   public var duration: TimeInterval = 0
   public var delay: TimeInterval = 0
-  public var easingFunction = EasingFunction.linear
+  public var interpolator: Interpolator
 
   public var state: AnimationState {
     if toValue != nil && beginTime == nil {
@@ -45,11 +45,11 @@ public class Animatable<T: Equatable & Interpolatable>: Tickable, Model, Equatab
   private var toValue: T?
   private var beginTime: TimeInterval?
 
-  public init(_ value: T?, duration: TimeInterval = 0, delay: TimeInterval = 0, easingFunction: EasingFunction = .linear) {
+  public init(_ value: T?, duration: TimeInterval = 0, delay: TimeInterval = 0, interpolator: Interpolator = BezierInterpolator(.linear)) {
     self.value = value
     self.duration = duration
     self.delay = delay
-    self.easingFunction = easingFunction
+    self.interpolator = interpolator
   }
 
   public func set(_ value: T?) {
@@ -76,7 +76,7 @@ public class Animatable<T: Equatable & Interpolatable>: Tickable, Model, Equatab
       return
     }
 
-    value = T.interpolate(time - effectiveBeginTime, fromValue, toValue, duration, easingFunction)
+    value = interpolator.interpolate(fromValue, toValue, time - effectiveBeginTime, duration)
   }
 
   public func reset() {
