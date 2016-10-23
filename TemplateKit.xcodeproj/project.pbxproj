@@ -58,6 +58,7 @@
 		D872ED4A1DBC160E009C8580 /* Bezier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872ED491DBC160E009C8580 /* Bezier.swift */; };
 		D872ED4C1DBC8DC0009C8580 /* Interpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872ED4B1DBC8DC0009C8580 /* Interpolator.swift */; };
 		D872ED4E1DBC9007009C8580 /* BezierInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872ED4D1DBC9007009C8580 /* BezierInterpolator.swift */; };
+		D872ED501DBC993D009C8580 /* Component+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872ED4F1DBC993D009C8580 /* Component+Animation.swift */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
 		D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194431D57F24F0049991F /* SimpleTemplate.xml */; };
@@ -132,6 +133,7 @@
 		D872ED491DBC160E009C8580 /* Bezier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bezier.swift; sourceTree = "<group>"; };
 		D872ED4B1DBC8DC0009C8580 /* Interpolator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpolator.swift; sourceTree = "<group>"; };
 		D872ED4D1DBC9007009C8580 /* BezierInterpolator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierInterpolator.swift; sourceTree = "<group>"; };
+		D872ED4F1DBC993D009C8580 /* Component+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Component+Animation.swift"; sourceTree = "<group>"; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194111D57F1FB0049991F /* TemplateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemplateKit.h; sourceTree = "<group>"; };
 		D89194131D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				D872ED4D1DBC9007009C8580 /* BezierInterpolator.swift */,
 				D872ED3F1DB9E619009C8580 /* Interpolatable.swift */,
 				D872ED4B1DBC8DC0009C8580 /* Interpolator.swift */,
+				D872ED4F1DBC993D009C8580 /* Component+Animation.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				D8325EEB1DA5889700F3EC95 /* Properties.swift in Sources */,
 				D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */,
 				D872ED401DB9E619009C8580 /* Animatable.swift in Sources */,
+				D872ED501DBC993D009C8580 /* Component+Animation.swift in Sources */,
 				D83936D11D8348C5008CA7F1 /* Dictionary.swift in Sources */,
 				D872ED4C1DBC8DC0009C8580 /* Interpolator.swift in Sources */,
 				D83936BE1D8348C5008CA7F1 /* ViewNode.swift in Sources */,

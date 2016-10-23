@@ -158,12 +158,6 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     processStateMutationCallbacks()
   }
 
-  public func animate<T>(_ animatable: Animatable<T>, to value: T) {
-    animatable.set(value)
-    Animator.shared.addAnimatable(animatable)
-    Animator.shared.addObserver(self, for: animatable)
-  }
-
   private func processStateMutations() -> StateType {
     var newState = state
     for mutation in pendingStateMutations {
@@ -254,30 +248,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   open func willDetach() {}
 }
 
-extension Component: AnimatorObserver {
-  public var hashValue: Int {
-    return ObjectIdentifier(self as AnyObject).hashValue
-  }
 
-  public func didAnimate() {
-    let root = self.root
-    getContext().updateQueue.async {
-      self.update(with: self.element, force: true)
-      let layout = root.computeLayout()
-      DispatchQueue.main.async {
-        _ = self.build()
-        layout.apply(to: root.getBuiltView()! as ViewType)
-      }
-    }
-  }
-
-  public func equals(_ other: AnimatorObserver) -> Bool {
-    guard let other = other as? Component<StateType, PropertiesType, ViewType> else {
-      return false
-    }
-    return self == other
-  }
-}
 
 public func ==<StateType: State, PropertiesType: Properties, ViewType: View>(lhs: Component<StateType, PropertiesType, ViewType>, rhs: Component<StateType, PropertiesType, ViewType>) -> Bool {
   return lhs === rhs
