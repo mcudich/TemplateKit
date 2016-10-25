@@ -55,4 +55,3 @@ class NativeNode<T: NativeView>: PropertyNode {
     return builtView as? V
   }
 }
-
