@@ -248,8 +248,6 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   open func willDetach() {}
 }
 
-
-
 public func ==<StateType: State, PropertiesType: Properties, ViewType: View>(lhs: Component<StateType, PropertiesType, ViewType>, rhs: Component<StateType, PropertiesType, ViewType>) -> Bool {
   return lhs === rhs
 }
