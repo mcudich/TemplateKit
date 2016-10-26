@@ -12,7 +12,7 @@ import CSSParser
 
 struct FakeModel: Model {}
 
-class TemplateTests: XCTestCase {
+class XMLTemplateServiceTests: XCTestCase {
   func testParseTemplate() {
     let template = Bundle(for: TemplateTests.self).url(forResource: "SimpleTemplate", withExtension: "xml")!
     let xmlTemplate = try! XMLDocument(data: Data(contentsOf: template))

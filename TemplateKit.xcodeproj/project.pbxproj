@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D80AC5F31D9B336F0055F300 /* TemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80AC5F21D9B336F0055F300 /* TemplateTests.swift */; };
+		D80AC5F31D9B336F0055F300 /* XMLTemplateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */; };
 		D8325EDC1D987F5500F3EC95 /* XMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */; };
 		D8325EDE1D99DDC300F3EC95 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDD1D99DDC300F3EC95 /* String.swift */; };
 		D8325EE21D9F74EC00F3EC95 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EE11D9F74EC00F3EC95 /* URL.swift */; };
@@ -83,7 +83,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D80AC5F21D9B336F0055F300 /* TemplateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateTests.swift; sourceTree = "<group>"; };
+		D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateServiceTests.swift; sourceTree = "<group>"; };
 		D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocument.swift; sourceTree = "<group>"; };
 		D8325EDD1D99DDC300F3EC95 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		D8325EE11D9F74EC00F3EC95 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
@@ -306,7 +306,7 @@
 			children = (
 				D89194421D57F24F0049991F /* Resources */,
 				D891941F1D57F1FB0049991F /* Info.plist */,
-				D80AC5F21D9B336F0055F300 /* TemplateTests.swift */,
+				D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */,
 				D87EE7631DBF176B005DC007 /* NodeTests.swift */,
 			);
 			path = Tests;
@@ -521,7 +521,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D80AC5F31D9B336F0055F300 /* TemplateTests.swift in Sources */,
+				D80AC5F31D9B336F0055F300 /* XMLTemplateServiceTests.swift in Sources */,
 				D87EE7641DBF176B005DC007 /* NodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
