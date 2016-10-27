@@ -10,9 +10,9 @@ import XCTest
 @testable import TemplateKit
 import CSSParser
 
-struct FakeModel: Model {}
-
 class XMLTemplateServiceTests: XCTestCase {
+  struct FakeModel: Model {}
+
   func testParseTemplate() {
     let template = Bundle(for: TemplateTests.self).url(forResource: "SimpleTemplate", withExtension: "xml")!
     let xmlTemplate = try! XMLDocument(data: Data(contentsOf: template))

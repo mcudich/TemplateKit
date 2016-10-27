@@ -9,7 +9,7 @@
 import Foundation
 import TemplateKit
 
-struct CountTextProperties: Properties, InheritingProperties {
+struct CountTextProperties: Properties {
   static var tagName = "CountText"
 
   var core = CoreProperties()

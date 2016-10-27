@@ -8,16 +8,16 @@ public protocol ElementProvider {
 
 public struct Template: Equatable {
   fileprivate let elementProvider: ElementProvider
-  fileprivate let styleSheet: StyleSheet
+  fileprivate let styleSheet: StyleSheet?
 
-  public init(_ elementProvider: ElementProvider, _ styleSheet: StyleSheet = StyleSheet()) {
+  public init(_ elementProvider: ElementProvider, _ styleSheet: StyleSheet? = nil) {
     self.elementProvider = elementProvider
     self.styleSheet = styleSheet
   }
 
   public func build(with model: Model) -> Element {
-    var tree = elementProvider.build(with: model)
-    tree.applyStyleSheet(styleSheet, parentStyles: DefaultProperties())
+    let tree = elementProvider.build(with: model)
+    styleSheet?.apply(to: tree)
     return tree
   }
 }

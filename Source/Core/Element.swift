@@ -15,13 +15,12 @@ public protocol ElementRepresentable {
   func equals(_ other: ElementRepresentable) -> Bool
 }
 
-public protocol Element: Keyable, StyleElement, ElementProvider {
+public protocol Element: class, Keyable, StyleElement, ElementProvider {
   var type: ElementRepresentable { get }
   var children: [Element]? { get }
-  var parent: Element? { get set }
+  weak var parent: Element? { get set }
 
   func build(withOwner owner: Node?, context: Context?) -> Node
-  mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties)
 }
 
 extension ElementProvider where Self: Element {
@@ -30,20 +29,10 @@ extension ElementProvider where Self: Element {
   }
 }
 
-public extension StyleElement where Self: Element {
-  var parentElement: StyleElement? {
-    return parent
-  }
-
-  var childElements: [StyleElement]? {
-    return children
-  }
-}
-
-public struct ElementData<PropertiesType: Properties>: Element {
+public class ElementData<PropertiesType: Properties>: Element {
   public let type: ElementRepresentable
   public private(set) var children: [Element]?
-  public var parent: Element?
+  public weak var parent: Element?
   public var properties: PropertiesType
 
   public var key: String? {
@@ -79,73 +68,6 @@ public struct ElementData<PropertiesType: Properties>: Element {
   }
 
   public func equals(_ other: ElementProvider?) -> Bool {
-    return equals(other as? Element)
-  }
-
-  public mutating func applyStyleSheet(_ styleSheet: StyleSheet, parentStyles: InheritableProperties) {
-    let matchingStyles = styleSheet.stylesForElement(self)
-    var styleSheetProperties = [String: Any]()
-    for (name, declaration) in matchingStyles {
-      styleSheetProperties[name] = declaration.value
-    }
-
-    var styledProperties = PropertiesType(styleSheetProperties)
-
-    if var inheritable = styledProperties as? InheritingProperties {
-      parentStyles.apply(to: &inheritable)
-      styledProperties = inheritable as! PropertiesType
-    }
-
-    styledProperties.merge(properties)
-    properties = styledProperties
-
-    if let inheritable = properties as? InheritableProperties {
-      for (index, _) in (children ?? []).enumerated() {
-        children?[index].applyStyleSheet(styleSheet, parentStyles: inheritable)
-      }
-    }
-  }
-}
-
-extension ElementData: StyleElement {
-  public var id: String? {
-    return properties.core.identifier.id
-  }
-
-  public var classNames: [String]? {
-    return properties.core.identifier.classNames
-  }
-
-  public var tagName: String? {
-    return type.tagName
-  }
-
-  public var isFocused: Bool {
-    if let focusable = properties as? FocusableProperties {
-      return focusable.focused ?? false
-    }
-    return false
-  }
-
-  public var isEnabled: Bool {
-    if let enableable = properties as? EnableableProperties {
-      return enableable.enabled ?? false
-    }
-    return false
-  }
-
-  public var isActive: Bool {
-    if let activatable = properties as? ActivatableProperties {
-      return activatable.active ?? false
-    }
-    return false
-  }
-
-  public func has(attribute: String, with value: String) -> Bool {
-    return properties.has(key: attribute, withValue: value)
-  }
-
-  public func equals(_ other: StyleElement) -> Bool {
     return equals(other as? Element)
   }
 }

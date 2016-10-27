@@ -60,6 +60,8 @@
 		D872ED4E1DBC9007009C8580 /* BezierInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872ED4D1DBC9007009C8580 /* BezierInterpolator.swift */; };
 		D872ED501DBC993D009C8580 /* Component+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872ED4F1DBC993D009C8580 /* Component+Animation.swift */; };
 		D87EE7641DBF176B005DC007 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87EE7631DBF176B005DC007 /* NodeTests.swift */; };
+		D87EE7661DC1450C005DC007 /* TemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87EE7651DC1450C005DC007 /* TemplateTests.swift */; };
+		D87EE7681DC15A7E005DC007 /* StyleSheet+Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87EE7671DC15A7E005DC007 /* StyleSheet+Element.swift */; };
 		D89194121D57F1FB0049991F /* TemplateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D89194111D57F1FB0049991F /* TemplateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89194191D57F1FB0049991F /* TemplateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891940E1D57F1FB0049991F /* TemplateKit.framework */; };
 		D89194471D57F24F0049991F /* SimpleTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D89194431D57F24F0049991F /* SimpleTemplate.xml */; };
@@ -136,6 +138,8 @@
 		D872ED4D1DBC9007009C8580 /* BezierInterpolator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierInterpolator.swift; sourceTree = "<group>"; };
 		D872ED4F1DBC993D009C8580 /* Component+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Component+Animation.swift"; sourceTree = "<group>"; };
 		D87EE7631DBF176B005DC007 /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
+		D87EE7651DC1450C005DC007 /* TemplateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateTests.swift; sourceTree = "<group>"; };
+		D87EE7671DC15A7E005DC007 /* StyleSheet+Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StyleSheet+Element.swift"; sourceTree = "<group>"; };
 		D891940E1D57F1FB0049991F /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194111D57F1FB0049991F /* TemplateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemplateKit.h; sourceTree = "<group>"; };
 		D89194131D57F1FB0049991F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -203,6 +207,7 @@
 				D8E6615A1D8E754D005D8C4F /* View.swift */,
 				D83936991D8348C5008CA7F1 /* ViewNode.swift */,
 				D8325EFA1DA58C0D00F3EC95 /* Rendering.swift */,
+				D87EE7671DC15A7E005DC007 /* StyleSheet+Element.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				D891941F1D57F1FB0049991F /* Info.plist */,
 				D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */,
 				D87EE7631DBF176B005DC007 /* NodeTests.swift */,
+				D87EE7651DC1450C005DC007 /* TemplateTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -511,6 +517,7 @@
 				D83936CF1D8348C5008CA7F1 /* Array.swift in Sources */,
 				D83936C81D8348C5008CA7F1 /* UIKitRenderer.swift in Sources */,
 				D8325EF31DA588EA00F3EC95 /* GestureProperties.swift in Sources */,
+				D87EE7681DC15A7E005DC007 /* StyleSheet+Element.swift in Sources */,
 				D8325EDC1D987F5500F3EC95 /* XMLDocument.swift in Sources */,
 				D83936C91D8348C5008CA7F1 /* Error.swift in Sources */,
 				D8325EED1DA588A800F3EC95 /* RawProperties.swift in Sources */,
@@ -521,6 +528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87EE7661DC1450C005DC007 /* TemplateTests.swift in Sources */,
 				D80AC5F31D9B336F0055F300 /* XMLTemplateServiceTests.swift in Sources */,
 				D87EE7641DBF176B005DC007 /* NodeTests.swift in Sources */,
 			);
