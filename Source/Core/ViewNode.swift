@@ -18,10 +18,11 @@ class ViewNode<ViewType: View>: PropertyNode {
   var children: [Node]?
   var element: ElementData<DefaultProperties>
   var cssNode: CSSNode?
-  var builtView: ViewType?
+
+  let view: View
 
   init(view: ViewType, element: ElementData<DefaultProperties>, owner: Node? = nil, context: Context? = nil) {
-    self.builtView = view
+    self.view = view
     self.element = element
     self.properties = self.element.properties
     self.owner = owner
@@ -29,10 +30,6 @@ class ViewNode<ViewType: View>: PropertyNode {
   }
 
   func build() -> View {
-    return builtView!
-  }
-
-  func getBuiltView<V>() -> V? {
-    return builtView as? V
+    return view
   }
 }

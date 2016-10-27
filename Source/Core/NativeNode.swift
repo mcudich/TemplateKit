@@ -21,8 +21,9 @@ class NativeNode<T: NativeView>: PropertyNode {
     }
   }
   var element: ElementData<T.PropertiesType>
-  var builtView: T?
   var cssNode: CSSNode?
+
+  lazy var view: View = T()
 
   required init(element: ElementData<T.PropertiesType>, children: [Node]? = nil, owner: Node? = nil, context: Context? = nil) {
     self.element = element
@@ -35,23 +36,17 @@ class NativeNode<T: NativeView>: PropertyNode {
   }
 
   func build() -> View {
-    let built = builtView ?? T()
+    let view = self.view as! T
 
-    built.eventTarget = owner
-    if built.properties != properties {
-      built.properties = properties
+    view.eventTarget = owner
+    if view.properties != properties {
+      view.properties = properties
     }
 
     if let children = children {
-      built.children = children.map { $0.build() }
+      view.children = children.map { $0.build() }
     }
 
-    builtView = built
-
-    return built
-  }
-
-  func getBuiltView<V>() -> V? {
-    return builtView as? V
+    return view
   }
 }

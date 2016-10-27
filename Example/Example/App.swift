@@ -202,7 +202,7 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   private func renderMain() -> Element {
-    return view(todosList, DefaultProperties(["flexGrow": Float(1)]))
+    return wrappedView(todosList, DefaultProperties(["flexGrow": Float(1)]))
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {
