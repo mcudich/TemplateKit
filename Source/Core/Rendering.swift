@@ -28,7 +28,7 @@ public func button(_ properties: ButtonProperties) -> Element {
   return ElementData(ElementType.button, properties)
 }
 
-public func view(_ wrappedView: UIView, _ properties: DefaultProperties = DefaultProperties()) -> Element {
+public func wrappedView(_ wrappedView: UIView, _ properties: DefaultProperties = DefaultProperties()) -> Element {
   return ElementData(ElementType.view(wrappedView), properties)
 }
 

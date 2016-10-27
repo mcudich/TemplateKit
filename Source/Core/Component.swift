@@ -34,7 +34,6 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   public weak var owner: Node?
 
   public var element: ElementData<PropertiesType>
-  public var builtView: ViewType?
   public var context: Context?
   public lazy var state: StateType = self.getInitialState()
 
@@ -66,7 +65,13 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     }
   }
 
+  private var _view: View!
+  public var view: View {
+    return _view
+  }
+
   lazy var instance: Node = self.makeInstance()
+
   private lazy var pendingStateMutations = [StateMutation]()
   private lazy var pendingStateMutationCallbacks = [StateMutationCallback]()
 
@@ -94,9 +99,9 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
   }
 
   public func build() -> View {
-    let isNew = builtView == nil
+    let isNew = _view == nil
 
-    let built = instance.build() as! ViewType
+    _view = instance.build()
 
     if isNew {
       didBuild()
@@ -104,13 +109,7 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
       didUpdate()
     }
 
-    builtView = built
-
-    return built
-  }
-
-  public func getBuiltView<V>() -> V? {
-    return instance.getBuiltView()
+    return _view
   }
 
   public func performDiff() {
@@ -191,8 +190,8 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     update(with: element, force: force)
 
     let previousInstance = instance
-    let previousParentView = builtView?.parent
-    let previousView = builtView
+    let previousParentView = view.parent
+    let previousView = view
 
     let layout = root.computeLayout()
 
@@ -205,12 +204,12 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
         } else if let previousParentView = previousParentView {
           // We don't have a parent because this is a root component. Attempt to silently re-parent the newly built view.
           let view = self.build()
-          previousParentView.replace(previousView!, with: view)
+          previousParentView.replace(previousView, with: view)
         }
       } else {
         _ = self.build()
       }
-      layout.apply(to: self.root.getBuiltView()! as ViewType)
+      layout.apply(to: self.root.view)
     }
   }
 
@@ -226,6 +225,10 @@ open class Component<StateType: State, PropertiesType: Properties, ViewType: Vie
     }
 
     return renderElement().build(withOwner: self, context: nil)
+  }
+
+  private func makeView() -> ViewType {
+    return instance.build() as! ViewType
   }
 
   open func render() -> Template {

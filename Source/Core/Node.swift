@@ -5,13 +5,13 @@ public protocol Node: class, Keyable {
   weak var owner: Node? { get set }
   weak var parent: Node? { get set }
   var context: Context? { get set }
+  var view: View { get }
 
   var children: [Node]? { get set }
   var cssNode: CSSNode? { get set }
   var type: ElementRepresentable { get }
 
   func build() -> View
-  func getBuiltView<V>() -> V?
   func update(with newElement: Element)
   func forceUpdate()
   func computeLayout() -> CSSLayout

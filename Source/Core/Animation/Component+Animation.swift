@@ -20,7 +20,7 @@ extension Component: AnimatorObserver {
       let layout = root.computeLayout()
       DispatchQueue.main.async {
         _ = self.build()
-        layout.apply(to: root.getBuiltView()! as ViewType)
+        layout.apply(to: root.view)
       }
     }
   }
