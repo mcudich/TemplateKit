@@ -37,20 +37,3 @@ public protocol EnableableProperties {
 public protocol ActivatableProperties {
   var active: Bool? { get set }
 }
-
-public protocol InheritingProperties {
-  var textStyle: TextStyleProperties { get set }
-}
-
-public protocol InheritableProperties: InheritingProperties {
-  func apply(to other: inout InheritingProperties)
-}
-
-public extension InheritableProperties {
-  func apply(to other: inout InheritingProperties) {
-    var workingTextStyle = textStyle
-
-    workingTextStyle.merge(other.textStyle)
-    other.textStyle = workingTextStyle
-  }
-}

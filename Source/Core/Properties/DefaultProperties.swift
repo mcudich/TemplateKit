@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct DefaultProperties: Properties, InheritableProperties {
+public struct DefaultProperties: Properties {
   public var core = CoreProperties()
   public var textStyle = TextStyleProperties()
 

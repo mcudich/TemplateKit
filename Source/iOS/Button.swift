@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ButtonProperties: Properties, EnableableProperties, ActivatableProperties, InheritingProperties {
+public struct ButtonProperties: Properties, EnableableProperties, ActivatableProperties {
   public var core = CoreProperties()
   public var textStyle = TextStyleProperties()
 

@@ -115,7 +115,7 @@ public class XMLTemplateService: TemplateService {
     }
 
     let done = { (fetchedSheets: [String]) in
-      completion(StyleSheet(string: fetchedSheets.joined()))
+      completion(StyleSheet(string: fetchedSheets.joined(), inheritedProperties: ["fontName", "fontSize", "color", "textAlignment"]))
     }
 
     var pendingURLs = Set(urls)
