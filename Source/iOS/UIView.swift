@@ -85,8 +85,8 @@ extension NativeView where Self: UIView {
 
   private func updateTapGestureRecognizer(recognizer: inout EventRecognizers.Recognizer?, selector: Selector?, numberOfTaps: Int) -> UIGestureRecognizer? {
     if let existingRecognizer = recognizer, let selector = selector, selector != existingRecognizer.0 {
-      existingRecognizer.1.removeTarget(eventTarget, action: existingRecognizer.0)
-      existingRecognizer.1.addTarget(eventTarget, action: selector)
+      existingRecognizer.1.removeTarget(eventTarget as Any, action: existingRecognizer.0)
+      existingRecognizer.1.addTarget(eventTarget as Any, action: selector)
       recognizer = (selector, existingRecognizer.1)
     } else if let selector = selector {
       let newRecognizer = UITapGestureRecognizer(target: eventTarget, action: selector)

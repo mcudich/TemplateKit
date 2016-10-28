@@ -1,0 +1,4 @@
+github "krzyzanowskim/CryptoSwift"
+github "SwiftyJSON/SwiftyJSON"
+github "malcommac/SwiftDate"
+github "Alamofire/Alamofire"
