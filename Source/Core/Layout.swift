@@ -19,6 +19,7 @@ public struct LayoutProperties: RawProperties, Model, Equatable {
   public var positionType: CSSPositionType?
   public var flexWrap: CSSWrapType?
   public var overflow: CSSOverflow?
+  public var flex: Float?
   public var flexGrow: Float?
   public var flexShrink: Float?
   public var margin: Float?
@@ -84,6 +85,7 @@ public struct LayoutProperties: RawProperties, Model, Equatable {
     positionType = properties.cast("positionType")
     flexWrap = properties.cast("flexWrap")
     overflow = properties.cast("overflow")
+    flex = properties.cast("flex")
     flexGrow = properties.cast("flexGrow")
     flexShrink = properties.cast("flexShrink")
     margin = properties.cast("margin")
@@ -118,6 +120,7 @@ public struct LayoutProperties: RawProperties, Model, Equatable {
     merge(&positionType, other.positionType)
     merge(&flexWrap, other.flexWrap)
     merge(&overflow, other.overflow)
+    merge(&flex, other.flex)
     merge(&flexGrow, other.flexGrow)
     merge(&flexShrink, other.flexShrink)
     merge(&margin, other.margin)
@@ -172,7 +175,7 @@ extension CSSSize {
 }
 
 public func ==(lhs: LayoutProperties, rhs: LayoutProperties) -> Bool {
-  return lhs.flexDirection == rhs.flexDirection && lhs.direction == rhs.direction && lhs.justifyContent == rhs.justifyContent && lhs.alignContent == rhs.alignContent && lhs.alignItems == rhs.alignItems && lhs.alignSelf == rhs.alignSelf && lhs.positionType == rhs.positionType && lhs.flexWrap == rhs.flexWrap && lhs.overflow == rhs.overflow && lhs.flexGrow == rhs.flexGrow && lhs.flexShrink == rhs.flexShrink && lhs.margin == rhs.margin && lhs.padding == rhs.padding && CSSSize.compare(lhs.size, rhs.size) && lhs.minSize == rhs.minSize && lhs.maxSize == rhs.maxSize
+  return lhs.flexDirection == rhs.flexDirection && lhs.direction == rhs.direction && lhs.justifyContent == rhs.justifyContent && lhs.alignContent == rhs.alignContent && lhs.alignItems == rhs.alignItems && lhs.alignSelf == rhs.alignSelf && lhs.positionType == rhs.positionType && lhs.flexWrap == rhs.flexWrap && lhs.overflow == rhs.overflow && lhs.flex == rhs.flex && lhs.flexGrow == rhs.flexGrow && lhs.flexShrink == rhs.flexShrink && lhs.margin == rhs.margin && lhs.padding == rhs.padding && CSSSize.compare(lhs.size, rhs.size) && lhs.minSize == rhs.minSize && lhs.maxSize == rhs.maxSize
 }
 
 extension PropertyNode where Self.PropertiesType: Properties {
@@ -210,6 +213,10 @@ extension PropertyNode where Self.PropertiesType: Properties {
 
   public var overflow: CSSOverflow {
     return properties.core.layout.overflow ?? CSSOverflowVisible
+  }
+
+  public var flex: Float? {
+    return properties.core.layout.flex
   }
 
   public var flexGrow: Float {
@@ -266,8 +273,12 @@ extension PropertyNode where Self.PropertiesType: Properties {
 
   public func updateCSSNode() {
     cssNode?.alignSelf = alignSelf
-    cssNode?.flexGrow = flexGrow
-    cssNode?.flexShrink = flexShrink
+    if let flex = flex {
+      cssNode?.flex = flex
+    } else {
+      cssNode?.flexGrow = flexGrow
+      cssNode?.flexShrink = flexShrink
+    }
     cssNode?.margin = margin
     cssNode?.size = size
     if let minSize = minSize {
@@ -292,15 +303,17 @@ extension PropertyNode where Self.PropertiesType: Properties {
     case ElementType.text:
       let context = Unmanaged.passUnretained(self).toOpaque()
 
-      let measure: CSSMeasureFunc = { context, width, widthMode, height, heightMode in
+      let measure: CSSMeasureFunc = { node, width, widthMode, height, heightMode in
         let effectiveWidth = width.isNaN ? Float.greatestFiniteMagnitude : width
-        let node = Unmanaged<NativeNode<Text>>.fromOpaque(context!).takeUnretainedValue()
+        let cssNode = CSSNode(nodeRef: node!)
+        let node = Unmanaged<NativeNode<Text>>.fromOpaque(cssNode.context!).takeUnretainedValue()
         let textLayout = TextLayout(properties: node.properties)
         let size = textLayout.sizeThatFits(CGSize(width: CGFloat(effectiveWidth), height: CGFloat.greatestFiniteMagnitude))
 
         return CSSSize(width: Float(size.width), height: Float(size.height))
       }
 
+      cssNode?.isTextNode = true
       cssNode?.context = context
       cssNode?.measure = measure
 

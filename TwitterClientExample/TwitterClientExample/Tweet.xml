@@ -1,0 +1,24 @@
+<template>
+  <style>
+    #container {
+      flexDirection: row;
+      padding: 12;
+      fontSize: 18;
+    }
+
+    #profileImage {
+      width: 64;
+      height: 64;
+      cornerRadius: 8;
+      marginRight: 12;
+    }
+
+    #text {
+      flex: 1;
+    }
+  </style>
+  <box id="container" width="$properties.core.layout.width">
+    <image id="profileImage" url="$properties.tweet.author.profileImageURL" />
+    <text id="text" text="$properties.tweet.text" />
+  </box>
+</template>
