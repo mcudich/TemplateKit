@@ -16,8 +16,8 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-Carthage/Checkouts
-Carthage/Build
+**/Carthage/Checkouts
+**/Carthage/Build
 
 # OSX
 .DS_Store
