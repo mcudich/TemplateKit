@@ -58,6 +58,10 @@ public class XMLTemplateService: TemplateService {
   }
 
   public func fetchTemplates(withURLs urls: [URL], completion: @escaping (Result<Void>) -> Void) {
+    if urls.isEmpty {
+      return completion(.success())
+    }
+
     if cachePolicy == .never {
       URLCache.shared.removeAllCachedResponses()
     }

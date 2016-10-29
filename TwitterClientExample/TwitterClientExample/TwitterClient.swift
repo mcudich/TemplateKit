@@ -12,21 +12,26 @@ import Alamofire
 import CryptoSwift
 import SwiftyJSON
 import SwiftDate
+import TemplateKit
 
-struct User {
+struct User: Equatable, Model {
   var id: String?
   var name: String?
   var screenName: String?
   var location: String?
-  var url: String?
+  var url: URL?
   var followers: String?
   var following: String?
-  var bannerURL: String?
-  var profileImageURL: String?
+  var bannerURL: URL?
+  var profileImageURL: URL?
   var description: String?
 }
 
-struct Tweet {
+func ==(lhs: User, rhs: User) -> Bool {
+  return lhs.id == rhs.id
+}
+
+struct Tweet: Equatable, Model {
   var id: String?
   var text: String?
   var author: User?
@@ -35,7 +40,13 @@ struct Tweet {
   var retweetCount: Int?
 }
 
+func ==(lhs: Tweet, rhs: Tweet) -> Bool {
+  return lhs.id == rhs.id
+}
+
 class TwitterClient {
+  static let shared = TwitterClient()
+
   let homeTimelineBaseURL = "https://api.twitter.com/1.1/statuses/home_timeline.json"
   let searchBaseURL = "https://api.twitter.com/1.1/search/tweets.json"
   let usersBaseURL = "https://api.twitter.com/1.1/users/show.json"
@@ -309,14 +320,14 @@ class TwitterClient {
     user.screenName = "@" + response["screen_name"]!.stringValue
     user.location = response["location"]?.string
     if let url = response["entities"]?["url"]["urls"].array?.first?.dictionary {
-      user.url = url["display_url"]?.string
+      user.url = url["display_url"]?.URL
     }
     user.followers = String(response["followers_count"]!.intValue)
     user.following = String(response["friends_count"]!.intValue)
-    user.profileImageURL = response["profile_image_url_https"]?.string
+    user.profileImageURL = response["profile_image_url_https"]?.URL
     user.description = decodeHTML(response["description"]?.string)
     if let bannerURL = response["profile_banner_url"]?.string {
-      user.bannerURL = bannerURL + "/600x200"
+      user.bannerURL = URL(string: bannerURL + "/600x200")
     }
     return user
   }
@@ -328,9 +339,9 @@ class TwitterClient {
     let encodedData = html.data(using: .utf8)!
     let attributedOptions: [String: Any] = [
       NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-      NSCharacterEncodingDocumentAttribute: String.Encoding.utf8
+      NSCharacterEncodingDocumentAttribute: NSNumber(value: String.Encoding.utf8.rawValue)
     ]
-    let attributedString = try? NSAttributedString(data: encodedData,  options: attributedOptions, documentAttributes: nil)
+    let attributedString = try? NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
     return attributedString?.string ?? ""
   }
 
