@@ -12,9 +12,10 @@ public enum ElementType: ElementRepresentable {
   case box
   case button
   case text
-  case textfield
+  case textField
   case image
   case table
+  case activityIndicator
   case view(UIView)
   case component(ComponentCreation.Type)
 
@@ -24,7 +25,7 @@ public enum ElementType: ElementRepresentable {
       return "box"
     case .text:
       return "text"
-    case .textfield:
+    case .textField:
       return "textfield"
     case .image:
       return "image"
@@ -32,6 +33,8 @@ public enum ElementType: ElementRepresentable {
       return "button"
     case .table:
       return "table"
+    case .activityIndicator:
+      return "activityindicator"
     case .component(let ComponentType):
       return "\(ComponentType)"
     default:
@@ -45,7 +48,7 @@ public enum ElementType: ElementRepresentable {
       return NativeNode<Box>(element: element, children: element.children?.map { $0.build(withOwner: owner, context: nil) }, owner: owner, context: context)
     case (.text, let element as ElementData<Text.PropertiesType>):
       return NativeNode<Text>(element: element, owner: owner, context: context)
-    case (.textfield, let element as ElementData<TextField.PropertiesType>):
+    case (.textField, let element as ElementData<TextField.PropertiesType>):
       return NativeNode<TextField>(element: element, owner: owner, context: context)
     case (.image, let element as ElementData<Image.PropertiesType>):
       return NativeNode<Image>(element: element, owner: owner, context: context)
@@ -53,6 +56,8 @@ public enum ElementType: ElementRepresentable {
       return Button(element: element, children: nil, owner: owner, context: context)
     case (.table, let element as ElementData<TableProperties>):
       return Table(element: element, children: nil, owner: owner, context: context)
+    case (.activityIndicator, let element as ElementData<ActivityIndicator.PropertiesType>):
+      return NativeNode<ActivityIndicator>(element: element, owner: owner, context: context)
     case (.view(let view), let element as ElementData<DefaultProperties>):
       return ViewNode(view: view, element: element, owner: owner, context: context)
     case (.component(let ComponentType), _):
@@ -72,7 +77,7 @@ public enum ElementType: ElementRepresentable {
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
-  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textfield, .textfield), (.table, .table):
+  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textField, .textField), (.table, .table), (.activityIndicator, .activityIndicator):
     return true
   case (.view(let lhsView), .view(let rhsView)):
     return lhsView === rhsView

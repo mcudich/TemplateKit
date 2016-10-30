@@ -9,6 +9,7 @@
 import Foundation
 
 import TemplateKit
+import CSSLayout
 
 struct AppState: State {
   var tweets = [Tweet]()
@@ -30,9 +31,19 @@ class App: Component<AppState, DefaultProperties, UIView> {
   override func render() -> Template {
     var properties = DefaultProperties()
     properties.core.layout = self.properties.core.layout
-    let tree = box(properties, [
-      renderTweets()
-    ])
+
+    var tree: Element!
+    if state.tweets.count > 0 {
+      tree = box(properties, [
+        renderTweets()
+      ])
+    } else {
+      properties.core.layout.alignItems = CSSAlignCenter
+      properties.core.layout.justifyContent = CSSJustifyCenter
+      tree = box(properties, [
+        activityIndicator(ActivityIndicatorProperties(["activityIndicatorViewStyle": UIActivityIndicatorViewStyle.gray]))
+      ])
+    }
 
     return Template(tree)
   }

@@ -45,9 +45,10 @@ public class Image: UIImageView, NativeView {
   public weak var eventTarget: AnyObject?
   public lazy var eventRecognizers = EventRecognizers()
 
-  public var properties = ImageProperties([:]) {
+  public var properties = ImageProperties() {
     didSet {
-      applyProperties()
+      applyCoreProperties()
+      applyImageProperties()
     }
   }
 
@@ -59,12 +60,7 @@ public class Image: UIImageView, NativeView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func applyProperties() {
-    applyCoreProperties()
-    applyImageProperties()
-  }
-
-  func applyImageProperties() {
+  private func applyImageProperties() {
     contentMode = properties.contentMode ?? .scaleAspectFit
 
     if let url = properties.url {
