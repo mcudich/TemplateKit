@@ -43,7 +43,7 @@ public struct TableProperties: Properties {
 }
 
 public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
-  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys
+  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys && lhs.equals(otherProperties: rhs)
 }
 
 public class Table: PropertyNode {
