@@ -73,21 +73,12 @@ extension App: TableViewDataSource {
 class App: Component<AppState, AppProperties, UIView> {
   static let headerTemplateURL = Bundle.main.url(forResource: "Header", withExtension: "xml")!
 
-  private lazy var todosList: TableView = {
-    let todosList = TableView(frame: CGRect.zero, style: .plain, context: self.getContext())
-    todosList.tableViewDataSource = self
-    todosList.eventTarget = self
-    todosList.allowsSelection = false
-    return todosList
-  }()
-
   required init(element: Element, children: [Node]?, owner: Node?, context: Context?) {
     super.init(element: element, children: children, owner: owner, context: context)
 
     self.properties.model?.subscribe { [weak self] in
       // Properties have changed, but have not gotten re-set on this component. Force an update.
       self?.forceUpdate()
-      self?.todosList.reloadData()
     }
   }
 
@@ -120,7 +111,9 @@ class App: Component<AppState, AppProperties, UIView> {
     guard let filter = Filter(rawValue: filter.intValue) else {
       return
     }
-    updateState(stateMutation: { $0.nowShowing = filter }, completion: { self.todosList.reloadData() })
+    updateState{ state in
+      state.nowShowing = filter
+    }
   }
 
   @objc func handleToggle(id: String) {
@@ -202,7 +195,7 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   private func renderMain() -> Element {
-    return wrappedView(todosList, DefaultProperties(["flexGrow": Float(1)]))
+    return table(TableProperties(["flexGrow": Float(1), "tableViewDataSource": self, "eventTarget": self]))
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {
