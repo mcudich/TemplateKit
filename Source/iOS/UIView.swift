@@ -70,6 +70,7 @@ extension NativeView where Self: UIView {
 
   private func applyCornerRadius() {
     layer.cornerRadius = properties.core.style.cornerRadius ?? 0
+    layer.masksToBounds = layer.cornerRadius > 0
   }
 
   private func applyOpacity() {
