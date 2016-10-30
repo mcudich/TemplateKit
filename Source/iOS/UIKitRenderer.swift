@@ -14,6 +14,7 @@ public enum ElementType: ElementRepresentable {
   case text
   case textfield
   case image
+  case table
   case view(UIView)
   case component(ComponentCreation.Type)
 
@@ -29,6 +30,8 @@ public enum ElementType: ElementRepresentable {
       return "image"
     case .button:
       return "button"
+    case .table:
+      return "table"
     case .component(let ComponentType):
       return "\(ComponentType)"
     default:
@@ -48,6 +51,8 @@ public enum ElementType: ElementRepresentable {
       return NativeNode<Image>(element: element, owner: owner, context: context)
     case (.button, _):
       return Button(element: element, children: nil, owner: owner, context: context)
+    case (.table, let element as ElementData<TableProperties>):
+      return Table(element: element, children: nil, owner: owner, context: context)
     case (.view(let view), let element as ElementData<DefaultProperties>):
       return ViewNode(view: view, element: element, owner: owner, context: context)
     case (.component(let ComponentType), _):
@@ -67,7 +72,7 @@ public enum ElementType: ElementRepresentable {
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
-  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textfield, .textfield):
+  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textfield, .textfield), (.table, .table):
     return true
   case (.view(let lhsView), .view(let rhsView)):
     return lhsView === rhsView

@@ -14,7 +14,7 @@ import SwiftyJSON
 import SwiftDate
 import TemplateKit
 
-struct User: Equatable, Model {
+struct User: Hashable, Model {
   var id: String?
   var name: String?
   var screenName: String?
@@ -25,19 +25,27 @@ struct User: Equatable, Model {
   var bannerURL: URL?
   var profileImageURL: URL?
   var description: String?
+
+  var hashValue: Int {
+    return id?.hashValue ?? 0
+  }
 }
 
 func ==(lhs: User, rhs: User) -> Bool {
   return lhs.id == rhs.id
 }
 
-struct Tweet: Equatable, Model {
+struct Tweet: Hashable, Model {
   var id: String?
   var text: String?
   var author: User?
   var createdAt: String?
   var favoriteCount: Int?
   var retweetCount: Int?
+
+  var hashValue: Int {
+    return id?.hashValue ?? 0
+  }
 }
 
 func ==(lhs: Tweet, rhs: Tweet) -> Bool {

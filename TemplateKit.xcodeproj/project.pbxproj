@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D80AC5F31D9B336F0055F300 /* XMLTemplateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */; };
+		D8201D321DC5BC4B00BCDEE1 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201D311DC5BC4B00BCDEE1 /* Table.swift */; };
 		D8325EDC1D987F5500F3EC95 /* XMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */; };
 		D8325EDE1D99DDC300F3EC95 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDD1D99DDC300F3EC95 /* String.swift */; };
 		D8325EE21D9F74EC00F3EC95 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EE11D9F74EC00F3EC95 /* URL.swift */; };
@@ -86,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateServiceTests.swift; sourceTree = "<group>"; };
+		D8201D311DC5BC4B00BCDEE1 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocument.swift; sourceTree = "<group>"; };
 		D8325EDD1D99DDC300F3EC95 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		D8325EE11D9F74EC00F3EC95 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				D839369C1D8348C5008CA7F1 /* DelegateProxy.swift */,
 				D839369D1D8348C5008CA7F1 /* Image.swift */,
 				D839369E1D8348C5008CA7F1 /* ImageService.swift */,
+				D8201D311DC5BC4B00BCDEE1 /* Table.swift */,
 				D83936A11D8348C5008CA7F1 /* TableView.swift */,
 				D83936A21D8348C5008CA7F1 /* Text.swift */,
 				D83936A31D8348C5008CA7F1 /* TextField.swift */,
@@ -488,6 +491,7 @@
 				D83936CC1D8348C5008CA7F1 /* Template.swift in Sources */,
 				D872ED4A1DBC160E009C8580 /* Bezier.swift in Sources */,
 				D83936D01D8348C5008CA7F1 /* AsyncQueue.swift in Sources */,
+				D8201D321DC5BC4B00BCDEE1 /* Table.swift in Sources */,
 				D83936BD1D8348C5008CA7F1 /* Renderer.swift in Sources */,
 				D83936C21D8348C5008CA7F1 /* ImageService.swift in Sources */,
 				D8325EE21D9F74EC00F3EC95 /* URL.swift in Sources */,

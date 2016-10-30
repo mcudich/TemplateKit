@@ -38,5 +38,8 @@ public class NodeRegistry {
     registerElementBuilder("button") { properties, children in
       return button(ButtonProperties(properties))
     }
+    registerElementBuilder("table") { properties, children in
+      return table(TableProperties(properties))
+    }
   }
 }
