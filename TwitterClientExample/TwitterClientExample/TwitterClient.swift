@@ -106,13 +106,16 @@ class TwitterClient {
     }
   }
 
-  func fetchSearchResultsWithQuery(query: String, callback: @escaping ([Tweet]) -> ()) {
+  func fetchSearchResultsWithQuery(query: String, maxId: String? = nil, callback: @escaping ([Tweet]) -> ()) {
     guard !query.isEmpty else {
       callback([])
       return
     }
 
-    let params = ["q": query]
+    var params = ["q": query]
+    if let maxId = maxId {
+      params["max_id"] = maxId
+    }
 
     let cacheKeyValue = cacheKey(searchBaseURL, params: params)
     if let cached = cache[cacheKeyValue] {
