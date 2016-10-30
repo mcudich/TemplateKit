@@ -62,7 +62,9 @@ public class ActivityIndicator: UIActivityIndicatorView, NativeView {
     hidesWhenStopped = properties.hidesWhenStopped ?? true
     color = properties.color
 
-    startAnimating()
+    if !isAnimating {
+      startAnimating()
+    }
   }
 
   public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
