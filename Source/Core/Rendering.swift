@@ -21,11 +21,15 @@ public func text(_ properties: TextProperties) -> Element {
 }
 
 public func textfield(_ properties: TextFieldProperties) -> Element {
-  return ElementData(ElementType.textfield, properties)
+  return ElementData(ElementType.textField, properties)
 }
 
 public func button(_ properties: ButtonProperties) -> Element {
   return ElementData(ElementType.button, properties)
+}
+
+public func activityIndicator(_ properties: ActivityIndicatorProperties) -> Element {
+  return ElementData(ElementType.activityIndicator, properties)
 }
 
 public func table(_ properties: TableProperties) -> Element {

@@ -280,3 +280,18 @@ extension NSLineBreakMode: StringRepresentable {
     }
   }
 }
+
+extension UIActivityIndicatorViewStyle: StringRepresentable {
+  public static func fromString(_ value: String) -> UIActivityIndicatorViewStyle? {
+    switch value {
+    case "whiteLarge":
+      return .whiteLarge
+    case "white":
+      return .white
+    case "gray":
+      return .gray
+    default:
+      fatalError("Unhandled value")
+    }
+  }
+}

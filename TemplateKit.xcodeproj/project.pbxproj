@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D80AC5F31D9B336F0055F300 /* XMLTemplateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */; };
 		D8201D321DC5BC4B00BCDEE1 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201D311DC5BC4B00BCDEE1 /* Table.swift */; };
+		D8201D341DC5CCAE00BCDEE1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201D331DC5CCAE00BCDEE1 /* ActivityIndicator.swift */; };
 		D8325EDC1D987F5500F3EC95 /* XMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */; };
 		D8325EDE1D99DDC300F3EC95 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EDD1D99DDC300F3EC95 /* String.swift */; };
 		D8325EE21D9F74EC00F3EC95 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8325EE11D9F74EC00F3EC95 /* URL.swift */; };
@@ -88,6 +89,7 @@
 /* Begin PBXFileReference section */
 		D80AC5F21D9B336F0055F300 /* XMLTemplateServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateServiceTests.swift; sourceTree = "<group>"; };
 		D8201D311DC5BC4B00BCDEE1 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		D8201D331DC5CCAE00BCDEE1 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		D8325EDB1D987F5500F3EC95 /* XMLDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocument.swift; sourceTree = "<group>"; };
 		D8325EDD1D99DDC300F3EC95 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		D8325EE11D9F74EC00F3EC95 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		D839369A1D8348C5008CA7F1 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D8201D331DC5CCAE00BCDEE1 /* ActivityIndicator.swift */,
 				D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */,
 				D839369B1D8348C5008CA7F1 /* Box.swift */,
 				D8E6615E1D923D0B005D8C4F /* Button.swift */,
@@ -474,6 +477,7 @@
 				D83936C51D8348C5008CA7F1 /* TableView.swift in Sources */,
 				D83936BF1D8348C5008CA7F1 /* Box.swift in Sources */,
 				D8325EF91DA5898500F3EC95 /* DefaultProperties.swift in Sources */,
+				D8201D341DC5CCAE00BCDEE1 /* ActivityIndicator.swift in Sources */,
 				D83936B81D8348C5008CA7F1 /* Element.swift in Sources */,
 				D85B43961D86627100DDC9A2 /* Component.swift in Sources */,
 				D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */,
