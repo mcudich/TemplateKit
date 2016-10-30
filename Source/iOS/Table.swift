@@ -21,6 +21,9 @@ public struct TableProperties: Properties {
   // later to intelligently add/remove only the items that changed.
   public var itemKeys: [AnyHashable]?
 
+  public var onEndReached: Selector?
+  public var onEndReachedThreshold: CGFloat?
+
   public init() {}
 
   public init(_ properties: [String : Any]) {
@@ -30,6 +33,8 @@ public struct TableProperties: Properties {
     tableViewDataSource = properties["tableViewDataSource"] as? TableViewDataSource
     eventTarget = properties["eventTarget"] as? Node
     itemKeys = properties["itemKeys"] as? [AnyHashable]
+    onEndReached = properties.cast("onEndReached")
+    onEndReachedThreshold = properties.cast("onEndReachedThreshold")
   }
 
   public mutating func merge(_ other: TableProperties) {
@@ -39,11 +44,25 @@ public struct TableProperties: Properties {
     merge(&tableViewDataSource, other.tableViewDataSource)
     merge(&eventTarget, other.eventTarget)
     merge(&itemKeys, other.itemKeys)
+    merge(&onEndReached, other.onEndReached)
+    merge(&onEndReachedThreshold, other.onEndReachedThreshold)
   }
 }
 
 public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
-  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys && lhs.equals(otherProperties: rhs)
+  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys && lhs.onEndReached == rhs.onEndReached  && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
+}
+
+protocol ScrollProxyDelegate: class {
+  func scrollViewDidScroll(_ scrollView: UIScrollView)
+}
+
+public class ScrollProxy: NSObject {
+  weak var delegate: ScrollProxyDelegate?
+
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    delegate?.scrollViewDidScroll(scrollView)
+  }
 }
 
 public class Table: PropertyNode {
@@ -72,6 +91,15 @@ public class Table: PropertyNode {
     return view as? TableView
   }
 
+  private lazy var scrollProxy: ScrollProxy = {
+    let proxy = ScrollProxy()
+    proxy.delegate = self
+    return proxy
+  }()
+
+  private var delegateProxy: DelegateProxy?
+  fileprivate var lastReportedEndLength: CGFloat = 0
+
   public required init(element: ElementData<TableProperties>, children: [Node]? = nil, owner: Node? = nil, context: Context? = nil) {
     self.element = element
     self.properties = element.properties
@@ -83,10 +111,29 @@ public class Table: PropertyNode {
   }
 
   public func build() -> View {
-    tableView?.tableViewDelegate = properties.tableViewDelegate
+    delegateProxy = DelegateProxy(target: properties.tableViewDelegate, interceptor: scrollProxy)
+    delegateProxy?.registerInterceptable(selector: #selector(UIScrollViewDelegate.scrollViewDidScroll(_:)))
+
+    tableView?.tableViewDelegate = delegateProxy as? TableViewDelegate
     tableView?.tableViewDataSource = properties.tableViewDataSource
     tableView?.eventTarget = properties.eventTarget
 
     return view
+  }
+}
+
+extension Table: ScrollProxyDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    properties.tableViewDelegate?.scrollViewDidScroll?(scrollView)
+
+    let threshold = properties.onEndReachedThreshold ?? 0
+    if let onEndReached = properties.onEndReached, scrollView.contentSize.height != lastReportedEndLength, distanceFromEnd(of: scrollView) < threshold, let owner = owner {
+      lastReportedEndLength = scrollView.contentSize.height
+      _ = (owner as AnyObject).perform(onEndReached)
+    }
+  }
+
+  private func distanceFromEnd(of scrollView: UIScrollView) -> CGFloat {
+    return scrollView.contentSize.height - (scrollView.bounds.height + scrollView.contentOffset.y)
   }
 }
