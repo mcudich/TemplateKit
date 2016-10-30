@@ -195,7 +195,8 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   private func renderMain() -> Element {
-    return table(TableProperties(["flexGrow": Float(1), "tableViewDataSource": self, "eventTarget": self]))
+    let itemKeys = getFilteredTodos().map { $0 }
+    return table(TableProperties(["flexGrow": Float(1), "tableViewDataSource": self, "eventTarget": self, "itemKeys": itemKeys]))
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {

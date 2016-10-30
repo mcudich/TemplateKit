@@ -8,10 +8,20 @@
 
 import Foundation
 
-struct TodoItem: Equatable {
+struct TodoItem: Hashable {
   var id: String = UUID().uuidString
   var title: String = ""
   var completed: Bool = false
+
+  var hashValue: Int {
+    var result = 17
+
+    result = 31 * result + id.hashValue
+    result = 31 * result + title.hashValue
+    result = 31 * result + completed.hashValue
+
+    return result
+  }
 
   init(title: String) {
     self.title = title

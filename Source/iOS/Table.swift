@@ -12,9 +12,14 @@ import CSSLayout
 public struct TableProperties: Properties {
   public var core = CoreProperties()
 
-  weak var tableViewDelegate: TableViewDelegate?
-  weak var tableViewDataSource: TableViewDataSource?
-  weak var eventTarget: Node?
+  weak public var tableViewDelegate: TableViewDelegate?
+  weak public var tableViewDataSource: TableViewDataSource?
+  weak public var eventTarget: Node?
+
+  // This is used to know when the underlying table view should be reloaded. If the previous list
+  // of item keys does not equal the new list, then the table is reloaded. This could be optimized
+  // later to intelligently add/remove only the items that changed.
+  public var itemKeys: [AnyHashable]?
 
   public init() {}
 
@@ -24,6 +29,7 @@ public struct TableProperties: Properties {
     tableViewDelegate = properties["tableViewDelegate"] as? TableViewDelegate
     tableViewDataSource = properties["tableViewDataSource"] as? TableViewDataSource
     eventTarget = properties["eventTarget"] as? Node
+    itemKeys = properties["itemKeys"] as? [AnyHashable]
   }
 
   public mutating func merge(_ other: TableProperties) {
@@ -32,11 +38,12 @@ public struct TableProperties: Properties {
     merge(&tableViewDelegate, other.tableViewDelegate)
     merge(&tableViewDataSource, other.tableViewDataSource)
     merge(&eventTarget, other.eventTarget)
+    merge(&itemKeys, other.itemKeys)
   }
 }
 
 public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
-  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource
+  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys
 }
 
 public class Table: PropertyNode {
@@ -44,7 +51,15 @@ public class Table: PropertyNode {
   public weak var owner: Node?
   public var context: Context?
 
-  public var properties: TableProperties
+  public var properties: TableProperties {
+    didSet {
+      if let oldItemKeys = oldValue.itemKeys, let newItemKeys = properties.itemKeys, oldItemKeys != newItemKeys {
+        DispatchQueue.main.async {
+          self.tableView?.reloadData()
+        }
+      }
+    }
+  }
   public var children: [Node]?
   public var element: ElementData<TableProperties>
   public var cssNode: CSSNode?

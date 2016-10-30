@@ -19,23 +19,11 @@ func ==(lhs: AppState, rhs: AppState) -> Bool {
 }
 
 class App: Component<AppState, DefaultProperties, UIView> {
-  private lazy var tweetsList: TableView = {
-    let tweets = TableView(frame: CGRect.zero, style: .plain, context: self.getContext())
-    tweets.tableViewDataSource = self
-    tweets.eventTarget = self
-    tweets.allowsSelection = false
-    return tweets
-  }()
-
   override func didBuild() {
     TwitterClient.shared.fetchSearchResultsWithQuery(query: "donald trump") { tweets in
-      self.updateState(stateMutation: { state in
+      self.updateState { state in
         state.tweets = tweets
-      }, completion: {
-        DispatchQueue.main.async {
-          self.tweetsList.reloadData()
-        }
-      })
+      }
     }
   }
 
@@ -50,9 +38,12 @@ class App: Component<AppState, DefaultProperties, UIView> {
   }
 
   private func renderTweets() -> Element {
-    var properties = DefaultProperties()
+    var properties = TableProperties()
     properties.core.layout.flex = 1
-    return wrappedView(tweetsList, properties)
+    properties.tableViewDataSource = self
+    properties.itemKeys = state.tweets.map { $0 }
+
+    return table(properties)
   }
 }
 
