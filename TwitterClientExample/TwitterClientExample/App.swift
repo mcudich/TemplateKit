@@ -49,7 +49,7 @@ class App: Component<AppState, DefaultProperties, UIView> {
   }
 
   @objc func handleEndReached() {
-    guard let maxId = state.tweets.last.id else {
+    guard let maxId = state.tweets.last?.id else {
       return
     }
     TwitterClient.shared.fetchSearchResultsWithQuery(query: "donald trump", maxId: maxId) { tweets in
@@ -63,9 +63,13 @@ class App: Component<AppState, DefaultProperties, UIView> {
     var properties = TableProperties()
     properties.core.layout.flex = 1
     properties.tableViewDataSource = self
-    properties.itemKeys = state.tweets.map { $0 }
+    properties.itemKeys = state.tweets.reduce([IndexPath: Tweet]()) { accum, tweet in
+      var next = accum
+      next[IndexPath(row: next.count, section: 0)] = tweet
+      return next
+    }
     properties.onEndReached = #selector(App.handleEndReached)
-    properties.onEndReachedThreshold = 300
+    properties.onEndReachedThreshold = 700
 
     return table(properties)
   }

@@ -10,7 +10,7 @@ import XCTest
 @testable import TemplateKit
 
 extension NativeNode: Equatable {}
-func ==<T: NativeView>(lhs: NativeNode<T>, rhs: NativeNode<T>) -> Bool {
+public func ==<T: NativeView>(lhs: NativeNode<T>, rhs: NativeNode<T>) -> Bool {
   return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }
 
