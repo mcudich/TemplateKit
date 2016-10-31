@@ -9,27 +9,27 @@
 import Foundation
 
 public struct DiffResult<T> {
-  public let add: [T]
-  public let remove: [T]
-  public let move: [(from: Int, to: Int)]
-  public let update: [(existing: T, replacement: T)]
+  public let add: [IndexPath: T]
+  public let remove: [IndexPath]
+  public let move: [(from: IndexPath, to: IndexPath)]
+  public let update: [IndexPath]
 }
 
-public func diff<T: Hashable>(old: [T], new: [T]) -> DiffResult<T> {
-  var add = [T]()
-  var remove = [T]()
-  var move = [(from: Int, to: Int)]()
-  var update = [(existing: T, replacement: T)]()
+public func diff<T: Hashable>(old: [IndexPath: T], new: [IndexPath: T]) -> DiffResult<T> {
+  var add = [IndexPath: T]()
+  var remove = [IndexPath]()
+  var move = [(from: IndexPath, to: IndexPath)]()
+  var update = [IndexPath]()
 
-  var current = [AnyHashable: (index: Int, item: T)]()
-  for (index, item) in old.enumerated() {
-    current[item.hashValue] = (index: index, item: item)
+  var current = [AnyHashable: (index: IndexPath, item: T)]()
+  for (indexPath, item) in old {
+    current[item.hashValue] = (index: indexPath, item: item)
   }
 
-  for (index, item) in new.enumerated() {
+  for (indexPath, item) in new {
     // The new item doesn't exist in the old list, so add it.
     guard let oldItem = current[item.hashValue] else {
-      add.append(item)
+      add[indexPath] = item
       continue
     }
 
@@ -37,18 +37,18 @@ public func diff<T: Hashable>(old: [T], new: [T]) -> DiffResult<T> {
     current.removeValue(forKey: item.hashValue)
 
     // If the item exists in the list, but is at a different index than we'd expect, we need to move it.
-    if index != oldItem.index {
-      move.append((from: oldItem.index, to: index))
+    if indexPath != oldItem.index {
+      move.append((from: oldItem.index, to: indexPath))
     }
     // If the items aren't equal (but do share a hash value), then that means that we need to update the old one with the new one. It is valid to need to both move and update an item.
     if oldItem.item != item {
-      update.append((existing: oldItem.item, replacement: item))
+      update.append(indexPath)
     }
   }
 
   // Finally, remove all items that didn't appear in the new list.
   for (_, item) in current {
-    remove.append(item.item)
+    remove.append(item.index)
   }
 
   return DiffResult(add: add, remove: remove, move: move, update: update)
