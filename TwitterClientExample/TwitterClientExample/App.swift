@@ -49,7 +49,7 @@ class App: Component<AppState, DefaultProperties, UIView> {
   }
 
   @objc func handleEndReached() {
-    guard let maxId = state.tweets.last.id else {
+    guard let maxId = state.tweets.last?.id else {
       return
     }
     TwitterClient.shared.fetchSearchResultsWithQuery(query: "donald trump", maxId: maxId) { tweets in
