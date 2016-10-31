@@ -16,10 +16,10 @@ public struct TableProperties: Properties {
   weak public var tableViewDataSource: TableViewDataSource?
   weak public var eventTarget: Node?
 
-  // This is used to know when the underlying table view should be reloaded. If the previous list
-  // of item keys does not equal the new list, then the table is reloaded. This could be optimized
-  // later to intelligently add/remove only the items that changed.
-  public var itemKeys: [AnyHashable]?
+  // This is used to know when the underlying table view rows should be inserted, deleted or moved.
+  // By modifying this dictionary, the table is notified that it should perform the operations
+  // necessary to reflect the changes in the underlying data source.
+  public var itemKeys: [IndexPath: AnyHashable]?
 
   public var onEndReached: Selector?
   public var onEndReachedThreshold: CGFloat?
@@ -32,7 +32,7 @@ public struct TableProperties: Properties {
     tableViewDelegate = properties["tableViewDelegate"] as? TableViewDelegate
     tableViewDataSource = properties["tableViewDataSource"] as? TableViewDataSource
     eventTarget = properties["eventTarget"] as? Node
-    itemKeys = properties["itemKeys"] as? [AnyHashable]
+    itemKeys = properties["itemKeys"] as? [IndexPath: AnyHashable]
     onEndReached = properties.cast("onEndReached")
     onEndReachedThreshold = properties.cast("onEndReachedThreshold")
   }
@@ -50,7 +50,7 @@ public struct TableProperties: Properties {
 }
 
 public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
-  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys && lhs.onEndReached == rhs.onEndReached  && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
+  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
 }
 
 protocol ScrollProxyDelegate: class {
@@ -74,7 +74,7 @@ public class Table: PropertyNode {
     didSet {
       if let oldItemKeys = oldValue.itemKeys, let newItemKeys = properties.itemKeys, oldItemKeys != newItemKeys {
         DispatchQueue.main.async {
-          self.tableView?.reloadData()
+          self.updateRows(with: diff(old: oldItemKeys, new: newItemKeys))
         }
       }
     }
@@ -114,11 +114,37 @@ public class Table: PropertyNode {
     delegateProxy = DelegateProxy(target: properties.tableViewDelegate, interceptor: scrollProxy)
     delegateProxy?.registerInterceptable(selector: #selector(UIScrollViewDelegate.scrollViewDidScroll(_:)))
 
-    tableView?.tableViewDelegate = delegateProxy as? TableViewDelegate
-    tableView?.tableViewDataSource = properties.tableViewDataSource
+    if (tableView?.tableViewDelegate as? DelegateProxy) != delegateProxy {
+      tableView?.tableViewDelegate = delegateProxy as? TableViewDelegate
+    }
+    if tableView?.tableViewDataSource !== properties.tableViewDataSource {
+      tableView?.tableViewDataSource = properties.tableViewDataSource
+    }
+
     tableView?.eventTarget = properties.eventTarget
 
     return view
+  }
+
+  private func updateRows<T>(with rowDiff: DiffResult<T>) {
+    if rowDiff.hasChanges {
+      tableView?.beginUpdates()
+      if rowDiff.add.count > 0 {
+        tableView?.insertRows(at: rowDiff.add, with: .none)
+      }
+      if rowDiff.remove.count > 0 {
+        tableView?.deleteRows(at: rowDiff.remove, with: .none)
+      }
+      if rowDiff.move.count > 0 {
+        for move in rowDiff.move {
+          tableView?.moveRow(at: move.from, to: move.to)
+        }
+      }
+      if rowDiff.update.count > 0 {
+        tableView?.reloadRows(at: rowDiff.update, with: .none)
+      }
+      tableView?.endUpdates()
+    }
   }
 }
 

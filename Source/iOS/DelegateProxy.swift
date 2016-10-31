@@ -14,8 +14,8 @@ protocol DelegateProxyProtocol {
 }
 
 class DelegateProxy: NSObject, DelegateProxyProtocol {
-  private let target: AnyObject?
-  private let interceptor: NSObjectProtocol?
+  fileprivate let target: AnyObject?
+  fileprivate let interceptor: NSObjectProtocol?
   private lazy var selectors = Set<Selector>()
 
   required init(target: AnyObject?, interceptor: NSObjectProtocol?) {
@@ -51,4 +51,8 @@ class DelegateProxy: NSObject, DelegateProxyProtocol {
   private func intercepts(selector: Selector) -> Bool {
     return selectors.contains(selector)
   }
+}
+
+func ==(lhs: DelegateProxy, rhs: DelegateProxy) -> Bool {
+  return lhs.target === rhs.target && lhs.interceptor === rhs.interceptor
 }

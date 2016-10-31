@@ -21,3 +21,14 @@ public extension Dictionary {
     return copy
   }
 }
+
+func ==<K: Equatable, V: Equatable>(lhs: [K: V]?, rhs: [K: V]?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l == r
+  case (.none, .none):
+    return true
+  default:
+    return false
+  }
+}

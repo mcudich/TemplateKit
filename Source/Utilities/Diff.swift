@@ -9,14 +9,18 @@
 import Foundation
 
 public struct DiffResult<T> {
-  public let add: [IndexPath: T]
+  public let add: [IndexPath]
   public let remove: [IndexPath]
   public let move: [(from: IndexPath, to: IndexPath)]
   public let update: [IndexPath]
+
+  public var hasChanges: Bool {
+    return add.count > 0 || remove.count > 0 || move.count > 0 || update.count > 0
+  }
 }
 
 public func diff<T: Hashable>(old: [IndexPath: T], new: [IndexPath: T]) -> DiffResult<T> {
-  var add = [IndexPath: T]()
+  var add = [IndexPath]()
   var remove = [IndexPath]()
   var move = [(from: IndexPath, to: IndexPath)]()
   var update = [IndexPath]()
@@ -29,7 +33,7 @@ public func diff<T: Hashable>(old: [IndexPath: T], new: [IndexPath: T]) -> DiffR
   for (indexPath, item) in new {
     // The new item doesn't exist in the old list, so add it.
     guard let oldItem = current[item.hashValue] else {
-      add[indexPath] = item
+      add.append(indexPath)
       continue
     }
 

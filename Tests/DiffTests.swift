@@ -36,7 +36,7 @@ class DiffTests: XCTestCase {
       IndexPath(row: 4, section: 0): 5
     ]
     let result = diff(old: old, new: new)
-    XCTAssertEqual([IndexPath(row: 3, section: 0): 4, IndexPath(row: 4, section: 0): 5], result.add)
+    XCTAssertEqual([IndexPath(row: 3, section: 0), IndexPath(row: 4, section: 0)], result.add)
     XCTAssertEqual(0, result.remove.count)
     XCTAssertEqual(0, result.update.count)
     XCTAssertEqual(0, result.move.count)
@@ -53,7 +53,7 @@ class DiffTests: XCTestCase {
       IndexPath(row: 4, section: 0): 5
     ]
     let result = diff(old: old, new: new)
-    XCTAssertEqual([IndexPath(row: 3, section: 0): 4, IndexPath(row: 4, section: 0): 5], result.add)
+    XCTAssertEqual([IndexPath(row: 3, section: 0), IndexPath(row: 4, section: 0)], result.add)
     XCTAssertEqual(3, result.remove.count)
     XCTAssertEqual(0, result.update.count)
     XCTAssertEqual(0, result.move.count)
