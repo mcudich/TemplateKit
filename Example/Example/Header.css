@@ -2,21 +2,33 @@
   paddingTop: 40;
   fontSize: 20;
 }
+
 #todos {
   textAlignment: center;
 }
+
 #fieldContainer {
   flexDirection: row;
+  alignItems: center;
 }
+
 #button {
   backgroundColor: #eeeeee;
   width: 24;
   height: 24;
 }
+
 #button[selected=true] {
   backgroundColor: #00ff00;
 }
+
 textfield {
   height: 24;
   flexGrow: 1;
+}
+
+#editButton {
+  fontSize: 14;
+  marginLeft: 10;
+  marginRight: 10;
 }

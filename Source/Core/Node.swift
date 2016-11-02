@@ -14,15 +14,15 @@ public protocol Node: class, Keyable {
   func build() -> View
   func update(with newElement: Element)
   func forceUpdate()
-  func computeLayout() -> CSSLayout
+  func computeLayout(availableWidth: Float, availableHeight: Float) -> CSSLayout
   func buildCSSNode() -> CSSNode
   func updateCSSNode()
   func getContext() -> Context
 }
 
 public extension Node {
-  func computeLayout() -> CSSLayout {
-    return buildCSSNode().layout()
+  func computeLayout(availableWidth: Float = .nan, availableHeight: Float = .nan) -> CSSLayout {
+    return buildCSSNode().layout(availableWidth: availableWidth, availableHeight: availableHeight)
   }
 
   func shouldReplace(type: ElementRepresentable, with otherType: ElementRepresentable) -> Bool {

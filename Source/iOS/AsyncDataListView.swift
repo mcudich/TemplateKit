@@ -12,7 +12,7 @@ protocol AsyncDataListView: class {
   var operationQueue: AsyncQueue<AsyncOperation> { get }
   var context: Context { get set }
   weak var eventTarget: Node? { get set }
-  var nodeCache: [Int: Node] { get set }
+  var nodeCache: [[Node?]] { get set }
 
   func insertItems(at indexPaths: [IndexPath], completion: @escaping () -> Void)
   func deleteItems(at indexPaths: [IndexPath], completion: @escaping () -> Void)
@@ -24,7 +24,6 @@ protocol AsyncDataListView: class {
   func reloadSections(_ sections: IndexSet, completion: @escaping () -> Void)
   func reloadData(completion: @escaping () -> Void)
 
-  func cacheKey(for indexPath: IndexPath) -> Int?
   func element(at indexPath: IndexPath) -> Element?
   func node(at indexPath: IndexPath) -> Node?
   func totalNumberOfSections() -> Int
@@ -55,8 +54,10 @@ extension AsyncDataListView {
   func insertSections(_ sections: IndexSet, completion: @escaping () -> Void) {
     precacheNodes(in: sections)
     operationQueue.enqueueOperation { done in
-      completion()
-      done()
+      DispatchQueue.main.async {
+        completion()
+        done()
+      }
     }
   }
 
@@ -71,6 +72,9 @@ extension AsyncDataListView {
   }
 
   func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath, completion: @escaping () -> Void) {
+    let node = nodeCache[indexPath.section].remove(at: indexPath.row)
+    nodeCache[newIndexPath.section].insert(node, at: newIndexPath.row)
+
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -80,6 +84,9 @@ extension AsyncDataListView {
   }
 
   func moveSection(_ section: Int, toSection newSection: Int, completion: @escaping () -> Void) {
+    let section = nodeCache.remove(at: section)
+    nodeCache.insert(section, at: newSection)
+
     operationQueue.enqueueOperation { done in
       DispatchQueue.main.async {
         completion()
@@ -125,10 +132,7 @@ extension AsyncDataListView {
   }
 
   func node(at indexPath: IndexPath) -> Node? {
-    guard let cacheKey = self.cacheKey(for: indexPath) else {
-      return nil
-    }
-    return nodeCache[cacheKey]
+    return nodeCache[indexPath.section][indexPath.row]
   }
 
   private func indexPaths(forSection section: Int) -> [IndexPath] {
@@ -159,13 +163,17 @@ extension AsyncDataListView {
     }
 
     var pending = indexPaths.count
-    for indexPath in indexPaths {
-      guard let cacheKey = self.cacheKey(for: indexPath), let element = self.element(at: indexPath) else {
+    for indexPath in indexPaths.sorted(by: { $0.row < $1.row }) {
+      guard let element = self.element(at: indexPath) else {
         continue
       }
-      UIKitRenderer.render(element, context: context as Context) { [weak self] node in
-        node.owner = self?.eventTarget
-        self?.nodeCache[cacheKey] = node
+      if nodeCache.count <= indexPath.section {
+        nodeCache.append([Node?]())
+      }
+      UIKitRenderer.render(element, context: context as Context) { node in
+        node.owner = self.eventTarget
+
+        self.nodeCache[indexPath.section].insert(node, at: indexPath.row)
         pending -= 1
         if pending == 0 {
           done()
@@ -195,9 +203,7 @@ extension AsyncDataListView {
     }
 
     for indexPath in indexPaths {
-      if let cacheKey = self.cacheKey(for: indexPath) {
-        self.nodeCache.removeValue(forKey: cacheKey)
-      }
+      nodeCache[indexPath.section].remove(at: indexPath.row)
     }
 
     done()

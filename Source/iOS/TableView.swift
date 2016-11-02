@@ -38,7 +38,6 @@ import UIKit
 // This is a sub-set of UITableViewDataSource.
 public protocol TableViewDataSource: class {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element
-  func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
@@ -53,9 +52,6 @@ public protocol TableViewDataSource: class {
 }
 
 public extension TableViewDataSource {
-  func tableView(_ tableView: TableView, cacheKeyForRowAtIndexPath indexPath: IndexPath) -> Int {
-    return IndexPath(row: indexPath.row, section: indexPath.section).hashValue
-  }
   func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
     return 1
   }
@@ -92,6 +88,24 @@ class TableViewCell: UITableViewCell {
       if let node = node, let view = node.build() as? UIView {
         contentView.addSubview(view)
       }
+    }
+  }
+
+  override func setEditing(_ editing: Bool, animated: Bool) {
+    let previous = isEditing
+    super.setEditing(editing, animated: animated)
+
+    if previous == editing {
+      return
+    }
+
+    guard let node = node else {
+      return
+    }
+    let layout = node.computeLayout(availableWidth: Float(contentView.bounds.width), availableHeight: .nan)
+
+    UIView.animate(withDuration: animated ? 0.3 : 0) {
+      layout.apply(to: node.view)
     }
   }
 }
@@ -135,7 +149,7 @@ public class TableView: UITableView, AsyncDataListView {
 
   public weak var eventTarget: Node?
 
-  lazy var nodeCache = [Int: Node]()
+  lazy var nodeCache = [[Node?]]()
   var context: Context
   lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
 
@@ -250,10 +264,6 @@ public class TableView: UITableView, AsyncDataListView {
     }
   }
 
-  func cacheKey(for indexPath: IndexPath) -> Int? {
-    return tableViewDataSource?.tableView(self, cacheKeyForRowAtIndexPath: indexPath)
-  }
-
   func element(at indexPath: IndexPath) -> Element? {
     return tableViewDataSource?.tableView(self, elementAtIndexPath: indexPath)
   }
@@ -271,15 +281,18 @@ public class TableView: UITableView, AsyncDataListView {
   }
 
   func heightForNode(_ node: Node?) -> CGFloat {
-    guard let node = node, let view = node.build() as? UIView else {
+    guard let node = node else {
       return 0
     }
 
-    return view.frame.size.height
+    return node.view.frame.size.height
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return nodeCache.count
+    if nodeCache.count > section {
+      return nodeCache[section].count
+    }
+    return 0
   }
 
   func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {

@@ -16,6 +16,8 @@ public struct TableProperties: Properties {
   weak public var tableViewDataSource: TableViewDataSource?
   weak public var eventTarget: Node?
 
+  public var isEditing: Bool?
+
   // This is used to know when the underlying table view rows should be inserted, deleted or moved.
   // By modifying this dictionary, the table is notified that it should perform the operations
   // necessary to reflect the changes in the underlying data source.
@@ -32,6 +34,7 @@ public struct TableProperties: Properties {
     tableViewDelegate = properties["tableViewDelegate"] as? TableViewDelegate
     tableViewDataSource = properties["tableViewDataSource"] as? TableViewDataSource
     eventTarget = properties["eventTarget"] as? Node
+    isEditing = properties.cast("isEditing")
     itemKeys = properties["itemKeys"] as? [IndexPath: AnyHashable]
     onEndReached = properties.cast("onEndReached")
     onEndReachedThreshold = properties.cast("onEndReachedThreshold")
@@ -43,6 +46,7 @@ public struct TableProperties: Properties {
     merge(&tableViewDelegate, other.tableViewDelegate)
     merge(&tableViewDataSource, other.tableViewDataSource)
     merge(&eventTarget, other.eventTarget)
+    merge(&isEditing, other.isEditing)
     merge(&itemKeys, other.itemKeys)
     merge(&onEndReached, other.onEndReached)
     merge(&onEndReachedThreshold, other.onEndReachedThreshold)
@@ -50,7 +54,7 @@ public struct TableProperties: Properties {
 }
 
 public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
-  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.itemKeys == rhs.itemKeys && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
+  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.isEditing == rhs.isEditing && lhs.itemKeys == rhs.itemKeys && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
 }
 
 protocol ScrollProxyDelegate: class {
@@ -73,9 +77,7 @@ public class Table: PropertyNode {
   public var properties: TableProperties {
     didSet {
       if let oldItemKeys = oldValue.itemKeys, let newItemKeys = properties.itemKeys, oldItemKeys != newItemKeys {
-        DispatchQueue.main.async {
-          self.updateRows(with: diff(old: oldItemKeys, new: newItemKeys))
-        }
+        updateRows(with: diff(old: oldItemKeys, new: newItemKeys))
       }
     }
   }
@@ -111,17 +113,20 @@ public class Table: PropertyNode {
   }
 
   public func build() -> View {
-    delegateProxy = DelegateProxy(target: properties.tableViewDelegate, interceptor: scrollProxy)
-    delegateProxy?.registerInterceptable(selector: #selector(UIScrollViewDelegate.scrollViewDidScroll(_:)))
-
-    if (tableView?.tableViewDelegate as? DelegateProxy) != delegateProxy {
-      tableView?.tableViewDelegate = delegateProxy as? TableViewDelegate
+    if delegateProxy == nil || delegateProxy?.target !== properties.tableViewDelegate {
+      delegateProxy = DelegateProxy(target: properties.tableViewDelegate, interceptor: scrollProxy)
+      delegateProxy?.registerInterceptable(selector: #selector(UIScrollViewDelegate.scrollViewDidScroll(_:)))
     }
+
+    tableView?.tableViewDelegate = delegateProxy as? TableViewDelegate
     if tableView?.tableViewDataSource !== properties.tableViewDataSource {
       tableView?.tableViewDataSource = properties.tableViewDataSource
     }
 
     tableView?.eventTarget = properties.eventTarget
+    if tableView?.isEditing != properties.isEditing {
+      tableView?.setEditing(properties.isEditing ?? false, animated: true)
+    }
 
     return view
   }
