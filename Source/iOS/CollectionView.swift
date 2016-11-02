@@ -94,7 +94,7 @@ public class CollectionView: UICollectionView, AsyncDataListView {
 
   public weak var eventTarget: Node?
 
-  lazy var nodeCache = [Int: Node]()
+  lazy var nodeCache = [[Node?]]()
   var context: Context
   lazy var operationQueue = AsyncQueue<AsyncOperation>(maxConcurrentOperationCount: 1)
 

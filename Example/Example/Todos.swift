@@ -17,8 +17,6 @@ struct TodoItem: Hashable {
     var result = 17
 
     result = 31 * result + id.hashValue
-    result = 31 * result + title.hashValue
-    result = 31 * result + completed.hashValue
 
     return result
   }
@@ -69,6 +67,12 @@ class Todos: Equatable {
         break
       }
     }
+    inform()
+  }
+
+  func move(from sourceIndex: Int, to destinationIndex: Int) {
+    let todo = todos.remove(at: sourceIndex)
+    todos.insert(todo, at: destinationIndex)
     inform()
   }
 

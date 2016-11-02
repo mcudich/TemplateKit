@@ -20,12 +20,13 @@ struct AppState: State {
   var editing: String?
   var newTodo: String = ""
   var toggleAllEnabled = false
+  var isEditingTable = false
   var opacity = Animatable<CGFloat>(0, duration: 1, interpolator: BezierInterpolator(.easeInOutExpo))
   var color = Animatable<UIColor>(.red, duration: 1, delay: 2)
 }
 
 func ==(lhs: AppState, rhs: AppState) -> Bool {
-  return lhs.nowShowing == rhs.nowShowing && lhs.editing == rhs.editing && lhs.newTodo == rhs.newTodo
+  return lhs.nowShowing == rhs.nowShowing && lhs.editing == rhs.editing && lhs.newTodo == rhs.newTodo && lhs.toggleAllEnabled == rhs.toggleAllEnabled && lhs.isEditingTable == rhs.isEditingTable && lhs.opacity == rhs.opacity && lhs.color == rhs.color
 }
 
 struct AppProperties: Properties {
@@ -51,12 +52,18 @@ func ==(lhs: AppProperties, rhs: AppProperties) -> Bool {
   return lhs.model == rhs.model && lhs.equals(otherProperties: rhs)
 }
 
-extension App: TableViewDataSource {
+class TableManager: NSObject, TableViewDataSource, TableViewDelegate {
+  private weak var app: App?
+
+  init(app: App) {
+    self.app = app
+  }
+
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element {
     var properties = TodoProperties()
 
-    properties.todo = getFilteredTodos()[indexPath.row]
-    properties.core.layout.width = self.properties.core.layout.width
+    properties.todo = app?.getFilteredTodos()[indexPath.row]
+    properties.core.layout.width = app?.properties.core.layout.width
     properties.onToggle = #selector(App.handleToggle(id:))
     properties.onSave = #selector(App.handleSave(id:text:))
     properties.onEdit = #selector(App.handleEdit(id:))
@@ -66,12 +73,31 @@ extension App: TableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return getFilteredTodos().count
+    return app?.getFilteredTodos().count ?? 0
+  }
+
+  func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+    guard let todo = app?.properties.model?.todos[indexPath.row] else {
+      return
+    }
+    app?.properties.model?.destroy(id: todo.id)
+  }
+
+  func tableView(_ tableView: UITableView, canMoveRowAtIndexPath indexPath: IndexPath) -> Bool {
+    return true
+  }
+
+  func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath) {
+    app?.properties.model?.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
   }
 }
 
 class App: Component<AppState, AppProperties, UIView> {
   static let headerTemplateURL = Bundle.main.url(forResource: "Header", withExtension: "xml")!
+
+  private lazy var tableManager: TableManager = {
+    return TableManager(app: self)
+  }()
 
   required init(element: Element, children: [Node]?, owner: Node?, context: Context?) {
     super.init(element: element, children: children, owner: owner, context: context)
@@ -84,6 +110,12 @@ class App: Component<AppState, AppProperties, UIView> {
 
   override func getInitialState() -> AppState {
     return AppState()
+  }
+
+  @objc func handleEdit() {
+    updateState { state in
+      state.isEditingTable = !state.isEditingTable
+    }
   }
 
   @objc func handleChange(target: UITextField) {
@@ -195,8 +227,20 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   private func renderMain() -> Element {
-    let itemKeys = getFilteredTodos().map { $0 }
-    return table(TableProperties(["flexGrow": Float(1), "tableViewDataSource": self, "eventTarget": self, "itemKeys": itemKeys]))
+    let itemKeys = getFilteredTodos().reduce([IndexPath: TodoItem]()) { accum, todo in
+      var current = accum
+      current[IndexPath(row: accum.count, section: 0)] = todo
+      return current
+    }
+
+    var properties = TableProperties()
+    properties.core.layout.flex = 1
+    properties.tableViewDataSource = tableManager
+    properties.tableViewDelegate = tableManager
+    properties.eventTarget = self
+    properties.itemKeys = itemKeys
+    properties.isEditing = state.isEditingTable
+    return table(properties)
   }
 
   private func renderFooter(activeCount: Int, completedCount: Int) -> Element {

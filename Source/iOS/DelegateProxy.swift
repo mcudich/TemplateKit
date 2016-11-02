@@ -14,8 +14,8 @@ protocol DelegateProxyProtocol {
 }
 
 class DelegateProxy: NSObject, DelegateProxyProtocol {
-  fileprivate let target: AnyObject?
-  fileprivate let interceptor: NSObjectProtocol?
+  let target: AnyObject?
+  let interceptor: NSObjectProtocol?
   private lazy var selectors = Set<Selector>()
 
   required init(target: AnyObject?, interceptor: NSObjectProtocol?) {

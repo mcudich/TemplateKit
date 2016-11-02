@@ -7,6 +7,7 @@
     <box id="fieldContainer">
       <button id="button" onTap="handleToggleAll" selected="$state.toggleAllEnabled" />
       <textfield text="$state.newTodo" placeholder="What needs to be done?" onSubmit="handleNewTodoSubmitWithTarget:" onChange="handleChangeWithTarget:" />
+      <text id="editButton" text="Edit" onTap="handleEdit" />
     </box>
   </box>
 </template>
