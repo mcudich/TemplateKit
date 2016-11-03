@@ -19,9 +19,10 @@ public struct TableProperties: Properties {
   public var isEditing: Bool?
 
   // This is used to know when the underlying table view rows should be inserted, deleted or moved.
-  // By modifying this dictionary, the table is notified that it should perform the operations
-  // necessary to reflect the changes in the underlying data source.
-  public var itemKeys: [IndexPath: AnyHashable]?
+  // This 2-d array should follow the list of sections and rows provided by the data source. When
+  // this value changes, the table is automatically updated for you using the minimal set of
+  // operations required.
+  public var items: [[AnyHashable]]?
 
   public var onEndReached: Selector?
   public var onEndReachedThreshold: CGFloat?
@@ -35,7 +36,7 @@ public struct TableProperties: Properties {
     tableViewDataSource = properties["tableViewDataSource"] as? TableViewDataSource
     eventTarget = properties["eventTarget"] as? Node
     isEditing = properties.cast("isEditing")
-    itemKeys = properties["itemKeys"] as? [IndexPath: AnyHashable]
+    items = properties["items"] as? [[AnyHashable]]
     onEndReached = properties.cast("onEndReached")
     onEndReachedThreshold = properties.cast("onEndReachedThreshold")
   }
@@ -47,14 +48,14 @@ public struct TableProperties: Properties {
     merge(&tableViewDataSource, other.tableViewDataSource)
     merge(&eventTarget, other.eventTarget)
     merge(&isEditing, other.isEditing)
-    merge(&itemKeys, other.itemKeys)
+    merge(&items, other.items)
     merge(&onEndReached, other.onEndReached)
     merge(&onEndReachedThreshold, other.onEndReachedThreshold)
   }
 }
 
 public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
-  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.isEditing == rhs.isEditing && lhs.itemKeys == rhs.itemKeys && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
+  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.isEditing == rhs.isEditing && lhs.items == rhs.items && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
 }
 
 protocol ScrollProxyDelegate: class {
@@ -76,8 +77,8 @@ public class Table: PropertyNode {
 
   public var properties: TableProperties {
     didSet {
-      if let oldItemKeys = oldValue.itemKeys, let newItemKeys = properties.itemKeys, oldItemKeys != newItemKeys {
-        updateRows(with: diff(old: oldItemKeys, new: newItemKeys))
+      if let oldItems = oldValue.items, let newItems = properties.items, oldItems != newItems {
+        updateRows(old: oldItems, new: newItems)
       }
     }
   }
@@ -131,25 +132,33 @@ public class Table: PropertyNode {
     return view
   }
 
-  private func updateRows<T>(with rowDiff: DiffResult<T>) {
-    if rowDiff.hasChanges {
-      tableView?.beginUpdates()
-      if rowDiff.add.count > 0 {
-        tableView?.insertRows(at: rowDiff.add, with: .none)
-      }
-      if rowDiff.remove.count > 0 {
-        tableView?.deleteRows(at: rowDiff.remove, with: .none)
-      }
-      if rowDiff.move.count > 0 {
-        for move in rowDiff.move {
-          tableView?.moveRow(at: move.from, to: move.to)
+  private func updateRows(old: [[AnyHashable]], new: [[AnyHashable]]) {
+    tableView?.beginUpdates()
+
+    var deletions = [IndexPath]()
+    var insertions = [IndexPath]()
+    var updates = [IndexPath]()
+
+    for (sectionIndex, section) in new.enumerated() {
+      let result = diff(old[sectionIndex], section)
+      for step in result {
+        switch step {
+        case .delete(let index):
+          deletions.append(IndexPath(row: index, section: sectionIndex))
+        case .insert(let index):
+          insertions.append(IndexPath(row: index, section: sectionIndex))
+        case .update(let index):
+          updates.append(IndexPath(row: index, section: sectionIndex))
+        default:
+          break
         }
       }
-      if rowDiff.update.count > 0 {
-        tableView?.reloadRows(at: rowDiff.update, with: .none)
-      }
-      tableView?.endUpdates()
     }
+    tableView?.deleteRows(at: deletions, with: .none)
+    tableView?.insertRows(at: insertions, with: .none)
+    tableView?.reloadRows(at: updates, with: .none)
+
+    tableView?.endUpdates()
   }
 }
 

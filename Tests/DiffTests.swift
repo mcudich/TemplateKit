@@ -11,6 +11,7 @@ import TemplateKit
 
 struct FakeItem: Hashable {
   let value: Int
+  let eValue: Int
 
   var hashValue: Int {
     return value.hashValue
@@ -18,89 +19,114 @@ struct FakeItem: Hashable {
 }
 
 func ==(lhs: FakeItem, rhs: FakeItem) -> Bool {
-  return false
+  return lhs.eValue == rhs.eValue
+}
+
+func ==(lhs: (from: Int, to: Int), rhs: (from: Int, to: Int)) -> Bool {
+  return lhs.0 == rhs.0 && lhs.1 == rhs.1
 }
 
 class DiffTests: XCTestCase {
-  func testAdd() {
-    let old = [
-      IndexPath(row: 0, section: 0): 1,
-      IndexPath(row: 1, section: 0): 2,
-      IndexPath(row: 2, section: 0): 3
-    ]
-    let new = [
-      IndexPath(row: 0, section: 0): 1,
-      IndexPath(row: 1, section: 0): 2,
-      IndexPath(row: 2, section: 0): 3,
-      IndexPath(row: 3, section: 0): 4,
-      IndexPath(row: 4, section: 0): 5
-    ]
-    let result = diff(old: old, new: new)
-    XCTAssertEqual([IndexPath(row: 3, section: 0), IndexPath(row: 4, section: 0)], result.add)
-    XCTAssertEqual(0, result.remove.count)
-    XCTAssertEqual(0, result.update.count)
-    XCTAssertEqual(0, result.move.count)
+  func testEmptyArrays() {
+    let o = [Int]()
+    let n = [Int]()
+    let result = diff(o, n)
+    XCTAssertEqual(0, result.count)
   }
 
-  func testRemove() {
-    let old = [
-      IndexPath(row: 0, section: 0): 1,
-      IndexPath(row: 1, section: 0): 2,
-      IndexPath(row: 2, section: 0): 3
-    ]
-    let new = [
-      IndexPath(row: 3, section: 0): 4,
-      IndexPath(row: 4, section: 0): 5
-    ]
-    let result = diff(old: old, new: new)
-    XCTAssertEqual([IndexPath(row: 3, section: 0), IndexPath(row: 4, section: 0)], result.add)
-    XCTAssertEqual(3, result.remove.count)
-    XCTAssertEqual(0, result.update.count)
-    XCTAssertEqual(0, result.move.count)
+  func testDiffingFromEmptyArray() {
+    let o = [Int]()
+    let n = [1]
+    let result = diff(o, n)
+    XCTAssertEqual(.insert(0), result[0])
+    XCTAssertEqual(1, result.count)
   }
 
-  func testMove() {
-    let old = [
-      IndexPath(row: 0, section: 0): 1,
-      IndexPath(row: 1, section: 0): 2,
-      IndexPath(row: 2, section: 0): 3
-    ]
-    let new = [
-      IndexPath(row: 0, section: 0): 3,
-      IndexPath(row: 1, section: 0): 1,
-      IndexPath(row: 2, section: 0): 2
-    ]
-    let result = diff(old: old, new: new)
-    XCTAssertEqual(0, result.add.count)
-    XCTAssertEqual(0, result.remove.count)
-    XCTAssertEqual(0, result.update.count)
-    XCTAssertEqual(3, result.move.count)
-
-    XCTAssertEqual(IndexPath(row: 1, section: 0), result.move[0].from)
-    XCTAssertEqual(IndexPath(row: 2, section: 0), result.move[0].to)
-
-    XCTAssertEqual(IndexPath(row: 2, section: 0), result.move[1].from)
-    XCTAssertEqual(IndexPath(row: 0, section: 0), result.move[1].to)
-
-    XCTAssertEqual(IndexPath(row: 0, section: 0), result.move[2].from)
-    XCTAssertEqual(IndexPath(row: 1, section: 0), result.move[2].to)
+  func testDiffingToEmptyArray() {
+    let o = [1]
+    let n = [Int]()
+    let result = diff(o, n)
+    XCTAssertEqual(.delete(0), result[0])
+    XCTAssertEqual(1, result.count)
   }
 
-  func testUpdate() {
-    let old = [
-      IndexPath(row: 0, section: 0): FakeItem(value: 1),
-      IndexPath(row: 1, section: 0): FakeItem(value: 2),
-      IndexPath(row: 2, section: 0): FakeItem(value: 3)
+  func testSwapHasMoves() {
+    let o = [1, 2, 3]
+    let n = [2, 3, 1]
+    let result = diff(o, n)
+    XCTAssertEqual([.delete(2), .delete(1), .delete(0), .insert(0), .insert(1), .insert(2)], result)
+  }
+
+  func testMovingTogether() {
+    let o = [1, 2, 3, 3, 4]
+    let n = [2, 3, 1, 3, 4]
+    let result = diff(o, n)
+    XCTAssertEqual([.delete(2), .delete(1), .delete(0), .insert(0), .insert(1), .insert(2)], result)
+  }
+
+  func testSwappedValuesHaveMoves() {
+    let o = [1, 2, 3, 4]
+    let n = [2, 4, 5, 3]
+    let result = diff(o, n)
+    XCTAssertEqual([.delete(3), .delete(2), .delete(0), .insert(1), .insert(2), .insert(3)], result)
+  }
+
+  func testUpdates() {
+    let o = [
+      FakeItem(value: 0, eValue: 0),
+      FakeItem(value: 1, eValue: 1),
+      FakeItem(value: 2, eValue: 2)
     ]
-    let new = [
-      IndexPath(row: 0, section: 0): FakeItem(value: 1),
-      IndexPath(row: 1, section: 0): FakeItem(value: 2),
-      IndexPath(row: 2, section: 0): FakeItem(value: 3)
+    let n = [
+      FakeItem(value: 0, eValue: 1),
+      FakeItem(value: 1, eValue: 2),
+      FakeItem(value: 2, eValue: 3)
     ]
-    let result = diff(old: old, new: new)
-    XCTAssertEqual(0, result.add.count)
-    XCTAssertEqual(0, result.remove.count)
-    XCTAssertEqual(3, result.update.count)
-    XCTAssertEqual(0, result.move.count)
+    let result = diff(o, n)
+    XCTAssertEqual([.update(0), .update(1), .update(2)], result)
+  }
+
+  func testDeletionLeadingToInsertionDeletionMoves() {
+    let o = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    let n = [0, 2, 3, 4, 7, 6, 9, 5, 10]
+    let result = diff(o, n)
+    XCTAssertEqual([.delete(8), .delete(7), .delete(5), .delete(1), .insert(4), .insert(6), .insert(7), .insert(8)], result)
+  }
+
+  func testMovingWithEqualityChanges() {
+    let o = [
+      FakeItem(value: 0, eValue: 0),
+      FakeItem(value: 1, eValue: 1),
+      FakeItem(value: 2, eValue: 2)
+    ]
+    let n = [
+      FakeItem(value: 2, eValue: 3),
+      FakeItem(value: 1, eValue: 1),
+      FakeItem(value: 0, eValue: 0)
+    ]
+    let result = diff(o, n)
+    XCTAssertEqual([.delete(2), .delete(0), .insert(0), .insert(2), .update(0)], result)
+  }
+
+  func testDeletingEqualObjects() {
+    let o = [0, 0, 0, 0]
+    let n = [0, 0]
+    let result = diff(o, n)
+    XCTAssertEqual(2, result.count)
+  }
+
+  func testInsertingEqualObjects() {
+    let o = [0, 0]
+    let n = [0, 0, 0, 0]
+    let result = diff(o, n)
+    XCTAssertEqual(2, result.count)
+  }
+
+  func testInsertingWithOldArrayHavingMultipleCopies() {
+    let o = [NSObject(), NSObject(), NSObject(), 49, 33, "cat", "cat", 0, 14] as [AnyHashable]
+    var n = o
+    n.insert("cat", at: 5)
+    let result = diff(o, n)
+    XCTAssertEqual(1, result.count)
   }
 }
