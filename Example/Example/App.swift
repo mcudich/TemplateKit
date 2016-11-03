@@ -227,18 +227,12 @@ class App: Component<AppState, AppProperties, UIView> {
   }
 
   private func renderMain() -> Element {
-    let itemKeys = getFilteredTodos().reduce([IndexPath: TodoItem]()) { accum, todo in
-      var current = accum
-      current[IndexPath(row: accum.count, section: 0)] = todo
-      return current
-    }
-
     var properties = TableProperties()
     properties.core.layout.flex = 1
     properties.tableViewDataSource = tableManager
     properties.tableViewDelegate = tableManager
     properties.eventTarget = self
-    properties.itemKeys = itemKeys
+    properties.items = [getFilteredTodos()]
     properties.isEditing = state.isEditingTable
     return table(properties)
   }

@@ -19,9 +19,10 @@ public struct TableProperties: Properties {
   public var isEditing: Bool?
 
   // This is used to know when the underlying table view rows should be inserted, deleted or moved.
-  // By modifying this dictionary, the table is notified that it should perform the operations
-  // necessary to reflect the changes in the underlying data source.
-  public var itemKeys: [IndexPath: AnyHashable]?
+  // This 2-d array should follow the list of sections and rows provided by the data source. When
+  // this value changes, the table is automatically updated for you using the minimal set of
+  // operations required.
+  public var items: [[AnyHashable]]?
 
   public var onEndReached: Selector?
   public var onEndReachedThreshold: CGFloat?
@@ -35,7 +36,7 @@ public struct TableProperties: Properties {
     tableViewDataSource = properties["tableViewDataSource"] as? TableViewDataSource
     eventTarget = properties["eventTarget"] as? Node
     isEditing = properties.cast("isEditing")
-    itemKeys = properties["itemKeys"] as? [IndexPath: AnyHashable]
+    items = properties["items"] as? [[AnyHashable]]
     onEndReached = properties.cast("onEndReached")
     onEndReachedThreshold = properties.cast("onEndReachedThreshold")
   }
@@ -47,14 +48,14 @@ public struct TableProperties: Properties {
     merge(&tableViewDataSource, other.tableViewDataSource)
     merge(&eventTarget, other.eventTarget)
     merge(&isEditing, other.isEditing)
-    merge(&itemKeys, other.itemKeys)
+    merge(&items, other.items)
     merge(&onEndReached, other.onEndReached)
     merge(&onEndReachedThreshold, other.onEndReachedThreshold)
   }
 }
 
 public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
-  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.isEditing == rhs.isEditing && lhs.itemKeys == rhs.itemKeys && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
+  return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.isEditing == rhs.isEditing && lhs.items == rhs.items && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
 }
 
 protocol ScrollProxyDelegate: class {
@@ -76,6 +77,9 @@ public class Table: PropertyNode {
 
   public var properties: TableProperties {
     didSet {
+      if let oldItems = oldValue.items, let newItems = properties.items, oldItems != newItems {
+        updateRows(old: oldItems, new: newItems)
+      }
     }
   }
   public var children: [Node]?
@@ -126,6 +130,32 @@ public class Table: PropertyNode {
     }
 
     return view
+  }
+
+  private func updateRows(old: [[AnyHashable]], new: [[AnyHashable]]) {
+    tableView?.beginUpdates()
+    for (index, section) in new.enumerated() {
+      let result = diff(old[index], section)
+      if !result.hasChanges {
+        continue
+      }
+      if result.insert.count > 0 {
+        let indexPaths = result.insert.map { IndexPath(row: $0, section: index) }
+        tableView?.insertRows(at: indexPaths, with: .none)
+      }
+      if result.remove.count > 0 {
+        let indexPaths = result.remove.map { IndexPath(row: $0, section: index) }
+        tableView?.deleteRows(at: indexPaths, with: .none)
+      }
+      for move in result.move {
+        tableView?.moveRow(at: IndexPath(row: move.from, section: index), to: IndexPath(row: move.to, section: index))
+      }
+      if result.update.count > 0 {
+        let indexPaths = result.update.map { IndexPath(row: $0, section: index) }
+        tableView?.reloadRows(at: indexPaths, with: .none)
+      }
+    }
+    tableView?.endUpdates()
   }
 }
 

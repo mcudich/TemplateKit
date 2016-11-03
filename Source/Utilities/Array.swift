@@ -23,9 +23,31 @@ extension Array {
 }
 
 func ==<T: Equatable>(lhs: [T]?, rhs: [T]?) -> Bool {
-  switch (lhs,rhs) {
+  switch (lhs, rhs) {
   case (.some(let lhs), .some(let rhs)):
     return lhs == rhs
+  case (.none, .none):
+    return true
+  default:
+    return false
+  }
+}
+
+func ==<T : Equatable> (lhs: [[T]]?, rhs: [[T]]?) -> Bool {
+  switch (lhs,rhs) {
+  case (.some(let lhs), .some(let rhs)):
+    return lhs.count == rhs.count && !zip(lhs, rhs).contains {$0 != $1 }
+  case (.none, .none):
+    return true
+  default:
+    return false
+  }
+}
+
+func !=<T : Equatable> (lhs: [[T]]?, rhs: [[T]]?) -> Bool {
+  switch (lhs,rhs) {
+  case (.some(let lhs), .some(let rhs)):
+    return !(lhs.count == rhs.count && !zip(lhs, rhs).contains {$0 != $1 })
   case (.none, .none):
     return true
   default:
