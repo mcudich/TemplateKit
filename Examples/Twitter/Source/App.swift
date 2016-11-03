@@ -63,7 +63,7 @@ class App: Component<AppState, DefaultProperties, UIView> {
     var properties = TableProperties()
     properties.core.layout.flex = 1
     properties.tableViewDataSource = self
-    properties.items = [state.tweets]
+    properties.items = [TableSection(items: state.tweets, hashValue: 0)]
     properties.onEndReached = #selector(App.handleEndReached)
     properties.onEndReachedThreshold = 700
 

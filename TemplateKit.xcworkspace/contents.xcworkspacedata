@@ -5,9 +5,9 @@
       location = "group:TemplateKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Example/Example.xcodeproj">
+      location = "group:/Users/mcudich/src/TemplateKit/Examples/TodoMVC/TodoMVC.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:TwitterClientExample/TwitterClientExample.xcodeproj">
+      location = "group:/Users/mcudich/src/TemplateKit/Examples/Twitter/Twitter.xcodeproj">
    </FileRef>
 </Workspace>
