@@ -76,9 +76,6 @@ public class Table: PropertyNode {
 
   public var properties: TableProperties {
     didSet {
-      if let oldItemKeys = oldValue.itemKeys, let newItemKeys = properties.itemKeys, oldItemKeys != newItemKeys {
-        updateRows(with: diff(old: oldItemKeys, new: newItemKeys))
-      }
     }
   }
   public var children: [Node]?
@@ -129,27 +126,6 @@ public class Table: PropertyNode {
     }
 
     return view
-  }
-
-  private func updateRows<T>(with rowDiff: DiffResult<T>) {
-    if rowDiff.hasChanges {
-      tableView?.beginUpdates()
-      if rowDiff.add.count > 0 {
-        tableView?.insertRows(at: rowDiff.add, with: .none)
-      }
-      if rowDiff.remove.count > 0 {
-        tableView?.deleteRows(at: rowDiff.remove, with: .none)
-      }
-      if rowDiff.move.count > 0 {
-        for move in rowDiff.move {
-          tableView?.moveRow(at: move.from, to: move.to)
-        }
-      }
-      if rowDiff.update.count > 0 {
-        tableView?.reloadRows(at: rowDiff.update, with: .none)
-      }
-      tableView?.endUpdates()
-    }
   }
 }
 
