@@ -8,14 +8,25 @@
 
 import Foundation
 
-public struct DiffResult {
-  public let insert: [Int]
-  public let remove: [Int]
-  public let move: [(from: Int, to: Int)]
-  public let update: [Int]
+public enum DiffStep: Equatable {
+  case insert(Int)
+  case delete(Int)
+  case move(Int, Int)
+  case update(Int)
+}
 
-  public var hasChanges: Bool {
-    return insert.count > 0 || remove.count > 0 || move.count > 0 || update.count > 0
+public func ==(lhs: DiffStep, rhs: DiffStep) -> Bool {
+  switch (lhs, rhs) {
+  case let (.insert(lhsIndex), .insert(rhsIndex)):
+    return lhsIndex == rhsIndex
+  case let (.delete(lhsIndex), .delete(rhsIndex)):
+    return lhsIndex == rhsIndex
+  case let (.move(lhsFromIndex, lhsToIndex), .move(rhsFromIndex, rhsToIndex)):
+    return lhsFromIndex == rhsFromIndex && lhsToIndex == rhsToIndex
+  case let (.update(lhsIndex), .update(rhsIndex)):
+    return lhsIndex == rhsIndex
+  default:
+    return false
   }
 }
 
@@ -53,11 +64,11 @@ enum Entry {
 
 // Based on http://dl.acm.org/citation.cfm?id=359467.
 //
-// Other implementations at:
+// And other implementations at:
 // * https://github.com/Instagram/IGListKit
 // * https://github.com/andre-alves/PHDiff
 //
-public func diff<T: Hashable>(_ old: [T], _ new: [T]) -> DiffResult {
+public func diff<T: Hashable>(_ old: [T], _ new: [T]) -> [DiffStep] {
   var table = [Int: SymbolEntry]()
   var oa = [Entry]()
   var na = [Entry]()
@@ -127,17 +138,14 @@ public func diff<T: Hashable>(_ old: [T], _ new: [T]) -> DiffResult {
     i -= 1
   }
 
-  var remove = [Int]()
-  var insert = [Int]()
-  var move = [(from: Int, to: Int)]()
-  var update = [Int]()
+  var steps = [DiffStep]()
 
   var deleteOffsets = Array(repeating: 0, count: old.count)
   var runningOffset = 0
   for (index, item) in oa.enumerated() {
     deleteOffsets[index] = runningOffset
     if case .symbol(_) = item {
-      remove.append(index)
+      steps.append(.delete(index))
       runningOffset += 1
     }
   }
@@ -147,21 +155,42 @@ public func diff<T: Hashable>(_ old: [T], _ new: [T]) -> DiffResult {
   for (index, item) in na.enumerated() {
     switch item {
     case .symbol(_):
-      insert.append(index)
+      steps.append(.insert(index))
       runningOffset += 1
     case .index(let oldIndex):
       // The object has changed, so it should be updated.
       if old[oldIndex] != new[index] {
-        update.append(index)
+        steps.append(.update(index))
       }
 
       let deleteOffset = deleteOffsets[oldIndex]
       // The object is not at the expected position, so move it.
       if (oldIndex - deleteOffset + runningOffset) != index {
-        move.append((from: oldIndex, to: index))
+        steps.append(.move(oldIndex, index))
       }
     }
   }
 
-  return DiffResult(insert: insert, remove: remove, move: move, update: update)
+  // Sort the steps to allow for a single-pass array update.
+  var insertions = [DiffStep]()
+  var updates = [DiffStep]()
+  var indexedDeletions: [[DiffStep]] = Array(repeating: [], count: old.count)
+
+  for step in steps {
+    switch step {
+    case .insert:
+      insertions.append(step)
+    case let .delete(fromIndex):
+      indexedDeletions[fromIndex].append(step)
+    case let .move(fromIndex, toIndex):
+      insertions.append(.insert(toIndex))
+      indexedDeletions[fromIndex].append(.delete(fromIndex))
+    case .update:
+      updates.append(step)
+    }
+  }
+
+  let deletions = indexedDeletions.flatMap { $0.first }.reversed()
+
+  return deletions + insertions + updates
 }

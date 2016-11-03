@@ -91,21 +91,19 @@ class TableViewCell: UITableViewCell {
     }
   }
 
-  override func setEditing(_ editing: Bool, animated: Bool) {
-    let previous = isEditing
-    super.setEditing(editing, animated: animated)
-
-    if previous == editing {
-      return
-    }
+  override func layoutSubviews() {
+    super.layoutSubviews()
 
     guard let node = node else {
       return
     }
-    let layout = node.computeLayout(availableWidth: Float(contentView.bounds.width), availableHeight: .nan)
 
-    UIView.animate(withDuration: animated ? 0.3 : 0) {
-      layout.apply(to: node.view)
+    if contentView.bounds.width != node.view.frame.width {
+      let layout = node.computeLayout(availableWidth: Float(contentView.bounds.width), availableHeight: .nan)
+
+      UIView.animate(withDuration: 0.3) {
+        layout.apply(to: node.view)
+      }
     }
   }
 }

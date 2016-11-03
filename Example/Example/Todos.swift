@@ -73,7 +73,6 @@ class Todos: Equatable {
   func move(from sourceIndex: Int, to destinationIndex: Int) {
     let todo = todos.remove(at: sourceIndex)
     todos.insert(todo, at: destinationIndex)
-    print(todos)
     inform()
   }
 

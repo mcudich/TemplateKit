@@ -134,27 +134,30 @@ public class Table: PropertyNode {
 
   private func updateRows(old: [[AnyHashable]], new: [[AnyHashable]]) {
     tableView?.beginUpdates()
-    for (index, section) in new.enumerated() {
-      let result = diff(old[index], section)
-      if !result.hasChanges {
-        continue
-      }
-      if result.insert.count > 0 {
-        let indexPaths = result.insert.map { IndexPath(row: $0, section: index) }
-        tableView?.insertRows(at: indexPaths, with: .none)
-      }
-      if result.remove.count > 0 {
-        let indexPaths = result.remove.map { IndexPath(row: $0, section: index) }
-        tableView?.deleteRows(at: indexPaths, with: .none)
-      }
-      for move in result.move {
-        tableView?.moveRow(at: IndexPath(row: move.from, section: index), to: IndexPath(row: move.to, section: index))
-      }
-      if result.update.count > 0 {
-        let indexPaths = result.update.map { IndexPath(row: $0, section: index) }
-        tableView?.reloadRows(at: indexPaths, with: .none)
+
+    var deletions = [IndexPath]()
+    var insertions = [IndexPath]()
+    var updates = [IndexPath]()
+
+    for (sectionIndex, section) in new.enumerated() {
+      let result = diff(old[sectionIndex], section)
+      for step in result {
+        switch step {
+        case .delete(let index):
+          deletions.append(IndexPath(row: index, section: sectionIndex))
+        case .insert(let index):
+          insertions.append(IndexPath(row: index, section: sectionIndex))
+        case .update(let index):
+          updates.append(IndexPath(row: index, section: sectionIndex))
+        default:
+          break
+        }
       }
     }
+    tableView?.deleteRows(at: deletions, with: .none)
+    tableView?.insertRows(at: insertions, with: .none)
+    tableView?.reloadRows(at: updates, with: .none)
+
     tableView?.endUpdates()
   }
 }
