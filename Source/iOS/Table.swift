@@ -9,6 +9,20 @@
 import Foundation
 import CSSLayout
 
+public struct TableSection: Hashable {
+  public let items: [AnyHashable]
+  public var hashValue: Int
+
+  public init(items: [AnyHashable], hashValue: Int) {
+    self.items = items
+    self.hashValue = hashValue
+  }
+}
+
+public func ==(lhs: TableSection, rhs: TableSection) -> Bool {
+  return false
+}
+
 public struct TableProperties: Properties {
   public var core = CoreProperties()
 
@@ -22,7 +36,7 @@ public struct TableProperties: Properties {
   // This 2-d array should follow the list of sections and rows provided by the data source. When
   // this value changes, the table is automatically updated for you using the minimal set of
   // operations required.
-  public var items: [[AnyHashable]]?
+  public var items: [TableSection]?
 
   public var onEndReached: Selector?
   public var onEndReachedThreshold: CGFloat?
@@ -36,7 +50,7 @@ public struct TableProperties: Properties {
     tableViewDataSource = properties["tableViewDataSource"] as? TableViewDataSource
     eventTarget = properties["eventTarget"] as? Node
     isEditing = properties.cast("isEditing")
-    items = properties["items"] as? [[AnyHashable]]
+    items = properties["items"] as? [TableSection]
     onEndReached = properties.cast("onEndReached")
     onEndReachedThreshold = properties.cast("onEndReachedThreshold")
   }
@@ -77,7 +91,7 @@ public class Table: PropertyNode {
 
   public var properties: TableProperties {
     didSet {
-      if let oldItems = oldValue.items, let newItems = properties.items, oldItems != newItems {
+      if let oldItems = oldValue.items, let newItems = properties.items {
         updateRows(old: oldItems, new: newItems)
       }
     }
@@ -132,15 +146,30 @@ public class Table: PropertyNode {
     return view
   }
 
-  private func updateRows(old: [[AnyHashable]], new: [[AnyHashable]]) {
+  private func updateRows(old: [TableSection], new: [TableSection]) {
     tableView?.beginUpdates()
 
     var deletions = [IndexPath]()
     var insertions = [IndexPath]()
     var updates = [IndexPath]()
 
+    let sectionResult = diff(old, new)
+    for step in sectionResult {
+      switch step {
+      case .delete(let index):
+        tableView?.deleteSections(IndexSet([index]), with: .none)
+      case .insert(let index):
+        tableView?.insertSections(IndexSet([index]), with: .none)
+      case .update(let index):
+        // Updates are handled below.
+        break
+      default:
+        break
+      }
+    }
+
     for (sectionIndex, section) in new.enumerated() {
-      let result = diff(old[sectionIndex], section)
+      let result = diff(old[sectionIndex].items, section.items)
       for step in result {
         switch step {
         case .delete(let index):
