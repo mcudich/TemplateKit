@@ -50,7 +50,7 @@
 		D856A0581D91C7180049467E /* Todos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todos.swift; sourceTree = "<group>"; };
 		D856A05A1D91D8A60049467E /* Header.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Header.xml; sourceTree = "<group>"; };
 		D872ED431DB9EF3A009C8580 /* TemplateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TemplateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D89194BF1D57FD6F0049991F /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D89194BF1D57FD6F0049991F /* TodoMVC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoMVC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89194C21D57FD6F0049991F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D89194C41D57FD6F0049991F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D89194C71D57FD6F0049991F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				D872ED431DB9EF3A009C8580 /* TemplateKit.framework */,
-				D89194C11D57FD6F0049991F /* Example */,
+				D89194C11D57FD6F0049991F /* Source */,
 				D89194C01D57FD6F0049991F /* Products */,
 				D8C9FFE51D91FCEA00C7E59E /* Frameworks */,
 			);
@@ -93,12 +93,12 @@
 		D89194C01D57FD6F0049991F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D89194BF1D57FD6F0049991F /* Example.app */,
+				D89194BF1D57FD6F0049991F /* TodoMVC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D89194C11D57FD6F0049991F /* Example */ = {
+		D89194C11D57FD6F0049991F /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				D856A0561D91C1540049467E /* App.swift */,
@@ -118,7 +118,7 @@
 				D89194C61D57FD6F0049991F /* Main.storyboard */,
 				D89194CE1D57FD6F0049991F /* Info.plist */,
 			);
-			path = Example;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		D8C9FFE51D91FCEA00C7E59E /* Frameworks */ = {
@@ -134,9 +134,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D89194BE1D57FD6F0049991F /* Example */ = {
+		D89194BE1D57FD6F0049991F /* TodoMVC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D89194D11D57FD6F0049991F /* Build configuration list for PBXNativeTarget "Example" */;
+			buildConfigurationList = D89194D11D57FD6F0049991F /* Build configuration list for PBXNativeTarget "TodoMVC" */;
 			buildPhases = (
 				D89194BB1D57FD6F0049991F /* Sources */,
 				D89194BC1D57FD6F0049991F /* Frameworks */,
@@ -148,9 +148,9 @@
 			);
 			dependencies = (
 			);
-			name = Example;
+			name = TodoMVC;
 			productName = Example;
-			productReference = D89194BF1D57FD6F0049991F /* Example.app */;
+			productReference = D89194BF1D57FD6F0049991F /* TodoMVC.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -171,7 +171,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D89194BA1D57FD6F0049991F /* Build configuration list for PBXProject "Example" */;
+			buildConfigurationList = D89194BA1D57FD6F0049991F /* Build configuration list for PBXProject "TodoMVC" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -184,7 +184,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D89194BE1D57FD6F0049991F /* Example */,
+				D89194BE1D57FD6F0049991F /* TodoMVC */,
 			);
 		};
 /* End PBXProject section */
@@ -214,8 +214,8 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/../Carthage/Build/iOS/CSSLayout.framework",
-				"$(SRCROOT)/../Carthage/Build/iOS/CSSParser.framework",
+				"$(SRCROOT)/../../Carthage/Build/iOS/CSSLayout.framework",
+				"$(SRCROOT)/../../Carthage/Build/iOS/CSSParser.framework",
 			);
 			outputPaths = (
 			);
@@ -355,10 +355,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 46UKZ786J3;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../**";
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit.TodoMVC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -370,10 +370,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 46UKZ786J3;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../**";
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matiascudich.TemplateKit.TodoMVC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -383,7 +383,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D89194BA1D57FD6F0049991F /* Build configuration list for PBXProject "Example" */ = {
+		D89194BA1D57FD6F0049991F /* Build configuration list for PBXProject "TodoMVC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D89194CF1D57FD6F0049991F /* Debug */,
@@ -392,7 +392,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D89194D11D57FD6F0049991F /* Build configuration list for PBXNativeTarget "Example" */ = {
+		D89194D11D57FD6F0049991F /* Build configuration list for PBXNativeTarget "TodoMVC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D89194D21D57FD6F0049991F /* Debug */,

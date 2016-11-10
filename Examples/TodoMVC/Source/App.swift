@@ -232,7 +232,7 @@ class App: Component<AppState, AppProperties, UIView> {
     properties.tableViewDataSource = tableManager
     properties.tableViewDelegate = tableManager
     properties.eventTarget = self
-    properties.items = [getFilteredTodos()]
+    properties.items = [TableSection(items: getFilteredTodos(), hashValue: 0)]
     properties.isEditing = state.isEditingTable
     return table(properties)
   }

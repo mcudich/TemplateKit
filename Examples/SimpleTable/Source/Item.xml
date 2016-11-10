@@ -1,0 +1,11 @@
+<template>
+  <style>
+    text {
+      fontSize: 20;
+      marginLeft: 20;
+    }
+  </style>
+  <box>
+    <text text="$properties.item" />
+  </box>
+</template>

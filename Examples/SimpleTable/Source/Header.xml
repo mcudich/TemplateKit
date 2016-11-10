@@ -1,0 +1,18 @@
+<template>
+  <style>
+    box {
+      flexDirection: row;
+      paddingTop: 30;
+      paddingLeft: 10;
+      fontSize: 20;
+    }
+
+    #add {
+      marginRight: 10
+    }
+  </style>
+  <box>
+    <text id="add" text="Add section" onTap="addSection" />
+    <text text="Remove section" onTap="removeSection" />
+  </box>
+</template>
