@@ -40,7 +40,7 @@ public protocol TableViewDataSource: class {
   func tableView(_ tableView: TableView, elementAtIndexPath indexPath: IndexPath) -> Element
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-  func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
+  func numberOfSections(in tableView: UITableView) -> Int
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
   func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String?
   func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool
@@ -186,6 +186,7 @@ public class TableView: UITableView, AsyncDataListView {
     delegateProxy.registerInterceptable(selector: #selector(UITableViewDelegate.tableView(_:heightForRowAt:)))
     delegateProxy.registerInterceptable(selector: #selector(UITableViewDataSource.tableView(_:cellForRowAt:)))
     delegateProxy.registerInterceptable(selector: #selector(UITableViewDataSource.tableView(_:numberOfRowsInSection:)))
+    delegateProxy.registerInterceptable(selector: #selector(UITableViewDataSource.numberOfSections(in:)))
 
     return delegateProxy
   }
@@ -291,6 +292,10 @@ public class TableView: UITableView, AsyncDataListView {
       return nodeCache[section].count
     }
     return 0
+  }
+
+  func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
+    return nodeCache.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {

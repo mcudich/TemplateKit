@@ -4,10 +4,17 @@
    <FileRef
       location = "group:TemplateKit.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:/Users/mcudich/src/TemplateKit/Examples/TodoMVC/TodoMVC.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:/Users/mcudich/src/TemplateKit/Examples/Twitter/Twitter.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Examples">
+      <FileRef
+         location = "group:/Users/mcudich/src/TemplateKit/Examples/TodoMVC/TodoMVC.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:/Users/mcudich/src/TemplateKit/Examples/Twitter/Twitter.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/SimpleTable/SimpleTable.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

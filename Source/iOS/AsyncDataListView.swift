@@ -167,19 +167,29 @@ extension AsyncDataListView {
       guard let element = self.element(at: indexPath) else {
         continue
       }
-      if nodeCache.count <= indexPath.section {
-        nodeCache.append([Node?]())
-      }
-      UIKitRenderer.render(element, context: context as Context) { node in
-        node.owner = self.eventTarget
 
-        self.nodeCache[indexPath.section].insert(node, at: indexPath.row)
+      UIKitRenderer.render(element, context: context as Context) { node in
+        self.cacheNode(node, at: indexPath)
         pending -= 1
         if pending == 0 {
           done()
         }
       }
     }
+  }
+
+  private func cacheNode(_ node: Node, at indexPath: IndexPath) {
+    if nodeCache.count <= indexPath.section {
+      nodeCache.append([Node?]())
+    }
+    node.owner = eventTarget
+
+    var delta = indexPath.row - nodeCache[indexPath.section].count
+    while delta >= 0 {
+      nodeCache[indexPath.section].append(nil)
+      delta -= 1
+    }
+    nodeCache[indexPath.section][indexPath.row] = node
   }
 
   private func purgeNodes(at indexPaths: [IndexPath]) {

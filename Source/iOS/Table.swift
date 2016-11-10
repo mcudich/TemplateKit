@@ -92,6 +92,7 @@ public class Table: PropertyNode {
   public var properties: TableProperties {
     didSet {
       if let oldItems = oldValue.items, let newItems = properties.items {
+        precondition(newItems.count > 0, "Items must contain at least one section.")
         updateRows(old: oldItems, new: newItems)
       }
     }
@@ -124,6 +125,10 @@ public class Table: PropertyNode {
     self.owner = owner
     self.context = context
 
+    if let items = properties.items {
+      precondition(items.count > 0, "Items must contain at least one section.")
+    }
+
     updateParent()
   }
 
@@ -133,7 +138,9 @@ public class Table: PropertyNode {
       delegateProxy?.registerInterceptable(selector: #selector(UIScrollViewDelegate.scrollViewDidScroll(_:)))
     }
 
-    tableView?.tableViewDelegate = delegateProxy as? TableViewDelegate
+    if tableView?.tableViewDelegate !== delegateProxy {
+      tableView?.tableViewDelegate = delegateProxy as? TableViewDelegate
+    }
     if tableView?.tableViewDataSource !== properties.tableViewDataSource {
       tableView?.tableViewDataSource = properties.tableViewDataSource
     }
@@ -149,17 +156,13 @@ public class Table: PropertyNode {
   private func updateRows(old: [TableSection], new: [TableSection]) {
     tableView?.beginUpdates()
 
-    var deletions = [IndexPath]()
-    var insertions = [IndexPath]()
-    var updates = [IndexPath]()
-
     let sectionResult = diff(old, new)
     for step in sectionResult {
       switch step {
       case .delete(let index):
-        tableView?.deleteSections(IndexSet([index]), with: .none)
+        tableView?.deleteSections(IndexSet(integer: index), with: .none)
       case .insert(let index):
-        tableView?.insertSections(IndexSet([index]), with: .none)
+        tableView?.insertSections(IndexSet(integer: index), with: .none)
       case .update(let index):
         // Updates are handled below.
         break
@@ -168,8 +171,13 @@ public class Table: PropertyNode {
       }
     }
 
+    var deletions = [IndexPath]()
+    var insertions = [IndexPath]()
+    var updates = [IndexPath]()
+
     for (sectionIndex, section) in new.enumerated() {
-      let result = diff(old[sectionIndex].items, section.items)
+      let oldItems = old.count > sectionIndex ? old[sectionIndex].items : []
+      let result = diff(oldItems, section.items)
       for step in result {
         switch step {
         case .delete(let index):
@@ -183,6 +191,7 @@ public class Table: PropertyNode {
         }
       }
     }
+
     tableView?.deleteRows(at: deletions, with: .none)
     tableView?.insertRows(at: insertions, with: .none)
     tableView?.reloadRows(at: updates, with: .none)
