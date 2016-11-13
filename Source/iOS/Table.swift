@@ -72,18 +72,6 @@ public func ==(lhs: TableProperties, rhs: TableProperties) -> Bool {
   return lhs.tableViewDelegate === rhs.tableViewDelegate && lhs.tableViewDataSource === rhs.tableViewDataSource && lhs.eventTarget === rhs.eventTarget && lhs.isEditing == rhs.isEditing && lhs.items == rhs.items && lhs.onEndReached == rhs.onEndReached && lhs.onEndReachedThreshold == rhs.onEndReachedThreshold && lhs.equals(otherProperties: rhs)
 }
 
-protocol ScrollProxyDelegate: class {
-  func scrollViewDidScroll(_ scrollView: UIScrollView)
-}
-
-public class ScrollProxy: NSObject {
-  weak var delegate: ScrollProxyDelegate?
-
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    delegate?.scrollViewDidScroll(scrollView)
-  }
-}
-
 public class Table: PropertyNode {
   public weak var parent: Node?
   public weak var owner: Node?
