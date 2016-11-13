@@ -11,9 +11,8 @@ import Foundation
 public protocol CollectionViewDelegate: UICollectionViewDelegate {}
 
 // A sub-set of UICollectionViewDataSource.
-public protocol CollectionViewDataSource: NSObjectProtocol {
+public protocol CollectionViewDataSource: class {
   func collectionView(_ collectionView: CollectionView, elementAtIndexPath indexPath: IndexPath) -> Element
-  func collectionView(_ collectionView: CollectionView, cacheKeyForItemAtIndexPath indexPath: IndexPath) -> Int
   func numberOfSections(in collectionView: UICollectionView) -> Int
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
@@ -22,10 +21,6 @@ public protocol CollectionViewDataSource: NSObjectProtocol {
 }
 
 public extension CollectionViewDataSource {
-  func collectionView(_ collectionView: CollectionView, cacheKeyForItemAtIndexPath indexPath: IndexPath) -> Int {
-    return IndexPath(item: indexPath.row, section: indexPath.section).hashValue
-  }
-
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
@@ -117,14 +112,14 @@ public class CollectionView: UICollectionView, AsyncDataListView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  public override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
-    operationQueue.enqueueOperation { done in
-      super.performBatchUpdates(updates) { completed in
-        completion?(completed)
-        done()
-      }
-    }
-  }
+//  public override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
+//    operationQueue.enqueueOperation { done in
+//      super.performBatchUpdates(updates) { completed in
+//        completion?(completed)
+//        done()
+//      }
+//    }
+//  }
 
   public override func insertItems(at indexPaths: [IndexPath]) {
     insertItems(at: indexPaths) {
@@ -180,10 +175,6 @@ public class CollectionView: UICollectionView, AsyncDataListView {
     }
   }
 
-  func cacheKey(for indexPath: IndexPath) -> Int? {
-    return collectionViewDataSource?.collectionView(self, cacheKeyForItemAtIndexPath: indexPath)
-  }
-
   func element(at indexPath: IndexPath) -> Element? {
     return collectionViewDataSource?.collectionView(self, elementAtIndexPath: indexPath)
   }
@@ -206,11 +197,12 @@ public class CollectionView: UICollectionView, AsyncDataListView {
     delegate = delegateProxy
   }
 
-  private func configureProxy(withTarget target: NSObjectProtocol?) -> DelegateProxyProtocol {
+  private func configureProxy(withTarget target: AnyObject?) -> DelegateProxyProtocol {
     let delegateProxy = DelegateProxy(target: target, interceptor: self)
 
     delegateProxy.registerInterceptable(selector: #selector(UICollectionViewDataSource.collectionView(_:cellForItemAt:)))
     delegateProxy.registerInterceptable(selector: #selector(UICollectionViewDataSource.collectionView(_:numberOfItemsInSection:)))
+    delegateProxy.registerInterceptable(selector: #selector(UICollectionViewDataSource.numberOfSections(in:)))
     delegateProxy.registerInterceptable(selector: #selector(UICollectionViewDelegateFlowLayout.collectionView(_:layout:sizeForItemAt:)))
 
     return delegateProxy
@@ -225,6 +217,10 @@ public class CollectionView: UICollectionView, AsyncDataListView {
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return nodeCache[section].count
+  }
+
+  func numberOfSectionsInCollectionView(_ collectionView: UICollectionView) -> Int {
     return nodeCache.count
   }
 

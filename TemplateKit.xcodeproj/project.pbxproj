@@ -53,6 +53,8 @@
 		D83936DB1D83497C008CA7F1 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83936DA1D83497C008CA7F1 /* UIView.swift */; };
 		D83937171D872BDE008CA7F1 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937161D872BDE008CA7F1 /* CollectionView.swift */; };
 		D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */; };
+		D852B9FE1DD6873C000B5A77 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D852B9FD1DD6873C000B5A77 /* Collection.swift */; };
+		D852BA001DD68836000B5A77 /* ScrollProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D852B9FF1DD68836000B5A77 /* ScrollProxy.swift */; };
 		D85B43921D8600D100DDC9A2 /* XMLTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */; };
 		D85B43961D86627100DDC9A2 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B43951D86627100DDC9A2 /* Component.swift */; };
 		D86D42D71D9C6DF300740958 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86D42D61D9C6DF300740958 /* Validation.swift */; };
@@ -135,6 +137,8 @@
 		D83936DA1D83497C008CA7F1 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		D83937161D872BDE008CA7F1 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncDataListView.swift; sourceTree = "<group>"; };
+		D852B9FD1DD6873C000B5A77 /* Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		D852B9FF1DD68836000B5A77 /* ScrollProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollProxy.swift; sourceTree = "<group>"; };
 		D85B43911D8600D100DDC9A2 /* XMLTemplateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLTemplateService.swift; sourceTree = "<group>"; };
 		D85B43951D86627100DDC9A2 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Component.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D86D42D61D9C6DF300740958 /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 				D83937181D875A1F008CA7F1 /* AsyncDataListView.swift */,
 				D839369B1D8348C5008CA7F1 /* Box.swift */,
 				D8E6615E1D923D0B005D8C4F /* Button.swift */,
+				D852B9FD1DD6873C000B5A77 /* Collection.swift */,
 				D83937161D872BDE008CA7F1 /* CollectionView.swift */,
 				D839369C1D8348C5008CA7F1 /* DelegateProxy.swift */,
 				D839369D1D8348C5008CA7F1 /* Image.swift */,
@@ -237,6 +242,7 @@
 				D83936A31D8348C5008CA7F1 /* TextField.swift */,
 				D83936A41D8348C5008CA7F1 /* UIKitRenderer.swift */,
 				D83936DA1D83497C008CA7F1 /* UIView.swift */,
+				D852B9FF1DD68836000B5A77 /* ScrollProxy.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -488,6 +494,7 @@
 				D85B43961D86627100DDC9A2 /* Component.swift in Sources */,
 				D8E6615F1D923D0B005D8C4F /* Button.swift in Sources */,
 				D8325EEB1DA5889700F3EC95 /* Properties.swift in Sources */,
+				D852B9FE1DD6873C000B5A77 /* Collection.swift in Sources */,
 				D83936D21D8348C5008CA7F1 /* ResourceService.swift in Sources */,
 				D872ED401DB9E619009C8580 /* Animatable.swift in Sources */,
 				D872ED501DBC993D009C8580 /* Component+Animation.swift in Sources */,
@@ -516,6 +523,7 @@
 				D8325EF11DA588D200F3EC95 /* StyleProperties.swift in Sources */,
 				D872ED411DB9E619009C8580 /* Animator.swift in Sources */,
 				D83936CB1D8348C5008CA7F1 /* NodeRegistry.swift in Sources */,
+				D852BA001DD68836000B5A77 /* ScrollProxy.swift in Sources */,
 				D86D42D71D9C6DF300740958 /* Validation.swift in Sources */,
 				D83936B91D8348C5008CA7F1 /* Keyable.swift in Sources */,
 				D83937191D875A1F008CA7F1 /* AsyncDataListView.swift in Sources */,

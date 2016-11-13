@@ -36,6 +36,11 @@ public func table(_ properties: TableProperties) -> Element {
   return ElementData(ElementType.table, properties)
 }
 
+public func collection(_ properties: CollectionProperties) -> Element {
+  return ElementData(ElementType.collection, properties)
+}
+
+
 public func wrappedView(_ wrappedView: UIView, _ properties: DefaultProperties = DefaultProperties()) -> Element {
   return ElementData(ElementType.view(wrappedView), properties)
 }

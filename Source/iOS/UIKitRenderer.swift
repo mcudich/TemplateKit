@@ -15,6 +15,7 @@ public enum ElementType: ElementRepresentable {
   case textField
   case image
   case table
+  case collection
   case activityIndicator
   case view(UIView)
   case component(ComponentCreation.Type)
@@ -33,6 +34,8 @@ public enum ElementType: ElementRepresentable {
       return "button"
     case .table:
       return "table"
+    case .collection:
+      return "collection"
     case .activityIndicator:
       return "activityindicator"
     case .component(let ComponentType):
@@ -56,6 +59,8 @@ public enum ElementType: ElementRepresentable {
       return Button(element: element, children: nil, owner: owner, context: context)
     case (.table, let element as ElementData<TableProperties>):
       return Table(element: element, children: nil, owner: owner, context: context)
+    case (.collection, let element as ElementData<CollectionProperties>):
+      return Collection(element: element, children: nil, owner: owner, context: context)
     case (.activityIndicator, let element as ElementData<ActivityIndicator.PropertiesType>):
       return NativeNode<ActivityIndicator>(element: element, owner: owner, context: context)
     case (.view(let view), let element as ElementData<DefaultProperties>):
@@ -77,7 +82,7 @@ public enum ElementType: ElementRepresentable {
 
 public func ==(lhs: ElementType, rhs: ElementType) -> Bool {
   switch (lhs, rhs) {
-  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textField, .textField), (.table, .table), (.activityIndicator, .activityIndicator):
+  case (.box, .box), (.button, .button), (.text, .text), (.image, .image), (.textField, .textField), (.table, .table), (.activityIndicator, .activityIndicator), (.collection, .collection):
     return true
   case (.view(let lhsView), .view(let rhsView)):
     return lhsView === rhsView
