@@ -61,11 +61,11 @@ class TwitterClient {
   let userTimelineBaseURL = "https://api.twitter.com/1.1/statuses/user_timeline.json"
   let favoritesBaseURL = "https://api.twitter.com/1.1/favorites/list.json"
 
-  // TODO(mcudich): Drop all this stuff.
-  let consumerKey = "byAYccExen5xosryMVH9X85BK"
-  let consumerSecret = "TIHW8Jf9ySDu4pYEP6zUOa1HtCkWRu59YIPyeDn37eDZOrMsAG"
-  let token = "2897911-UcFRByCVTMOiNCsfBrg8RPMA2XnIdUxUA7jfrfEv1I"
-  let tokenSecret = "cZreTNSuBRAfzFbIr0nKk9PVTMlWa8YWKqCXTcDSpZyB8"
+  // Fill these in with your own keys to get this to work.
+  let consumerKey = ""
+  let consumerSecret = ""
+  let token = ""
+  let tokenSecret = ""
 
   private lazy var cache = [String: Any]()
 
@@ -226,6 +226,8 @@ class TwitterClient {
   }
 
   private func constructHeaders(_ baseURL: String, parameters: [String: String]? = nil) -> [String: String] {
+    precondition(!consumerKey.isEmpty, "You must supply your own keys to get this example to work.")
+
     var oauthMap = [String: String]()
     oauthMap["oauth_consumer_key"] = consumerKey
     oauthMap["oauth_nonce"] = NSUUID().uuidString
