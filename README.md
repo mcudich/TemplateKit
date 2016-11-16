@@ -1,7 +1,19 @@
 # TemplateKit
 [React](http://facebook.github.io/react/)-inspired framework for building component-based user interfaces in Swift.
 
+|      | Features                                   |
+| ---- | ---------------------------------------- |
+| 🐤   | Completely native - write your app in Swift |
+| 📃   | Declarative - define your UI using markup |
+| 📦   | Components - encapsulate functionality into reusable chunks |
+| 📐   | Layout - Flexbox for layout, just like on the web |
+| 🖋   | State - automatically flush state changes to UI |
+| ⚖    | Diffing - the minimum set of updates are flushed to UI |
+| 🚀   | Performance - diffing and layout are done on background threads |
+| ⏲   | Animation - built-in support for animating any property |
+
 ## Example
+You define your UI using a simple markup language, which is inspired by HTML and CSS. This UI definition is rendered into a tree of native elements.
 #### Component.xml
 ```html
 <template>
@@ -14,6 +26,7 @@
       color: #f00;
     }
   </style>
+
   <box id="container">
     <text text="$properties.title" />
     <text text="Click me!" onTap="handleClick" classNames="$textClasses" />
@@ -21,6 +34,7 @@
 </template>
 ```
 #### Component.swift
+Functionality and state is encapsulated into components, which do things like handle user events and flush state changes to the UI. Components have strongly typed `State` and `Properties` values, that are used to figure out what ends up getting pushed out to UIKit.
 ```swift
 struct ComponentState: State {
   var selected: Bool?
@@ -50,6 +64,7 @@ class MyComponent: CompositeComponent<ComponentState, ComponentProperties, UIVie
 }
 ```
 #### ViewController.swift
+Rendering components is as easy as calling a `render` function, which asynchronously computes and flushes a component to the supplied container view.
 ```swift
 override func viewDidLoad() {
   super.viewDidLoad()
@@ -138,7 +153,7 @@ When it comes time to update your component's state, you can call `updateState` 
 If there are parts of your UI that are easier to deal with as plain `UIViews`, TemplateKit provides a simple abstraction `Node` called `ViewNode` that allows you to include these "opaque" views as part of any TemplateKit-managed tree. TemplateKit stays out of the way, and simply sets the `frame` of these views for you, so they sit nicely within in whatever UI tree you've composed.
 
 ## Collections
-TemplateKit provides `UITableView` and `UICollectionView` subclasses which are able to load, and asynchronously size and render `Components` into cells with just a little bit of configuration. Tables and collections can be used via `Table` and `Collection` components, or simply wrapped as `ViewNode` instances.
+TemplateKit provides `UITableView` and `UICollectionView` subclasses which are able to load, and asynchronously size and render `Components` into cells with just a little bit of configuration. Tables and collections can be used via `Table` and `Collection` components, or simply wrapped as `ViewNode` instances. The `Table` and `Collection` components have built-in support for diffing, so that data-source updates result in the minimum set of operations required to have the respective UIKit views reflect data changes. See [Diff.swift](https://github.com/mcudich/TemplateKit/blob/master/Source/Utilities/Diff.swift) for more information.
 
 ## How's this different from React Native?
 TemplateKit is implemented in Swift (and a bit of C). If you like writing entirely in Swift, then this framework might be for you.
